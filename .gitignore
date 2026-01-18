@@ -67,3 +67,32 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# =========================
+# Secrets & credentials
+# =========================
+
+# All dotenv files (dev, prod, local)
+.env
+.env.*
+*.env
+
+# Google Cloud / Firebase service accounts
+*service-account*.json
+*firebase*account*.json
+*google*account*.json
+
+# If secrets are inside functions folder
+functions/.env*
+functions/*service-account*.json
+
+# Python virtual environment
+venv/
+.venv/
+
+# VS Code local settings (optional but recommended)
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
