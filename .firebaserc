@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "ecostory-b31b6",
+    "projectB": "ecostory-b31b6",
+    "projecta": "kabir-assistant-api"
+  },
+  "targets": {},
+  "etags": {}
+}
