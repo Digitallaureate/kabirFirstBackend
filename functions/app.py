@@ -24,6 +24,26 @@ def user_summary():
     identifier = ""
 
     if request.method == "POST":
+        # ✅ Handle JSON requests (from JavaScript)
+        if request.is_json:
+            data = request.get_json()
+            identifier = data.get("identifier", "").strip()
+            
+            if not identifier:
+                return jsonify({"error": "Please enter phone number or email."}), 400
+            
+            try:
+                summary_result = get_user_summary_by_phone(identifier)
+                if not summary_result.get("found"):
+                    error_msg = summary_result.get("message") or summary_result.get("error") or "User not found."
+                    return jsonify({"error": error_msg}), 404
+                
+                return jsonify({"summary": summary_result}), 200
+            except Exception as e:
+                logging.exception("Error while fetching user summary")
+                return jsonify({"error": f"Error while fetching data: {e}"}), 500
+        
+        # ✅ Handle form requests (from HTML form - existing code)
         identifier = request.form.get("identifier", "").strip()
 
         if not identifier:
@@ -548,6 +568,85 @@ def toggle_human_interaction(chat_id):
         logging.exception("Error in toggle_human_interaction endpoint")
         print(f"❌ Endpoint error: {str(e)}")
         return jsonify({"success": False, "error": str(e)}), 500
+
+# Add this route to your Flask app
+
+@app.route('/api/magic-words/user/<user_id>', methods=['GET'])
+def get_user_magic_words(user_id):
+    """Fetch all magic word requests for a specific user from magicWordUser collection"""
+    try:
+        from customerService.user_summary import _ts_to_iso, _iso_to_readable
+        
+        print(f"📋 Fetching magic words for user: {user_id}")
+        
+        # Query magicWordUser collection where userId matches
+        db = get_project_b_firestore()
+        
+        if db is None:
+            return jsonify({
+                'found': False,
+                'error': 'Firestore not initialized',
+                'requests': []
+            }), 500
+        
+        requests_ref = db.collection('magicWordUser').where('userId', '==', user_id)
+        docs = requests_ref.stream()
+        
+        requests_list = []
+        for doc in docs:
+            data = doc.to_dict()
+            data['id'] = doc.id
+            
+            # Convert timestamp to readable format
+            if 'matchedAt' in data:
+                try:
+                    iso = _ts_to_iso(data['matchedAt'])
+                    data['matchedAt_readable'] = _iso_to_readable(iso)
+                except:
+                    data['matchedAt_readable'] = str(data.get('matchedAt', 'N/A'))
+            
+            if 'createdAt' in data:
+                try:
+                    iso = _ts_to_iso(data['createdAt'])
+                    data['createdAt_readable'] = _iso_to_readable(iso)
+                except:
+                    data['createdAt_readable'] = str(data.get('createdAt', 'N/A'))
+            
+            requests_list.append(data)
+        
+        if not requests_list:
+            print(f"⚠️ No requests found for user {user_id}")
+            return jsonify({
+                'found': False,
+                'requests': [],
+                'count': 0
+            }), 200
+        
+        # Sort by matchedAt descending (newest first)
+        requests_list.sort(
+            key=lambda x: x.get('matchedAt') or x.get('createdAt', ''), 
+            reverse=True
+        )
+        
+        print(f"✅ Found {len(requests_list)} requests for user {user_id}")
+        for idx, req in enumerate(requests_list, 1):
+            print(f"   {idx}. Magic Word: {req.get('magicWord')}, Status: {req.get('status')}")
+        
+        return jsonify({
+            'found': True,
+            'requests': requests_list,
+            'count': len(requests_list)
+        }), 200
+        
+    except Exception as e:
+        logging.exception(f"Error fetching user magic words: {str(e)}")
+        print(f"❌ Error fetching user magic words: {str(e)}")
+        return jsonify({
+            'found': False,
+            'error': str(e),
+            'requests': [],
+            'count': 0
+        }), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

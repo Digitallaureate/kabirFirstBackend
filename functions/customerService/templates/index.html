@@ -2,29 +2,1583 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Kabir – Admin Panel</title>
+  <title>Kabir – Admin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+    body {
+      background-color: #f5f7fa;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: #333;
+    }
+
+    .container-wrapper {
+      padding: 2rem 0;
+    }
+
+    .panel-card {
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      height: 100%;
+      border: 1px solid #e0e0e0;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .panel-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .panel-header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1.2rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-bottom: 1px solid #ecf0f1;
+    }
+
+    .panel-body {
+      padding: 1.5rem;
+      max-height: 750px;
+      overflow-y: auto;
+      background-color: #ffffff;
+    }
+
+    .panel-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .panel-body::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+
+    .panel-body::-webkit-scrollbar-thumb {
+      background: #bbb;
+      border-radius: 3px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .user-search-form {
+      margin-bottom: 1rem;
+    }
+
+    .user-search-form .input-group {
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .user-search-form .form-control {
+      border: 1px solid #ddd;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .user-search-form .form-control:focus {
+      border-color: #2c3e50;
+      box-shadow: 0 0 0 0.15rem rgba(44, 62, 80, 0.1);
+    }
+
+    .user-search-form .btn-primary {
+      background-color: #2c3e50;
+      border: none;
+      font-weight: 500;
+    }
+
+    .user-search-form .btn-primary:hover {
+      background-color: #1a252f;
+    }
+
+    .user-info-card {
+      background-color: #f8f9fa;
+      border-left: 3px solid #2c3e50;
+      padding: 0.9rem;
+      border-radius: 5px;
+      margin-bottom: 0.8rem;
+    }
+
+    .user-info-card h6 {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    .user-info-card p {
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+    }
+
+    .user-info-card code {
+      background-color: #e8eef5;
+      color: #2c3e50;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+
+    /* GRID VIEW STYLES */
+    .grid-requests {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .grid-request-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid-request-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .grid-card-header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .grid-card-body {
+      padding: 0.9rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .grid-card-magic-word {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #ffffff;
+    }
+
+    .grid-card-location {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.4rem;
+    }
+
+    .grid-card-time {
+      font-size: 0.8rem;
+      color: #999;
+      margin-top: auto;
+    }
+
+    .detail-section {
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .detail-section .card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      height: 100%;
+    }
+
+    .detail-section .card-header {
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      padding: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .detail-section .card-body {
+      padding: 1.2rem;
+      background-color: #ffffff;
+    }
+
+    .alert {
+      border: none;
+      border-left: 3px solid;
+      border-radius: 5px;
+    }
+
+    .alert-info {
+      border-left-color: #2c3e50;
+      background-color: #ecf0f7;
+      color: #333;
+    }
+
+    .alert-danger {
+      border-left-color: #e74c3c;
+      background-color: #fadbd8;
+      color: #c0392b;
+    }
+
+    .alert-secondary {
+      border-left-color: #95a5a6;
+      background-color: #ecf0f1;
+      color: #555;
+    }
+
+    .alert-success {
+      border-left-color: #27ae60;
+      background-color: #d5f4e6;
+      color: #186a3b;
+    }
+
+    .btn-primary {
+      background-color: #2c3e50;
+      border: none;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background-color: #1a252f;
+    }
+
+    .btn-outline-secondary {
+      border: 1px solid #2c3e50;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+
+    .btn-outline-secondary:hover {
+      background-color: #2c3e50;
+      border-color: #2c3e50;
+      color: white;
+    }
+
+    .btn-outline-danger {
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+      font-weight: 500;
+    }
+
+    .btn-outline-danger:hover {
+      background-color: #e74c3c;
+      border-color: #e74c3c;
+      color: white;
+    }
+
+    .badge {
+      padding: 0.4rem 0.8rem;
+      font-weight: 500;
+      font-size: 0.75rem;
+      color: white;
+    }
+
+    .badge.bg-warning {
+      background-color: #f39c12 !important;
+      color: white;
+    }
+
+    .badge.bg-primary {
+      background-color: #3498db !important;
+      color: white;
+    }
+
+    .badge.bg-success {
+      background-color: #27ae60 !important;
+      color: white;
+    }
+
+    .badge.bg-info {
+      background-color: #3498db !important;
+      color: white;
+    }
+
+    .badge.bg-secondary {
+      background-color: #95a5a6 !important;
+      color: white;
+    }
+
+    .badge.bg-danger {
+      background-color: #e74c3c !important;
+      color: white;
+    }
+
+    #detail-chatContext {
+      scroll-behavior: smooth;
+    }
+
+    #detail-chatContext::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #detail-chatContext::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+
+    #detail-chatContext::-webkit-scrollbar-thumb {
+      background: #bbb;
+      border-radius: 3px;
+    }
+
+    .modal-content {
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 8px;
+    }
+
+    .modal-header {
+      background-color: #2c3e50 !important;
+      border: none;
+      padding: 1.2rem;
+    }
+
+    .modal-body {
+      background-color: #ffffff;
+      padding: 1.2rem;
+    }
+
+    .form-control, .form-select {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.9rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: #2c3e50;
+      box-shadow: 0 0 0 0.15rem rgba(44, 62, 80, 0.1);
+    }
+
+    .form-label {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    h5 {
+      color: white;
+      font-weight: 600;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+    }
+
+    .page-header p {
+      color: #7f8c8d;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .request-count {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      background-color: #ecf0f1;
+      border-radius: 5px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 1rem 0;
+    }
+
+    /* Detail view 3-column layout */
+    .detail-view-container {
+      display: grid;
+      grid-template-columns: 30% 30% 40%;
+      gap: 1.5rem;
+      min-height: calc(100vh - 200px);
+      padding: 0 2rem;
+    }
+
+    .detail-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1400px) {
+      .detail-view-container {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 0 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .detail-view-container {
+        padding: 0 1rem;
+      }
+    }
+
+    .chat-messages-container {
+      max-height: 500px;
+      overflow-y: auto;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .chat-message {
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+      border-radius: 5px;
+      border-left: 3px solid;
+    }
+
+    .chat-message.user {
+      background-color: #e7f3ff;
+      border-left-color: #2196F3;
+    }
+
+    .chat-message.assistant {
+      background-color: #e8f5e9;
+      border-left-color: #4CAF50;
+    }
+
+    .chat-message-role {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .chat-message-time {
+      color: #999;
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+    }
+
+    .chat-message-content {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    #detailView {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      #detailView {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+
+    /* Request Summary Styles */
+    .request-summary-item {
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      border-left: 3px solid #2c3e50;
+    }
+
+    .request-summary-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .request-summary-item-title {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 0.9rem;
+    }
+
+    .request-summary-item-body p {
+      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .request-summary-item-body strong {
+      color: #333;
+    }
+
+    .request-summary-item-body code {
+      background-color: #e8eef5;
+      color: #2c3e50;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+
+    #requestSummaryContainer {
+      max-height: 450px;
+      overflow-y: auto;
+      padding: 0.5rem 0;
+    }
+
+    #requestSummaryContainer::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #requestSummaryContainer::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+
+    #requestSummaryContainer::-webkit-scrollbar-thumb {
+      background: #bbb;
+      border-radius: 3px;
+    }
+  </style>
 </head>
 
-<body class="bg-light">
-  <div class="container py-5 text-center">
-    <h1 class="mb-4">Kabir - Admin Panel</h1>
-    <p class="text-muted mb-5">Choose what you want to do</p>
+<body>
+  <div class="container-wrapper container-fluid">
+    <!-- LIST VIEW -->
+    <div id="listView">
+      <!-- Header -->
+      <div class="page-header">
+        <h1>Kabir Admin Dashboard</h1>
+        <p>Support requests and user management</p>
+      </div>
 
-    <div class="d-grid gap-3 col-6 mx-auto">
-      <a href="/user-summary" class="btn btn-primary btn-lg">
-        User Summary
-      </a>
+      <!-- Dashboard Grid: 30% User Summary, 70% Magic Word Requests -->
+      <div class="row g-3" style="height: 850px;">
+        <!-- Left Panel: User Summary (30%) -->
+        <div class="col-lg-3">
+          <div class="panel-card">
+            <div class="panel-header">👥 User Summary</div>
+            <div class="panel-body">
+              <!-- Search Form -->
+              <form class="user-search-form" onsubmit="searchUser(event)">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="userIdentifier"
+                    class="form-control"
+                    placeholder="Phone or email"
+                    required
+                  />
+                  <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+              </form>
 
-      <a href="/magic-word-summary" class="btn btn-secondary btn-lg">
-        Magic Word Summary
-      </a>
+              <!-- Error Message -->
+              <div id="userErrorMessage" class="alert alert-danger hidden mb-2"></div>
+
+              <!-- User Summary Content -->
+              <div id="userSummaryContent" class="hidden">
+                <!-- User Details -->
+                <div class="user-info-card">
+                  <h6>User Details</h6>
+                  <p><strong>ID:</strong> <code id="summary-userId"></code></p>
+                  <p><strong>Name:</strong> <span id="summary-userName"></span></p>
+                  <p><strong>Phone:</strong> <span id="summary-userPhone"></span></p>
+                  <p><strong>Email:</strong> <span id="summary-userEmail"></span></p>
+                </div>
+
+                <!-- Latest Location -->
+                <div class="user-info-card" id="locationCard" style="display: none;">
+                  <h6>Location</h6>
+                  <p><strong>Place:</strong> <span id="summary-location"></span></p>
+                  <p><strong>Coords:</strong> <span id="summary-coords"></span></p>
+                  <p><strong>Recorded:</strong> <span id="summary-recordedAt"></span></p>
+                </div>
+
+                <!-- Chat Summary -->
+                <div class="user-info-card">
+                  <h6>Chats</h6>
+                  <p><strong>Total:</strong> <span id="summary-chatCount" class="badge bg-info">0</span></p>
+                  <p><strong>Latest:</strong> <span id="summary-latestChat"></span></p>
+                </div>
+              </div>
+
+              <!-- Initial Message -->
+              <div id="userInitialMessage" class="alert alert-info">
+                Enter phone number or email to search user
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel: Magic Word Requests (70%) -->
+        <div class="col-lg-9">
+          <div class="panel-card">
+            <div class="panel-header">✨ Magic Word Requests</div>
+            <div class="panel-body">
+              <!-- Request Count & Refresh -->
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="request-count">Total: <span id="requestCount">0</span></span>
+                <button class="btn btn-sm btn-outline-secondary" onclick="loadMagicWordRequests()">
+                  🔄 Refresh
+                </button>
+              </div>
+
+              <!-- GRID VIEW: Magic Word Requests -->
+              <div id="requestsList" class="grid-requests">
+                <!-- Cards will be injected here -->
+              </div>
+
+              <!-- Empty Message -->
+              <div id="emptyMessage" class="alert alert-info text-center hidden">
+                No magic word requests found
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL VIEW (Full Screen with 3-Column Layout) -->
+    <div id="detailView" class="hidden">
+      <!-- Back Button & Header with AI Toggle -->
+      <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">← Back to Dashboard</button>
+          
+          <!-- AI/Team Toggle Switch -->
+          <div class="d-flex align-items-center gap-3">
+            <div class="form-check form-switch" style="transform: scale(1.2); transform-origin: right center;">
+              <input class="form-check-input" type="checkbox" id="humanInteractionToggle" onchange="toggleHumanInteraction()">
+              <label class="form-check-label" for="humanInteractionToggle" id="toggleLabel">
+                kabirAI
+              </label>
+            </div>
+            <span id="toggleStatus" class="badge bg-secondary">Active</span>
+          </div>
+        </div>
+        
+        <h1>Magic Word Request Detail</h1>
+      </div>
+
+      <!-- 3-Column Detail Layout -->
+      <div class="detail-view-container">
+        
+        <!-- LEFT COLUMN: User Details & Location (30%) -->
+        <div class="detail-column">
+          <!-- User Info Card -->
+          <div class="detail-section card">
+            <div class="card-header">
+              <h5 class="mb-0">👤 User Details</h5>
+            </div>
+            <div class="card-body">
+              <p><strong>User ID:</strong> <code id="detail-userId"></code></p>
+              <p><strong>Name:</strong> <span id="detail-userName"></span></p>
+              <p><strong>Email:</strong> <span id="detail-userEmail"></span></p>
+              <p><strong>Phone:</strong> <span id="detail-userPhone"></span></p>
+              <hr />
+              <p><strong>Photo:</strong></p>
+              <img id="detail-userPhoto" src="" alt="User Photo" style="max-width: 100px; max-height: 100px; border-radius: 5px; display: none;" />
+            </div>
+          </div>
+
+          <!-- User Location Card -->
+          <div class="detail-section card">
+            <div class="card-header">
+              <h5 class="mb-0">📍 Location</h5>
+            </div>
+            <div class="card-body">
+              <p><strong>Place:</strong> <span id="detail-locName"></span></p>
+              <p><strong>Latitude:</strong> <span id="detail-locLat"></span></p>
+              <p><strong>Longitude:</strong> <span id="detail-locLon"></span></p>
+              <p><strong>Recorded At:</strong> <span id="detail-locRecordedAt"></span></p>
+              <p><a id="detail-mapLink" href="" target="_blank" class="btn btn-sm btn-primary w-100">🗺️ View on Map</a></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MIDDLE COLUMN: Request Information (30%) -->
+        <div class="detail-column">
+          <!-- Magic Word Request Info -->
+          <div class="detail-section card">
+            <div class="card-header">
+              <h5 class="mb-0">✨ Request Information</h5>
+            </div>
+            <div class="card-body">
+              <p><strong>Magic Word:</strong> <span id="detail-magicWord" class="badge bg-warning"></span></p>
+              <p><strong>Status:</strong> <span id="detail-status" class="badge"></span></p>
+              <p><strong>Matched At:</strong> <span id="detail-matchedAt"></span></p>
+              <hr />
+              <p><strong>Chat ID:</strong> <code id="detail-chatId"></code></p>
+              <p><strong>Message ID:</strong> <code id="detail-messageId"></code></p>
+              <p><strong>Location:</strong> <span id="detail-location"></span></p>
+              <hr />
+              <button id="statusChangeBtn" class="btn btn-primary btn-sm w-100 mb-2" onclick="changeStatus()">Next Status</button>
+              <button class="btn btn-outline-danger btn-sm w-100 mb-2" onclick="closeRequest()">❌ Close Request</button>
+            </div>
+          </div>
+
+          <!-- Request Summary from magicWordUser -->
+          <div class="detail-section card">
+            <div class="card-header"> 
+              <h5 class="mb-0">📊 Request Summary</h5>
+            </div>
+            <div class="card-body" style="padding: 0;">
+              <div id="requestSummaryContainer">
+                <div id="requestSummaryContent"></div>
+                <div id="noRequestSummary" class="alert alert-secondary text-center hidden" style="margin: 1rem;">
+                  No requests found for this user
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Chat & Send Message (40%) -->
+        <div class="detail-column">
+          <!-- Chat Context -->
+          <div class="detail-section card">
+            <div class="card-header">
+              <h5 class="mb-0">💬 Chat Messages (Last 10)</h5>
+            </div>
+            <div class="card-body" style="padding: 0;">
+              <div id="detail-chatContext" class="chat-messages-container"></div>
+              <div id="noChatContextMessage" class="alert alert-secondary text-center hidden" style="margin: 1rem;">No messages</div>
+            </div>
+          </div>
+
+          <!-- Send Message Section -->
+          <div class="detail-section card">
+            <div class="card-header">
+              <h5 class="mb-0">✉️ Send Message</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label class="form-label">Message Type</label>
+                <select class="form-control" id="messageType" onchange="handleMessageTypeChange()">
+                  <option value="">Select type...</option>
+                  <option value="custom">Custom Message</option>
+                  <option value="service_request">Service Confirmation</option>
+                  <option value="booking_confirmation">Booking Confirmation</option>
+                  <option value="general">General Update</option>
+                </select>
+              </div>
+
+              <div class="mb-3" id="customMessageDiv" style="display: none;">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" id="customMessage" rows="2" placeholder="Type your message..."></textarea>
+              </div>
+
+              <div class="mb-3" id="serviceRequestPreviewDiv" style="display: none;">
+                <label class="form-label">Preview</label>
+                <div class="alert alert-info" id="serviceRequestPreview">✅ Your request has been created. Our team will contact you shortly.</div>
+              </div>
+
+              <div class="mb-3" id="bookingPreviewDiv" style="display: none;">
+                <label class="form-label">Preview</label>
+                <div class="alert alert-success" id="bookingPreview">🎫 Your booking is confirmed! Thank you for choosing us.</div>
+              </div>
+
+              <div class="mb-3" id="generalUpdateDiv" style="display: none;">
+                <label class="form-label">Preview</label>
+                <div class="alert alert-secondary" id="generalUpdatePreview">📢 We're here to help! Contact us if you have questions.</div>
+              </div>
+
+              <button class="btn btn-primary w-100" onclick="sendMessageToUser()" id="sendMessageBtn">Send Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-outline-secondary mt-4" onclick="showListView()">← Back to Dashboard</button>
     </div>
   </div>
+
+  <!-- Service Request Modal -->
+  <div id="serviceRequestModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Service Request Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="serviceRequestForm">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Traveler Name *</label>
+                <input type="text" class="form-control" id="travelerName" required>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">Country Code</label>
+                <input type="text" class="form-control" id="countryCode" value="+91" required>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">Phone Number *</label>
+                <input type="tel" class="form-control" id="travelerPhoneNumber" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">From (Location) *</label>
+                <input type="text" class="form-control" id="travelerFrom" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Monument *</label>
+                <select class="form-control" id="monumentToVisit" onchange="handleMonumentChange()" required></select>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Service Type *</label>
+                <select class="form-control" id="typeOfService" onchange="handleServiceChange()" required></select>
+              </div>
+              <div class="col-md-6 mb-3" id="customServiceDiv" style="display: none;">
+                <label class="form-label">Specify Service</label>
+                <input type="text" class="form-control" id="customServiceInput">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Pickup Location *</label>
+                <input type="text" class="form-control" id="pickupLocation" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Drop Location *</label>
+                <input type="text" class="form-control" id="dropLocation" required>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Date *</label>
+                <input type="date" class="form-control" id="dateOfTravel" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Time Slot *</label>
+                <select class="form-control" id="timeSlotLabel" onchange="handleTimeSlotChange()" required>
+                  <option value="">Select...</option>
+                  <option value="Morning">Morning (6 AM - 12 PM)</option>
+                  <option value="Afternoon">Afternoon (12 PM - 6 PM)</option>
+                  <option value="Evening">Evening (6 PM - 10 PM)</option>
+                  <option value="Custom">Custom</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 mb-3" id="customStartTimeDiv" style="display: none;">
+                <label class="form-label">Start Time</label>
+                <input type="time" class="form-control" id="customStartTime">
+              </div>
+              <div class="col-md-6 mb-3" id="customEndTimeDiv" style="display: none;">
+                <label class="form-label">End Time</label>
+                <input type="time" class="form-control" id="customEndTime">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Number of Travelers *</label>
+                <input type="number" class="form-control" id="numberOfTravelers" min="1" value="1" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Language Preference *</label>
+                <div id="languagePreferenceContainer"></div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Price</label>
+                <input type="number" class="form-control" id="price" step="0.01">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Commission</label>
+                <input type="number" class="form-control" id="commission" step="0.01">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-control" id="serviceStatus">
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Payment Status</label>
+                <select class="form-control" id="paymentStatus">
+                  <option value="pending">Pending</option>
+                  <option value="success">Success</option>
+                  <option value="failed">Failed</option>
+                </select>
+              </div>
+
+              <div class="col-12 mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="2"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="submitServiceRequest()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const API_BASE = "/api";
+    let currentMagicWordId = null;
+    let currentStatus = null;
+
+    function showListView() {
+      document.getElementById("listView").classList.remove("hidden");
+      document.getElementById("detailView").classList.add("hidden");
+      loadMagicWordRequests();
+    }
+
+    function showDetailView() {
+      document.getElementById("listView").classList.add("hidden");
+      document.getElementById("detailView").classList.remove("hidden");
+    }
+
+    async function searchUser(event) {
+      event.preventDefault();
+      const identifier = document.getElementById("userIdentifier").value.trim();
+
+      if (!identifier) {
+        alert("Please enter phone or email");
+        return;
+      }
+
+      try {
+        document.getElementById("userErrorMessage").classList.add("hidden");
+        document.getElementById("userInitialMessage").classList.add("hidden");
+        document.getElementById("userSummaryContent").classList.add("hidden");
+
+        const response = await fetch(`/user-summary`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identifier })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          document.getElementById("userErrorMessage").textContent = data.error;
+          document.getElementById("userErrorMessage").classList.remove("hidden");
+          return;
+        }
+
+        const summary = data.summary;
+        document.getElementById("summary-userId").textContent = summary.userId || "N/A";
+        document.getElementById("summary-userName").textContent = `${summary.user.firstName || ""} ${summary.user.lastName || ""}`.trim() || "N/A";
+        document.getElementById("summary-userPhone").textContent = summary.user.phoneNumber || "N/A";
+        document.getElementById("summary-userEmail").textContent = summary.user.email || "N/A";
+
+        if (summary.latest_location) {
+          document.getElementById("summary-location").textContent = summary.latest_location.location || "N/A";
+          document.getElementById("summary-coords").textContent = `${summary.latest_location.latitude || "?"}, ${summary.latest_location.longitude || "?"}`;
+          document.getElementById("summary-recordedAt").textContent = summary.latest_location.created_at_readable || "N/A";
+          document.getElementById("locationCard").style.display = "block";
+        } else {
+          document.getElementById("locationCard").style.display = "none";
+        }
+
+        document.getElementById("summary-chatCount").textContent = summary.chat_count || 0;
+        document.getElementById("summary-latestChat").textContent = summary.latest_chat_createdAt_readable || "N/A";
+        document.getElementById("userSummaryContent").classList.remove("hidden");
+      } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("userErrorMessage").textContent = "Error: " + error.message;
+        document.getElementById("userErrorMessage").classList.remove("hidden");
+      }
+    }
+
+    function getStatusBadgeClass(status) {
+      switch (status) {
+        case "requested": return "bg-warning";
+        case "inProgress": return "bg-primary";
+        case "completed": return "bg-success";
+        default: return "bg-secondary";
+      }
+    }
+
+    async function loadMagicWordRequests() {
+      try {
+        const response = await fetch(`${API_BASE}/magic-words`);
+        const data = await response.json();
+
+        document.getElementById("requestCount").textContent = data.count || 0;
+
+        if (!data.found || data.items.length === 0) {
+          document.getElementById("emptyMessage").classList.remove("hidden");
+          document.getElementById("requestsList").innerHTML = "";
+          return;
+        }
+
+        document.getElementById("emptyMessage").classList.add("hidden");
+
+        const html = data.items.map(item => {
+          const date = new Date(item.matchedAt).toLocaleString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+          });
+
+          return `
+            <div class="grid-request-card" onclick="loadMagicWordDetail('${item.id}')">
+              <div class="grid-card-header">
+                <div class="grid-card-magic-word">✨ ${escapeHtml(item.magicWord)}</div>
+                <span class="badge ${getStatusBadgeClass(item.status)}">${item.status}</span>
+              </div>
+              <div class="grid-card-body">
+                <div class="grid-card-location">📍 ${escapeHtml(item.location || "universal")}</div>
+                <div class="grid-card-time">🕐 ${date}</div>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        document.getElementById("requestsList").innerHTML = html;
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    async function loadMagicWordDetail(id) {
+      try {
+        currentMagicWordId = id;
+        const response = await fetch(`${API_BASE}/magic-words/${id}`);
+        const data = await response.json();
+
+        if (!data.found) {
+          alert("Error loading details");
+          return;
+        }
+
+        const magic = data.magic_word_request || {};
+        const user = data.user || {};
+        const chat = data.chat || {};
+        const location = data.user_location || {};
+        const chatHistory = data.chat_history || [];
+
+        document.getElementById("detail-magicWord").textContent = magic.magicWord || "N/A";
+        document.getElementById("detail-status").textContent = magic.status || "N/A";
+        document.getElementById("detail-status").className = `badge ${getStatusBadgeClass(magic.status)}`;
+        document.getElementById("detail-matchedAt").textContent = magic.matchedAt_readable || "N/A";
+        document.getElementById("detail-location").textContent = chat.location || "N/A";
+        document.getElementById("detail-chatId").textContent = chat.id || "N/A";
+        document.getElementById("detail-messageId").textContent = magic.messageId || "N/A";
+
+        document.getElementById("detail-userId").textContent = user.id || "N/A";
+        document.getElementById("detail-userName").textContent = `${user.firstName || ""} ${user.lastName || ""}`.trim() || "N/A";
+        document.getElementById("detail-userEmail").textContent = user.email || "N/A";
+        document.getElementById("detail-userPhone").textContent = user.phoneNumber || "N/A";
+
+        if (user.photoURL) {
+          document.getElementById("detail-userPhoto").src = user.photoURL;
+          document.getElementById("detail-userPhoto").style.display = "block";
+        }
+
+        document.getElementById("detail-locName").textContent = location.location || "N/A";
+        document.getElementById("detail-locLat").textContent = location.latitude || "N/A";
+        document.getElementById("detail-locLon").textContent = location.longitude || "N/A";
+        document.getElementById("detail-locRecordedAt").textContent = location.created_at_readable || "N/A";
+
+        if (location.latitude && location.longitude) {
+          document.getElementById("detail-mapLink").href = `https://maps.google.com/?q=${location.latitude},${location.longitude}`;
+        }
+
+        currentStatus = magic.status || "requested";
+        updateStatusButtonText(currentStatus);
+
+        if (chatHistory && chatHistory.length > 0) {
+          document.getElementById("noChatContextMessage").classList.add("hidden");
+          const chatHtml = chatHistory.map(msg => {
+            const role = msg.role || "user";
+            const icon = role === "user" ? "👤" : "🤖";
+            return `
+              <div class="chat-message ${role === 'user' ? 'user' : 'assistant'}">
+                <div class="chat-message-role">
+                  ${icon} ${role.toUpperCase()}
+                  <span class="chat-message-time">${msg.created_at_readable || ""}</span>
+                </div>
+                <div class="chat-message-content">${escapeHtml(msg.content || "")}</div>
+              </div>
+            `;
+          }).join("");
+          document.getElementById("detail-chatContext").innerHTML = chatHtml;
+        } else {
+          document.getElementById("noChatContextMessage").classList.remove("hidden");
+        }
+
+        // Load all requests for this user
+        if (user.id) {
+          await loadUserMagicWordRequests(user.id);
+        }
+
+        showDetailView();
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error loading details");
+      }
+    }
+
+    async function loadUserMagicWordRequests(userId) {
+      try {
+        if (!userId) {
+          document.getElementById("noRequestSummary").classList.remove("hidden");
+          document.getElementById("requestSummaryContent").innerHTML = "";
+          return;
+        }
+
+        console.log("📋 Loading requests for user:", userId);
+
+        // Fetch all magic word requests for this user
+        const response = await fetch(`${API_BASE}/magic-words/user/${userId}`);
+        const data = await response.json();
+
+        console.log("📋 User Requests Response:", data);
+
+        if (!data.found || !data.requests || data.requests.length === 0) {
+          document.getElementById("noRequestSummary").classList.remove("hidden");
+          document.getElementById("requestSummaryContent").innerHTML = "";
+          return;
+        }
+
+        document.getElementById("noRequestSummary").classList.add("hidden");
+
+        // Build HTML for all requests
+        const requestsHtml = data.requests.map((req, index) => {
+          const statusClass = getStatusBadgeClass(req.status);
+          const time = req.matchedAt_readable || req.createdAt_readable || "N/A";
+          const magicWord = req.magicWord || req.userMessage || "N/A";
+          
+          return `
+            <div class="request-summary-item">
+              <div class="request-summary-item-header">
+                <span class="request-summary-item-title">Request ${index + 1}</span>
+                <span class="badge ${statusClass}">${req.status || 'N/A'}</span>
+              </div>
+              <div class="request-summary-item-body">
+                <p><strong>Magic Word:</strong> <span style="background-color: #fff3cd; padding: 0.2rem 0.4rem; border-radius: 3px;">${escapeHtml(magicWord)}</span></p>
+                <p><strong>Time:</strong> ${escapeHtml(time)}</p>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        document.getElementById("requestSummaryContent").innerHTML = requestsHtml;
+      } catch (error) {
+        console.error("Error loading user requests:", error);
+        document.getElementById("noRequestSummary").classList.remove("hidden");
+        document.getElementById("requestSummaryContent").innerHTML = "";
+      }
+    }
+
+    async function changeStatus() {
+      if (!currentMagicWordId) return;
+
+      try {
+        const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}`);
+        const data = await response.json();
+
+        currentStatus = data.magic_word_request?.status || "requested";
+
+        if (currentStatus === "requested") {
+          document.getElementById("serviceRequestForm").reset();
+          await loadMonuments();
+          await loadLanguagePreferences();
+
+          if (data.user) {
+            document.getElementById("travelerName").value = data.user.firstName || "";
+            document.getElementById("travelerPhoneNumber").value = data.user.phoneNumber || "";
+          }
+
+          new bootstrap.Modal(document.getElementById("serviceRequestModal")).show();
+        } else {
+          await updateMagicWordStatus();
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error: " + error.message);
+      }
+    }
+
+    async function closeRequest() {
+      if (!currentMagicWordId) return;
+      
+      if (confirm("Are you sure you want to close this request?")) {
+        try {
+          const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/close`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" }
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            alert("✅ Request closed!");
+            showListView();
+          } else {
+            alert(`Error: ${result.error}`);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Error closing request");
+        }
+      }
+    }
+
+    async function loadMonuments() {
+      try {
+        const response = await fetch(`${API_BASE}/monuments`);
+        const data = await response.json();
+
+        if (data.success && data.monuments) {
+          const select = document.getElementById("monumentToVisit");
+          select.innerHTML = '<option value="">Select...</option>';
+          data.monuments.forEach(m => {
+            const opt = document.createElement("option");
+            opt.value = m.id;
+            opt.textContent = m.title || m.name;
+            select.appendChild(opt);
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    async function loadServicesByMonument(monumentId) {
+      try {
+        if (!monumentId) {
+          document.getElementById("typeOfService").innerHTML = '<option value="">Select monument first...</option>';
+          return;
+        }
+
+        const response = await fetch(`${API_BASE}/monuments/${monumentId}/services`);
+        const data = await response.json();
+
+        const select = document.getElementById("typeOfService");
+        select.innerHTML = '<option value="">Select...</option>';
+
+        if (data.success && data.services) {
+          data.services.forEach(s => {
+            const opt = document.createElement("option");
+            opt.value = s.id;
+            opt.textContent = s.title || s.name;
+            opt.dataset.serviceId = s.id;
+            select.appendChild(opt);
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    function handleMonumentChange() {
+      const id = document.getElementById("monumentToVisit").value;
+      if (id) loadServicesByMonument(id);
+    }
+
+    function handleServiceChange() {
+      const val = document.getElementById("typeOfService").value;
+      const div = document.getElementById("customServiceDiv");
+      div.style.display = val === "other" ? "block" : "none";
+    }
+
+    async function loadLanguagePreferences() {
+      try {
+        const response = await fetch(`${API_BASE}/service-languages`);
+        const data = await response.json();
+
+        const container = document.getElementById("languagePreferenceContainer");
+        container.innerHTML = "";
+
+        if (data.success && data.languages) {
+          data.languages.forEach(lang => {
+            const div = document.createElement("div");
+            div.className = "form-check";
+            div.innerHTML = `
+              <input class="form-check-input language-checkbox" type="checkbox" id="lang_${lang.id}" value="${lang.title || lang.name}">
+              <label class="form-check-label" for="lang_${lang.id}">${lang.title || lang.name}</label>
+            `;
+            container.appendChild(div);
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    function handleTimeSlotChange() {
+      const val = document.getElementById("timeSlotLabel").value;
+      document.getElementById("customStartTimeDiv").style.display = val === "Custom" ? "block" : "none";
+      document.getElementById("customEndTimeDiv").style.display = val === "Custom" ? "block" : "none";
+    }
+
+    function getTimeSlotDetails() {
+      const label = document.getElementById("timeSlotLabel").value;
+      const slots = {
+        "Morning": { startTime: "06:00", endTime: "12:00" },
+        "Afternoon": { startTime: "12:00", endTime: "18:00" },
+        "Evening": { startTime: "18:00", endTime: "22:00" }
+      };
+
+      if (label === "Custom") {
+        return {
+          label: "Custom",
+          startTime: document.getElementById("customStartTime").value,
+          endTime: document.getElementById("customEndTime").value
+        };
+      }
+      return { label, ...slots[label] };
+    }
+
+    async function submitServiceRequest() {
+      const timeSlot = getTimeSlotDetails();
+      const languages = [];
+      document.querySelectorAll('input.language-checkbox:checked').forEach(cb => {
+        languages.push(cb.value);
+      });
+
+      const details = {
+        travelerName: document.getElementById("travelerName").value.trim(),
+        countryCode: document.getElementById("countryCode").value.trim(),
+        travelerPhoneNumber: `${document.getElementById("countryCode").value} ${document.getElementById("travelerPhoneNumber").value}`.trim(),
+        travelerFrom: document.getElementById("travelerFrom").value.trim(),
+        monumentToVisit: document.getElementById("monumentToVisit").value,
+        typeOfService: document.getElementById("typeOfService").value,
+        dateOfTravel: document.getElementById("dateOfTravel").value,
+        timeSlot: timeSlot,
+        numberOfTravelers: parseInt(document.getElementById("numberOfTravelers").value),
+        languagePreference: languages,
+        pickupLocation: document.getElementById("pickupLocation").value,
+        dropLocation: document.getElementById("dropLocation").value,
+        price: document.getElementById("price").value || "0",
+        commission: document.getElementById("commission").value || "0",
+        status: document.getElementById("serviceStatus").value,
+        paymentStatus: document.getElementById("paymentStatus").value,
+        description: document.getElementById("description").value
+      };
+
+      try {
+        const btn = document.querySelector('[onclick="submitServiceRequest()"]');
+        btn.disabled = true;
+        btn.innerHTML = 'Submitting...';
+
+        const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/status`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bookingType: details.typeOfService, details })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          bootstrap.Modal.getInstance(document.getElementById("serviceRequestModal")).hide();
+          document.getElementById("detail-status").textContent = result.new_status;
+          document.getElementById("detail-status").className = `badge ${getStatusBadgeClass(result.new_status)}`;
+          updateStatusButtonText(result.new_status);
+          alert("✅ Service request submitted!");
+          setTimeout(() => loadMagicWordRequests(), 1500);
+        } else {
+          alert(`Error: ${result.error}`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error submitting request");
+      } finally {
+        const btn = document.querySelector('[onclick="submitServiceRequest()"]');
+        btn.disabled = false;
+        btn.innerHTML = 'Submit';
+      }
+    }
+
+    async function updateMagicWordStatus() {
+      try {
+        const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/status`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({})
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          document.getElementById("detail-status").textContent = result.new_status;
+          document.getElementById("detail-status").className = `badge ${getStatusBadgeClass(result.new_status)}`;
+          updateStatusButtonText(result.new_status);
+          alert("✅ Status updated!");
+          setTimeout(() => showListView(), 1500);
+        } else {
+          alert(`Error: ${result.error}`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error updating status");
+      }
+    }
+
+    function updateStatusButtonText(status) {
+      const btn = document.getElementById("statusChangeBtn");
+      if (status === "requested") {
+        btn.textContent = "Proceed to Service";
+        btn.disabled = false;
+      } else if (status === "inProgress") {
+        btn.textContent = "Mark Complete";
+        btn.disabled = false;
+      } else {
+        btn.textContent = "Completed";
+        btn.disabled = true;
+      }
+    }
+
+    function handleMessageTypeChange() {
+      const type = document.getElementById("messageType").value;
+      document.getElementById("customMessageDiv").style.display = type === "custom" ? "block" : "none";
+      document.getElementById("serviceRequestPreviewDiv").style.display = type === "service_request" ? "block" : "none";
+      document.getElementById("bookingPreviewDiv").style.display = type === "booking_confirmation" ? "block" : "none";
+      document.getElementById("generalUpdateDiv").style.display = type === "general" ? "block" : "none";
+    }
+
+    async function sendMessageToUser() {
+      const type = document.getElementById("messageType").value;
+      if (!type) {
+        alert("Select message type");
+        return;
+      }
+
+      let content = "";
+      if (type === "custom") {
+        content = document.getElementById("customMessage").value.trim();
+        if (!content) {
+          alert("Enter message");
+          return;
+        }
+      } else if (type === "service_request") {
+        content = "✅ Your request has been created. Our team will contact you shortly.";
+      } else if (type === "booking_confirmation") {
+        content = "🎫 Your booking is confirmed! Thank you for choosing us.";
+      } else if (type === "general") {
+        content = "📢 We're here to help! Contact us if you have questions.";
+      }
+
+      try {
+        const btn = document.getElementById("sendMessageBtn");
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+
+        const response = await fetch(`/api/magic-words/${currentMagicWordId}/send-message`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messageType: type,
+            message: content,
+            chatId: document.getElementById("detail-chatId").textContent
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert("✅ Message sent!");
+          document.getElementById("messageType").value = "";
+          document.getElementById("customMessage").value = "";
+        } else {
+          alert(`Error: ${result.error}`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error sending message");
+      } finally {
+        const btn = document.getElementById("sendMessageBtn");
+        btn.disabled = false;
+        btn.textContent = "Send Message";
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Toggle human interaction mode (kabirAI / kabirTeam)
+    async function toggleHumanInteraction() {
+      const toggle = document.getElementById("humanInteractionToggle");
+      const statusLabel = document.getElementById("toggleLabel");
+      const statusBadge = document.getElementById("toggleStatus");
+      const chatId = document.getElementById("detail-chatId").textContent.trim();
+
+      if (!chatId) {
+        alert("Chat ID not found");
+        toggle.checked = !toggle.checked;
+        return;
+      }
+
+      try {
+        const isHumanInteraction = toggle.checked;
+
+        // Update toggle UI immediately
+        if (isHumanInteraction) {
+          statusLabel.textContent = "kabirTeam";
+          statusBadge.className = "badge bg-success";
+          statusBadge.textContent = "Active";
+          console.log("🔄 Switched to kabirTeam mode");
+        } else {
+          statusLabel.textContent = "kabirAI";
+          statusBadge.className = "badge bg-secondary";
+          statusBadge.textContent = "Active";
+          console.log("🔄 Switched to kabirAI mode");
+        }
+
+        // Send update to backend
+        const response = await fetch(`/api/chats/${chatId}/toggle-interaction`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            isHumanInteraction: isHumanInteraction
+          })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          alert(`Error: ${result.error}`);
+          toggle.checked = !toggle.checked;
+          
+          // Revert UI
+          if (!isHumanInteraction) {
+            statusLabel.textContent = "kabirTeam";
+            statusBadge.className = "badge bg-success";
+          } else {
+            statusLabel.textContent = "kabirAI";
+            statusBadge.className = "badge bg-secondary";
+          }
+        } else {
+          console.log("✅ isHumanInteraction updated:", isHumanInteraction);
+          console.log("📊 Mode:", result.mode);
+        }
+      } catch (error) {
+        console.error("❌ Error updating interaction mode:", error);
+        alert("Error updating interaction mode");
+        toggle.checked = !toggle.checked;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => loadMagicWordRequests());
+  </script>
 </body>
 </html>
