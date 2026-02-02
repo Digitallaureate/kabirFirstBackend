@@ -8,13 +8,7 @@ from urllib.parse import quote
 
 # ✅ Import from your package modules
 from customerService.user_summary import get_user_summary_by_phone
-from customerService.magic_word_summary import (
-    get_magicword_requests,
-    get_magicword_detail,
-    get_user_magicword_requests,
-    get_user_completed_orders,
-    get_user_payment_history,
-)
+from customerService.magic_word_summary import get_magicword_requests, get_magicword_detail, get_user_magicword_requests, get_user_completed_orders, get_user_payment_history
 from google.cloud import firestore as gfirestore
 
 from firebase_setup import get_project_b_firestore, get_project_b_storage_bucket
@@ -27,25 +21,22 @@ app = Flask(
 
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change-this-to-a-long-random-secret")
 
-# ✅ Handle both /support (Hosting rewrite) and /customerService_app (direct Cloud Function URL)
-# This ensures Flask sees correct paths and generates correct URLs in both environments.
-class MultiSubPathMiddleware:
-    def __init__(self, app, prefixes=("/support", "/customerService_app")):
+# ✅ Handle /support sub-path
+# This ensures that when hosted at /support, Flask sees correct paths (e.g. /login instead of /support/login)
+# and generates correct URLs (e.g. /support/login).
+class SubPathMiddleware:
+    def __init__(self, app, prefix='/support'):
         self.app = app
-        self.prefixes = prefixes
+        self.prefix = prefix
 
     def __call__(self, environ, start_response):
-        path_info = environ.get("PATH_INFO", "") or ""
-
-        for prefix in self.prefixes:
-            if path_info == prefix or path_info.startswith(prefix + "/"):
-                environ["PATH_INFO"] = path_info[len(prefix):] or "/"
-                environ["SCRIPT_NAME"] = prefix
-                break
-
+        path_info = environ.get('PATH_INFO', '')
+        if path_info.startswith(self.prefix):
+            environ['PATH_INFO'] = path_info[len(self.prefix):] or '/'
+            environ['SCRIPT_NAME'] = self.prefix
         return self.app(environ, start_response)
 
-app.wsgi_app = MultiSubPathMiddleware(app.wsgi_app)
+app.wsgi_app = SubPathMiddleware(app.wsgi_app)
 
 
 # ---------------------------
@@ -113,18 +104,11 @@ def login():
             return redirect(url_for("dashboard"))
         return render_template("index.html")
 
-    # ✅ Robust JSON detection (works behind Cloud Functions too)
-    content_type = (request.headers.get("Content-Type") or "").lower()
-    wants_json = (
-        "application/json" in content_type
-        or (request.headers.get("Accept") or "").lower().find("application/json") != -1
-        or request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    )
+    username = ""
+    password = ""
 
-    # ✅ Try to parse JSON even if request.is_json is unreliable
-    body = request.get_json(silent=True) or {}
-
-    if wants_json and body:
+    if request.is_json:
+        body = request.get_json() or {}
         username = (body.get("username") or "").strip()
         password = (body.get("password") or "").strip()
     else:
@@ -132,7 +116,7 @@ def login():
         password = (request.form.get("password") or "").strip()
 
     if not username or not password:
-        if wants_json:
+        if request.is_json:
             return jsonify({"success": False, "error": "Username and password are required"}), 400
         return render_template("index.html", error="Username and password are required")
 
@@ -140,19 +124,17 @@ def login():
 
     if not result.get("ok"):
         err = result.get("error", "Login failed")
-        if wants_json:
+        if request.is_json:
             return jsonify({"success": False, "error": err}), 401
         return render_template("index.html", error=err)
 
     session["admin_logged_in"] = True
     session["admin_user"] = result.get("user")
 
-    # ✅ Always return JSON for fetch/XHR
-    if wants_json:
+    if request.is_json:
         return jsonify({"success": True, "message": "Login successful"}), 200
 
     return redirect(url_for("dashboard"))
-
 
 
 @app.route("/logout", methods=["GET"])
@@ -171,6 +153,7 @@ def dashboard():
 # ---------------------------
 # ✅ EXISTING ROUTES
 # ---------------------------
+
 @app.route("/user-summary", methods=["GET", "POST"])
 @login_required
 def user_summary():
@@ -421,6 +404,7 @@ def send_message_to_user(magic_word_user_id):
             "saved": message_data
         }), 200
 
+
     except Exception as e:
         logging.exception("Error in send_message_to_user endpoint")
         return jsonify({"success": False, "error": str(e)}), 500
@@ -446,6 +430,7 @@ def toggle_interaction(chat_id):
         if not doc.exists:
             return jsonify({"success": False, "error": "Chat not found"}), 404
 
+        # Update the field
         doc_ref.update({"isHumanInteraction": is_human})
 
         return jsonify({"success": True, "chatId": chat_id, "isHumanInteraction": is_human}), 200
@@ -456,328 +441,7 @@ def toggle_interaction(chat_id):
 
 
 # ---------------------------
-# ✅ GET CHAT MESSAGES (POLLING)
-# ---------------------------
-@app.route("/api/chats/<chat_id>/messages", methods=["GET"])
-@login_required
-def api_chat_messages(chat_id):
-    try:
-        from customerService.user_summary import _ts_to_iso, _iso_to_readable
-        
-        db = get_project_b_firestore()
-        if db is None:
-            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
-
-        messages_ref = (
-            db.collection("chats")
-            .document(chat_id)
-            .collection("messages")
-            .order_by("created_at", direction=gfirestore.Query.DESCENDING)
-            .limit(50)
-        )
-        
-        docs = messages_ref.stream()
-        messages = []
-        for doc in docs:
-            d = doc.to_dict() or {}
-            d["id"] = doc.id
-            
-            if "created_at" in d:
-                iso = _ts_to_iso(d["created_at"])
-                d["created_at"] = iso
-                d["created_at_readable"] = _iso_to_readable(iso)
-            
-            messages.append(d)
-        
-        # Reverse to show oldest first (chronological order for chat UI)
-        messages.reverse()
-
-        return jsonify({"success": True, "messages": messages}), 200
-
-    except Exception as e:
-        logging.exception("Error fetching chat messages")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-
-# ---------------------------
-# ✅ UPDATE STATUS / CREATE SERVICE REQUEST
-# ---------------------------
-@app.route("/api/magic-words/<magic_word_id>/status", methods=["PUT"])
-@login_required
-def update_magic_word_status(magic_word_id):
-    """Update magic word request status and user details"""
-    magic_word_user_id = magic_word_id
-    try:
-        from customerService.magic_word_summary import (
-            create_service_request, 
-            send_service_request_message,
-            create_service_order,
-            send_booking_confirmation_message
-        )
-        from datetime import datetime
-        
-        db = get_project_b_firestore()
-        
-        # Get current status
-        magic_doc = db.collection("magicWordUser").document(magic_word_user_id).get()
-        if not magic_doc.exists:
-            return jsonify({"success": False, "error": "Magic word not found"}), 404
-        
-        current_data = magic_doc.to_dict()
-        current_status = current_data.get("status", "requested")
-        chat_id = current_data.get("chatId")
-        user_id = current_data.get("userId")
-        magic_word = current_data.get("magicWord")
-        service_request_id = current_data.get("serviceRequestId")
-        
-        # Determine next status
-        if current_status == "requested":
-            new_status = "inProgress"
-        elif current_status == "inProgress":
-            new_status = "completed"
-        else:
-            return jsonify({"success": False, "error": "Status cannot be changed"}), 400
-        
-        # Get booking details from request body
-        request_body = request.get_json() or {}
-        booking_details = request_body.get("details", {})
-        
-        # ✅ Get payment status from booking details
-        payment_status = booking_details.get("paymentStatus", "pending")
-        
-        # ✅ Update user details if provided
-        if booking_details.get("userId") and booking_details.get("userUpdate"):
-            user_update = booking_details.get("userUpdate")
-            db.collection("users").document(booking_details.get("userId")).update({
-                "firstName": user_update.get("firstName", ""),
-                "lastName": user_update.get("lastName", ""),
-                "phoneNumber": user_update.get("phoneNumber", ""),
-                "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
-            })
-            logging.info(f"✅ User {booking_details.get('userId')} updated")
-            print(f"👤 USER UPDATE: Phone={user_update.get('phoneNumber')}, Name={user_update.get('firstName')} {user_update.get('lastName')}")
-        
-        # Update status in Firestore
-        db.collection("magicWordUser").document(magic_word_user_id).update({
-            "status": new_status,
-            "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
-        })
-        
-        logging.info(f"✅ Magic word {magic_word_user_id} status changed: {current_status} → {new_status}")
-        
-        # 📝 Create service request when status changes to inProgress
-        if new_status == "inProgress":
-            print(f"📝 Creating service request with details...")
-            print(f"💳 Payment Status: {payment_status}")
-            
-            sr_result = create_service_request(magic_word_user_id, current_data, booking_details)
-            print(f"📝 Service request result: {sr_result}")
-            
-            if sr_result.get("success"):
-                service_request_id = sr_result.get("service_request_id")
-                
-                # ✅ Check if payment is successful
-                if payment_status == "success":
-                    print(f"✅ PAYMENT SUCCESS - Creating service order...")
-                    
-                    # 🎫 Create booking order immediately
-                    order_result = create_service_order(
-                        magic_word_user_id, 
-                        service_request_id,
-                        booking_details
-                    )
-                    print(f"🎫 Order result: {order_result}")
-                    
-                    if order_result.get("success"):
-                        # ✅ Update magic word status to reflect payment success
-                        db.collection("magicWordUser").document(magic_word_user_id).update({
-                            "paymentStatus": "success",
-                            "orderStatus": "booked",
-                            "serviceOrderId": order_result.get("service_order_id"),
-                            "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
-                        })
-                        
-                        # Send confirmation message
-                        msg_result = send_booking_confirmation_message(chat_id, booking_details)
-                        print(f"📨 Confirmation message sent: {msg_result}")
-                    else:
-                        logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
-                else:
-                    print(f"⏳ Payment pending/failed - Order not created yet")
-                    # Send service request confirmation (not booking confirmation)
-                    msg_result = send_service_request_message(chat_id, magic_word, booking_details)
-                    print(f"📨 Service request message sent: {msg_result}")
-            else:
-                logging.warning(f"⚠️ Service request creation failed: {sr_result.get('error')}")
-        
-        # 🎫 Create booking order when status changes to completed (if not already created via payment)
-        if new_status == "completed" and service_request_id:
-            print(f"🎫 Creating booking order from completed status...")
-            order_result = create_service_order(
-                magic_word_user_id, 
-                service_request_id,
-                booking_details
-            )
-            print(f"🎫 Order result: {order_result}")
-            
-            if order_result.get("success"):
-                msg_result = send_booking_confirmation_message(chat_id, booking_details)
-                print(f"📨 Confirmation message sent: {msg_result}")
-            else:
-                logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
-        
-        return jsonify({
-            "success": True,
-            "new_status": new_status,
-            "payment_status": payment_status,
-            "message": f"Status updated to {new_status} with payment status: {payment_status}"
-        })
-        
-    except Exception as e:
-        logging.exception("Error updating magic word status")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-
-# ---------------------------
-# ✅ MONUMENTS & SERVICES
-# ---------------------------
-@app.route("/api/monuments", methods=["GET"])
-@login_required
-def api_monuments():
-    try:
-        db = get_project_b_firestore()
-        if db is None:
-            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
-
-        docs = db.collection("serviceMonument").stream()
-        items = []
-        for doc in docs:
-            d = doc.to_dict() or {}
-            d["id"] = doc.id
-            items.append(d)
-
-        return jsonify({"success": True, "monuments": items}), 200
-    except Exception as e:
-        logging.exception("Error fetching monuments")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-
-@app.route("/api/service-languages", methods=["GET"])
-@login_required
-def api_service_languages():
-    try:
-        db = get_project_b_firestore()
-        if db is None:
-            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
-
-        # Assuming 'serviceLanguage' is the collection name
-        docs = db.collection("serviceLanguage").stream()
-        items = []
-        for doc in docs:
-            d = doc.to_dict() or {}
-            d["id"] = doc.id
-            items.append(d)
-        
-        return jsonify({"success": True, "languages": items}), 200
-    except Exception as e:
-        logging.exception("Error fetching languages")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-
-@app.route("/api/monuments/<monument_id>/services", methods=["GET"])
-@login_required
-def get_services_by_monument(monument_id):
-    """Get services available for a specific monument - ONLY isAvailable=true"""
-    try:
-        db = get_project_b_firestore()
-        
-        print(f"🏛️ Fetching services for monument: {monument_id}")
-        
-        # Get the monument document
-        monument_doc = db.collection("serviceMonument").document(monument_id).get()
-        if not monument_doc.exists:
-            print(f"⚠️ Monument {monument_id} not found")
-            return jsonify({
-                "success": False,
-                "services": [],
-                "error": f"Monument not found"
-            }), 404
-        
-        monument_data = monument_doc.to_dict() or {}
-        print(f"🏛️ Monument data keys:", list(monument_data.keys()))
-        
-        # ✅ Get serviceAvilable array from monument document
-        service_available = monument_data.get("serviceAvilable", [])
-        
-        if not service_available:
-            print(f"⚠️ No serviceAvilable array found in monument")
-            return jsonify({
-                "success": True,
-                "services": [],
-                "message": "No services available for this monument"
-            })
-        
-        print(f"📦 Total services in serviceAvilable: {len(service_available)}")
-        
-        # ✅ Debug: Print all services and their isAvailable status
-        for idx, service in enumerate(service_available):
-            is_avail = service.get("isAvilable")
-            print(f"   Service {idx}: title={service.get('title')}, isAvailable={is_avail}, type={type(is_avail)}, serviceId={service.get('id')} ")
-        
-        # ✅ Filter ONLY services where isAvailable is true
-        available_services = []
-        for service in service_available:
-            is_available = service.get("isAvilable", False)
-            # Only include if isAvailable is boolean True
-            if is_available is True:
-                available_services.append(service)
-                print(f"   ✅ Including: {service.get('title')}")
-            else:
-                print(f"   ❌ Skipping: {service.get('title')} (isAvailable={is_available})")
-        
-        print(f"✅ Found {len(available_services)} AVAILABLE services out of {len(service_available)} total")
-        
-        if not available_services:
-            print(f"⚠️ NO services have isAvailable=true")
-            return jsonify({
-                "success": True,
-                "services": [],
-                "message": "No available services for this monument"
-            })
-        
-        # ✅ Format services for dropdown - ONLY available ones
-        formatted_services = [
-            {
-                "id": service.get("id", ""),
-                "title": service.get("title", ""),
-                "name": service.get("name", ""),
-                "description": service.get("description", ""),
-                "isAvilable": True  # ✅ Confirmed these are all true
-            }
-            for service in available_services
-        ]
-        
-        print(f"✅ Returning {len(formatted_services)} formatted services:")
-        for svc in formatted_services:
-            print(f"   - {svc['title']}")
-        
-        return jsonify({
-            "success": True,
-            "services": formatted_services
-        })
-        
-    except Exception as e:
-        logging.exception(f"Error fetching services for monument {monument_id}")
-        print(f"❌ Error: {str(e)}")
-        return jsonify({
-            "success": False,
-            "error": str(e),
-            "services": []
-        }), 500
-
-
-# ---------------------------
-# ✅ UPLOAD IMAGE (NO login_required)
+# ✅ UPLOAD IMAGE (NO login_required as you asked)
 # ---------------------------
 @app.route("/api/upload-customer-service-image", methods=["POST"])
 def upload_customer_service_image():
