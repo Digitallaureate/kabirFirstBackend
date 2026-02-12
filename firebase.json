@@ -13,6 +13,24 @@
       "runtime": "python313"
     }
   ],
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/support",
+        "function": "customerService_app"
+      },
+      {
+        "source": "/support/**",
+        "function": "customerService_app"
+      }
+    ]
+  },
   "emulators": {
     "functions": {
       "port": 5001

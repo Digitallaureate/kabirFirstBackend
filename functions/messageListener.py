@@ -49,7 +49,9 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
         content = message_data.get("content", "")
         location = message_data.get("location", "")
         created_at = message_data.get("created_at", datetime.utcnow())
-        sender_user_id = message_data.get("user_id", "")
+        sender_user_id = str(message_data.get("user_id", "")).strip()  # ✅ Clean whitespace
+
+        logging.info(f"🔎 RAW user_id from DB: '{message_data.get('user_id')}' -> Cleaned: '{sender_user_id}'")
 
         # 1️⃣ Skip user messages
         if role == "user":
@@ -58,8 +60,11 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
             return
 
         # 2️⃣ Avoid infinite loop: skip media/system assistant messages
-        if role == "assistant" and sender_user_id in ("ImageG", "AudioG", "VideoG", "ErrorG"):
-            logging.info(f"⏭️ Skipping secondary assistant message from {sender_user_id}")
+        logging.warning(f"🔎 Checking sender: '{sender_user_id}' (Role: {role})")
+
+        # ✅ FIXED: Simplified check - skip immediately if sender is CustomerService or error/system
+        if sender_user_id in ("ImageG", "AudioG", "VideoG", "ErrorG", "CustomerService"):
+            logging.warning(f"⏭️ Skipping message from ignored sender: '{sender_user_id}'")
             return
 
         if role == "assistant":
@@ -323,6 +328,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
             logging.info(f"✅ Assistant message logged: {message_id}")
 
             # --- Find latest USER message to use for process-text ---
+            last_user_message_id = None
             last_user_content = None
             last_user_location = None
             try:
@@ -337,6 +343,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                 last_user_docs = last_user_query.get()
 
                 if last_user_docs:
+                    last_user_message_id = last_user_docs[0].id  # ✅ add this
                     last_user_data = last_user_docs[0].to_dict()
                     last_user_content = last_user_data.get("content")
                     last_user_location = last_user_data.get("location")
@@ -355,63 +362,122 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
             # --- NEW: Check for magic words in last user message ---
             if last_user_content:
                 try:
-                    logging.info("🔮 Checking for magic words in user message...")
-                    
-                    db = firestore.client()
-                    
-                    # Fetch all active magic words from magicWord collection
-                    magic_words_query = db.collection("magicWord").where("isActive", "==", True).stream()
-                    magic_words_list = []
-                    
-                    for magic_doc in magic_words_query:
-                        magic_data = magic_doc.to_dict()
-                        # your schema uses 'title' for the magic word text
-                        magic_word = magic_data.get("title")
-                        if magic_word:
-                            magic_words_list.append({
-                                "id": magic_doc.id,
-                                "word": magic_word.lower(),
-                                "data": magic_data
-                            })
-                    
-                    logging.info(f"📋 Found {len(magic_words_list)} magic words to check")
-                    
-                    # Check if any magic word is in user message (case-insensitive)
-                    user_content_lower = last_user_content.lower()
-                    matched_magic_words = []
-                    
-                    for magic in magic_words_list:
-                        if magic["word"] in user_content_lower:
-                            matched_magic_words.append(magic)
-                            logging.info(f"✨ Magic word matched: '{magic['word']}'")
-                    
-                    # If magic words found, update magicWordUser collection
-                    if matched_magic_words:
-                        for matched in matched_magic_words:
-                            magic_user_doc_id = f"{message_id}_{matched['id']}"
-                            magic_user_data = {
-                                "chatId": chat_id,
-                                "messageId": message_id,
-                                "userId": user_id,
-                                "magicWordId": matched["id"],
-                                "magicWord": matched["word"],
-                                "userMessage": last_user_content,
-                                "assistantMessage": content,
-                                "location": location or user_location_name,
-                                "matchedAt": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
-                                "isActive": True,
-                                "status": "requested",
-                            }
-                            
-                            db.collection("magicWordUser").document(magic_user_doc_id).set(magic_user_data)
-                            logging.info(f"✅ Magic word user record created/updated: {magic_user_doc_id}")
+                    # IMPORTANT: you must have last_user_message_id captured in your last_user_query block
+                    if not last_user_message_id:
+                        logging.warning("⚠️ last_user_message_id missing; cannot create magicWordUser safely")
                     else:
-                        logging.info("ℹ️ No magic words found in user message")
-                        
+                        logging.info("🔮 Checking for magic words in last user message...")
+
+                        # Fetch active magic words
+                        magic_words_query = db.collection("magicWord").where("isActive", "==", True).stream()
+                        magic_words_list = []
+                        for magic_doc in magic_words_query:
+                            magic_data = magic_doc.to_dict()
+                            magic_word = magic_data.get("title")
+                            if magic_word:
+                                magic_words_list.append({
+                                    "id": magic_doc.id,
+                                    "word": magic_word.lower()
+                                })
+
+                        user_content_lower = last_user_content.lower()
+                        matched_magic_words = [m for m in magic_words_list if m["word"] in user_content_lower]
+
+                        if matched_magic_words:
+                            for matched in matched_magic_words:
+                                # ✅ Use USER message id, not assistant message id
+                                magic_user_doc_id = f"{last_user_message_id}_{matched['id']}"
+                                doc_ref = db.collection("magicWordUser").document(magic_user_doc_id)
+
+                                # ✅ Create only once
+                                logging.warning(f"🔍 Checking if request exists: {magic_user_doc_id}")
+                                if doc_ref.get().exists:
+                                    logging.warning(f"⚠️ magicWordUser already exists: {magic_user_doc_id} (skip)")
+                                    continue
+
+                                magic_user_data = {
+                                    "chatId": chat_id,
+                                    "messageId": last_user_message_id,     # ✅ user message id
+                                    "userId": user_id,
+                                    "magicWordId": matched["id"],
+                                    "magicWord": matched["word"],
+                                    "userMessage": last_user_content,
+                                    "assistantMessage": content,              # ✅ don't set from CS/assistant
+                                    "location": (last_user_location or location or user_location_name or ""),
+                                    "matchedAt": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
+                                    "isActive": True,
+                                    "status": "requested",
+                                }
+
+                                doc_ref.set(magic_user_data)
+                                logging.info(f"✅ Magic word user record CREATED: {magic_user_doc_id}")
+                        else:
+                            logging.info("ℹ️ No magic words found in last user message")
+
                 except Exception as magic_error:
                     logging.error(f"❌ Error checking magic words: {magic_error}")
             else:
                 logging.warning("⚠️ No user content available to check for magic words")
+
+            # if last_user_content:
+            #     try:
+            #         logging.info("🔮 Checking for magic words in user message...")
+                    
+            #         db = firestore.client()
+                    
+            #         # Fetch all active magic words from magicWord collection
+            #         magic_words_query = db.collection("magicWord").where("isActive", "==", True).stream()
+            #         magic_words_list = []
+                    
+            #         for magic_doc in magic_words_query:
+            #             magic_data = magic_doc.to_dict()
+            #             # your schema uses 'title' for the magic word text
+            #             magic_word = magic_data.get("title")
+            #             if magic_word:
+            #                 magic_words_list.append({
+            #                     "id": magic_doc.id,
+            #                     "word": magic_word.lower(),
+            #                     "data": magic_data
+            #                 })
+                    
+            #         logging.info(f"📋 Found {len(magic_words_list)} magic words to check")
+                    
+            #         # Check if any magic word is in user message (case-insensitive)
+            #         user_content_lower = last_user_content.lower()
+            #         matched_magic_words = []
+                    
+            #         for magic in magic_words_list:
+            #             if magic["word"] in user_content_lower:
+            #                 matched_magic_words.append(magic)
+            #                 logging.info(f"✨ Magic word matched: '{magic['word']}'")
+                    
+            #         # If magic words found, update magicWordUser collection
+            #         if matched_magic_words:
+            #             for matched in matched_magic_words:
+            #                 magic_user_doc_id = f"{message_id}_{matched['id']}"
+            #                 magic_user_data = {
+            #                     "chatId": chat_id,
+            #                     "messageId": message_id,
+            #                     "userId": user_id,
+            #                     "magicWordId": matched["id"],
+            #                     "magicWord": matched["word"],
+            #                     "userMessage": last_user_content,
+            #                     "assistantMessage": content,
+            #                     "location": location or user_location_name,
+            #                     "matchedAt": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
+            #                     "isActive": True,
+            #                     "status": "requested",
+            #                 }
+                            
+            #                 db.collection("magicWordUser").document(magic_user_doc_id).set(magic_user_data)
+            #                 logging.info(f"✅ Magic word user record created/updated: {magic_user_doc_id}")
+            #         else:
+            #             logging.info("ℹ️ No magic words found in user message")
+                        
+            #     except Exception as magic_error:
+            #         logging.error(f"❌ Error checking magic words: {magic_error}")
+            # else:
+            #     logging.warning("⚠️ No user content available to check for magic words")
 
             # --- Call chatSuggestionData (existing) ---
             if chapter_id:

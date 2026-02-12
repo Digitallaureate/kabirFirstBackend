@@ -12,7 +12,7 @@ except Exception as e:
     logging.exception("Failed to init Firestore client: %s", e)
 
 
-def get_magicword_requests(limit: int = 100) -> dict:
+def get_magicword_requests(limit: int = 1000) -> dict:
     """
     Fetch magic word triggers from magicWordUser where status is "requested" OR "inProgress".
     Returns a list sorted by matchedAt desc (newest first).
@@ -100,39 +100,40 @@ def get_magicword_detail(magic_word_user_id: str) -> dict:
             return {"found": False, "error": "Chat not found"}
 
         chat_data = chat_doc.to_dict() or {}
+        chat_data["id"] = chat_doc.id
+        
+        # 3️⃣ Get User ID
         participants = chat_data.get("participants", [])
+        user_id = None
+        for p in participants:
+            if p not in ["System", "system", "CustomerService"]:
+                user_id = p
+                break
 
-        if not participants:
-            return {"found": False, "error": "No participants found in chat"}
+        if user_id:
+            # 4️⃣ Get User Details
+            user_doc = db.collection("users").document(user_id).get()
+            if user_doc.exists:
+                user_data = user_doc.to_dict() or {}
+                user_data["id"] = user_id
 
-        user_id = participants[0]  # First participant is the user
-
-        # 3️⃣ Get user details from users collection
-        user_doc = db.collection("users").document(user_id).get()
-        user_data = {}
-        if user_doc.exists:
-            user_data = user_doc.to_dict() or {}
-
-        # 4️⃣ Get latest user location from user_locations collection
-        user_location_data = None
-        try:
-            location_query = (
-                db.collection("user_locations")
-                .where("user_id", "==", user_id)
-                .order_by("created_at", direction=gfirestore.Query.DESCENDING)
-                .limit(1)
-            )
-            location_docs = location_query.get()
-
-            if location_docs:
-                user_location_data = location_docs[0].to_dict() or {}
-                # Normalize timestamp
-                if "created_at" in user_location_data:
-                    iso = _ts_to_iso(user_location_data["created_at"])
-                    user_location_data["created_at"] = iso
-                    user_location_data["created_at_readable"] = _iso_to_readable(iso)
-        except Exception as loc_error:
-            logging.warning(f"⚠️ Error fetching user location: {loc_error}")
+            # 5️⃣ Get User Location
+            try:
+                location_query = (
+                    db.collection("user_locations")
+                    .where(filter=FieldFilter("user_id", "==", user_id))
+                    .order_by("created_at", direction=gfirestore.Query.DESCENDING)
+                    .limit(1)
+                )
+                location_docs = location_query.get()
+                if location_docs:
+                    user_location_data = location_docs[0].to_dict() or {}
+                    if "created_at" in user_location_data:
+                        iso = _ts_to_iso(user_location_data["created_at"])
+                        user_location_data["created_at"] = iso
+                        user_location_data["created_at_readable"] = _iso_to_readable(iso)
+            except Exception as loc_error:
+                logging.warning(f"⚠️ Error fetching user location: {loc_error}")
 
         # 5️⃣ Normalize magic word timestamps
         if "matchedAt" in magic_data:
@@ -140,6 +141,8 @@ def get_magicword_detail(magic_word_user_id: str) -> dict:
             magic_data["matchedAt"] = iso
             magic_data["matchedAt_readable"] = _iso_to_readable(iso)
 
+        print(f"✅ Returning details for {magic_word_user_id}. Found=True")
+        
         # 6️⃣ Return complete detail
         return {
             "found": True,
@@ -242,9 +245,12 @@ def get_user_completed_orders(user_id: str, limit: int = 50) -> dict:
             # User asked for 'updateAt' (updated_at). Fallback to created_at if needed.
             ts_val = d.get("updated_at") or d.get("created_at")
             if ts_val:
-                d["timestamp"] = _iso_to_readable(_ts_to_iso(ts_val))
+                iso_val = _ts_to_iso(ts_val)
+                d["timestamp"] = _iso_to_readable(iso_val)
+                d["timestamp_iso"] = iso_val
             else:
                 d["timestamp"] = "N/A"
+                d["timestamp_iso"] = None
 
             # Ensure fields exist for frontend
             d["item_id"] = d.get("item_id", "N/A")
@@ -385,9 +391,9 @@ def send_message_to_chat(chat_id: str, user_id: str, magic_word: str) -> dict:
         message_data = {
             "role": "assistant",
             "content": f"Your '{magic_word}' request has been processed and completed. Our team will contact you shortly with updates.",
-            "user_id": "SystemG",  # System message sender
             "created_at": _get_iso_timestamp(),
             "location": chat_location,
+            "user_id": "CustomerService",  # ✅ Identify sender
         }
 
         # Add message to chat's messages subcollection
@@ -449,9 +455,9 @@ def send_service_request_message(chat_id: str, magic_word: str, booking_details:
         message_data = {
             "role": "assistant",
             "content": message_text,
-            "user_id": "SystemG",
             "created_at": _get_iso_timestamp(),
             "location": chat_location,
+            # "user_id": "CustomerService",  # ✅ Identify sender
         }
         
         db.collection("chats").document(chat_id).collection("messages").add(message_data)
@@ -562,9 +568,9 @@ Your booking has been confirmed! Thank you for choosing our service.
         message_data = {
             "role": "assistant",
             "content": message_text,
-            "user_id": "SystemG",  # System message sender
             "created_at": _get_iso_timestamp(),
             "location": chat_location,
+            # "user_id": "CustomerService",  # ✅ Identify sender
         }
         
         db.collection("chats").document(chat_id).collection("messages").add(message_data)
@@ -832,6 +838,8 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
             # trip
             "date_of_travel": _pick(sd, "date_of_travel", "dateOfTravel", default="") or "",
             "time_slot": time_slot,
+            "start_otp": _pick(sd, "startOtp", "start_otp", default="") or "",
+            "end_otp": _pick(sd, "endOtp", "end_otp", default="") or "",
             "number_of_travelers": number_of_travelers,
             "language_preference": language_preference,  # ✅ STORE LANGUAGES HERE
             "monument_to_visit": monument_title,

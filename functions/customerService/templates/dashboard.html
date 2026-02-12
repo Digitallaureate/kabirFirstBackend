@@ -646,287 +646,296 @@
 
                             <!-- Request Count & Refresh -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="request-count">Total: <span id="requestCount">0</span></span>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="request-count mb-0">Total: <span id="requestCount">0</span></span>
+                                    <button id="soundToggleBtn" class="btn btn-outline-secondary btn-sm"
+                                        onclick="toggleSound()">
+                                        🔇 Sound Off
+                                    </button>
+                                    <!-- <button class="btn btn-outline-info btn-sm" onclick="testNotification()">
+                                        🔔 Test
+                                    </button> -->
+                                </div>
                                 <button class="btn btn-sm btn-outline-secondary" onclick="loadMagicWordRequests()">
                                     🔄 Refresh
                                 </button>
                             </div>
+                            🔄 Refresh
+                            </button>
+                        </div>
 
-                            <!-- GRID VIEW: Magic Word Requests -->
-                            <div id="requestsList" class="grid-requests">
-                                <!-- Cards will be injected here -->
-                            </div>
+                        <!-- GRID VIEW: Magic Word Requests -->
+                        <div id="requestsList" class="grid-requests">
+                            <!-- Cards will be injected here -->
+                        </div>
 
-                            <!-- Empty Message -->
-                            <div id="emptyMessage" class="alert alert-info text-center hidden">
-                                No magic word requests found
-                            </div>
+                        <!-- Empty Message -->
+                        <div id="emptyMessage" class="alert alert-info text-center hidden">
+                            No magic word requests found
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- DETAIL VIEW (Full Screen with 3-Column Layout) -->
-        <div id="detailView" class="hidden">
-            <!-- Back Button & Header with AI Toggle -->
-            <div class="mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">← Back to
-                        Dashboard</button>
+    <!-- DETAIL VIEW (Full Screen with 3-Column Layout) -->
+    <div id="detailView" class="hidden">
+        <!-- Back Button & Header with AI Toggle -->
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">← Back to
+                    Dashboard</button>
 
-                    <!-- AI/Team Toggle Switch -->
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="form-check form-switch"
-                            style="transform: scale(1.2); transform-origin: right center;">
-                            <input class="form-check-input" type="checkbox" id="humanInteractionToggle"
-                                onchange="toggleHumanInteraction()">
-                            <label class="form-check-label" for="humanInteractionToggle" id="toggleLabel">
-                                kabirAI
-                            </label>
-                        </div>
-                        <span id="toggleStatus" class="badge bg-secondary">Active</span>
+                <!-- AI/Team Toggle Switch -->
+                <div class="d-flex align-items-center gap-3">
+                    <div class="form-check form-switch" style="transform: scale(1.2); transform-origin: right center;">
+                        <input class="form-check-input" type="checkbox" id="humanInteractionToggle"
+                            onchange="toggleHumanInteraction()">
+                        <label class="form-check-label" for="humanInteractionToggle" id="toggleLabel">
+                            kabirAI
+                        </label>
                     </div>
-                </div>
-
-                <h1>Magic Word Request Detail</h1>
-            </div>
-
-            <!-- 3-Column Detail Layout -->
-            <div class="detail-view-container">
-
-                <!-- LEFT COLUMN: User Details & Location (30%) -->
-                <div class="detail-column">
-                    <!-- User Info Card -->
-                    <div class="detail-section card">
-                        <div class="card-header">
-                            <h5 class="mb-0">👤 User Details</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>User ID:</strong> <code id="detail-userId"></code></p>
-                            <p><strong>Name:</strong> <span id="detail-userName"></span></p>
-                            <p><strong>Email:</strong> <span id="detail-userEmail"></span></p>
-                            <p><strong>Phone:</strong> <span id="detail-userPhone"></span></p>
-                            <hr />
-                            <p><strong>Photo:</strong></p>
-                            <img id="detail-userPhoto" src="" alt="User Photo"
-                                style="max-width: 100px; max-height: 100px; border-radius: 5px; display: none;" />
-                        </div>
-                    </div>
-
-                    <!-- User Location Card -->
-                    <div class="detail-section card">
-                        <div class="card-header">
-                            <h5 class="mb-0">📍 Location</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Place:</strong> <span id="detail-locName"></span></p>
-                            <p><strong>Latitude:</strong> <span id="detail-locLat"></span></p>
-                            <p><strong>Longitude:</strong> <span id="detail-locLon"></span></p>
-                            <p><strong>Recorded At:</strong> <span id="detail-locRecordedAt"></span></p>
-                            <p><a id="detail-mapLink" href="" target="_blank" class="btn btn-sm btn-primary w-100">🗺️
-                                    View on Map</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MIDDLE COLUMN: Request Information (30%) -->
-                <div class="detail-column">
-                    <!-- Magic Word Request Info -->
-                    <div class="detail-section card" style="flex-shrink: 0;">
-                        <div class="card-header">
-                            <h5 class="mb-0">✨ Request Information</h5>
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Magic Word:</strong> <span id="detail-magicWord" class="badge bg-warning"></span>
-                            </p>
-                            <p><strong>Status:</strong> <span id="detail-status" class="badge"></span></p>
-                            <p><strong>Matched At:</strong> <span id="detail-matchedAt"></span></p>
-                            <hr />
-                            <p><strong>Chat ID:</strong> <code id="detail-chatId"></code></p>
-                            <p><strong>Message ID:</strong> <code id="detail-messageId"></code></p>
-                            <p><strong>Location:</strong> <span id="detail-location"></span></p>
-                            <hr />
-                            <button id="statusChangeBtn" class="btn btn-primary btn-sm w-100 mb-2"
-                                onclick="changeStatus()">Next
-                                Status</button>
-                            <button class="btn btn-outline-danger btn-sm w-100 mb-2" onclick="closeRequest()">❌ Close
-                                Request</button>
-                        </div>
-                    </div>
-
-                    <!-- Request Summary from magicWordUser -->
-                    <!-- Collapsible History Sections -->
-                    <!-- Collapsible History Sections -->
-                    <div class="detail-section card"
-                        style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
-                        <div class="card-header">
-                            <h5 class="mb-0">� User History</h5>
-                        </div>
-                        <div class="card-body" style="padding: 0; flex-grow: 1; overflow-y: auto;">
-
-                            <div class="accordion accordion-flush" id="historyAccordion">
-
-                                <!-- 1️⃣ Request History -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingRequests">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseRequests" aria-expanded="true"
-                                            aria-controls="collapseRequests" style="font-weight: 600; color: #2c3e50;">
-                                            📊 Request History
-                                        </button>
-                                    </h2>
-                                    <div id="collapseRequests" class="accordion-collapse collapse show"
-                                        aria-labelledby="headingRequests" data-bs-parent="#historyAccordion">
-                                        <div class="accordion-body" style="background-color: #f8f9fa;">
-                                            <div id="requestSummaryContainer">
-                                                <div id="requestSummaryContent"></div>
-                                                <div id="noRequestSummary"
-                                                    class="alert alert-secondary text-center hidden"
-                                                    style="margin: 0.5rem;">
-                                                    No requests found
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 2️⃣ Order History -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingOrders">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseOrders"
-                                            aria-expanded="false" aria-controls="collapseOrders"
-                                            onclick="loadOrderHistory()" style="font-weight: 600; color: #2c3e50;">
-                                            🛒 Order History
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOrders" class="accordion-collapse collapse"
-                                        aria-labelledby="headingOrders" data-bs-parent="#historyAccordion">
-                                        <div class="accordion-body">
-                                            <div id="orderHistoryContent">
-                                                <div class="text-center text-muted p-2">Loading orders...</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 3️⃣ Payment History -->
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="headingPayments">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapsePayments"
-                                            aria-expanded="false" aria-controls="collapsePayments"
-                                            onclick="loadPaymentHistory()" style="font-weight: 600; color: #2c3e50;">
-                                            💳 Payment History
-                                        </button>
-                                    </h2>
-                                    <div id="collapsePayments" class="accordion-collapse collapse"
-                                        aria-labelledby="headingPayments" data-bs-parent="#historyAccordion">
-                                        <div class="accordion-body">
-                                            <div id="paymentHistoryContent">
-                                                <div class="text-center text-muted p-2">Loading payments...</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN: Chat & Send Message (40%) -->
-                <div class="detail-column">
-                    <!-- Chat Context -->
-                    <div class="detail-section card">
-                        <div class="card-header">
-                            <h5 class="mb-0">💬 Chat Messages (Last 10)</h5>
-                        </div>
-                        <div class="card-body" style="padding: 0;">
-                            <div id="detail-chatContext" class="chat-messages-container"></div>
-                            <div id="noChatContextMessage" class="alert alert-secondary text-center hidden"
-                                style="margin: 1rem;">No
-                                messages</div>
-                        </div>
-                    </div>
-
-                    <!-- Send Message Section -->
-                    <div class="detail-section card">
-                        <div class="card-header">
-                            <h5 class="mb-0">✉️ Send Message</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label">Message Type</label>
-                                <select class="form-control" id="messageType" onchange="handleMessageTypeChange()">
-                                    <option value="">Select type...</option>
-                                    <option value="custom">Custom Message</option>
-                                    <option value="service_request">Service Confirmation</option>
-                                    <option value="booking_confirmation">Booking Confirmation</option>
-                                    <option value="general">General Update</option>
-
-                                    <!-- ✅ NEW -->
-                                    <option value="image">Image Message</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3" id="customMessageDiv" style="display: none;">
-                                <label class="form-label">Message</label>
-                                <textarea class="form-control" id="customMessage" rows="2"
-                                    placeholder="Type your message..."></textarea>
-                            </div>
-
-                            <div class="mb-3" id="serviceRequestPreviewDiv" style="display: none;">
-                                <label class="form-label">Preview</label>
-                                <div class="alert alert-info" id="serviceRequestPreview">✅ Your request has been
-                                    created. Our team will
-                                    contact you shortly.</div>
-                            </div>
-
-                            <div class="mb-3" id="bookingPreviewDiv" style="display: none;">
-                                <label class="form-label">Preview</label>
-                                <div class="alert alert-success" id="bookingPreview">🎫 Your booking is confirmed! Thank
-                                    you for
-                                    choosing us.</div>
-                            </div>
-
-                            <div class="mb-3" id="generalUpdateDiv" style="display: none;">
-                                <label class="form-label">Preview</label>
-                                <div class="alert alert-secondary" id="generalUpdatePreview">📢 We're here to help!
-                                    Contact us if you
-                                    have questions.</div>
-                            </div>
-
-                            <!-- ✅ NEW: Image Message UI -->
-                            <div class="mb-3" id="imageMessageDiv" style="display: none;">
-                                <label class="form-label">Upload Image</label>
-                                <input type="file" class="form-control" id="imageFile" accept="image/*" />
-
-                                <div class="mt-3">
-                                    <label class="form-label">Caption (optional)</label>
-                                    <textarea class="form-control" id="imageCaption" rows="2"
-                                        placeholder="Write a message with the image..."></textarea>
-                                </div>
-
-                                <div class="mt-3 hidden" id="imagePreviewWrap">
-                                    <label class="form-label">Preview</label>
-                                    <img id="imagePreview" src=""
-                                        style="max-width: 100%; border-radius: 6px; border: 1px solid #ddd;" />
-                                </div>
-                            </div>
-
-                            <button class="btn btn-primary w-100" onclick="sendMessageToUser()" id="sendMessageBtn">Send
-                                Message</button>
-                        </div>
-                    </div>
+                    <span id="toggleStatus" class="badge bg-secondary">Active</span>
                 </div>
             </div>
 
-            <button class="btn btn-outline-secondary mt-4" onclick="showListView()">← Back to Dashboard</button>
+            <h1>Magic Word Request Detail</h1>
         </div>
+
+        <!-- 3-Column Detail Layout -->
+        <div class="detail-view-container">
+
+            <!-- LEFT COLUMN: User Details & Location (30%) -->
+            <div class="detail-column">
+                <!-- User Info Card -->
+                <div class="detail-section card">
+                    <div class="card-header">
+                        <h5 class="mb-0">👤 User Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>User ID:</strong> <code id="detail-userId"></code></p>
+                        <p><strong>Name:</strong> <span id="detail-userName"></span></p>
+                        <p><strong>Email:</strong> <span id="detail-userEmail"></span></p>
+                        <p><strong>Phone:</strong> <span id="detail-userPhone"></span></p>
+                        <hr />
+                        <p><strong>Photo:</strong></p>
+                        <img id="detail-userPhoto" src="" alt="User Photo"
+                            style="max-width: 100px; max-height: 100px; border-radius: 5px; display: none;" />
+                    </div>
+                </div>
+
+                <!-- User Location Card -->
+                <div class="detail-section card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📍 Location</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Place:</strong> <span id="detail-locName"></span></p>
+                        <p><strong>Latitude:</strong> <span id="detail-locLat"></span></p>
+                        <p><strong>Longitude:</strong> <span id="detail-locLon"></span></p>
+                        <p><strong>Recorded At:</strong> <span id="detail-locRecordedAt"></span></p>
+                        <p><a id="detail-mapLink" href="" target="_blank" class="btn btn-sm btn-primary w-100">🗺️
+                                View on Map</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MIDDLE COLUMN: Request Information (30%) -->
+            <div class="detail-column">
+                <!-- Magic Word Request Info -->
+                <div class="detail-section card" style="flex-shrink: 0;">
+                    <div class="card-header">
+                        <h5 class="mb-0">✨ Request Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Magic Word:</strong> <span id="detail-magicWord" class="badge bg-warning"></span>
+                        </p>
+                        <p><strong>Status:</strong> <span id="detail-status" class="badge"></span></p>
+                        <p><strong>Matched At:</strong> <span id="detail-matchedAt"></span></p>
+                        <hr />
+                        <p><strong>Chat ID:</strong> <code id="detail-chatId"></code></p>
+                        <p><strong>Message ID:</strong> <code id="detail-messageId"></code></p>
+                        <p><strong>Location:</strong> <span id="detail-location"></span></p>
+                        <hr />
+                        <button id="statusChangeBtn" class="btn btn-primary btn-sm w-100 mb-2"
+                            onclick="changeStatus()">Next
+                            Status</button>
+                        <button class="btn btn-outline-danger btn-sm w-100 mb-2" onclick="closeRequest()">❌ Close
+                            Request</button>
+                    </div>
+                </div>
+
+                <!-- Request Summary from magicWordUser -->
+                <!-- Collapsible History Sections -->
+                <!-- Collapsible History Sections -->
+                <div class="detail-section card" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
+                    <div class="card-header">
+                        <h5 class="mb-0">� User History</h5>
+                    </div>
+                    <div class="card-body" style="padding: 0; flex-grow: 1; overflow-y: auto;">
+
+                        <div class="accordion accordion-flush" id="historyAccordion">
+
+                            <!-- 1️⃣ Request History -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingRequests">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseRequests" aria-expanded="true"
+                                        aria-controls="collapseRequests" style="font-weight: 600; color: #2c3e50;">
+                                        📊 Request History
+                                    </button>
+                                </h2>
+                                <div id="collapseRequests" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingRequests" data-bs-parent="#historyAccordion">
+                                    <div class="accordion-body" style="background-color: #f8f9fa;">
+                                        <div id="requestSummaryContainer">
+                                            <div id="requestSummaryContent"></div>
+                                            <div id="noRequestSummary" class="alert alert-secondary text-center hidden"
+                                                style="margin: 0.5rem;">
+                                                No requests found
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2️⃣ Order History -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOrders">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOrders" aria-expanded="false"
+                                        aria-controls="collapseOrders" onclick="loadOrderHistory()"
+                                        style="font-weight: 600; color: #2c3e50;">
+                                        🛒 Order History
+                                    </button>
+                                </h2>
+                                <div id="collapseOrders" class="accordion-collapse collapse"
+                                    aria-labelledby="headingOrders" data-bs-parent="#historyAccordion">
+                                    <div class="accordion-body">
+                                        <div id="orderHistoryContent">
+                                            <div class="text-center text-muted p-2">Loading orders...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3️⃣ Payment History -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingPayments">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapsePayments" aria-expanded="false"
+                                        aria-controls="collapsePayments" onclick="loadPaymentHistory()"
+                                        style="font-weight: 600; color: #2c3e50;">
+                                        💳 Payment History
+                                    </button>
+                                </h2>
+                                <div id="collapsePayments" class="accordion-collapse collapse"
+                                    aria-labelledby="headingPayments" data-bs-parent="#historyAccordion">
+                                    <div class="accordion-body">
+                                        <div id="paymentHistoryContent">
+                                            <div class="text-center text-muted p-2">Loading payments...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Chat & Send Message (40%) -->
+            <div class="detail-column">
+                <!-- Chat Context -->
+                <div class="detail-section card">
+                    <div class="card-header">
+                        <h5 class="mb-0">💬 Chat Messages (Last 10)</h5>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div id="detail-chatContext" class="chat-messages-container"></div>
+                        <div id="noChatContextMessage" class="alert alert-secondary text-center hidden"
+                            style="margin: 1rem;">No
+                            messages</div>
+                    </div>
+                </div>
+
+                <!-- Send Message Section -->
+                <div class="detail-section card">
+                    <div class="card-header">
+                        <h5 class="mb-0">✉️ Send Message</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Message Type</label>
+                            <select class="form-control" id="messageType" onchange="handleMessageTypeChange()">
+                                <option value="">Select type...</option>
+                                <option value="custom">Custom Message</option>
+                                <option value="service_request">Service Confirmation</option>
+                                <option value="booking_confirmation">Booking Confirmation</option>
+                                <option value="general">General Update</option>
+
+                                <!-- ✅ NEW -->
+                                <option value="image">Image Message</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3" id="customMessageDiv" style="display: none;">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" id="customMessage" rows="2"
+                                placeholder="Type your message..."></textarea>
+                        </div>
+
+                        <div class="mb-3" id="serviceRequestPreviewDiv" style="display: none;">
+                            <label class="form-label">Preview</label>
+                            <div class="alert alert-info" id="serviceRequestPreview">✅ Your request has been
+                                created. Our team will
+                                contact you shortly.</div>
+                        </div>
+
+                        <div class="mb-3" id="bookingPreviewDiv" style="display: none;">
+                            <label class="form-label">Preview</label>
+                            <div class="alert alert-success" id="bookingPreview">🎫 Your booking is confirmed! Thank
+                                you for
+                                choosing us.</div>
+                        </div>
+
+                        <div class="mb-3" id="generalUpdateDiv" style="display: none;">
+                            <label class="form-label">Preview</label>
+                            <div class="alert alert-secondary" id="generalUpdatePreview">📢 We're here to help!
+                                Contact us if you
+                                have questions.</div>
+                        </div>
+
+                        <!-- ✅ NEW: Image Message UI -->
+                        <div class="mb-3" id="imageMessageDiv" style="display: none;">
+                            <label class="form-label">Upload Image</label>
+                            <input type="file" class="form-control" id="imageFile" accept="image/*" />
+
+                            <div class="mt-3">
+                                <label class="form-label">Caption (optional)</label>
+                                <textarea class="form-control" id="imageCaption" rows="2"
+                                    placeholder="Write a message with the image..."></textarea>
+                            </div>
+
+                            <div class="mt-3 hidden" id="imagePreviewWrap">
+                                <label class="form-label">Preview</label>
+                                <img id="imagePreview" src=""
+                                    style="max-width: 100%; border-radius: 6px; border: 1px solid #ddd;" />
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary w-100" onclick="sendMessageToUser()" id="sendMessageBtn">Send
+                            Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-secondary mt-4" onclick="showListView()">← Back to Dashboard</button>
+    </div>
     </div>
 
     <!-- Service Request Modal -->
@@ -1044,6 +1053,15 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Start OTP</label>
+                                <input type="text" class="form-control" id="startOtp" placeholder="e.g. 1234">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">End OTP</label>
+                                <input type="text" class="form-control" id="endOtp" placeholder="e.g. 5678">
+                            </div>
+
                             <div class="col-12 mb-3">
                                 <label class="form-label">Description</label>
                                 <textarea class="form-control" id="description" rows="2"></textarea>
@@ -1054,6 +1072,29 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" onclick="submitServiceRequest()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Completion Reason Modal -->
+    <div class="modal fade" id="completionReasonModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Complete Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="completionReason" class="form-label">Reason / Notes</label>
+                        <textarea class="form-control" id="completionReason" rows="3"
+                            placeholder="Enter reason for completion..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitCompletionReason()">Submit</button>
                 </div>
             </div>
         </div>
@@ -1088,7 +1129,93 @@
 
         let currentMagicWordId = null;
         let currentStatus = null;
+        let currentServiceRequestId = null; // ✅ NEW
         let currentFilteredUserId = null;
+
+        // ✅ NEW: Notification State
+        let lastLatestRequestId = null;
+        let lastLatestRequestTime = 0; // ✅ Track timestamp to avoid false positive notifications
+
+        // ✅ Load Sound Preference from LocalStorage (defaults to false)
+        let isSoundEnabled = localStorage.getItem('isSoundEnabled') === 'true';
+
+        // Helper to update button UI safely
+        function updateSoundButtonUI() {
+            const btn = document.getElementById("soundToggleBtn");
+            if (!btn) return;
+
+            if (isSoundEnabled) {
+                btn.textContent = "🔊 Sound On";
+                btn.classList.remove("btn-outline-secondary");
+                btn.classList.add("btn-success");
+            } else {
+                btn.textContent = "🔇 Sound Off";
+                btn.classList.remove("btn-success");
+                btn.classList.add("btn-outline-secondary");
+            }
+        }
+
+        // Initialize button state when DOM is ready
+        document.addEventListener("DOMContentLoaded", () => {
+            updateSoundButtonUI();
+        });
+
+        function toggleSound() {
+            isSoundEnabled = !isSoundEnabled;
+            // ✅ Save state to storage
+            localStorage.setItem('isSoundEnabled', isSoundEnabled);
+
+            updateSoundButtonUI();
+
+            if (isSoundEnabled) {
+                // Play a silent short sound to unlock audio context if needed
+                const audio = document.getElementById("notificationSound");
+                if (audio) {
+                    audio.play().catch(e => console.log("Audio unlock failed, will retry on event", e));
+                }
+            }
+        }
+
+        // ✅ NEW: Test Notification Function
+        function testNotification() {
+            console.log("🔔 Testing Notification...");
+
+            // 1. Play Sound (Force enable mostly for testing if user forgot)
+            const audio = document.getElementById("notificationSound");
+            if (audio) {
+                audio.play().then(() => console.log("🔊 Test Sound Played"))
+                    .catch(e => alert("❌ Sound blocked since you didn't interact/click 'Sound Off' yet: " + e.message));
+            } else {
+                alert("❌ Audio element missing");
+            }
+
+            // 2. Show Toast
+            try {
+                const toast = document.getElementById("newRequestToast");
+                if (toast && typeof bootstrap !== 'undefined') {
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+                    toastBootstrap.show();
+                    console.log("🍞 Test Toast Shown");
+                } else {
+                    // Fallback
+                    const alertDiv = document.createElement("div");
+                    alertDiv.className = "alert alert-primary position-fixed bottom-0 end-0 m-3";
+                    alertDiv.style.zIndex = "9999";
+                    alertDiv.textContent = "🔔 Test Notification!";
+                    document.body.appendChild(alertDiv);
+                    setTimeout(() => alertDiv.remove(), 4000);
+                }
+            } catch (e) {
+                alert("❌ Toast failed: " + e.message);
+            }
+        }
+
+        // ✅ Real-time Polling for Magic Word Requests List
+        // Checks every 5 seconds if the list view is active, then reloads data.
+        setInterval(() => {
+            const listContainer = document.getElementById("listView");
+            loadMagicWordRequests(currentFilteredUserId, true);
+        }, 5000);
 
         function showListView() {
             stopChatPolling();
@@ -1139,14 +1266,14 @@
                 if (summary.latest_location) {
                     document.getElementById("summary-location").textContent = summary.latest_location.location || "N/A";
                     document.getElementById("summary-coords").textContent = `${summary.latest_location.latitude || "?"}, ${summary.latest_location.longitude || "?"}`;
-                    document.getElementById("summary-recordedAt").textContent = summary.latest_location.created_at_readable || "N/A";
+                    document.getElementById("summary-recordedAt").textContent = formatDateShort(summary.latest_location.created_at) || "N/A";
                     document.getElementById("locationCard").style.display = "block";
                 } else {
                     document.getElementById("locationCard").style.display = "none";
                 }
 
                 document.getElementById("summary-chatCount").textContent = summary.chat_count || 0;
-                document.getElementById("summary-latestChat").textContent = summary.latest_chat_createdAt_readable || "N/A";
+                document.getElementById("summary-latestChat").textContent = formatDateShort(summary.latest_chat_createdAt) || "N/A";
                 document.getElementById("userSummaryContent").classList.remove("hidden");
 
                 // ✅ Trigger history loading
@@ -1197,22 +1324,99 @@
             loadMagicWordRequests(null);
         }
 
-        async function loadMagicWordRequests(filterUserId = null) {
+        async function loadMagicWordRequests(filterUserId = null, isBackgroundPoll = false) {
             try {
+                // If background poll and listView is hidden, we might still want to check for NEW items 
+                // but not render the whole list if it's hidden.
+                // However, the original code had a check `if (listContainer && !listContainer.classList.contains("hidden"))`
+                // in the interval. Now we pass `isBackgroundPoll=true` to handle logic.
+
+                // If not viewing list and not filtering, we still fetch to check count?
+                // Or only fetch if viewing list? 
+                // Requirement: "notification... so that custom support team will know that a request has come"
+                // This implies global notification even if in detail view.
+
                 let url = `${API_BASE}/magic-words`;
 
                 if (filterUserId) {
                     url += `?userId=${encodeURIComponent(filterUserId)}`;
-                    console.log(`📍 Loading requests for user: ${filterUserId}`);
+                    // console.log(`📍 Loading requests for user: ${filterUserId}`);
                 } else {
-                    console.log("📍 Loading all requests");
+                    // console.log("📍 Loading all requests");
                 }
 
                 const response = await fetch(url);
                 const data = await response.json();
 
-                console.log("📊 Response data:", data);
-                document.getElementById("requestCount").textContent = data.count || 0;
+                // console.log("📊 Response data:", data);
+
+                const currentCount = data.count || 0;
+                document.getElementById("requestCount").textContent = currentCount;
+
+                // ✅ NEW: Check for new latest ID (better than count check)
+                const latestItem = (data.items && data.items.length > 0) ? data.items[0] : null;
+                const latestId = latestItem ? latestItem.id : null;
+                // Parse matchedAt to timestamp for robust comparison
+                const latestTime = latestItem ? new Date(latestItem.matchedAt).getTime() : 0;
+
+                // Only notify if we have a previous Latest Time AND the current Latest Time is NEWER
+                if (lastLatestRequestTime > 0 && latestTime > lastLatestRequestTime) {
+                    console.log(`🔔 Notification Trigger: New time ${latestTime} > Old time ${lastLatestRequestTime}. Filter: ${filterUserId}`);
+
+                    // Only trigger if we aren't filtering (or if we want notifications even when filtered? usually global count matters)
+                    if (!filterUserId) {
+                        // Play Sound
+                        if (isSoundEnabled) {
+                            console.log("🔊 Playing notification sound...");
+                            const audio = document.getElementById("notificationSound");
+                            if (audio) {
+                                audio.currentTime = 0;
+                                audio.play().catch(e => console.error("❌ Error playing sound:", e));
+                            } else {
+                                console.error("❌ Audio element 'notificationSound' not found!");
+                            }
+                        }
+
+                        // Show visual toast/alert
+                        try {
+                            const toast = document.getElementById("newRequestToast");
+                            if (toast) {
+                                // Check if bootstrap global is available
+                                if (typeof bootstrap !== 'undefined') {
+                                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toast);
+                                    toastBootstrap.show();
+                                    console.log("🍞 Toast notification shown.");
+                                } else {
+                                    // Fallback if bootstrap JS not loaded
+                                    const alertDiv = document.createElement("div");
+                                    alertDiv.className = "alert alert-primary position-fixed bottom-0 end-0 m-3";
+                                    alertDiv.style.zIndex = "9999";
+                                    alertDiv.textContent = "🔔 New Request Received!";
+                                    document.body.appendChild(alertDiv);
+                                    setTimeout(() => alertDiv.remove(), 4000);
+                                }
+                            }
+                        } catch (toastErr) {
+                            console.error("❌ Error showing toast:", toastErr);
+                        }
+                    }
+                }
+
+                // Update tracker
+                if (latestId) {
+                    lastLatestRequestId = latestId;
+                    // Update time if it's new, OR initialize if 0
+                    if (latestTime > lastLatestRequestTime || lastLatestRequestTime === 0) {
+                        lastLatestRequestTime = latestTime;
+                    }
+                }
+
+                // Render List Logic
+                // If the list view is hidden AND it's a background poll, skip rendering HTML to save resources
+                const listContainer = document.getElementById("listView");
+                if (isBackgroundPoll && listContainer.classList.contains("hidden")) {
+                    return; // Don't render if hidden
+                }
 
                 if (!data.found || !data.items || data.items.length === 0) {
                     document.getElementById("emptyMessage").classList.remove("hidden");
@@ -1250,13 +1454,8 @@
                 }
 
                 const html = data.items.map(item => {
-                    const date = new Date(item.matchedAt).toLocaleString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
+                    // Use new helper for nicer time
+                    const date = formatDateShort(item.matchedAt || item.created_at || item.updated_at);
 
                     const messageIdDisplay = item.messageId
                         ? item.messageId.slice(-5)
@@ -1277,13 +1476,33 @@
                 }).join("");
 
                 document.getElementById("requestsList").innerHTML = html;
-                console.log(`✅ Loaded ${data.items.length} requests`);
+                // console.log(`✅ Loaded ${data.items.length} requests`);
 
             } catch (error) {
                 console.error("❌ Error loading requests:", error);
                 document.getElementById("emptyMessage").textContent = "Error loading requests";
                 document.getElementById("emptyMessage").classList.remove("hidden");
                 document.getElementById("filterBadgeContainer").innerHTML = "";
+            }
+        }
+
+        // ✅ Helper: Format Date nicely (e.g. 07 Feb, 02:30 PM)
+        function formatDateShort(isoString) {
+            if (!isoString) return "N/A";
+            try {
+                const date = new Date(isoString);
+                if (isNaN(date.getTime())) return isoString; // Return original if invalid
+
+                return date.toLocaleString('en-US', {
+                    timeZone: 'Asia/Kolkata', // ✅ FORCE IST
+                    day: '2-digit',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                }); // Result: "Feb 07, 02:30 PM"
+            } catch (e) {
+                return isoString;
             }
         }
 
@@ -1307,7 +1526,7 @@
                 document.getElementById("detail-magicWord").textContent = magic.magicWord || "N/A";
                 document.getElementById("detail-status").textContent = magic.status || "N/A";
                 document.getElementById("detail-status").className = `badge ${getStatusBadgeClass(magic.status)}`;
-                document.getElementById("detail-matchedAt").textContent = magic.matchedAt_readable || "N/A";
+                document.getElementById("detail-matchedAt").textContent = formatDateShort(magic.matchedAt) || "N/A";
                 document.getElementById("detail-location").textContent = chat.location || "N/A";
                 document.getElementById("detail-chatId").textContent = chat.id || "N/A";
                 document.getElementById("detail-messageId").textContent = magic.messageId || "N/A";
@@ -1327,7 +1546,7 @@
                 document.getElementById("detail-locName").textContent = location.location || "N/A";
                 document.getElementById("detail-locLat").textContent = location.latitude || "N/A";
                 document.getElementById("detail-locLon").textContent = location.longitude || "N/A";
-                document.getElementById("detail-locRecordedAt").textContent = location.created_at_readable || "N/A";
+                document.getElementById("detail-locRecordedAt").textContent = formatDateShort(location.created_at) || "N/A";
 
                 if (location.latitude && location.longitude) {
                     document.getElementById("detail-mapLink").href = `https://maps.google.com/?q=${location.latitude},${location.longitude}`;
@@ -1336,7 +1555,22 @@
                 }
 
                 currentStatus = magic.status || "requested";
+                currentServiceRequestId = magic.serviceRequestId || magic.orderId || null; // ✅ Capture ID
+
                 updateStatusButtonText(currentStatus);
+
+                // ✅ NEW: Auto-update to inProgress on view if strictly "requested"
+                if (currentStatus === "requested") {
+                    console.log("👀 First view: Auto-updating status to inProgress...");
+                    // We call this without awaiting so UI renders immediately
+                    updateMagicWordStatus("inProgress", false);
+
+                    // Update local state immediately to reflect the change visually
+                    currentStatus = "inProgress";
+                    document.getElementById("detail-status").textContent = "inProgress";
+                    document.getElementById("detail-status").className = `badge ${getStatusBadgeClass("inProgress")}`;
+                    updateStatusButtonText("inProgress");
+                }
 
                 // ✅ Start Polling for Chat
                 const chatId = chat.id;
@@ -1388,7 +1622,8 @@
 
                 const requestsHtml = data.requests.map((req, index) => {
                     const statusClass = getStatusBadgeClass(req.status);
-                    const time = req.matchedAt_readable || req.createdAt_readable || "N/A";
+                    // Use formatDateShort
+                    const time = formatDateShort(req.matchedAt || req.createdAt || req.updated_at);
                     const magicWord = req.magicWord || req.userMessage || "N/A";
 
                     return `
@@ -1466,7 +1701,7 @@
                     html += `
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
-                                <small class="text-muted">${order.timestamp || "N/A"}</small><br>
+                                <small class="text-muted">${formatDateShort(order.timestamp_iso || order.timestamp) || "N/A"}</small><br>
                                 <strong>${escapeHtml(displayTitle)}</strong>
                                 <div class="small text-muted">ID: ${order.id.slice(-5)}</div>
                             </div>
@@ -1521,7 +1756,7 @@
                 let html = '<ul class="list-group list-group-flush">';
                 data.payments.forEach(pay => {
                     // Assuming fields from user screenshot: amount, createdAt, paymentStatus, services, method(maybe not present, use paymentId)
-                    const dateStr = pay.createdAt ? new Date(pay.createdAt).toLocaleDateString() : "N/A";
+                    const dateStr = formatDateShort(pay.createdAt);
                     const amount = pay.amount ? `₹${pay.amount}` : "N/A";
                     const service = pay.services || "Service";
                     const method = pay.paymentId ? `ID: ${pay.paymentId.slice(0, 10)}...` : "Online";
@@ -1555,8 +1790,10 @@
                 const data = await response.json();
 
                 currentStatus = data.magic_word_request?.status || "requested";
+                currentServiceRequestId = data.magic_word_request?.serviceRequestId || data.magic_word_request?.orderId || null;
 
-                if (currentStatus === "requested") {
+                // ✅ UPDATED: Open modal if requested OR if inProgress but no service request created yet
+                if (currentStatus === "requested" || (currentStatus === "inProgress" && !currentServiceRequestId)) {
                     document.getElementById("serviceRequestForm").reset();
                     await loadMonuments();
                     await loadLanguagePreferences();
@@ -1567,8 +1804,12 @@
                     }
 
                     new bootstrap.Modal(document.getElementById("serviceRequestModal")).show();
-                } else {
+                } else if (currentStatus === "inProgress") {
+                    // ✅ Direct update without modal for Mark Complete
                     await updateMagicWordStatus();
+                } else {
+                    // Fallback for other states (e.g. if already completed)
+                    // await updateMagicWordStatus();
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -1576,28 +1817,13 @@
             }
         }
 
-        async function closeRequest() {
+        function closeRequest() {
             if (!currentMagicWordId) return;
 
+            // ✅ Open Completion Reason Modal for closing
             if (confirm("Are you sure you want to close this request?")) {
-                try {
-                    const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/close`, {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" }
-                    });
-
-                    const result = await response.json();
-
-                    if (result.success) {
-                        alert("✅ Request closed!");
-                        showListView();
-                    } else {
-                        alert(`Error: ${result.error}`);
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                    alert("Error closing request");
-                }
+                document.getElementById("completionReason").value = "";
+                new bootstrap.Modal(document.getElementById("completionReasonModal")).show();
             }
         }
 
@@ -1647,7 +1873,9 @@
                     let lastDate = "";
 
                     data.messages.forEach(msg => {
-                        const dateStr = msg.created_at_readable ? msg.created_at_readable.split(',')[0] : 'Unknown Date';
+                        // Use formatDateShort for date header, but just the date part
+                        const dateObj = new Date(msg.created_at);
+                        const dateStr = isNaN(dateObj.getTime()) ? 'Unknown Date' : dateObj.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
 
                         if (dateStr !== lastDate) {
                             const dateBadge = document.createElement("div");
@@ -1663,7 +1891,7 @@
 
                         let contentHtml = "";
                         if (msg.content) {
-                            contentHtml += `<div class="mb-1">${msg.content}</div>`;
+                            contentHtml += `<div class="mb-1">${escapeHtml(msg.content)}</div>`;
                         }
                         if (msg.image_url) {
                             contentHtml += `<img src="${msg.image_url}" class="img-fluid rounded border mt-1" style="max-height: 200px; max-width: 100%; cursor: pointer;" onclick="window.open(this.src, '_blank')">`;
@@ -1672,7 +1900,8 @@
                             contentHtml += `<audio controls class="mt-1" style="max-width: 200px;"><source src="${msg.audio_url}"></audio>`;
                         }
 
-                        const timeStr = msg.created_at_readable ? msg.created_at_readable.split(',')[1] : '';
+                        // Use formatDateShort for message time
+                        const timeStr = formatDateShort(msg.created_at).split(', ')[1] || '';
 
                         wrapper.innerHTML = `
                     <div class="d-flex flex-column ${isUser ? "align-items-start" : "align-items-end"}" style="max-width: 75%;">
@@ -1826,6 +2055,9 @@
                 commission: document.getElementById("commission").value || "0",
                 status: document.getElementById("serviceStatus").value,
                 paymentStatus: document.getElementById("paymentStatus").value,
+                // ✅ Capture OTPs
+                startOtp: document.getElementById("startOtp").value.trim(),
+                endOtp: document.getElementById("endOtp").value.trim(),
                 description: document.getElementById("description").value
             };
 
@@ -1837,7 +2069,11 @@
                 const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/status`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ bookingType: details.typeOfService, details })
+                    body: JSON.stringify({
+                        bookingType: details.typeOfService,
+                        details,
+                        status: "inProgress" // ✅ Force status to keep/set it to inProgress
+                    })
                 });
 
                 const result = await response.json();
@@ -1862,12 +2098,20 @@
             }
         }
 
-        async function updateMagicWordStatus() {
+        async function updateMagicWordStatus(targetStatus = null, navigateBack = true, reason = null) {
             try {
+                const body = {};
+                if (targetStatus) {
+                    body.status = targetStatus;
+                }
+                if (reason) {
+                    body.reason = reason;
+                }
+
                 const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/status`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({})
+                    body: JSON.stringify(body)
                 });
 
                 const result = await response.json();
@@ -1876,8 +2120,13 @@
                     document.getElementById("detail-status").textContent = result.new_status;
                     document.getElementById("detail-status").className = `badge ${getStatusBadgeClass(result.new_status)}`;
                     updateStatusButtonText(result.new_status);
-                    alert("✅ Status updated!");
-                    setTimeout(() => showListView(), 1500);
+
+                    if (navigateBack) {
+                        alert("✅ Status updated!");
+                        setTimeout(() => showListView(), 1500);
+                    } else {
+                        console.log("✅ Auto status update successful (silent)");
+                    }
                 } else {
                     alert(`Error: ${result.error}`);
                 }
@@ -1893,7 +2142,13 @@
                 btn.textContent = "Proceed to Service";
                 btn.disabled = false;
             } else if (status === "inProgress") {
-                btn.textContent = "Mark Complete";
+                // ✅ Check if we have a service request ID (if so, we are truly in progress, else we are just viewed)
+                // Since this function might be called with just status, we rely on global currentServiceRequestId
+                if (!currentServiceRequestId) {
+                    btn.textContent = "Proceed to Service"; // Still allow creating service
+                } else {
+                    btn.textContent = "Mark Complete";
+                }
                 btn.disabled = false;
             } else {
                 btn.textContent = "Completed";
@@ -2125,8 +2380,47 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", () => loadMagicWordRequests());
+        async function submitCompletionReason() {
+            const reason = document.getElementById("completionReason").value.trim();
+            if (!reason) {
+                alert("Please enter a reason for completion.");
+                return;
+            }
+
+            // Hide modal properly
+            const modalEl = document.getElementById("completionReasonModal");
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+
+            // Call update with reason
+            await updateMagicWordStatus("completed", true, reason);
+        }
+
+        // ✅ Init list on load
+        document.addEventListener("DOMContentLoaded", () => {
+            loadMagicWordRequests();
+            // Start background poll every 30s
+            // setInterval(() => loadMagicWordRequests(currentFilteredUserId, true), 30000); // Optional: re-enable if desired
+        });
     </script>
+    <!-- ✅ AUDIO ELEMENT -->
+    <audio id="notificationSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"
+        preload="auto"></audio>
+
+    <!-- ✅ TOAST NOTIFICATION -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="newRequestToast" class="toast align-items-center text-white bg-primary border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    🔔 New Magic Word Request Received!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

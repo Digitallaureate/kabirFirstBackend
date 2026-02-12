@@ -223,7 +223,7 @@ def user_summary():
 @login_required
 def api_magic_words():
     try:
-        limit = int(request.args.get("limit", "100"))
+        limit = int(request.args.get("limit", "1000"))
         user_id = request.args.get("userId")
 
         if user_id:
@@ -402,10 +402,10 @@ def send_message_to_user(magic_word_user_id):
         message_data = {
             "role": "assistant",
             "content": message_content,  # ✅ text only
-            "image_url": image_url or None,  # ✅ image only (key)
-            "user_id": "SystemG",
+            "image_url": image_url or None,
             "created_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
             "location": chat_location,
+            "user_id": "CustomerService"  # ✅ Identify sender so listener skips processing
         }
 
         # remove None keys (clean Firestore doc)
@@ -531,21 +531,30 @@ def update_magic_word_status(magic_word_id):
         service_request_id = current_data.get("serviceRequestId")
         
         # Determine next status
-        if current_status == "requested":
+        request_body = request.get_json() or {}
+        explicit_status = request_body.get("status")
+
+        if explicit_status:
+             new_status = explicit_status
+        elif current_status == "requested":
             new_status = "inProgress"
         elif current_status == "inProgress":
-            new_status = "completed"
+            # If we are just updating details (booking_details present), stay in inProgress
+            # Otherwise (no details, just button click), move to completed
+            if request_body.get("details"):
+                 new_status = "inProgress"
+            else:
+                 new_status = "completed"
         else:
             return jsonify({"success": False, "error": "Status cannot be changed"}), 400
         
-        # Get booking details from request body
-        request_body = request.get_json() or {}
+        # Get booking details from request body (already fetched above for explicit_status check, but keeping structure)
         booking_details = request_body.get("details", {})
         
         # ✅ Get payment status from booking details
         payment_status = booking_details.get("paymentStatus", "pending")
         
-        # ✅ Update user details if provided
+        # ✅ Get user details if provided
         if booking_details.get("userId") and booking_details.get("userUpdate"):
             user_update = booking_details.get("userUpdate")
             db.collection("users").document(booking_details.get("userId")).update({
@@ -557,58 +566,82 @@ def update_magic_word_status(magic_word_id):
             logging.info(f"✅ User {booking_details.get('userId')} updated")
             print(f"👤 USER UPDATE: Phone={user_update.get('phoneNumber')}, Name={user_update.get('firstName')} {user_update.get('lastName')}")
         
-        # Update status in Firestore
-        db.collection("magicWordUser").document(magic_word_user_id).update({
+        # Prepare update data
+        update_data = {
             "status": new_status,
             "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
-        })
+        }
+
+        # ✅ Save completion reason if provided
+        if new_status == "completed":
+            reason = request_body.get("reason") or booking_details.get("completionReason")
+            if reason:
+                update_data["completionReason"] = reason
+
+        # Update status in Firestore
+        db.collection("magicWordUser").document(magic_word_user_id).update(update_data)
         
         logging.info(f"✅ Magic word {magic_word_user_id} status changed: {current_status} → {new_status}")
         
+        # ✅ NEW: Disable human interaction if completed
+        if new_status == "completed" and chat_id:
+             try:
+                 db.collection("chats").document(chat_id).update({"isHumanInteraction": False})
+                 print(f"🤖 Automation Restored: isHumanInteraction set to False for chat {chat_id}")
+             except Exception as e:
+                 logging.error(f"❌ Failed to disable human interaction for chat {chat_id}: {e}")
+        
         # 📝 Create service request when status changes to inProgress
         if new_status == "inProgress":
-            print(f"📝 Creating service request with details...")
-            print(f"💳 Payment Status: {payment_status}")
-            
-            sr_result = create_service_request(magic_word_user_id, current_data, booking_details)
-            print(f"📝 Service request result: {sr_result}")
-            
-            if sr_result.get("success"):
-                service_request_id = sr_result.get("service_request_id")
+            # ✅ ONLY create service request/send message if we have actual details
+            # (Avoids sending message when just viewing/auto-updating status)
+            if booking_details:
+                print(f"📝 Creating service request with details...")
+                print(f"💳 Payment Status: {payment_status}")
                 
-                # ✅ Check if payment is successful
-                if payment_status == "success":
-                    print(f"✅ PAYMENT SUCCESS - Creating service order...")
+                sr_result = create_service_request(magic_word_user_id, current_data, booking_details)
+                print(f"📝 Service request result: {sr_result}")
+                
+                if sr_result.get("success"):
+                    service_request_id = sr_result.get("service_request_id")
                     
-                    # 🎫 Create booking order immediately
-                    order_result = create_service_order(
-                        magic_word_user_id, 
-                        service_request_id,
-                        booking_details
-                    )
-                    print(f"🎫 Order result: {order_result}")
-                    
-                    if order_result.get("success"):
-                        # ✅ Update magic word status to reflect payment success
-                        db.collection("magicWordUser").document(magic_word_user_id).update({
-                            "paymentStatus": "success",
-                            "orderStatus": "booked",
-                            "serviceOrderId": order_result.get("service_order_id"),
-                            "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
-                        })
+                    # ✅ Check if payment is successful
+                    if payment_status == "success":
+                        print(f"✅ PAYMENT SUCCESS - Creating service order...")
                         
-                        # Send confirmation message
-                        msg_result = send_booking_confirmation_message(chat_id, booking_details)
-                        print(f"📨 Confirmation message sent: {msg_result}")
+                        # 🎫 Create booking order immediately
+                        order_result = create_service_order(
+                            magic_word_user_id, 
+                            service_request_id,
+                            booking_details
+                        )
+                        print(f"🎫 Order result: {order_result}")
+                        
+                        if order_result.get("success"):
+                            # ✅ Update magic word status to reflect payment success
+                            db.collection("magicWordUser").document(magic_word_user_id).update({
+                                "paymentStatus": "success",
+                                "orderStatus": "booked",
+                                "serviceOrderId": order_result.get("service_order_id"),
+                                "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
+                            })
+                            
+                            # Send confirmation message
+                            # msg_result = send_booking_confirmation_message(chat_id, booking_details)
+                            # print(f"📨 Confirmation message sent: {msg_result}")
+                            print("📨 Skipping confirmation message as per user request")
+                        else:
+                            logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
                     else:
-                        logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
+                        print(f"⏳ Payment pending/failed - Order not created yet")
+                        # Send service request confirmation (not booking confirmation)
+                        # msg_result = send_service_request_message(chat_id, magic_word, booking_details)
+                        # print(f"📨 Service request message sent: {msg_result}")
+                        print("📨 Skipping service request message as per user request")
                 else:
-                    print(f"⏳ Payment pending/failed - Order not created yet")
-                    # Send service request confirmation (not booking confirmation)
-                    msg_result = send_service_request_message(chat_id, magic_word, booking_details)
-                    print(f"📨 Service request message sent: {msg_result}")
+                    logging.warning(f"⚠️ Service request creation failed: {sr_result.get('error')}")
             else:
-                logging.warning(f"⚠️ Service request creation failed: {sr_result.get('error')}")
+                print(f"👀 Status updated to inProgress (View Mode) - Skipping service request creation/message")
         
         # 🎫 Create booking order when status changes to completed (if not already created via payment)
         if new_status == "completed" and service_request_id:
@@ -621,8 +654,9 @@ def update_magic_word_status(magic_word_id):
             print(f"🎫 Order result: {order_result}")
             
             if order_result.get("success"):
-                msg_result = send_booking_confirmation_message(chat_id, booking_details)
-                print(f"📨 Confirmation message sent: {msg_result}")
+                # msg_result = send_booking_confirmation_message(chat_id, booking_details)
+                # print(f"📨 Confirmation message sent: {msg_result}")
+                print("📨 Skipping completion message as per user request")
             else:
                 logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
         
