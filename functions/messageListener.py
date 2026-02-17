@@ -1,5 +1,5 @@
 from firebase_functions import firestore_fn
-from firebase_admin import firestore
+from firebase_admin import firestore, messaging
 import logging
 from datetime import datetime
 import requests
@@ -25,10 +25,68 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     dlat = lat2_rad - lat1_rad
     dlon = lon2_rad - lon1_rad
 
-    a = math.sin(dlat / 2) ** 2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2) ** 2
+    a = (
+        math.sin(dlat / 2) ** 2
+        + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2) ** 2
+    )
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
     return R * c
+
+
+def get_first_active_fcm_token(db, user_id: str):
+    """
+    Your tokens are stored at:
+    users/{uid}/fcm_tokens/{autoId}
+      - token: <fcm token>
+      - isActive: true/false
+    This returns the first active token it finds.
+    """
+    if not user_id:
+        return None
+
+    tokens_ref = db.collection("users").document(user_id).collection("fcm_tokens")
+    qs = tokens_ref.where("isActive", "==", True).limit(1).get()
+    if not qs:
+        return None
+
+    return (qs[0].to_dict() or {}).get("token")
+
+def get_all_active_fcm_tokens(db, user_id: str):
+    """
+    Returns ALL active tokens for a user from:
+    users/{uid}/fcm_tokens/{autoId} where isActive == True
+    """
+    if not user_id:
+        return []
+
+    tokens_ref = db.collection("users").document(user_id).collection("fcm_tokens")
+    qs = tokens_ref.where("isActive", "==", True).get()
+
+    tokens = []
+    for doc in qs:
+        t = (doc.to_dict() or {}).get("token")
+        if t:
+            tokens.append(t)
+    return tokens
+
+def send_push_to_token(token: str, title: str, body: str, data: dict, image_url: str = ""):
+    msg = messaging.Message(
+        token=token,
+        notification=messaging.Notification(
+            title=title,
+            body=body,
+            image=image_url if image_url else None,
+        ),
+        data={k: str(v) for k, v in (data or {}).items()},
+        android=messaging.AndroidConfig(
+            priority="high",
+            notification=messaging.AndroidNotification(
+                channel_id="alerts",
+            ),
+        ),
+    )
+    messaging.send(msg)
 
 
 @firestore_fn.on_document_created(document="chats/{chatId}/messages/{messageId}")
@@ -38,7 +96,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
     Path: chats/{chatId}/messages/{messageId}
     """
     try:
-        message_data = event.data.to_dict()
+        message_data = event.data.to_dict() or {}
         chat_id = event.params["chatId"]
         message_id = event.params["messageId"]
 
@@ -46,24 +104,25 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
         logging.info(f"📝 Message data: {message_data}")
 
         role = message_data.get("role", "")
-        content = message_data.get("content", "")
+        content = (message_data.get("content", "") or "").strip()
         location = message_data.get("location", "")
         created_at = message_data.get("created_at", datetime.utcnow())
         sender_user_id = str(message_data.get("user_id", "")).strip()  # ✅ Clean whitespace
 
-        logging.info(f"🔎 RAW user_id from DB: '{message_data.get('user_id')}' -> Cleaned: '{sender_user_id}'")
+        logging.info(
+            f"🔎 RAW user_id from DB: '{message_data.get('user_id')}' -> Cleaned: '{sender_user_id}'"
+        )
 
         # 1️⃣ Skip user messages
         if role == "user":
             logging.info(f"👤 User message: {content[:100] if content else 'empty'}")
-            logging.info(f"⏭️ Skipping - only processing assistant messages")
+            logging.info("⏭️ Skipping - only processing assistant messages")
             return
 
         # 2️⃣ Avoid infinite loop: skip media/system assistant messages
+        # ✅ NOTE: we REMOVED CustomerService from skip list because we WANT to notify for it
         logging.warning(f"🔎 Checking sender: '{sender_user_id}' (Role: {role})")
-
-        # ✅ FIXED: Simplified check - skip immediately if sender is CustomerService or error/system
-        if sender_user_id in ("ImageG", "AudioG", "VideoG", "ErrorG", "CustomerService"):
+        if sender_user_id in ("ImageG", "AudioG", "VideoG", "ErrorG"):
             logging.warning(f"⏭️ Skipping message from ignored sender: '{sender_user_id}'")
             return
 
@@ -81,10 +140,120 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
 
             chat_data = chat_doc.to_dict()
             chat_type = chat_data.get("chat_type", "")
-            participants = chat_data.get("participants", [])
-
+            participants = chat_data.get("participants") or []
+            if not isinstance(participants, list):
+                participants = [participants]
             logging.info(f"📋 Chat type: {chat_type}, Location: {location}")
             logging.info(f"👥 Participants: {participants}")
+
+            # ✅ PARTICIPANTS: You said participants contains only the real user.
+            # We'll notify the first participant.
+            # recipient_user_id = participants[0] if participants else None
+
+            # ✅ SEND NOTIFICATION ONLY WHEN:
+            # last message role == assistant AND user_id == CustomerService
+            # Since this function triggers on "created message", "last message" is this message.
+            if sender_user_id == "CustomerService":
+                try:
+                    if not participants:
+                        logging.warning("⚠️ No participants found; cannot send push")
+                    else:
+                        title = "Kabir Support"
+                        body = (
+                            (content[:120] + "…")
+                            if content and len(content) > 120
+                            else (content or "New message from support")
+                        )
+
+                        image_url = (
+                            message_data.get("image_url")
+                            or message_data.get("imageUrl")
+                            or ""
+                        )
+
+                        data_payload = {
+                            "type": "cs_message",
+                            "chatId": chat_id,
+                            "messageId": message_id,
+                            "route": f"/chat/{chat_id}",
+                            "app": "KabirAI",
+                            "imageUrl": image_url
+                        }
+
+                        sent_count = 0
+
+                        for uid in participants:
+                            uid = str(uid).strip()
+                            if not uid:
+                                continue
+
+                            tokens = get_all_active_fcm_tokens(db, uid)
+
+                            if not tokens:
+                                logging.warning(f"⚠️ No active tokens for user: {uid}")
+                                continue
+
+                            for token in tokens:
+                                try:
+                                    send_push_to_token(
+                                        token=token,
+                                        title=title,
+                                        body=body,
+                                        data=data_payload,
+                                        image_url=image_url
+                                    )
+                                    sent_count += 1
+                                except Exception as per_token_err:
+                                    logging.exception(
+                                        f"❌ Push failed for uid={uid}, token={token}: {per_token_err}"
+                                    )
+
+                        logging.info(f"✅ Push sent to {sent_count} device(s)")
+
+                except Exception as push_error:
+                    logging.exception(f"❌ Push send failed: {push_error}")
+
+            # if sender_user_id == "CustomerService":
+            #     try:
+            #         if not recipient_user_id:
+            #             logging.warning("⚠️ No participant user found; cannot send push")
+            #         else:
+            #             fcm_token = get_first_active_fcm_token(db, recipient_user_id)
+            #             if not fcm_token:
+            #                 logging.warning(
+            #                     f"⚠️ No active FCM token found for user {recipient_user_id}"
+            #                 )
+            #             else:
+            #                 title = "Kabir Support"
+            #                 body = (
+            #                     (content[:120] + "…")
+            #                     if content and len(content) > 120
+            #                     else (content or "New message from support")
+            #                 )
+
+            #                 data_payload = {
+            #                     "type": "cs_message",
+            #                     "chatId": chat_id,
+            #                     "messageId": message_id,
+            #                     "route": f"/chat/{chat_id}",
+            #                     "app": "KabirAI",
+            #                 }
+            #                 for token in tokens:
+            #                     try:
+            #                         send_push_to_token(
+            #                             token=token,
+            #                             title=title,
+            #                             body=body,
+            #                             data=data_payload,
+            #                         )
+            #                         sent_count += 1
+            #                     except Exception as per_token_err:
+            #                         logging.exception(f"❌ Push failed for uid={uid}: {per_token_err}")
+            #                 logging.info(
+            #                     f"✅ Push sent to participant[0]={recipient_user_id} (CustomerService reply)"
+            #                 )
+            #     except Exception as push_error:
+            #         logging.exception(f"❌ Push send failed: {push_error}")
 
             # --- Find user + last known location ---
             user_id = None
@@ -141,7 +310,9 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
             # --- Global / non-journey: 3 nearest sites ---
             if chat_type != "journey" and user_latitude and user_longitude:
                 try:
-                    logging.info(f"🔍 Searching for nearby historical sites (chat_type: {chat_type})...")
+                    logging.info(
+                        f"🔍 Searching for nearby historical sites (chat_type: {chat_type})..."
+                    )
                     historical_sites = (
                         db.collection("historical_sites")
                         .where("is_active", "==", True)
@@ -170,18 +341,24 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                                         "latitude": site_lat,
                                         "longitude": site_lon,
                                         "prompt": site_data.get("prompt"),
-                                        "site_description": site_data.get("site_description"),
+                                        "site_description": site_data.get(
+                                            "site_description"
+                                        ),
                                         "services": site_data.get("services", []),
                                     }
                                 )
                             except (ValueError, TypeError) as e:
-                                logging.warning(f"⚠️ Invalid coordinates for site {site_id}: {e}")
+                                logging.warning(
+                                    f"⚠️ Invalid coordinates for site {site_id}: {e}"
+                                )
                                 continue
 
                     sites_with_distance.sort(key=lambda x: x["distance_km"])
                     location_context["nearby_sites"] = sites_with_distance[:3]
 
-                    logging.info(f"✅ Found {len(location_context['nearby_sites'])} nearby sites")
+                    logging.info(
+                        f"✅ Found {len(location_context['nearby_sites'])} nearby sites"
+                    )
                 except Exception as sites_error:
                     logging.error(f"❌ Error finding nearby sites: {sites_error}")
 
@@ -206,7 +383,9 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                         distance_to_site = calculate_distance(
                             user_latitude, user_longitude, site_lat, site_lon
                         )
-                        logging.info(f"📏 Distance to {location}: {distance_to_site:.2f} km")
+                        logging.info(
+                            f"📏 Distance to {location}: {distance_to_site:.2f} km"
+                        )
 
                         location_context["target_site"] = {
                             "site_id": site_id,
@@ -239,23 +418,41 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                                             trivia_lat = float(trivia_lat)
                                             trivia_lon = float(trivia_lon)
                                             trivia_distance = calculate_distance(
-                                                user_latitude, user_longitude,
-                                                trivia_lat, trivia_lon
+                                                user_latitude,
+                                                user_longitude,
+                                                trivia_lat,
+                                                trivia_lon,
                                             )
                                             trivia_with_distance.append(
                                                 {
                                                     "id": trivia_id,
-                                                    "assistant_id": trivia_data.get("assistant_id"),
+                                                    "assistant_id": trivia_data.get(
+                                                        "assistant_id"
+                                                    ),
                                                     "title": trivia_data.get("title"),
-                                                    "content": trivia_data.get("content"),
-                                                    "location": trivia_data.get("location"),
+                                                    "content": trivia_data.get(
+                                                        "content"
+                                                    ),
+                                                    "location": trivia_data.get(
+                                                        "location"
+                                                    ),
                                                     "latitude": trivia_lat,
                                                     "longitude": trivia_lon,
-                                                    "distance": round(trivia_distance, 2),
-                                                    "tags": trivia_data.get("tags", []),
-                                                    "category": trivia_data.get("category"),
-                                                    "created_at": trivia_data.get("created_at"),
-                                                    "is_active": trivia_data.get("is_active"),
+                                                    "distance": round(
+                                                        trivia_distance, 2
+                                                    ),
+                                                    "tags": trivia_data.get(
+                                                        "tags", []
+                                                    ),
+                                                    "category": trivia_data.get(
+                                                        "category"
+                                                    ),
+                                                    "created_at": trivia_data.get(
+                                                        "created_at"
+                                                    ),
+                                                    "is_active": trivia_data.get(
+                                                        "is_active"
+                                                    ),
                                                 }
                                             )
                                         except (ValueError, TypeError) as e:
@@ -276,7 +473,9 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                                 f"⏭️ Distance {distance_to_site:.2f}km (>= 1km), skipping trivia fetch"
                             )
                     else:
-                        logging.warning(f"⚠️ Historical site not found for location: {location}")
+                        logging.warning(
+                            f"⚠️ Historical site not found for location: {location}"
+                        )
                 except Exception as journey_error:
                     logging.error(f"❌ Error processing journey logic: {journey_error}")
 
@@ -343,7 +542,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                 last_user_docs = last_user_query.get()
 
                 if last_user_docs:
-                    last_user_message_id = last_user_docs[0].id  # ✅ add this
+                    last_user_message_id = last_user_docs[0].id
                     last_user_data = last_user_docs[0].to_dict()
                     last_user_content = last_user_data.get("content")
                     last_user_location = last_user_data.get("location")
@@ -359,58 +558,77 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
             except Exception as e:
                 logging.error(f"❌ Error fetching last user message: {e}")
 
-            # --- NEW: Check for magic words in last user message ---
+            # --- Check for magic words in last user message ---
             if last_user_content:
                 try:
-                    # IMPORTANT: you must have last_user_message_id captured in your last_user_query block
                     if not last_user_message_id:
-                        logging.warning("⚠️ last_user_message_id missing; cannot create magicWordUser safely")
+                        logging.warning(
+                            "⚠️ last_user_message_id missing; cannot create magicWordUser safely"
+                        )
                     else:
                         logging.info("🔮 Checking for magic words in last user message...")
 
-                        # Fetch active magic words
-                        magic_words_query = db.collection("magicWord").where("isActive", "==", True).stream()
+                        magic_words_query = (
+                            db.collection("magicWord")
+                            .where("isActive", "==", True)
+                            .stream()
+                        )
                         magic_words_list = []
                         for magic_doc in magic_words_query:
                             magic_data = magic_doc.to_dict()
                             magic_word = magic_data.get("title")
                             if magic_word:
-                                magic_words_list.append({
-                                    "id": magic_doc.id,
-                                    "word": magic_word.lower()
-                                })
+                                magic_words_list.append(
+                                    {"id": magic_doc.id, "word": magic_word.lower()}
+                                )
 
                         user_content_lower = last_user_content.lower()
-                        matched_magic_words = [m for m in magic_words_list if m["word"] in user_content_lower]
+                        matched_magic_words = [
+                            m for m in magic_words_list if m["word"] in user_content_lower
+                        ]
 
                         if matched_magic_words:
                             for matched in matched_magic_words:
-                                # ✅ Use USER message id, not assistant message id
                                 magic_user_doc_id = f"{last_user_message_id}_{matched['id']}"
-                                doc_ref = db.collection("magicWordUser").document(magic_user_doc_id)
+                                doc_ref = db.collection("magicWordUser").document(
+                                    magic_user_doc_id
+                                )
 
-                                # ✅ Create only once
-                                logging.warning(f"🔍 Checking if request exists: {magic_user_doc_id}")
+                                logging.warning(
+                                    f"🔍 Checking if request exists: {magic_user_doc_id}"
+                                )
                                 if doc_ref.get().exists:
-                                    logging.warning(f"⚠️ magicWordUser already exists: {magic_user_doc_id} (skip)")
+                                    logging.warning(
+                                        f"⚠️ magicWordUser already exists: {magic_user_doc_id} (skip)"
+                                    )
                                     continue
 
                                 magic_user_data = {
                                     "chatId": chat_id,
-                                    "messageId": last_user_message_id,     # ✅ user message id
+                                    "messageId": last_user_message_id,
                                     "userId": user_id,
                                     "magicWordId": matched["id"],
                                     "magicWord": matched["word"],
                                     "userMessage": last_user_content,
-                                    "assistantMessage": content,              # ✅ don't set from CS/assistant
-                                    "location": (last_user_location or location or user_location_name or ""),
-                                    "matchedAt": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
+                                    "assistantMessage": content,
+                                    "location": (
+                                        last_user_location
+                                        or location
+                                        or user_location_name
+                                        or ""
+                                    ),
+                                    "matchedAt": datetime.utcnow().isoformat(
+                                        timespec="milliseconds"
+                                    )
+                                    + "Z",
                                     "isActive": True,
                                     "status": "requested",
                                 }
 
                                 doc_ref.set(magic_user_data)
-                                logging.info(f"✅ Magic word user record CREATED: {magic_user_doc_id}")
+                                logging.info(
+                                    f"✅ Magic word user record CREATED: {magic_user_doc_id}"
+                                )
                         else:
                             logging.info("ℹ️ No magic words found in last user message")
 
@@ -419,67 +637,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
             else:
                 logging.warning("⚠️ No user content available to check for magic words")
 
-            # if last_user_content:
-            #     try:
-            #         logging.info("🔮 Checking for magic words in user message...")
-                    
-            #         db = firestore.client()
-                    
-            #         # Fetch all active magic words from magicWord collection
-            #         magic_words_query = db.collection("magicWord").where("isActive", "==", True).stream()
-            #         magic_words_list = []
-                    
-            #         for magic_doc in magic_words_query:
-            #             magic_data = magic_doc.to_dict()
-            #             # your schema uses 'title' for the magic word text
-            #             magic_word = magic_data.get("title")
-            #             if magic_word:
-            #                 magic_words_list.append({
-            #                     "id": magic_doc.id,
-            #                     "word": magic_word.lower(),
-            #                     "data": magic_data
-            #                 })
-                    
-            #         logging.info(f"📋 Found {len(magic_words_list)} magic words to check")
-                    
-            #         # Check if any magic word is in user message (case-insensitive)
-            #         user_content_lower = last_user_content.lower()
-            #         matched_magic_words = []
-                    
-            #         for magic in magic_words_list:
-            #             if magic["word"] in user_content_lower:
-            #                 matched_magic_words.append(magic)
-            #                 logging.info(f"✨ Magic word matched: '{magic['word']}'")
-                    
-            #         # If magic words found, update magicWordUser collection
-            #         if matched_magic_words:
-            #             for matched in matched_magic_words:
-            #                 magic_user_doc_id = f"{message_id}_{matched['id']}"
-            #                 magic_user_data = {
-            #                     "chatId": chat_id,
-            #                     "messageId": message_id,
-            #                     "userId": user_id,
-            #                     "magicWordId": matched["id"],
-            #                     "magicWord": matched["word"],
-            #                     "userMessage": last_user_content,
-            #                     "assistantMessage": content,
-            #                     "location": location or user_location_name,
-            #                     "matchedAt": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
-            #                     "isActive": True,
-            #                     "status": "requested",
-            #                 }
-                            
-            #                 db.collection("magicWordUser").document(magic_user_doc_id).set(magic_user_data)
-            #                 logging.info(f"✅ Magic word user record created/updated: {magic_user_doc_id}")
-            #         else:
-            #             logging.info("ℹ️ No magic words found in user message")
-                        
-            #     except Exception as magic_error:
-            #         logging.error(f"❌ Error checking magic words: {magic_error}")
-            # else:
-            #     logging.warning("⚠️ No user content available to check for magic words")
-
-            # --- Call chatSuggestionData (existing) ---
+            # --- Call chatSuggestionData API ---
             if chapter_id:
                 try:
                     logging.info(
@@ -491,7 +649,9 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                         "location": location,
                         "chatId": chat_id,
                     }
-                    api_url = "https://us-central1-ecostory-b31b6.cloudfunctions.net/chatSuggestionData"
+                    api_url = (
+                        "https://us-central1-ecostory-b31b6.cloudfunctions.net/chatSuggestionData"
+                    )
                     response = requests.post(
                         api_url,
                         json=api_payload,
@@ -525,7 +685,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
             else:
                 logging.warning("⚠️ No chapter_id, skipping chatSuggestionData API call")
 
-                        # ✅ Call process-text API on Cloud Run
+            # ✅ Call process-text API on Cloud Run
             if chapter_id and user_latitude is not None and user_longitude is not None:
                 try:
                     content_for_process = last_user_content or content
@@ -541,7 +701,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                         "chatId": chat_id,
                         "lat": float(user_latitude),
                         "long": float(user_longitude),
-                        "location": location or (user_location_name or "")
+                        "location": location or (user_location_name or ""),
                     }
 
                     logging.info(f"📤 process-text payload: {process_payload}")
@@ -550,18 +710,22 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                         PROCESS_TEXT_URL,
                         json=process_payload,
                         headers={"Content-Type": "application/json"},
-                        timeout=30
+                        timeout=30,
                     )
 
                     if response.status_code == 200:
                         process_data = response.json()
                         logging.info(f"✅ process-text API response: {process_data}")
 
-                        # Optional: store response for debugging / analytics
-                        db.collection("message_logs").document(message_id).update({
-                            "process": process_data,
-                            "process_fetched_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
-                        })
+                        db.collection("message_logs").document(message_id).update(
+                            {
+                                "process": process_data,
+                                "process_fetched_at": datetime.utcnow().isoformat(
+                                    timespec="milliseconds"
+                                )
+                                + "Z",
+                            }
+                        )
 
                         logging.info(f"✅ process-text result stored for message {message_id}")
 
@@ -575,16 +739,16 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                 except requests.exceptions.RequestException as api_error:
                     logging.error(f"❌ Error calling process-text API: {api_error}")
                 except Exception as api_exception:
-                    logging.exception(f"❌ Unexpected error calling process-text API: {api_exception}")
+                    logging.exception(
+                        f"❌ Unexpected error calling process-text API: {api_exception}"
+                    )
             else:
                 logging.warning(
                     f"⚠️ Skipping process-text call (chapter_id={chapter_id}, "
                     f"user_latitude={user_latitude}, user_longitude={user_longitude})"
                 )
 
-
         else:
-            # Some other role (very unlikely)
             logging.info(f"💬 Message from {role}: {content[:100] if content else 'empty'}")
             logging.info("⏭️ Skipping - only processing assistant messages")
 
