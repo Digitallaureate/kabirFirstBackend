@@ -389,7 +389,9 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
 
                         location_context["target_site"] = {
                             "site_id": site_id,
-                            "site_name": location,
+                            "site_name": site_data.get("site_name"),
+                            "site_description": site_data.get("site_description"),
+                            "prompt": site_data.get("prompt"),
                             "distance_km": round(distance_to_site, 2),
                             "latitude": site_lat,
                             "longitude": site_lon,
