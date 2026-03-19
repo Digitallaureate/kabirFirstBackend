@@ -26,9 +26,9 @@ def process_text(req: Request) -> https_fn.Response:
         if not data:
             return https_fn.Response("Invalid JSON payload", status=400)
 
-        user_text = data.get("text")
+        user_text = data.get("content") or data.get("text")  # ✅ support both field names
         if not user_text:
-            return https_fn.Response("Missing 'text' parameter", status=400)
+            return https_fn.Response("Missing 'content' or 'text' parameter", status=400)
 
         # Step 1: Get intent from OpenAI
         intent = classify_intent(user_text)
@@ -98,8 +98,8 @@ def classify_intent(user_text: str) -> str:
 def call_intent_api(intent: str, original_data: dict) -> dict:
     """Call the appropriate API based on the classified intent"""
     
-    base_url = "http://127.0.0.1:5001/ecostory-b31b6/us-central1"  # For local emulator
-    # base_url = "https://us-central1-ecostory-b31b6.cloudfunctions.net"  # For production
+    # base_url = "http://127.0.0.1:5001/ecostory-b31b6/us-central1"  # For local emulator
+    base_url = "https://us-central1-ecostory-b31b6.cloudfunctions.net"  # ✅ Production
     
     try:
         # Transform data for the specific API

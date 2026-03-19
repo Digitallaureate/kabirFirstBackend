@@ -4,10 +4,17 @@ import logging
 from datetime import datetime
 import requests
 import math
+import os
 
 # If you want, you can move this to env later
 PROCESS_TEXT_URL = "https://ecostory-backend-36036911566.us-central1.run.app/process-text/"
-# ⬆️ change to /process_text or /process if that’s what you use in FastAPI
+
+# ✅ Shared secret for internal service-to-service calls (no Firebase user token needed)
+# Set this in Firebase Functions environment: firebase functions:config:set app.internal_api_key="your-secret"
+# AND in Cloud Run env vars as INTERNAL_API_KEY="same-secret"
+INTERNAL_API_KEY = os.getenv("INTERNAL_API_KEY", "")
+
+
 
 
 def calculate_distance(lat1, lon1, lat2, lon2):
@@ -647,7 +654,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                     )
                     api_payload = {
                         "chapterId": chapter_id,
-                        "content": content,
+                        "content": last_user_content or content,  # ✅ Use user's message for intent detection; fallback to assistant content
                         "location": location,
                         "chatId": chat_id,
                     }
@@ -708,20 +715,45 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
 
                     logging.info(f"📤 process-text payload: {process_payload}")
 
+                    # ✅ Use shared internal API key (X-Internal-Key) — Cloud Functions
+                    # cannot generate Firebase user tokens, so we use a shared secret instead.
+                    process_headers = {
+                        "Content-Type": "application/json",
+                        "X-Internal-Key": INTERNAL_API_KEY,
+                    }
+
                     response = requests.post(
                         PROCESS_TEXT_URL,
                         json=process_payload,
-                        headers={"Content-Type": "application/json"},
+                        headers=process_headers,
                         timeout=30,
                     )
 
                     if response.status_code == 200:
-                        process_data = response.json()
-                        logging.info(f"✅ process-text API response: {process_data}")
+                        raw_response = response.json()
+
+                        # ✅ Unwrap GenericResponse: { "msg": ProcessTextResponse, "metadata": {...} }
+                        process_data = raw_response.get("msg") or raw_response
+                        api_success = (raw_response.get("metadata") or {}).get("success", False)
+
+                        detected_intent = (process_data.get("intent") or {}).get("detected_intent", "unknown")
+                        semantic_query = (process_data.get("intent") or {}).get("semantic_query", "")
+                        api_ok = process_data.get("success", False)
+
+                        logging.info(
+                            f"✅ process-text API response: success={api_ok}, "
+                            f"intent={detected_intent}, query='{semantic_query}'"
+                        )
 
                         db.collection("message_logs").document(message_id).update(
                             {
-                                "process": process_data,
+                                "process": {
+                                    "success": api_ok,
+                                    "intent": detected_intent,
+                                    "semantic_query": semantic_query,
+                                    "result": process_data.get("result"),
+                                    "total_processing_time_ms": process_data.get("total_processing_time_ms"),
+                                },
                                 "process_fetched_at": datetime.utcnow().isoformat(
                                     timespec="milliseconds"
                                 )
