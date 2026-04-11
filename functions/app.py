@@ -168,6 +168,18 @@ def dashboard():
     return render_template("dashboard.html")
 
 
+@app.route("/customer-support", methods=["GET"])
+@login_required
+def customer_support():
+    return render_template("customer_support.html")
+
+
+@app.route("/orders", methods=["GET"])
+@login_required
+def orders():
+    return render_template("orders.html")
+
+
 # ---------------------------
 # ✅ EXISTING ROUTES
 # ---------------------------
@@ -808,6 +820,247 @@ def get_services_by_monument(monument_id):
             "error": str(e),
             "services": []
         }), 500
+
+
+# ---------------------------
+# ✅ SERVICE JSON ORDERS (serviceJsonOrder collection)
+# ---------------------------
+@app.route("/api/service-orders", methods=["GET"])
+@login_required
+def api_service_orders():
+    """
+    Fetch service orders from 'serviceJsonOrder' collection
+    where booking_status == 'booked'.
+    Returns a list sorted by created_at desc (newest first).
+    """
+    try:
+        from customerService.user_summary import _ts_to_iso, _iso_to_readable
+        from google.cloud.firestore import FieldFilter
+
+        db = get_project_b_firestore()
+        if db is None:
+            return jsonify({"found": False, "error": "Firestore client not initialized"}), 500
+
+        limit = int(request.args.get("limit", "1000"))
+
+        col = db.collection("serviceJsonOrder")
+        q = (
+            col.where(filter=FieldFilter("booking_status", "==", "booked"))
+            .limit(limit)
+            .stream()
+        )
+
+        items = []
+        for doc in q:
+            d = doc.to_dict() or {}
+            d["id"] = doc.id
+
+            # Normalize timestamp fields
+            for ts_field in ("created_at", "updated_at", "date_of_service"):
+                if ts_field in d:
+                    iso = _ts_to_iso(d[ts_field])
+                    d[ts_field] = iso
+                    d[f"{ts_field}_readable"] = _iso_to_readable(iso)
+
+            items.append(d)
+
+        # Sort newest first in memory (created_at is the best sort key)
+        items.sort(key=lambda x: x.get("created_at") or "", reverse=True)
+        items = items[:limit]
+
+        logging.info(f"✅ Fetched {len(items)} service orders with booking_status=booked")
+        return jsonify({"found": True, "count": len(items), "items": items}), 200
+
+    except Exception as e:
+        logging.exception("Error fetching service orders")
+        return jsonify({"found": False, "error": str(e)}), 500
+
+
+
+@app.route("/api/service-orders/<order_id>", methods=["GET"])
+@login_required
+def api_service_order_detail(order_id):
+    """Fetch a single service order from serviceJsonOrder by document ID."""
+    try:
+        from customerService.user_summary import _ts_to_iso, _iso_to_readable
+
+        db = get_project_b_firestore()
+        if db is None:
+            return jsonify({"found": False, "error": "Firestore not initialized"}), 500
+
+        doc = db.collection("serviceJsonOrder").document(order_id).get()
+        if not doc.exists:
+            return jsonify({"found": False, "error": "Order not found"}), 404
+
+        d = doc.to_dict() or {}
+        d["id"] = doc.id
+
+        for ts_field in ("created_at", "updated_at", "date_of_service"):
+            if ts_field in d:
+                iso = _ts_to_iso(d[ts_field])
+                d[ts_field] = iso
+                d[f"{ts_field}_readable"] = _iso_to_readable(iso)
+
+        # Enrich with user details if user_id present
+        user_id = d.get("user_id")
+        user_data = {}
+        if user_id:
+            try:
+                user_doc = db.collection("users").document(user_id).get()
+                if user_doc.exists:
+                    u = user_doc.to_dict() or {}
+                    user_data = {
+                        "id": user_id,
+                        "firstName": u.get("firstName", ""),
+                        "lastName": u.get("lastName", ""),
+                        "email": u.get("email", ""),
+                        "phoneNumber": u.get("phoneNumber", ""),
+                        "photoURL": u.get("photoURL", ""),
+                    }
+            except Exception as ue:
+                logging.warning(f"Could not fetch user {user_id}: {ue}")
+
+        # Enrich with vendor details if vendor_id present
+        vendor_id = d.get("vendor_id")
+        vendor_data = {}
+        if vendor_id:
+            try:
+                vendor_doc = db.collection("vendor_credential").document(vendor_id).get()
+                if vendor_doc.exists:
+                    v = vendor_doc.to_dict() or {}
+                    vendor_data = {
+                        "id": vendor_id,
+                        "name": v.get("name") or v.get("userName", ""),
+                        "phone": v.get("phone") or v.get("phoneNumber", ""),
+                        "email": v.get("email", ""),
+                    }
+            except Exception as ve:
+                logging.warning(f"Could not fetch vendor {vendor_id}: {ve}")
+
+        return jsonify({"found": True, "order": d, "user": user_data, "vendor": vendor_data}), 200
+
+    except Exception as e:
+        logging.exception("Error fetching service order detail")
+        return jsonify({"found": False, "error": str(e)}), 500
+
+
+@app.route("/api/service-orders/<order_id>/status", methods=["PUT"])
+@login_required
+def api_update_service_order_status(order_id):
+    """Update the booking_status of a serviceJsonOrder document."""
+    try:
+        db = get_project_b_firestore()
+        if db is None:
+            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
+
+        body = request.get_json() or {}
+        new_status = (body.get("status") or "").strip()
+
+        VALID_STATUSES = ["booked", "confirmed", "in_progress", "completed", "cancelled"]
+        if not new_status or new_status not in VALID_STATUSES:
+            return jsonify({"success": False, "error": f"Invalid status. Must be one of: {VALID_STATUSES}"}), 400
+
+        doc_ref = db.collection("serviceJsonOrder").document(order_id)
+        doc = doc_ref.get()
+        if not doc.exists:
+            return jsonify({"success": False, "error": "Order not found"}), 404
+
+        old_status = (doc.to_dict() or {}).get("booking_status", "unknown")
+
+        doc_ref.update({
+            "booking_status": new_status,
+            "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
+        })
+
+        logging.info(f"✅ serviceJsonOrder {order_id} status: {old_status} → {new_status}")
+        return jsonify({"success": True, "order_id": order_id, "old_status": old_status, "new_status": new_status}), 200
+
+    except Exception as e:
+        logging.exception("Error updating service order status")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/service-orders/<order_id>/assign-vendor", methods=["PUT"])
+@login_required
+def api_assign_vendor_to_order(order_id):
+    """Assign a vendor to a serviceJsonOrder document."""
+    try:
+        db = get_project_b_firestore()
+        if db is None:
+            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
+
+        body = request.get_json() or {}
+        vendor_id = (body.get("vendor_id") or "").strip()
+        vendor_price = body.get("vendor_price")
+
+        if not vendor_id:
+            return jsonify({"success": False, "error": "vendor_id is required"}), 400
+
+        doc_ref = db.collection("serviceJsonOrder").document(order_id)
+        doc = doc_ref.get()
+        if not doc.exists:
+            return jsonify({"success": False, "error": "Order not found"}), 404
+
+        update_data = {
+            "vendor_id": vendor_id,
+            "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
+        }
+        if vendor_price is not None:
+            try:
+                update_data["vendor_price"] = float(vendor_price)
+            except (ValueError, TypeError):
+                pass
+
+        doc_ref.update(update_data)
+
+        # Fetch vendor name for response
+        vendor_name = vendor_id
+        try:
+            vdoc = db.collection("vendor_credential").document(vendor_id).get()
+            if vdoc.exists:
+                vd = vdoc.to_dict() or {}
+                vendor_name = vd.get("name") or vd.get("userName") or vendor_id
+        except Exception:
+            pass
+
+        logging.info(f"✅ serviceJsonOrder {order_id} assigned to vendor {vendor_id}")
+        return jsonify({"success": True, "order_id": order_id, "vendor_id": vendor_id, "vendor_name": vendor_name}), 200
+
+    except Exception as e:
+        logging.exception("Error assigning vendor to order")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/vendors", methods=["GET"])
+@login_required
+def api_vendors():
+    """Fetch all active vendors from vendor_credential collection."""
+    try:
+        db = get_project_b_firestore()
+        if db is None:
+            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
+
+        docs = db.collection("vendor_credential").stream()
+        vendors = []
+        for doc in docs:
+            d = doc.to_dict() or {}
+            # Only return active vendors
+            if d.get("isActive") is False:
+                continue
+            vendors.append({
+                "id": doc.id,
+                "name": d.get("name") or d.get("userName") or doc.id,
+                "phone": d.get("phone") or d.get("phoneNumber") or "",
+                "email": d.get("email") or "",
+                "userName": d.get("userName") or "",
+            })
+
+        vendors.sort(key=lambda x: x.get("name") or "")
+        return jsonify({"success": True, "count": len(vendors), "vendors": vendors}), 200
+
+    except Exception as e:
+        logging.exception("Error fetching vendors")
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 # ---------------------------
