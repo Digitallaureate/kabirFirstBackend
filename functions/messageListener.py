@@ -194,26 +194,65 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                             if not uid:
                                 continue
 
+                            # ── 1. Send FCM push to all active device tokens ──
                             tokens = get_all_active_fcm_tokens(db, uid)
 
                             if not tokens:
-                                logging.warning(f"⚠️ No active tokens for user: {uid}")
-                                continue
+                                logging.warning(f"⚠️ No active FCM tokens for user: {uid} — skipping push, still saving notification")
+                            else:
+                                for token in tokens:
+                                    try:
+                                        send_push_to_token(
+                                            token=token,
+                                            title=title,
+                                            body=body,
+                                            data=data_payload,
+                                            image_url=image_url
+                                        )
+                                        sent_count += 1
+                                    except Exception as per_token_err:
+                                        logging.exception(
+                                            f"❌ Push failed for uid={uid}, token={token}: {per_token_err}"
+                                        )
 
-                            for token in tokens:
-                                try:
-                                    send_push_to_token(
-                                        token=token,
-                                        title=title,
-                                        body=body,
-                                        data=data_payload,
-                                        image_url=image_url
-                                    )
-                                    sent_count += 1
-                                except Exception as per_token_err:
-                                    logging.exception(
-                                        f"❌ Push failed for uid={uid}, token={token}: {per_token_err}"
-                                    )
+                            # ── 2. Write notification to subcollection ──────────
+                            # Path: users/{uid}/notifications/{messageId}
+                            # Using message_id as doc ID ensures idempotency —
+                            # re-running this function won't create duplicates.
+                            try:
+                                notification_doc = {
+                                    "title": title,
+                                    "body": body,
+                                    "type": data_payload.get("type", "cs_message"),
+                                    "route": data_payload.get("route", f"/chat/{chat_id}"),
+                                    "chat_id": chat_id,
+                                    "message_id": message_id,
+                                    "image_url": image_url or "",
+                                    "is_read": False,
+                                    "created_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
+                                    "app": "KabirAI",
+                                }
+
+                                # Use message_id as document ID → idempotent, no duplicates
+                                notif_ref = (
+                                    db.collection("users")
+                                    .document(uid)
+                                    .collection("notifications")
+                                    .document(message_id)
+                                )
+                                notif_ref.set(notification_doc)
+                                logging.info(f"✅ Notification doc saved: users/{uid}/notifications/{message_id}")
+
+                                # ── 3. Atomically increment unread counter on user doc ──
+                                # This lets the app show a badge without an extra query.
+                                db.collection("users").document(uid).set(
+                                    {"unread_notification_count": firestore.Increment(1)},
+                                    merge=True
+                                )
+                                logging.info(f"✅ Incremented unread_notification_count for user: {uid}")
+
+                            except Exception as notif_err:
+                                logging.exception(f"❌ Failed to save notification for uid={uid}: {notif_err}")
 
                         logging.info(f"✅ Push sent to {sent_count} device(s)")
 

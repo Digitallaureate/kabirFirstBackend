@@ -112,14 +112,15 @@ def get_project_b_app():
         # Reuse if already initialized
         return get_app(name="projectB")
     except ValueError:
-        # Initialize explicitly with service-account JSON
-        cred_path = _get_service_account_path()
-        cred = credentials.Certificate(cred_path)
+        try:
+            cred = credentials.ApplicationDefault()
+        except Exception:
+            cred_path = _get_service_account_path()
+            cred = credentials.Certificate(cred_path)
 
         return initialize_app(
             cred,
             {
-                # TODO: put your actual bucket name here:
                 "storageBucket": "ecostory-b31b6.firebasestorage.app",
             },
             name="projectB",

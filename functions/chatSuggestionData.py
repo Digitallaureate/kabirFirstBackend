@@ -12,13 +12,6 @@ from firebase_setup import get_project_b_firestore
 # Load environment variables
 load_dotenv(".env.dev")
 
-# Firestore (Project B)
-project_b_db = get_project_b_firestore()
-
-# OpenAI & Pinecone
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-
 # List all your index names and hosts
 INDEXES = [
     {"name": os.getenv("KABIR_INDEX_NAME"),       "host": os.getenv("KABIR_INDEX_HOST")},
@@ -34,9 +27,23 @@ TYPE_QUOTAS = {"text": 2, "image": 1, "video": 1, "audio": 1}
 FALLBACK_FILL = True
 TOP_K_PER_INDEX = 10  # pull more so quotas can be satisfied
 
+
+def _get_project_b_db():
+    return get_project_b_firestore()
+
+
+def _get_openai_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+
+def _get_pinecone_client():
+    return Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+
 @https_fn.on_request()
 def chatSuggestionData(req: Request) -> https_fn.Response:
     try:
+        project_b_db = _get_project_b_db()
+        client = _get_openai_client()
         data = req.get_json(silent=True) or {}
         chapterId = data.get("chapterId")
         chatId    = data.get("chatId")
@@ -62,7 +69,7 @@ def chatSuggestionData(req: Request) -> https_fn.Response:
         all_items = []
         seen = set()
 
-        pc = Pinecone(api_key=PINECONE_API_KEY)
+        pc = _get_pinecone_client()
 
         # Query each index
         for idx in INDEXES:

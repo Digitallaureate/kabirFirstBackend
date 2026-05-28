@@ -9,15 +9,16 @@ import requests
 # Load environment variables
 load_dotenv(".env.dev")
 
-# OpenAI setup
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 # Intent categories
 INTENTS = {
     "search_image": "searchImageFromDatabase",
     "search_audio": "searchAudioFromDatabase", 
     "search_video": "searchVideoFromDatabase"
 }
+
+
+def _get_openai_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @https_fn.on_request()
 def process_text(req: Request) -> https_fn.Response:
@@ -50,6 +51,7 @@ def process_text(req: Request) -> https_fn.Response:
 
 def classify_intent(user_text: str) -> str:
     """Use OpenAI to classify the user's intent"""
+    client = _get_openai_client()
     
     prompt = f"""
     Classify the following user text into one of these 5 categories:

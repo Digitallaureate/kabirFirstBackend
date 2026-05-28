@@ -10,14 +10,8 @@ from google.cloud import firestore as gfirestore
 from firebase_setup import get_project_b_firestore
 
 
-# -------------------------------
-# Initialize Firestore
-# -------------------------------
-try:
-    db = get_project_b_firestore()
-except Exception as e:
-    db = None
-    logging.exception("Failed to init Firestore client: %s", e)
+def _get_db():
+    return get_project_b_firestore()
 
 
 # -------------------------------
@@ -66,7 +60,10 @@ def get_user_summary_by_phone(identifier: str) -> dict:
     Lookup user by phone or email (identifier). If identifier contains '@' we treat it as email,
     otherwise we try phone-number fields.
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {
             "found": False,
             "error": "Firestore client not initialized. Check service-account JSON."

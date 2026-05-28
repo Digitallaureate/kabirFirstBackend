@@ -14,24 +14,31 @@ from firebase_setup import get_project_b_firestore  # ✅ centralized Firestore 
 # Load environment variables
 load_dotenv(".env.dev")
 
-# Get Firestore client for project B
-project_b_db = get_project_b_firestore()
+def _get_project_b_db():
+    return get_project_b_firestore()
 
-# OpenAI setup
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Pinecone setup
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_INDEX_NAME2 = os.getenv("PINECONE_INDEX_NAME3")  # audio index
-PINECONE_INDEX_HOST = os.getenv("PINECONE_INDEX_HOST3")
+def _get_openai_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-if not PINECONE_INDEX_HOST:
-    raise EnvironmentError("Missing PINECONE_INDEX_HOST for serverless Pinecone setup")
+
+def _get_pinecone_index():
+    pinecone_api_key = os.getenv("PINECONE_API_KEY")
+    index_name = os.getenv("PINECONE_INDEX_NAME3")
+    index_host = os.getenv("PINECONE_INDEX_HOST3")
+
+    if not index_host:
+        raise EnvironmentError("Missing PINECONE_INDEX_HOST3 for audio search")
+
+    pc = Pinecone(api_key=pinecone_api_key)
+    return pc.Index(name=index_name, host=index_host)
 
 
 @https_fn.on_request()
 def searchAudioFromDatabase(req: Request) -> https_fn.Response:
     try:
+        project_b_db = _get_project_b_db()
+        client = _get_openai_client()
         data = req.get_json(silent=True)
         if not data:
             return https_fn.Response("Invalid JSON payload", status=400)
@@ -51,8 +58,7 @@ def searchAudioFromDatabase(req: Request) -> https_fn.Response:
         if not chapterId or not chatId or not content or not lat or not long or not location:
             return https_fn.Response("Missing required parameters", status=400)
 
-        pc = Pinecone(api_key=PINECONE_API_KEY)
-        index = pc.Index(name=PINECONE_INDEX_NAME2, host=PINECONE_INDEX_HOST)
+        index = _get_pinecone_index()
 
         # Check if chapterId exists
         chapter_check_response = index.query(

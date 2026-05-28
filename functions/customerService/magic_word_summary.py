@@ -5,11 +5,8 @@ from google.cloud.firestore import FieldFilter
 from firebase_setup import get_project_b_firestore
 from customerService.user_summary import _ts_to_iso, _iso_to_readable  # reuse helpers
 
-try:
-    db = get_project_b_firestore()
-except Exception as e:
-    db = None
-    logging.exception("Failed to init Firestore client: %s", e)
+def _get_db():
+    return get_project_b_firestore()
 
 
 def get_magicword_requests(limit: int = 1000) -> dict:
@@ -17,7 +14,10 @@ def get_magicword_requests(limit: int = 1000) -> dict:
     Fetch magic word triggers from magicWordUser where status is "requested" OR "inProgress".
     Returns a list sorted by matchedAt desc (newest first).
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"found": False, "error": "Firestore client not initialized"}
 
     try:
@@ -79,7 +79,10 @@ def get_magicword_detail(magic_word_user_id: str) -> dict:
     Fetch full details for a magic word request by ID.
     Chain: magicWordUser → chat (get userId from participants) → user + user_locations
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"found": False, "error": "Firestore client not initialized"}
 
     try:
@@ -175,7 +178,10 @@ def get_user_magicword_requests(user_id: str, limit: int = 50) -> dict:
     Fetch magic word requests for a specific user where status is NOT completed.
     (status in ["requested", "inProgress"])
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"found": False, "error": "Firestore client not initialized"}
 
     try:
@@ -223,7 +229,10 @@ def get_user_completed_orders(user_id: str, limit: int = 50) -> dict:
     Filter: uid == user_id
     Sort: updated_at desc (or created_at if updated_at missing)
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"found": False, "error": "Firestore client not initialized"}
 
     try:
@@ -275,7 +284,10 @@ def get_user_payment_history(user_id: str, limit: int = 50) -> dict:
     Filter: uid == user_id AND paymentStatus == 'Success'
     Sort: createdAt desc
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"found": False, "error": "Firestore client not initialized"}
 
     try:
@@ -316,7 +328,10 @@ def create_order_for_magic_word(magic_word_user_id: str, magic_word_data: dict) 
     Create an order in the 'order' collection when magic word status changes to inProgress.
     Also updates the magicWordUser document with the orderId.
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"success": False, "error": "Firestore client not initialized"}
 
     try:
@@ -377,7 +392,10 @@ def send_message_to_chat(chat_id: str, user_id: str, magic_word: str) -> dict:
     """
     Send a message to the chat when magic word status changes to completed.
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"success": False, "error": "Firestore client not initialized"}
 
     try:
@@ -418,7 +436,10 @@ def send_service_request_message(chat_id: str, magic_word: str, booking_details:
     Send a confirmation message to the chat when service request is created.
     ✅ Now handles otherSpecify for custom services
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"success": False, "error": "Firestore client not initialized"}
 
     try:
@@ -529,7 +550,10 @@ def send_booking_confirmation_message(chat_id: str, booking_details: dict) -> di
     """
     Send a booking confirmation message to the chat when order is created.
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"success": False, "error": "Firestore client not initialized"}
 
     try:
@@ -637,10 +661,11 @@ def _get_monument_title(monument_id: str) -> str:
     """
     ✅ Fetch monument title from serviceMonument collection by ID
     """
-    if db is None or not monument_id:
+    if not monument_id:
         return ""
     
     try:
+        db = _get_db()
         monument_doc = db.collection("serviceMonument").document(monument_id).get()
         if monument_doc.exists:
             monument_data = monument_doc.to_dict() or {}
@@ -657,7 +682,10 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
     - If payment_status = "success" → status = "OrderSuccess"
     - Otherwise → status = "draft"
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"success": False, "error": "Firestore client not initialized"}
 
     try:
@@ -921,7 +949,10 @@ def create_service_order(magic_word_user_id: str, service_request_id: str, booki
     ✅ Create a service order - Save ONLY fields that exist in serviceOrder collection
     Fetches data from service_requests and booking_details
     """
-    if db is None:
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
         return {"success": False, "error": "Firestore client not initialized"}
 
     try:
