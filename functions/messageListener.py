@@ -760,6 +760,17 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                         "Content-Type": "application/json",
                         "X-Internal-Key": INTERNAL_API_KEY,
                     }
+                    if not INTERNAL_API_KEY:
+                        logging.warning(
+                            "⚠️ INTERNAL_API_KEY is empty in listener runtime"
+                        )
+                    else:
+                        logging.info(
+                            f"🔐 INTERNAL_API_KEY present in listener runtime (length={len(INTERNAL_API_KEY)})"
+                        )
+                    logging.info(
+                        f"📡 process-text auth header configured: has_x_internal_key={bool(process_headers.get('X-Internal-Key'))}"
+                    )
 
                     response = requests.post(
                         PROCESS_TEXT_URL,
