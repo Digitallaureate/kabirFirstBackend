@@ -5,7 +5,8 @@ from firebase_functions import firestore_fn, https_fn
 from firebase_admin import initialize_app, firestore  # ✅ import firestore properly
 import google.cloud.firestore
 
-# ✅ Initialize default app (Project A: kabir-assistant-api)
+# ✅ Initialize default app. Resolves at runtime to the deployed project,
+# which is ecostory-b31b6 (see .firebaserc default + readme deploy steps).
 initialize_app()
 
 # Import HTTP trigger functions (UNCHANGED)
@@ -16,6 +17,7 @@ from deviceRedirect import device_redirect
 from chatSuggestionData import chatSuggestionData
 from process_text import process_text
 from messageListener import on_message_created
+from serviceOrderListener import notify_vendors_on_open_order
 
 # -------------------------
 # HTTP Function: addmessage (same behavior)
