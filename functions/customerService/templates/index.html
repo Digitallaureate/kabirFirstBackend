@@ -34,18 +34,11 @@
     </div>
   </div>
 
+  {% include "_customer_service_helpers.html" %}
   <script>
     const form = document.getElementById("loginForm");
     const err = document.getElementById("err");
-
-    function getBasePath() {
-      const path = window.location.pathname || "/";
-      if (path.startsWith("/customerService_app/")) return "/customerService_app";
-      if (path.startsWith("/support/")) return "/support";
-      return "";
-    }
-
-    const BASE = getBasePath();
+    const BASE = getCustomerServiceBasePath();
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -81,7 +74,7 @@
         return;
       }
 
-      window.location.href = `${BASE}/dashboard`;
+      navigateCustomerService("/customer-support");
     });
   </script>
 

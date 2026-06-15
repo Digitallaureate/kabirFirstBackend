@@ -63,8 +63,8 @@
             </div>
             <div class="service-card" onclick="navigate('orders')">
                 <div class="service-card-icon">🛒</div>
-                <div class="service-card-title">Orders Panel</div>
-                <div class="service-card-desc">View and manage customer orders and booking history.</div>
+                <div class="service-card-title">Service Orders</div>
+                <div class="service-card-desc">View and manage booked service orders and vendor assignments.</div>
                 <div class="go-arrow">→</div>
             </div>
         </div>
@@ -73,27 +73,16 @@
         </div>
     </div>
 
+    {% include "_customer_service_helpers.html" %}
     <script>
-        function getBasePath() {
-            const path = window.location.pathname || "/";
-            const parts = path.split("/").filter(Boolean);
-            if (parts.length > 0 && (parts[0] === "customerService_app" || parts[0] === "support")) {
-                return "/" + parts[0];
-            }
-            return "";
-        }
-        const BASE = getBasePath();
+        const BASE = getCustomerServiceBasePath();
 
         function navigate(panel) {
-            window.location.href = `${BASE}/${panel}`;
+            navigateCustomerService(`/${panel}`);
         }
 
-        function logout() {
-            if (confirm("Are you sure you want to logout?")) {
-                localStorage.clear();
-                sessionStorage.clear();
-                window.location.href = `${BASE}/logout`;
-            }
+        async function logout() {
+            await logoutCustomerService();
         }
     </script>
 </body>

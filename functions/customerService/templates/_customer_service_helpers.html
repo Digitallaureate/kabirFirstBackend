@@ -1,0 +1,51 @@
+<script>
+    function getCustomerServiceBasePath() {
+        const path = window.location.pathname || "/";
+        const customerServiceIndex = path.indexOf("/customerService_app");
+        if (customerServiceIndex !== -1) {
+            return path.slice(0, customerServiceIndex + "/customerService_app".length);
+        }
+        if (path.startsWith("/support/") || path === "/support") return "/support";
+        return "";
+    }
+
+    function buildCustomerServiceUrl(path) {
+        const base = getCustomerServiceBasePath();
+        const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+        return `${base}${normalizedPath}`;
+    }
+
+    function navigateCustomerService(path) {
+        window.location.href = buildCustomerServiceUrl(path);
+    }
+
+    async function logoutCustomerService(options = {}) {
+        const shouldConfirm = options.confirm !== false;
+        const shouldStopPolling = options.stopPolling !== false;
+
+        if (shouldStopPolling && typeof stopChatPolling === "function") {
+            stopChatPolling();
+        }
+
+        if (shouldConfirm && !window.confirm("Are you sure you want to logout?")) {
+            return;
+        }
+
+        try {
+            await fetch(buildCustomerServiceUrl("/logout"), {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                credentials: "same-origin"
+            });
+        } catch (error) {
+            console.warn("Logout request failed, redirecting to login anyway", error);
+        } finally {
+            localStorage.clear();
+            sessionStorage.clear();
+            navigateCustomerService("/login");
+        }
+    }
+</script>

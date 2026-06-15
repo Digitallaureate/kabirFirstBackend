@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import logging
 import os
+import json
 from functools import wraps
 from datetime import datetime
 from uuid import uuid4
@@ -37,6 +38,14 @@ class MultiSubPathMiddleware:
     def __call__(self, environ, start_response):
         path_info = environ.get("PATH_INFO", "") or ""
 
+        # Firebase Functions emulator prefixes the function path with
+        # /<project>/<region>/, so normalize that to /customerService_app first.
+        if "/customerService_app" in path_info and not path_info.startswith("/customerService_app"):
+            emulator_prefix, _, remainder = path_info.partition("/customerService_app")
+            environ["PATH_INFO"] = remainder or "/"
+            environ["SCRIPT_NAME"] = f"{environ.get('SCRIPT_NAME', '')}{emulator_prefix}/customerService_app"
+            return self.app(environ, start_response)
+
         for prefix in self.prefixes:
             if path_info == prefix or path_info.startswith(prefix + "/"):
                 environ["PATH_INFO"] = path_info[len(prefix):] or "/"
@@ -51,13 +60,21 @@ app.wsgi_app = MultiSubPathMiddleware(app.wsgi_app)
 # ---------------------------
 # ✅ AUTH HELPERS
 # ---------------------------
+def prefixed_url_for(endpoint, **values):
+    target = url_for(endpoint, **values)
+    script_root = (request.script_root or "").rstrip("/")
+    if script_root and target.startswith("/") and not target.startswith(script_root + "/"):
+        return f"{script_root}{target}"
+    return target
+
+
 def login_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         if not session.get("admin_logged_in"):
             if request.path.startswith("/api") or request.is_json:
                 return jsonify({"success": False, "error": "Unauthorized. Please login."}), 401
-            return redirect(url_for("login"))
+            return redirect(prefixed_url_for("login"))
         return fn(*args, **kwargs)
     return wrapper
 
@@ -102,15 +119,15 @@ def verify_admin_from_firestore(username: str, password: str):
 @app.route("/", methods=["GET"])
 def home():
     if session.get("admin_logged_in"):
-        return redirect(url_for("dashboard"))
-    return redirect(url_for("login"))
+        return redirect(prefixed_url_for("dashboard"))
+    return redirect(prefixed_url_for("login"))
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
         if session.get("admin_logged_in"):
-            return redirect(url_for("dashboard"))
+            return redirect(prefixed_url_for("dashboard"))
         return render_template("index.html")
 
     # ✅ Robust JSON detection (works behind Cloud Functions too)
@@ -121,10 +138,18 @@ def login():
         or request.headers.get("X-Requested-With") == "XMLHttpRequest"
     )
 
-    # ✅ Try to parse JSON even if request.is_json is unreliable
-    body = request.get_json(silent=True) or {}
+    # ✅ Parse request body without depending on request.get_json(), which can
+    # behave inconsistently through the local Functions emulator wrapper.
+    username = ""
+    password = ""
 
-    if wants_json and body:
+    if "application/json" in content_type:
+        raw_body = request.get_data(cache=True, as_text=True) or ""
+        try:
+            body = json.loads(raw_body) if raw_body else {}
+        except json.JSONDecodeError:
+            body = {}
+
         username = (body.get("username") or "").strip()
         password = (body.get("password") or "").strip()
     else:
@@ -151,15 +176,21 @@ def login():
     if wants_json:
         return jsonify({"success": True, "message": "Login successful"}), 200
 
-    return redirect(url_for("dashboard"))
+    return redirect(prefixed_url_for("dashboard"))
 
 
 
 @app.route("/logout", methods=["GET"])
 @login_required
 def logout():
+    wants_json = (
+        "application/json" in (request.headers.get("Accept") or "").lower()
+        or request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    )
     session.clear()
-    return redirect(url_for("login"))
+    if wants_json:
+        return jsonify({"success": True, "redirect": prefixed_url_for("login")}), 200
+    return redirect(prefixed_url_for("login"))
 
 
 @app.route("/dashboard", methods=["GET"])
@@ -177,7 +208,7 @@ def customer_support():
 @app.route("/orders", methods=["GET"])
 @login_required
 def orders():
-    return render_template("orders.html")
+    return redirect(prefixed_url_for("customer_support"))
 
 
 # ---------------------------
@@ -401,40 +432,44 @@ def send_message_to_user(magic_word_user_id):
         if not message_type:
             message_type = "custom"
 
-        db = get_project_b_firestore()
-        if db is None:
-            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
-
-        chat_doc = db.collection("chats").document(chat_id).get()
-        if not chat_doc.exists:
-            return jsonify({"success": False, "error": "Chat not found"}), 404
-
-        chat_location = (chat_doc.to_dict() or {}).get("location")
-
-        message_data = {
-            "role": "assistant",
-            "content": message_content,  # ✅ text only
-            "image_url": image_url or None,
-            "created_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
-            "location": chat_location,
-            "user_id": "CustomerService"  # ✅ Identify sender so listener skips processing
-        }
-
-        # remove None keys (clean Firestore doc)
-        message_data = {k: v for k, v in message_data.items() if v is not None}
-
-        db.collection("chats").document(chat_id).collection("messages").add(message_data)
-
-        return jsonify({
-            "success": True,
-            "message": "Message sent successfully",
-            "messageType": message_type,
-            "chatId": chat_id,
-            "saved": message_data
-        }), 200
+        payload, status_code = _create_customer_service_chat_message(
+            chat_id=chat_id,
+            message_content=message_content,
+            image_url=image_url,
+            message_type=message_type,
+        )
+        return jsonify(payload), status_code
 
     except Exception as e:
         logging.exception("Error in send_message_to_user endpoint")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/chats/<chat_id>/send-message", methods=["POST"])
+@login_required
+def send_message_to_chat(chat_id):
+    try:
+        request_body = request.get_json() or {}
+        message_type = request_body.get("messageType") or "custom"
+        message_content = (request_body.get("message") or "").strip()
+        image_url = (request_body.get("imageUrl") or request_body.get("image_url") or "").strip()
+
+        if not chat_id:
+            return jsonify({"success": False, "error": "Chat ID is required"}), 400
+
+        if not message_content and not image_url:
+            return jsonify({"success": False, "error": "Message text or image is required"}), 400
+
+        payload, status_code = _create_customer_service_chat_message(
+            chat_id=chat_id,
+            message_content=message_content,
+            image_url=image_url,
+            message_type=message_type,
+        )
+        return jsonify(payload), status_code
+
+    except Exception as e:
+        logging.exception("Error in send_message_to_chat endpoint")
         return jsonify({"success": False, "error": str(e)}), 500
 
 
@@ -576,7 +611,12 @@ def update_magic_word_status(magic_word_id):
                 "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
             })
             logging.info(f"✅ User {booking_details.get('userId')} updated")
-            print(f"👤 USER UPDATE: Phone={user_update.get('phoneNumber')}, Name={user_update.get('firstName')} {user_update.get('lastName')}")
+            logging.info(
+                "User update: phone=%s name=%s %s",
+                user_update.get("phoneNumber"),
+                user_update.get("firstName"),
+                user_update.get("lastName"),
+            )
         
         # Prepare update data
         update_data = {
@@ -599,7 +639,7 @@ def update_magic_word_status(magic_word_id):
         if new_status == "completed" and chat_id:
              try:
                  db.collection("chats").document(chat_id).update({"isHumanInteraction": False})
-                 print(f"🤖 Automation Restored: isHumanInteraction set to False for chat {chat_id}")
+                 logging.info("Automation restored for chat %s", chat_id)
              except Exception as e:
                  logging.error(f"❌ Failed to disable human interaction for chat {chat_id}: {e}")
         
@@ -608,18 +648,18 @@ def update_magic_word_status(magic_word_id):
             # ✅ ONLY create service request/send message if we have actual details
             # (Avoids sending message when just viewing/auto-updating status)
             if booking_details:
-                print(f"📝 Creating service request with details...")
-                print(f"💳 Payment Status: {payment_status}")
+                logging.info("Creating service request with details")
+                logging.info("Payment status: %s", payment_status)
                 
                 sr_result = create_service_request(magic_word_user_id, current_data, booking_details)
-                print(f"📝 Service request result: {sr_result}")
+                logging.info("Service request result: %s", sr_result)
                 
                 if sr_result.get("success"):
                     service_request_id = sr_result.get("service_request_id")
                     
                     # ✅ Check if payment is successful
                     if payment_status == "success":
-                        print(f"✅ PAYMENT SUCCESS - Creating service order...")
+                        logging.info("Payment success - creating service order")
                         
                         # 🎫 Create booking order immediately
                         order_result = create_service_order(
@@ -627,7 +667,7 @@ def update_magic_word_status(magic_word_id):
                             service_request_id,
                             booking_details
                         )
-                        print(f"🎫 Order result: {order_result}")
+                        logging.info("Service order result: %s", order_result)
                         
                         if order_result.get("success"):
                             # ✅ Update magic word status to reflect payment success
@@ -641,37 +681,38 @@ def update_magic_word_status(magic_word_id):
                             # Send confirmation message
                             # msg_result = send_booking_confirmation_message(chat_id, booking_details)
                             # print(f"📨 Confirmation message sent: {msg_result}")
-                            print("📨 Skipping confirmation message as per user request")
+                            logging.info("Skipping confirmation message as requested")
                         else:
                             logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
                     else:
-                        print(f"⏳ Payment pending/failed - Order not created yet")
+                        logging.info("Payment pending or failed - order not created yet")
                         # Send service request confirmation (not booking confirmation)
                         # msg_result = send_service_request_message(chat_id, magic_word, booking_details)
                         # print(f"📨 Service request message sent: {msg_result}")
-                        print("📨 Skipping service request message as per user request")
+                        logging.info("Skipping service request message as requested")
                 else:
                     logging.warning(f"⚠️ Service request creation failed: {sr_result.get('error')}")
             else:
-                print(f"👀 Status updated to inProgress (View Mode) - Skipping service request creation/message")
+                logging.info("Status updated to inProgress (view mode) - skipping service request creation/message")
         
         # 🎫 Create booking order when status changes to completed (if not already created via payment)
         if new_status == "completed" and service_request_id:
-            print(f"🎫 Creating booking order from completed status...")
+            logging.info("Creating booking order from completed status")
             order_result = create_service_order(
                 magic_word_user_id, 
                 service_request_id,
                 booking_details
             )
-            print(f"🎫 Order result: {order_result}")
+            logging.info("Completed-status order result: %s", order_result)
             
             if order_result.get("success"):
                 # msg_result = send_booking_confirmation_message(chat_id, booking_details)
                 # print(f"📨 Confirmation message sent: {msg_result}")
-                print("📨 Skipping completion message as per user request")
+                logging.info("Skipping completion message as requested")
             else:
                 logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
         
+        vendor_id = vendor_user_name
         return jsonify({
             "success": True,
             "new_status": new_status,
@@ -737,12 +778,12 @@ def get_services_by_monument(monument_id):
     try:
         db = get_project_b_firestore()
         
-        print(f"🏛️ Fetching services for monument: {monument_id}")
+        logging.info("Fetching services for monument: %s", monument_id)
         
         # Get the monument document
         monument_doc = db.collection("serviceMonument").document(monument_id).get()
         if not monument_doc.exists:
-            print(f"⚠️ Monument {monument_id} not found")
+            logging.warning("Monument %s not found", monument_id)
             return jsonify({
                 "success": False,
                 "services": [],
@@ -750,25 +791,32 @@ def get_services_by_monument(monument_id):
             }), 404
         
         monument_data = monument_doc.to_dict() or {}
-        print(f"🏛️ Monument data keys:", list(monument_data.keys()))
+        logging.info("Monument data keys: %s", list(monument_data.keys()))
         
         # ✅ Get serviceAvilable array from monument document
         service_available = monument_data.get("serviceAvilable", [])
         
         if not service_available:
-            print(f"⚠️ No serviceAvilable array found in monument")
+            logging.warning("No serviceAvilable array found in monument %s", monument_id)
             return jsonify({
                 "success": True,
                 "services": [],
                 "message": "No services available for this monument"
             })
         
-        print(f"📦 Total services in serviceAvilable: {len(service_available)}")
+        logging.info("Total services in serviceAvilable: %s", len(service_available))
         
         # ✅ Debug: Print all services and their isAvailable status
         for idx, service in enumerate(service_available):
             is_avail = service.get("isAvilable")
-            print(f"   Service {idx}: title={service.get('title')}, isAvailable={is_avail}, type={type(is_avail)}, serviceId={service.get('id')} ")
+            logging.info(
+                "Service %s: title=%s isAvailable=%s type=%s serviceId=%s",
+                idx,
+                service.get("title"),
+                is_avail,
+                type(is_avail),
+                service.get("id"),
+            )
         
         # ✅ Filter ONLY services where isAvailable is true
         available_services = []
@@ -777,14 +825,22 @@ def get_services_by_monument(monument_id):
             # Only include if isAvailable is boolean True
             if is_available is True:
                 available_services.append(service)
-                print(f"   ✅ Including: {service.get('title')}")
+                logging.info("Including available service: %s", service.get("title"))
             else:
-                print(f"   ❌ Skipping: {service.get('title')} (isAvailable={is_available})")
+                logging.info(
+                    "Skipping unavailable service: %s (isAvailable=%s)",
+                    service.get("title"),
+                    is_available,
+                )
         
-        print(f"✅ Found {len(available_services)} AVAILABLE services out of {len(service_available)} total")
+        logging.info(
+            "Found %s available services out of %s total",
+            len(available_services),
+            len(service_available),
+        )
         
         if not available_services:
-            print(f"⚠️ NO services have isAvailable=true")
+            logging.warning("No services have isAvailable=true for monument %s", monument_id)
             return jsonify({
                 "success": True,
                 "services": [],
@@ -803,9 +859,9 @@ def get_services_by_monument(monument_id):
             for service in available_services
         ]
         
-        print(f"✅ Returning {len(formatted_services)} formatted services:")
+        logging.info("Returning %s formatted services", len(formatted_services))
         for svc in formatted_services:
-            print(f"   - {svc['title']}")
+            logging.info("Formatted service: %s", svc["title"])
         
         return jsonify({
             "success": True,
@@ -814,7 +870,7 @@ def get_services_by_monument(monument_id):
         
     except Exception as e:
         logging.exception(f"Error fetching services for monument {monument_id}")
-        print(f"❌ Error: {str(e)}")
+        logging.error("Error fetching services for monument %s: %s", monument_id, str(e))
         return jsonify({
             "success": False,
             "error": str(e),
@@ -825,6 +881,214 @@ def get_services_by_monument(monument_id):
 # ---------------------------
 # ✅ SERVICE JSON ORDERS (serviceJsonOrder collection)
 # ---------------------------
+def _service_order_value(value):
+    """Normalize Firestore field_values entries that may be scalars or {label, value} maps."""
+    if isinstance(value, dict):
+        return value.get("label") or value.get("value") or ""
+    if isinstance(value, list):
+        parts = [_service_order_value(v) for v in value]
+        parts = [str(p).strip() for p in parts if str(p).strip()]
+        return ", ".join(parts)
+    return value if value is not None else ""
+
+
+def _service_order_number(value, default=None):
+    try:
+        if value is None or value == "":
+            return default
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _humanize_field_key(key: str) -> str:
+    return (key or "").replace("_", " ").strip().title()
+
+
+def _get_latest_chat_for_user(db, user_id: str, explicit_chat_id: str = "") -> dict:
+    if not user_id and not explicit_chat_id:
+        return {}
+
+    try:
+        from customerService.user_summary import _ts_to_iso, _iso_to_readable
+
+        chat_doc = None
+        if explicit_chat_id:
+            explicit_doc = db.collection("chats").document(explicit_chat_id).get()
+            if explicit_doc.exists:
+                chat_doc = explicit_doc
+
+        if chat_doc is None and user_id:
+            latest_chat_docs = (
+                db.collection("chats")
+                .where("participants", "array_contains", user_id)
+                .order_by("updated_at", direction=gfirestore.Query.DESCENDING)
+                .limit(1)
+                .get()
+            )
+            if latest_chat_docs:
+                chat_doc = latest_chat_docs[0]
+
+        if chat_doc is None:
+            return {}
+
+        chat_data = chat_doc.to_dict() or {}
+        chat_data["id"] = chat_doc.id
+        for ts_field in ("created_at", "updated_at"):
+            if ts_field in chat_data:
+                iso = _ts_to_iso(chat_data[ts_field])
+                chat_data[ts_field] = iso
+                chat_data[f"{ts_field}_readable"] = _iso_to_readable(iso)
+        return chat_data
+    except Exception as chat_err:
+        logging.warning("Could not resolve chat for user %s: %s", user_id, chat_err)
+        return {}
+
+
+def _create_customer_service_chat_message(chat_id: str, message_content: str, image_url: str = "", message_type: str = "custom"):
+    db = get_project_b_firestore()
+    if db is None:
+        return {"success": False, "error": "Firestore not initialized"}, 500
+
+    chat_doc = db.collection("chats").document(chat_id).get()
+    if not chat_doc.exists:
+        return {"success": False, "error": "Chat not found"}, 404
+
+    chat_location = (chat_doc.to_dict() or {}).get("location")
+    message_data = {
+        "role": "assistant",
+        "content": message_content,
+        "image_url": image_url or None,
+        "created_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
+        "location": chat_location,
+        "user_id": "CustomerService",
+    }
+    message_data = {k: v for k, v in message_data.items() if v is not None}
+
+    db.collection("chats").document(chat_id).collection("messages").add(message_data)
+    return {
+        "success": True,
+        "message": "Message sent successfully",
+        "messageType": message_type,
+        "chatId": chat_id,
+        "saved": message_data,
+    }, 200
+
+
+def _normalize_service_json_order(order: dict) -> dict:
+    field_values = order.get("field_values") or {}
+    payment_details = order.get("payment_details") or {}
+    price_summary = order.get("price_summary") or {}
+
+    traveler_name = (
+        _service_order_value(field_values.get("full_name"))
+        or order.get("traveler_name")
+        or order.get("customer_name")
+        or ""
+    )
+    traveler_phone = (
+        _service_order_value(field_values.get("phone_number"))
+        or _service_order_value(field_values.get("mobile_number"))
+        or order.get("traveler_phone_number")
+        or ""
+    )
+    monument_name = (
+        _service_order_value(field_values.get("monument_id"))
+        or order.get("monument_to_visit")
+        or order.get("monument_id")
+        or ""
+    )
+    languages = (
+        _service_order_value(field_values.get("language_preference"))
+        or order.get("language_preference")
+        or ""
+    )
+    time_slot = (
+        _service_order_value(field_values.get("time_slot"))
+        or order.get("time_slot")
+        or ""
+    )
+    travel_date = (
+        _service_order_value(field_values.get("travel_date"))
+        or _service_order_value(field_values.get("start_date"))
+        or order.get("date_of_service")
+        or ""
+    )
+    traveler_count = (
+        _service_order_value(field_values.get("number_of_travelers"))
+        or order.get("number_of_travelers")
+        or ""
+    )
+    service_name = order.get("service_name") or order.get("service_id") or order.get("item_id") or ""
+
+    price = (
+        _service_order_number(price_summary.get("total"), default=None)
+        or _service_order_number(payment_details.get("amount"), default=None)
+        or _service_order_number(order.get("price"), default=None)
+    )
+    vendor_price = _service_order_number(order.get("vendor_price"), default=None)
+
+    payment_status = (
+        payment_details.get("payment_status")
+        or payment_details.get("status")
+        or order.get("payment_status")
+        or ""
+    )
+
+    payment_summary = []
+    if isinstance(price_summary.get("items"), list):
+        for item in price_summary.get("items"):
+            if not isinstance(item, dict):
+                continue
+            label = item.get("label") or "Item"
+            amount = item.get("amount")
+            payment_summary.append({"label": label, "amount": amount})
+
+    dynamic_fields = []
+    used_field_keys = {
+        "full_name",
+        "phone_number",
+        "mobile_number",
+        "monument_id",
+        "language_preference",
+        "time_slot",
+        "travel_date",
+        "start_date",
+        "number_of_travelers",
+    }
+    if isinstance(field_values, dict):
+        for key, raw_value in field_values.items():
+            if key in used_field_keys:
+                continue
+            normalized_value = _service_order_value(raw_value)
+            if normalized_value in ("", None):
+                continue
+            dynamic_fields.append({
+                "key": key,
+                "label": _humanize_field_key(key),
+                "value": normalized_value,
+            })
+
+    normalized = dict(order)
+    normalized.update({
+        "traveler_name": traveler_name,
+        "traveler_phone_number": traveler_phone,
+        "monument_name": monument_name,
+        "language_preference": languages,
+        "time_slot_display": str(time_slot or ""),
+        "date_of_service": travel_date,
+        "number_of_travelers": traveler_count,
+        "service_name": service_name,
+        "service_type": service_name,
+        "price": price,
+        "vendor_price": vendor_price,
+        "payment_status": payment_status,
+        "payment_summary": payment_summary,
+        "field_values_display": dynamic_fields,
+    })
+    return normalized
+
+
 @app.route("/api/service-orders", methods=["GET"])
 @login_required
 def api_service_orders():
@@ -862,13 +1126,18 @@ def api_service_orders():
                     d[ts_field] = iso
                     d[f"{ts_field}_readable"] = _iso_to_readable(iso)
 
-            items.append(d)
+            items.append(_normalize_service_json_order(d))
 
         # Sort newest first in memory (created_at is the best sort key)
         items.sort(key=lambda x: x.get("created_at") or "", reverse=True)
         items = items[:limit]
 
         logging.info(f"✅ Fetched {len(items)} service orders with booking_status=booked")
+        logging.info("Service orders sample count: %s", len(items))
+        if items:
+            logging.info("Service orders sample (first 3): %s", json.dumps(items[:3], default=str))
+        else:
+            logging.info("Service orders response is empty")
         return jsonify({"found": True, "count": len(items), "items": items}), 200
 
     except Exception as e:
@@ -901,8 +1170,10 @@ def api_service_order_detail(order_id):
                 d[ts_field] = iso
                 d[f"{ts_field}_readable"] = _iso_to_readable(iso)
 
+        normalized_order = _normalize_service_json_order(d)
+
         # Enrich with user details if user_id present
-        user_id = d.get("user_id")
+        user_id = normalized_order.get("user_id")
         user_data = {}
         if user_id:
             try:
@@ -921,7 +1192,7 @@ def api_service_order_detail(order_id):
                 logging.warning(f"Could not fetch user {user_id}: {ue}")
 
         # Enrich with vendor details if vendor_id present
-        vendor_id = d.get("vendor_id")
+        vendor_id = normalized_order.get("vendor_id")
         vendor_data = {}
         if vendor_id:
             try:
@@ -937,7 +1208,20 @@ def api_service_order_detail(order_id):
             except Exception as ve:
                 logging.warning(f"Could not fetch vendor {vendor_id}: {ve}")
 
-        return jsonify({"found": True, "order": d, "user": user_data, "vendor": vendor_data}), 200
+        chat_data = _get_latest_chat_for_user(
+            db,
+            user_id=user_id,
+            explicit_chat_id=normalized_order.get("chat_id") or d.get("chat_id") or "",
+        )
+
+        return jsonify({
+            "found": True,
+            "order": normalized_order,
+            "raw_order": d,
+            "user": user_data,
+            "vendor": vendor_data,
+            "chat": chat_data,
+        }), 200
 
     except Exception as e:
         logging.exception("Error fetching service order detail")
@@ -954,9 +1238,14 @@ def api_update_service_order_status(order_id):
             return jsonify({"success": False, "error": "Firestore not initialized"}), 500
 
         body = request.get_json() or {}
-        new_status = (body.get("status") or "").strip()
+        requested_status = (body.get("status") or "").strip().lower()
+        status_aliases = {
+            "confirmed": "alloted",
+            "in_progress": "ongoing",
+        }
+        new_status = status_aliases.get(requested_status, requested_status)
 
-        VALID_STATUSES = ["booked", "confirmed", "in_progress", "completed", "cancelled"]
+        VALID_STATUSES = ["booked", "alloted", "ongoing", "completed", "cancelled"]
         if not new_status or new_status not in VALID_STATUSES:
             return jsonify({"success": False, "error": f"Invalid status. Must be one of: {VALID_STATUSES}"}), 400
 
@@ -965,7 +1254,32 @@ def api_update_service_order_status(order_id):
         if not doc.exists:
             return jsonify({"success": False, "error": "Order not found"}), 404
 
-        old_status = (doc.to_dict() or {}).get("booking_status", "unknown")
+        current_data = doc.to_dict() or {}
+        old_status = status_aliases.get(
+            (current_data.get("booking_status") or "").strip().lower(),
+            (current_data.get("booking_status") or "unknown").strip().lower()
+        )
+        vendor_id = (current_data.get("vendor_id") or "").strip()
+
+        if new_status == "alloted" and not vendor_id:
+            return jsonify({
+                "success": False,
+                "error": "Vendor must be assigned before changing status to alloted"
+            }), 400
+
+        allowed_transitions = {
+            "booked": ["booked", "alloted", "cancelled"],
+            "alloted": ["alloted", "ongoing", "cancelled"],
+            "ongoing": ["ongoing", "completed", "cancelled"],
+            "completed": ["completed"],
+            "cancelled": ["cancelled"],
+        }
+        allowed_next_statuses = allowed_transitions.get(old_status, [old_status])
+        if new_status not in allowed_next_statuses:
+            return jsonify({
+                "success": False,
+                "error": f"Invalid status transition from {old_status} to {new_status}. Allowed: {allowed_next_statuses}"
+            }), 400
 
         doc_ref.update({
             "booking_status": new_status,
@@ -990,10 +1304,10 @@ def api_assign_vendor_to_order(order_id):
             return jsonify({"success": False, "error": "Firestore not initialized"}), 500
 
         body = request.get_json() or {}
-        vendor_id = (body.get("vendor_id") or "").strip()
+        vendor_identifier = (body.get("vendor_id") or "").strip()
         vendor_price = body.get("vendor_price")
 
-        if not vendor_id:
+        if not vendor_identifier:
             return jsonify({"success": False, "error": "vendor_id is required"}), 400
 
         doc_ref = db.collection("serviceJsonOrder").document(order_id)
@@ -1001,10 +1315,46 @@ def api_assign_vendor_to_order(order_id):
         if not doc.exists:
             return jsonify({"success": False, "error": "Order not found"}), 404
 
+        current_data = doc.to_dict() or {}
+
+        vendor_doc_id = ""
+        vendor_user_name = vendor_identifier
+        vendor_id = vendor_identifier
+        vendor_name = vendor_identifier
+        try:
+            from google.cloud.firestore import FieldFilter
+
+            vendor_doc = db.collection("vendor_credential").document(vendor_identifier).get()
+            if vendor_doc.exists:
+                vd = vendor_doc.to_dict() or {}
+                vendor_doc_id = vendor_doc.id
+                vendor_user_name = vd.get("userName") or vendor_identifier
+                vendor_name = vd.get("name") or vendor_user_name or vendor_identifier
+            else:
+                vendor_query = (
+                    db.collection("vendor_credential")
+                    .where(filter=FieldFilter("userName", "==", vendor_identifier))
+                    .limit(1)
+                    .stream()
+                )
+                vendor_doc = next(vendor_query, None)
+                if vendor_doc:
+                    vd = vendor_doc.to_dict() or {}
+                    vendor_doc_id = vendor_doc.id
+                    vendor_user_name = vd.get("userName") or vendor_identifier
+                    vendor_name = vd.get("name") or vendor_user_name or vendor_identifier
+        except Exception:
+            pass
+
         update_data = {
-            "vendor_id": vendor_id,
+            "vendor_id": vendor_user_name,
             "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
         }
+        if vendor_doc_id:
+            update_data["vendor_doc_id"] = vendor_doc_id
+        old_status = (current_data.get("booking_status") or "").strip().lower()
+        if old_status == "booked":
+            update_data["booking_status"] = "alloted"
         if vendor_price is not None:
             try:
                 update_data["vendor_price"] = float(vendor_price)
@@ -1014,17 +1364,24 @@ def api_assign_vendor_to_order(order_id):
         doc_ref.update(update_data)
 
         # Fetch vendor name for response
-        vendor_name = vendor_id
+        vendor_name = vendor_user_name
         try:
-            vdoc = db.collection("vendor_credential").document(vendor_id).get()
+            vdoc = db.collection("vendor_credential").document(vendor_doc_id or vendor_identifier).get()
             if vdoc.exists:
                 vd = vdoc.to_dict() or {}
-                vendor_name = vd.get("name") or vd.get("userName") or vendor_id
+                vendor_name = vd.get("name") or vd.get("userName") or vendor_user_name
         except Exception:
             pass
 
         logging.info(f"✅ serviceJsonOrder {order_id} assigned to vendor {vendor_id}")
-        return jsonify({"success": True, "order_id": order_id, "vendor_id": vendor_id, "vendor_name": vendor_name}), 200
+        return jsonify({
+            "success": True,
+            "order_id": order_id,
+            "vendor_id": vendor_user_name,
+            "vendor_doc_id": vendor_doc_id,
+            "vendor_name": vendor_name,
+            "new_status": update_data.get("booking_status", old_status or current_data.get("booking_status") or ""),
+        }), 200
 
     except Exception as e:
         logging.exception("Error assigning vendor to order")
@@ -1067,6 +1424,7 @@ def api_vendors():
 # ✅ UPLOAD IMAGE (NO login_required)
 # ---------------------------
 @app.route("/api/upload-customer-service-image", methods=["POST"])
+@login_required
 def upload_customer_service_image():
     try:
         if "file" not in request.files:

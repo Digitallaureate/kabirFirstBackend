@@ -79,6 +79,7 @@
 #     return storage.bucket(app=get_project_b_app())
 
 from firebase_admin import firestore, storage, credentials, initialize_app, get_app
+from google.auth.exceptions import DefaultCredentialsError
 import os
 
 
@@ -114,7 +115,10 @@ def get_project_b_app():
     except ValueError:
         try:
             cred = credentials.ApplicationDefault()
-        except Exception:
+            # Force credential resolution now so local emulator can fall back
+            # to the service account instead of failing later on first DB call.
+            cred.get_credential()
+        except (DefaultCredentialsError, Exception):
             cred_path = _get_service_account_path()
             cred = credentials.Certificate(cred_path)
 

@@ -1,5 +1,6 @@
 # Cloud Functions for Firebase SDK
 from firebase_functions import firestore_fn, https_fn
+from io import BytesIO
 
 # Firebase Admin SDK to access Firestore
 from firebase_admin import initialize_app, firestore  # ✅ import firestore properly
@@ -67,14 +68,35 @@ def customerService_app(req: https_fn.Request) -> https_fn.Response:
     """
     Exposes the Flask admin panel at /support/** via Firebase Hosting rewrite.
     """
-    # Create Flask request context from the WSGI environ
-    with flask_app.request_context(req.environ):
-        resp = flask_app.full_dispatch_request()
+    environ = dict(req.environ)
 
-    # Convert Flask Response -> Firebase Response
+    # Ensure Flask reads a stable in-memory request body inside the emulator.
+    raw_body = req.get_data(cache=True)
+    environ["wsgi.input"] = BytesIO(raw_body)
+    environ["CONTENT_LENGTH"] = str(len(raw_body))
+
+    status_holder = {}
+
+    def start_response(status, headers, exc_info=None):
+        status_holder["status"] = status
+        status_holder["headers"] = headers
+        return None
+
+    response_iter = flask_app.wsgi_app(environ, start_response)
+    try:
+        response_body = b"".join(response_iter)
+    finally:
+        close_fn = getattr(response_iter, "close", None)
+        if close_fn:
+            close_fn()
+
+    status_code = int(status_holder.get("status", "500").split()[0])
+    headers = dict(status_holder.get("headers", []))
+    content_type = headers.pop("Content-Type", None)
+
     return https_fn.Response(
-        resp.get_data(),
-        status=resp.status_code,
-        headers=dict(resp.headers),
-        content_type=resp.content_type,
+        response_body,
+        status=status_code,
+        headers=headers,
+        content_type=content_type,
     )

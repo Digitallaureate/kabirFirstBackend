@@ -1,119 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <title>Customer Support – Kabir Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #f5f7fa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; }
-        .container-wrapper { padding: 2rem 0; }
-        .panel-card { border-radius: 8px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; height: 100%; border: 1px solid #e0e0e0; transition: box-shadow 0.2s ease; }
-        .panel-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
-        .panel-header { background-color: #2c3e50; color: white; padding: 1.2rem; font-size: 1.3rem; font-weight: 600; border-bottom: 1px solid #ecf0f1; }
-        .panel-body { padding: 1.5rem; max-height: 750px; overflow-y: auto; background-color: #ffffff; }
-        .panel-body::-webkit-scrollbar { width: 6px; }
-        .panel-body::-webkit-scrollbar-track { background: #f0f0f0; }
-        .panel-body::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
-        .hidden { display: none; }
-        .user-search-form { margin-bottom: 1rem; }
-        .user-search-form .input-group { border-radius: 5px; overflow: hidden; }
-        .user-search-form .form-control { border: 1px solid #ddd; padding: 0.6rem 0.8rem; font-size: 0.9rem; }
-        .user-search-form .form-control:focus { border-color: #2c3e50; box-shadow: 0 0 0 0.15rem rgba(44,62,80,0.1); }
-        .user-search-form .btn-primary { background-color: #2c3e50; border: none; font-weight: 500; }
-        .user-search-form .btn-primary:hover { background-color: #1a252f; }
-        .user-info-card { background-color: #f8f9fa; border-left: 3px solid #2c3e50; padding: 0.9rem; border-radius: 5px; margin-bottom: 0.8rem; }
-        .user-info-card h6 { color: #2c3e50; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; }
-        .user-info-card p { color: #555; line-height: 1.5; margin-bottom: 0.3rem; font-size: 0.85rem; }
-        .user-info-card code { background-color: #e8eef5; color: #2c3e50; padding: 0.2rem 0.4rem; border-radius: 3px; font-weight: 500; }
-        .grid-requests { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.2rem; }
-        .grid-request-card { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; cursor: pointer; transition: all 0.2s ease; border: 1px solid #e0e0e0; display: flex; flex-direction: column; }
-        .grid-request-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); transform: translateY(-2px); }
-        .grid-card-header { background-color: #2c3e50; color: white; padding: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
-        .grid-card-body { padding: 0.9rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .grid-card-magic-word { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; color: #ffffff; }
-        .grid-card-location { font-size: 0.85rem; color: #666; margin-bottom: 0.4rem; }
-        .grid-card-time { font-size: 0.8rem; color: #999; margin-top: auto; }
-        .detail-section { margin-bottom: 1.5rem; border-radius: 8px; overflow: hidden; }
-        .detail-section .card { background: white; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: 100%; }
-        .detail-section .card-header { background-color: #2c3e50; color: white; border: none; padding: 1rem; font-weight: 600; font-size: 1rem; }
-        .detail-section .card-body { padding: 1.2rem; background-color: #ffffff; }
-        .alert { border: none; border-left: 3px solid; border-radius: 5px; }
-        .alert-info { border-left-color: #2c3e50; background-color: #ecf0f7; color: #333; }
-        .alert-danger { border-left-color: #e74c3c; background-color: #fadbd8; color: #c0392b; }
-        .alert-secondary { border-left-color: #95a5a6; background-color: #ecf0f1; color: #555; }
-        .alert-success { border-left-color: #27ae60; background-color: #d5f4e6; color: #186a3b; }
-        .btn-primary { background-color: #2c3e50; border: none; font-weight: 500; }
-        .btn-primary:hover { background-color: #1a252f; }
-        .btn-outline-secondary { border: 1px solid #2c3e50; color: #2c3e50; font-weight: 500; }
-        .btn-outline-secondary:hover { background-color: #2c3e50; border-color: #2c3e50; color: white; }
-        .btn-outline-danger { border: 1px solid #e74c3c; color: #e74c3c; font-weight: 500; }
-        .btn-outline-danger:hover { background-color: #e74c3c; border-color: #e74c3c; color: white; }
-        .badge { padding: 0.4rem 0.8rem; font-weight: 500; font-size: 0.75rem; color: white; }
-        .badge.bg-warning { background-color: #f39c12 !important; color: white; }
-        .badge.bg-primary { background-color: #3498db !important; color: white; }
-        .badge.bg-success { background-color: #27ae60 !important; color: white; }
-        .badge.bg-info { background-color: #3498db !important; color: white; }
-        .badge.bg-secondary { background-color: #95a5a6 !important; color: white; }
-        .badge.bg-danger { background-color: #e74c3c !important; color: white; }
-        #detail-chatContext { scroll-behavior: smooth; }
-        #detail-chatContext::-webkit-scrollbar { width: 6px; }
-        #detail-chatContext::-webkit-scrollbar-track { background: #f0f0f0; }
-        #detail-chatContext::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
-        .modal-content { border: 1px solid #e0e0e0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 8px; }
-        .modal-header { background-color: #2c3e50 !important; border: none; padding: 1.2rem; }
-        .modal-body { background-color: #ffffff; padding: 1.2rem; }
-        .form-control, .form-select { border: 1px solid #ddd; border-radius: 5px; padding: 0.6rem 0.8rem; font-size: 0.9rem; transition: border-color 0.2s ease; }
-        .form-control:focus, .form-select:focus { border-color: #2c3e50; box-shadow: 0 0 0 0.15rem rgba(44,62,80,0.1); }
-        .form-label { color: #333; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; }
-        h1 { color: #2c3e50; font-weight: 700; margin-bottom: 0.5rem; }
-        h5 { color: white; font-weight: 600; }
-        .page-header { margin-bottom: 2rem; }
-        .page-header h1 { font-size: 1.8rem; }
-        .page-header p { color: #7f8c8d; font-size: 0.95rem; margin: 0; }
-        .request-count { display: inline-block; padding: 0.4rem 0.8rem; background-color: #ecf0f1; border-radius: 5px; font-weight: 500; font-size: 0.9rem; color: #2c3e50; margin-bottom: 1rem; }
-        hr { border: none; border-top: 1px solid #e0e0e0; margin: 1rem 0; }
-        .detail-view-container { display: grid; grid-template-columns: 30% 30% 40%; gap: 1.5rem; min-height: calc(100vh - 200px); padding: 0 2rem; }
-        .detail-column { display: flex; flex-direction: column; gap: 1.5rem; }
-        @media (max-width: 1400px) { .detail-view-container { grid-template-columns: 1fr; min-height: auto; padding: 0 2rem; } }
-        @media (max-width: 768px) { .detail-view-container { padding: 0 1rem; } }
-        .chat-messages-container { max-height: 500px; overflow-y: auto; border-radius: 5px; background-color: #f9f9f9; }
-        .chat-message { padding: 0.8rem; margin-bottom: 0.8rem; border-radius: 5px; border-left: 3px solid; }
-        .chat-message.user { background-color: #e7f3ff; border-left-color: #2196F3; }
-        .chat-message.assistant { background-color: #e8f5e9; border-left-color: #4CAF50; }
-        .chat-message-role { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; }
-        .chat-message-time { color: #999; font-size: 0.75rem; margin-left: 0.5rem; }
-        .chat-message-content { margin-top: 0.5rem; margin-bottom: 0; font-size: 0.9rem; line-height: 1.4; }
-        #detailView { padding-left: 2rem; padding-right: 2rem; }
-        @media (max-width: 768px) { #detailView { padding-left: 1rem; padding-right: 1rem; } }
-        .request-summary-item { margin-bottom: 1rem; padding: 0.8rem; background-color: #f8f9fa; border-radius: 5px; border-left: 3px solid #2c3e50; }
-        .request-summary-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
-        .request-summary-item-title { font-weight: 600; color: #2c3e50; font-size: 0.9rem; }
-        .request-summary-item-body p { margin-bottom: 0.4rem; font-size: 0.85rem; color: #555; }
-        .request-summary-item-body strong { color: #333; }
-        .request-summary-item-body code { background-color: #e8eef5; color: #2c3e50; padding: 0.2rem 0.4rem; border-radius: 3px; font-weight: 500; font-size: 0.8rem; }
-        #requestSummaryContainer { max-height: 450px; overflow-y: auto; padding: 0.5rem 0; }
-        #requestSummaryContainer::-webkit-scrollbar { width: 6px; }
-        #requestSummaryContainer::-webkit-scrollbar-track { background: #f0f0f0; }
-        #requestSummaryContainer::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #333;
+        }
+
+        .container-wrapper {
+            padding: 2rem 0;
+        }
+
+        .panel-card {
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            height: 100%;
+            border: 1px solid #e0e0e0;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .panel-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .panel-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .panel-body {
+            padding: 1.5rem;
+            max-height: 750px;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+        .panel-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel-body::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+
+        .panel-body::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .user-search-form {
+            margin-bottom: 1rem;
+        }
+
+        .user-search-form .input-group {
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .user-search-form .form-control {
+            border: 1px solid #ddd;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .user-search-form .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.15rem rgba(44, 62, 80, 0.1);
+        }
+
+        .user-search-form .btn-primary {
+            background-color: #2c3e50;
+            border: none;
+            font-weight: 500;
+        }
+
+        .user-search-form .btn-primary:hover {
+            background-color: #1a252f;
+        }
+
+        .user-info-card {
+            background-color: #f8f9fa;
+            border-left: 3px solid #2c3e50;
+            padding: 0.9rem;
+            border-radius: 5px;
+            margin-bottom: 0.8rem;
+        }
+
+        .user-info-card h6 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .user-info-card p {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+        }
+
+        .user-info-card code {
+            background-color: #e8eef5;
+            color: #2c3e50;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .grid-requests {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .grid-request-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .grid-request-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .grid-card-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid-card-body {
+            padding: 0.9rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .grid-card-magic-word {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #ffffff;
+        }
+
+        .grid-card-location {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.4rem;
+        }
+
+        .grid-card-time {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: auto;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .detail-section .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+
+        .detail-section .card-header {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .detail-section .card-body {
+            padding: 1.2rem;
+            background-color: #ffffff;
+        }
+
+        .alert {
+            border: none;
+            border-left: 3px solid;
+            border-radius: 5px;
+        }
+
+        .alert-info {
+            border-left-color: #2c3e50;
+            background-color: #ecf0f7;
+            color: #333;
+        }
+
+        .alert-danger {
+            border-left-color: #e74c3c;
+            background-color: #fadbd8;
+            color: #c0392b;
+        }
+
+        .alert-secondary {
+            border-left-color: #95a5a6;
+            background-color: #ecf0f1;
+            color: #555;
+        }
+
+        .alert-success {
+            border-left-color: #27ae60;
+            background-color: #d5f4e6;
+            color: #186a3b;
+        }
+
+        .btn-primary {
+            background-color: #2c3e50;
+            border: none;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a252f;
+        }
+
+        .btn-outline-secondary {
+            border: 1px solid #2c3e50;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #2c3e50;
+            border-color: #2c3e50;
+            color: white;
+        }
+
+        .btn-outline-danger {
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            color: white;
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        .badge.bg-warning {
+            background-color: #f39c12 !important;
+            color: white;
+        }
+
+        .badge.bg-primary {
+            background-color: #3498db !important;
+            color: white;
+        }
+
+        .badge.bg-success {
+            background-color: #27ae60 !important;
+            color: white;
+        }
+
+        .badge.bg-info {
+            background-color: #3498db !important;
+            color: white;
+        }
+
+        .badge.bg-secondary {
+            background-color: #95a5a6 !important;
+            color: white;
+        }
+
+        .badge.bg-danger {
+            background-color: #e74c3c !important;
+            color: white;
+        }
+
+        #detail-chatContext {
+            scroll-behavior: smooth;
+        }
+
+        #detail-chatContext::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #detail-chatContext::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+
+        #detail-chatContext::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
+
+        .modal-content {
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            background-color: #2c3e50 !important;
+            border: none;
+            padding: 1.2rem;
+        }
+
+        .modal-body {
+            background-color: #ffffff;
+            padding: 1.2rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.15rem rgba(44, 62, 80, 0.1);
+        }
+
+        .form-label {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        h5 {
+            color: white;
+            font-weight: 600;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .page-header p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .request-count {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 1rem 0;
+        }
+
+        .detail-view-container {
+            display: grid;
+            grid-template-columns: 30% 30% 40%;
+            gap: 1.5rem;
+            min-height: calc(100vh - 200px);
+            padding: 0 2rem;
+        }
+
+        .detail-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1400px) {
+            .detail-view-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                padding: 0 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .detail-view-container {
+                padding: 0 1rem;
+            }
+        }
+
+        .chat-messages-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .chat-message {
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border-radius: 5px;
+            border-left: 3px solid;
+        }
+
+        .chat-message.user {
+            background-color: #e7f3ff;
+            border-left-color: #2196F3;
+        }
+
+        .chat-message.assistant {
+            background-color: #e8f5e9;
+            border-left-color: #4CAF50;
+        }
+
+        .chat-message-role {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .chat-message-time {
+            color: #999;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .chat-message-content {
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        #detailView,
+        #serviceOrderDetailView {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        @media (max-width: 768px) {
+
+            #detailView,
+            #serviceOrderDetailView {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        .request-summary-item {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #2c3e50;
+        }
+
+        .request-summary-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+        }
+
+        .request-summary-item-title {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .request-summary-item-body p {
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .request-summary-item-body strong {
+            color: #333;
+        }
+
+        .request-summary-item-body code {
+            background-color: #e8eef5;
+            color: #2c3e50;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        #requestSummaryContainer {
+            max-height: 450px;
+            overflow-y: auto;
+            padding: 0.5rem 0;
+        }
+
+        #requestSummaryContainer::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #requestSummaryContainer::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+
+        #requestSummaryContainer::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 3px;
+        }
     </style>
 </head>
-<body>
-    <div class="container-wrapper container-fluid">
-        <!-- LIST VIEW -->
-        <div id="listView">
-            <div class="page-header d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center gap-3">
-                    <!-- <button class="btn btn-outline-secondary btn-sm" onclick="goHome()">← Home</button> -->
-                    <div>
-                        <h1>Customer Support</h1>
-                        <p>Support requests and user management</p>
-                    </div>
-                </div>
-                <!-- <button class="btn btn-outline-danger" onclick="logout()">🚪 Logout</button> -->
-            </div>
 
+<body>
+    <div class="d-flex flex-row justify-content-between align-items-center w-100">
+        <div>
+            <h1>Customer Support</h1>
+            <p>Support requests and user management</p>
+        </div>
+
+        <button class="btn btn-outline-danger btn-sm" onclick="logout()">
+            🚪 Logout
+        </button>
+    </div>
+    <div class="container-wrapper container-fluid">
+        <div id="listView">
             <div class="row g-3" style="height: 850px;">
                 <!-- Left Panel: User Summary (30%) -->
                 <div class="col-lg-3">
@@ -122,7 +582,8 @@
                         <div class="panel-body">
                             <form class="user-search-form" onsubmit="searchUser(event)">
                                 <div class="input-group">
-                                    <input type="text" id="userIdentifier" class="form-control" placeholder="Phone or email" required />
+                                    <input type="text" id="userIdentifier" class="form-control"
+                                        placeholder="Phone or email" required />
                                     <button class="btn btn-primary" type="submit">Search</button>
                                 </div>
                             </form>
@@ -143,12 +604,15 @@
                                 </div>
                                 <div class="user-info-card">
                                     <h6>Chats</h6>
-                                    <p><strong>Total:</strong> <span id="summary-chatCount" class="badge bg-info">0</span></p>
+                                    <p><strong>Total:</strong> <span id="summary-chatCount"
+                                            class="badge bg-info">0</span></p>
                                     <p><strong>Latest:</strong> <span id="summary-latestChat"></span></p>
                                 </div>
-                                <button class="btn btn-primary w-100 mt-3" onclick="filterRequestsByUser()">🔍 View User's Requests</button>
+                                <button class="btn btn-primary w-100 mt-3" onclick="filterRequestsByUser()">🔍 View
+                                    User's Requests</button>
                             </div>
-                            <div id="userInitialMessage" class="alert alert-info">Enter phone number or email to search user</div>
+                            <div id="userInitialMessage" class="alert alert-info">Enter phone number or email to search
+                                user</div>
                         </div>
                     </div>
                 </div>
@@ -162,12 +626,15 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="d-flex align-items-center gap-3">
                                     <span class="request-count mb-0">Total: <span id="requestCount">0</span></span>
-                                    <button id="soundToggleBtn" class="btn btn-outline-secondary btn-sm" onclick="toggleSound()">🔇 Sound Off</button>
+                                    <button id="soundToggleBtn" class="btn btn-outline-secondary btn-sm"
+                                        onclick="toggleSound()">🔇 Sound Off</button>
                                 </div>
-                                <button class="btn btn-sm btn-outline-secondary" onclick="loadMagicWordRequests()">🔄 Refresh</button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="loadMagicWordRequests()">🔄
+                                    Refresh</button>
                             </div>
                             <div id="requestsList" class="grid-requests"></div>
-                            <div id="emptyMessage" class="alert alert-info text-center hidden">No magic word requests found</div>
+                            <div id="emptyMessage" class="alert alert-info text-center hidden">No magic word requests
+                                found</div>
                         </div>
                     </div>
                 </div>
@@ -180,10 +647,12 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <span class="request-count mb-0">Total: <span id="orderRequestCount">0</span></span>
                                 </div>
-                                <button class="btn btn-sm btn-outline-secondary" onclick="loadServiceOrderRequests()">🔄 Refresh</button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="loadServiceOrderRequests()">🔄
+                                    Refresh</button>
                             </div>
                             <div id="orderRequestsList" class="grid-requests"></div>
-                            <div id="orderEmptyMessage" class="alert alert-info text-center hidden">No booked service orders found</div>
+                            <div id="orderEmptyMessage" class="alert alert-info text-center hidden">No booked service
+                                orders found</div>
                         </div>
                     </div>
                 </div>
@@ -194,11 +663,14 @@
         <div id="detailView" class="hidden">
             <div class="mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">← Back to Dashboard</button>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">← Back to
+                        Dashboard</button>
                     <div class="d-flex align-items-center gap-3">
                         <div class="form-check form-switch" style="transform:scale(1.2);transform-origin:right center;">
-                            <input class="form-check-input" type="checkbox" id="humanInteractionToggle" onchange="toggleHumanInteraction()">
-                            <label class="form-check-label" for="humanInteractionToggle" id="toggleLabel">kabirAI</label>
+                            <input class="form-check-input" type="checkbox" id="humanInteractionToggle"
+                                onchange="toggleHumanInteraction()">
+                            <label class="form-check-label" for="humanInteractionToggle"
+                                id="toggleLabel">kabirAI</label>
                         </div>
                         <span id="toggleStatus" class="badge bg-secondary">Active</span>
                     </div>
@@ -210,7 +682,9 @@
                 <!-- LEFT: User + Location -->
                 <div class="detail-column">
                     <div class="detail-section card">
-                        <div class="card-header"><h5 class="mb-0">👤 User Details</h5></div>
+                        <div class="card-header">
+                            <h5 class="mb-0">👤 User Details</h5>
+                        </div>
                         <div class="card-body">
                             <p><strong>User ID:</strong> <code id="detail-userId"></code></p>
                             <p><strong>Name:</strong> <span id="detail-userName"></span></p>
@@ -218,17 +692,21 @@
                             <p><strong>Phone:</strong> <span id="detail-userPhone"></span></p>
                             <hr />
                             <p><strong>Photo:</strong></p>
-                            <img id="detail-userPhoto" src="" alt="User Photo" style="max-width:100px;max-height:100px;border-radius:5px;display:none;" />
+                            <img id="detail-userPhoto" src="" alt="User Photo"
+                                style="max-width:100px;max-height:100px;border-radius:5px;display:none;" />
                         </div>
                     </div>
                     <div class="detail-section card">
-                        <div class="card-header"><h5 class="mb-0">📍 Location</h5></div>
+                        <div class="card-header">
+                            <h5 class="mb-0">📍 Location</h5>
+                        </div>
                         <div class="card-body">
                             <p><strong>Place:</strong> <span id="detail-locName"></span></p>
                             <p><strong>Latitude:</strong> <span id="detail-locLat"></span></p>
                             <p><strong>Longitude:</strong> <span id="detail-locLon"></span></p>
                             <p><strong>Recorded At:</strong> <span id="detail-locRecordedAt"></span></p>
-                            <p><a id="detail-mapLink" href="" target="_blank" class="btn btn-sm btn-primary w-100">🗺️ View on Map</a></p>
+                            <p><a id="detail-mapLink" href="" target="_blank" class="btn btn-sm btn-primary w-100">🗺️
+                                    View on Map</a></p>
                         </div>
                     </div>
                 </div>
@@ -236,9 +714,12 @@
                 <!-- MIDDLE: Request Info + History -->
                 <div class="detail-column">
                     <div class="detail-section card" style="flex-shrink:0;">
-                        <div class="card-header"><h5 class="mb-0">✨ Request Information</h5></div>
+                        <div class="card-header">
+                            <h5 class="mb-0">✨ Request Information</h5>
+                        </div>
                         <div class="card-body">
-                            <p><strong>Magic Word:</strong> <span id="detail-magicWord" class="badge bg-warning"></span></p>
+                            <p><strong>Magic Word:</strong> <span id="detail-magicWord" class="badge bg-warning"></span>
+                            </p>
                             <p><strong>Status:</strong> <span id="detail-status" class="badge"></span></p>
                             <p><strong>Matched At:</strong> <span id="detail-matchedAt"></span></p>
                             <hr />
@@ -246,44 +727,68 @@
                             <p><strong>Message ID:</strong> <code id="detail-messageId"></code></p>
                             <p><strong>Location:</strong> <span id="detail-location"></span></p>
                             <hr />
-                            <button id="statusChangeBtn" class="btn btn-primary btn-sm w-100 mb-2" onclick="changeStatus()">Next Status</button>
-                            <button class="btn btn-outline-danger btn-sm w-100 mb-2" onclick="closeRequest()">❌ Close Request</button>
+                            <button id="statusChangeBtn" class="btn btn-primary btn-sm w-100 mb-2"
+                                onclick="changeStatus()">Next Status</button>
+                            <button class="btn btn-outline-danger btn-sm w-100 mb-2" onclick="closeRequest()">❌ Close
+                                Request</button>
                         </div>
                     </div>
                     <div class="detail-section card" style="flex:1;display:flex;flex-direction:column;min-height:0;">
-                        <div class="card-header"><h5 class="mb-0">📋 User History</h5></div>
+                        <div class="card-header">
+                            <h5 class="mb-0">📋 User History</h5>
+                        </div>
                         <div class="card-body" style="padding:0;flex-grow:1;overflow-y:auto;">
                             <div class="accordion accordion-flush" id="historyAccordion">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingRequests">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRequests" aria-expanded="true" aria-controls="collapseRequests" style="font-weight:600;color:#2c3e50;">📊 Request History</button>
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseRequests" aria-expanded="true"
+                                            aria-controls="collapseRequests" style="font-weight:600;color:#2c3e50;">📊
+                                            Request History</button>
                                     </h2>
-                                    <div id="collapseRequests" class="accordion-collapse collapse show" aria-labelledby="headingRequests" data-bs-parent="#historyAccordion">
+                                    <div id="collapseRequests" class="accordion-collapse collapse show"
+                                        aria-labelledby="headingRequests" data-bs-parent="#historyAccordion">
                                         <div class="accordion-body" style="background-color:#f8f9fa;">
                                             <div id="requestSummaryContainer">
                                                 <div id="requestSummaryContent"></div>
-                                                <div id="noRequestSummary" class="alert alert-secondary text-center hidden" style="margin:0.5rem;">No requests found</div>
+                                                <div id="noRequestSummary"
+                                                    class="alert alert-secondary text-center hidden"
+                                                    style="margin:0.5rem;">No requests found</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingOrders">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOrders" aria-expanded="false" aria-controls="collapseOrders" onclick="loadOrderHistory()" style="font-weight:600;color:#2c3e50;">🛒 Order History</button>
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseOrders"
+                                            aria-expanded="false" aria-controls="collapseOrders"
+                                            onclick="loadOrderHistory()" style="font-weight:600;color:#2c3e50;">🛒 Order
+                                            History</button>
                                     </h2>
-                                    <div id="collapseOrders" class="accordion-collapse collapse" aria-labelledby="headingOrders" data-bs-parent="#historyAccordion">
+                                    <div id="collapseOrders" class="accordion-collapse collapse"
+                                        aria-labelledby="headingOrders" data-bs-parent="#historyAccordion">
                                         <div class="accordion-body">
-                                            <div id="orderHistoryContent"><div class="text-center text-muted p-2">Loading orders...</div></div>
+                                            <div id="orderHistoryContent">
+                                                <div class="text-center text-muted p-2">Loading orders...</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingPayments">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayments" aria-expanded="false" aria-controls="collapsePayments" onclick="loadPaymentHistory()" style="font-weight:600;color:#2c3e50;">💳 Payment History</button>
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapsePayments"
+                                            aria-expanded="false" aria-controls="collapsePayments"
+                                            onclick="loadPaymentHistory()" style="font-weight:600;color:#2c3e50;">💳
+                                            Payment History</button>
                                     </h2>
-                                    <div id="collapsePayments" class="accordion-collapse collapse" aria-labelledby="headingPayments" data-bs-parent="#historyAccordion">
+                                    <div id="collapsePayments" class="accordion-collapse collapse"
+                                        aria-labelledby="headingPayments" data-bs-parent="#historyAccordion">
                                         <div class="accordion-body">
-                                            <div id="paymentHistoryContent"><div class="text-center text-muted p-2">Loading payments...</div></div>
+                                            <div id="paymentHistoryContent">
+                                                <div class="text-center text-muted p-2">Loading payments...</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -295,14 +800,19 @@
                 <!-- RIGHT: Chat + Send Message -->
                 <div class="detail-column">
                     <div class="detail-section card">
-                        <div class="card-header"><h5 class="mb-0">💬 Chat Messages (Last 10)</h5></div>
+                        <div class="card-header">
+                            <h5 class="mb-0">💬 Chat Messages (Last 10)</h5>
+                        </div>
                         <div class="card-body" style="padding:0;">
                             <div id="detail-chatContext" class="chat-messages-container"></div>
-                            <div id="noChatContextMessage" class="alert alert-secondary text-center hidden" style="margin:1rem;">No messages</div>
+                            <div id="noChatContextMessage" class="alert alert-secondary text-center hidden"
+                                style="margin:1rem;">No messages</div>
                         </div>
                     </div>
                     <div class="detail-section card">
-                        <div class="card-header"><h5 class="mb-0">✉️ Send Message</h5></div>
+                        <div class="card-header">
+                            <h5 class="mb-0">✉️ Send Message</h5>
+                        </div>
                         <div class="card-body">
                             <div class="mb-3">
                                 <label class="form-label">Message Type</label>
@@ -317,33 +827,40 @@
                             </div>
                             <div class="mb-3" id="customMessageDiv" style="display:none;">
                                 <label class="form-label">Message</label>
-                                <textarea class="form-control" id="customMessage" rows="2" placeholder="Type your message..."></textarea>
+                                <textarea class="form-control" id="customMessage" rows="2"
+                                    placeholder="Type your message..."></textarea>
                             </div>
                             <div class="mb-3" id="serviceRequestPreviewDiv" style="display:none;">
                                 <label class="form-label">Preview</label>
-                                <div class="alert alert-info" id="serviceRequestPreview">✅ Your request has been created. Our team will contact you shortly.</div>
+                                <div class="alert alert-info" id="serviceRequestPreview">✅ Your request has been
+                                    created. Our team will contact you shortly.</div>
                             </div>
                             <div class="mb-3" id="bookingPreviewDiv" style="display:none;">
                                 <label class="form-label">Preview</label>
-                                <div class="alert alert-success" id="bookingPreview">🎫 Your booking is confirmed! Thank you for choosing us.</div>
+                                <div class="alert alert-success" id="bookingPreview">🎫 Your booking is confirmed! Thank
+                                    you for choosing us.</div>
                             </div>
                             <div class="mb-3" id="generalUpdateDiv" style="display:none;">
                                 <label class="form-label">Preview</label>
-                                <div class="alert alert-secondary" id="generalUpdatePreview">📢 We're here to help! Contact us if you have questions.</div>
+                                <div class="alert alert-secondary" id="generalUpdatePreview">📢 We're here to help!
+                                    Contact us if you have questions.</div>
                             </div>
                             <div class="mb-3" id="imageMessageDiv" style="display:none;">
                                 <label class="form-label">Upload Image</label>
                                 <input type="file" class="form-control" id="imageFile" accept="image/*" />
                                 <div class="mt-3">
                                     <label class="form-label">Caption (optional)</label>
-                                    <textarea class="form-control" id="imageCaption" rows="2" placeholder="Write a message with the image..."></textarea>
+                                    <textarea class="form-control" id="imageCaption" rows="2"
+                                        placeholder="Write a message with the image..."></textarea>
                                 </div>
                                 <div class="mt-3 hidden" id="imagePreviewWrap">
                                     <label class="form-label">Preview</label>
-                                    <img id="imagePreview" src="" style="max-width:100%;border-radius:6px;border:1px solid #ddd;" />
+                                    <img id="imagePreview" src=""
+                                        style="max-width:100%;border-radius:6px;border:1px solid #ddd;" />
                                 </div>
                             </div>
-                            <button class="btn btn-primary w-100" onclick="sendMessageToUser()" id="sendMessageBtn">Send Message</button>
+                            <button class="btn btn-primary w-100" onclick="sendMessageToUser()" id="sendMessageBtn">Send
+                                Message</button>
                         </div>
                     </div>
                 </div>
@@ -363,19 +880,33 @@
                 <div class="modal-body">
                     <form id="serviceRequestForm">
                         <div class="row">
-                            <div class="col-md-6 mb-3"><label class="form-label">Traveler Name *</label><input type="text" class="form-control" id="travelerName" required></div>
-                            <div class="col-md-3 mb-3"><label class="form-label">Country Code</label><input type="text" class="form-control" id="countryCode" value="+91" required></div>
-                            <div class="col-md-3 mb-3"><label class="form-label">Phone Number *</label><input type="tel" class="form-control" id="travelerPhoneNumber" required></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">From (Location) *</label><input type="text" class="form-control" id="travelerFrom" required></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Monument *</label><select class="form-control" id="monumentToVisit" onchange="handleMonumentChange()" required></select></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Service Type *</label><select class="form-control" id="typeOfService" onchange="handleServiceChange()" required></select></div>
-                            <div class="col-md-6 mb-3" id="customServiceDiv" style="display:none;"><label class="form-label">Specify Service</label><input type="text" class="form-control" id="customServiceInput"></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Pickup Location *</label><input type="text" class="form-control" id="pickupLocation" required></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Drop Location *</label><input type="text" class="form-control" id="dropLocation" required></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Date *</label><input type="date" class="form-control" id="dateOfTravel" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Traveler Name *</label><input
+                                    type="text" class="form-control" id="travelerName" required></div>
+                            <div class="col-md-3 mb-3"><label class="form-label">Country Code</label><input type="text"
+                                    class="form-control" id="countryCode" value="+91" required></div>
+                            <div class="col-md-3 mb-3"><label class="form-label">Phone Number *</label><input type="tel"
+                                    class="form-control" id="travelerPhoneNumber" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">From (Location) *</label><input
+                                    type="text" class="form-control" id="travelerFrom" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Monument *</label><select
+                                    class="form-control" id="monumentToVisit" onchange="handleMonumentChange()"
+                                    required></select></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Service Type *</label><select
+                                    class="form-control" id="typeOfService" onchange="handleServiceChange()"
+                                    required></select></div>
+                            <div class="col-md-6 mb-3" id="customServiceDiv" style="display:none;"><label
+                                    class="form-label">Specify Service</label><input type="text" class="form-control"
+                                    id="customServiceInput"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Pickup Location *</label><input
+                                    type="text" class="form-control" id="pickupLocation" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Drop Location *</label><input
+                                    type="text" class="form-control" id="dropLocation" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Date *</label><input type="date"
+                                    class="form-control" id="dateOfTravel" required></div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Time Slot *</label>
-                                <select class="form-control" id="timeSlotLabel" onchange="handleTimeSlotChange()" required>
+                                <select class="form-control" id="timeSlotLabel" onchange="handleTimeSlotChange()"
+                                    required>
                                     <option value="">Select...</option>
                                     <option value="Morning">Morning (6 AM - 12 PM)</option>
                                     <option value="Afternoon">Afternoon (12 PM - 6 PM)</option>
@@ -383,12 +914,22 @@
                                     <option value="Custom">Custom</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3" id="customStartTimeDiv" style="display:none;"><label class="form-label">Start Time</label><input type="time" class="form-control" id="customStartTime"></div>
-                            <div class="col-md-6 mb-3" id="customEndTimeDiv" style="display:none;"><label class="form-label">End Time</label><input type="time" class="form-control" id="customEndTime"></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Number of Travelers *</label><input type="number" class="form-control" id="numberOfTravelers" min="1" value="1" required></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Language Preference *</label><div id="languagePreferenceContainer"></div></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Price</label><input type="number" class="form-control" id="price" step="0.01"></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Commission</label><input type="number" class="form-control" id="commission" step="0.01"></div>
+                            <div class="col-md-6 mb-3" id="customStartTimeDiv" style="display:none;"><label
+                                    class="form-label">Start Time</label><input type="time" class="form-control"
+                                    id="customStartTime"></div>
+                            <div class="col-md-6 mb-3" id="customEndTimeDiv" style="display:none;"><label
+                                    class="form-label">End Time</label><input type="time" class="form-control"
+                                    id="customEndTime"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Number of Travelers *</label><input
+                                    type="number" class="form-control" id="numberOfTravelers" min="1" value="1"
+                                    required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Language Preference *</label>
+                                <div id="languagePreferenceContainer"></div>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Price</label><input type="number"
+                                    class="form-control" id="price" step="0.01"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Commission</label><input type="number"
+                                    class="form-control" id="commission" step="0.01"></div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Status</label>
                                 <select class="form-control" id="serviceStatus">
@@ -406,9 +947,12 @@
                                     <option value="failed">Failed</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3"><label class="form-label">Start OTP</label><input type="text" class="form-control" id="startOtp" placeholder="e.g. 1234"></div>
-                            <div class="col-md-6 mb-3"><label class="form-label">End OTP</label><input type="text" class="form-control" id="endOtp" placeholder="e.g. 5678"></div>
-                            <div class="col-12 mb-3"><label class="form-label">Description</label><textarea class="form-control" id="description" rows="2"></textarea></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Start OTP</label><input type="text"
+                                    class="form-control" id="startOtp" placeholder="e.g. 1234"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">End OTP</label><input type="text"
+                                    class="form-control" id="endOtp" placeholder="e.g. 5678"></div>
+                            <div class="col-12 mb-3"><label class="form-label">Description</label><textarea
+                                    class="form-control" id="description" rows="2"></textarea></div>
                         </div>
                     </form>
                 </div>
@@ -431,7 +975,8 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="completionReason" class="form-label">Reason / Notes</label>
-                        <textarea class="form-control" id="completionReason" rows="3" placeholder="Enter reason for completion..."></textarea>
+                        <textarea class="form-control" id="completionReason" rows="3"
+                            placeholder="Enter reason for completion..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -443,23 +988,17 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% include "_customer_service_helpers.html" %}
     <script>
-        function getBasePath() {
-            const path = window.location.pathname || "/";
-            const parts = path.split("/").filter(Boolean);
-            if (parts.length > 0 && (parts[0] === "customerService_app" || parts[0] === "support")) return "/" + parts[0];
-            return "";
-        }
-        const BASE = getBasePath();
+        const BASE = getCustomerServiceBasePath();
         const API_BASE = `${BASE}/api`;
 
-        function goHome() { stopChatPolling(); window.location.href = `${BASE}/dashboard`; }
-        function logout() {
-            stopChatPolling();
-            if (confirm("Are you sure you want to logout?")) { localStorage.clear(); sessionStorage.clear(); window.location.href = `${BASE}/logout`; }
+
+        async function logout() {
+            await logoutCustomerService({ stopPolling: true });
         }
 
-        let currentMagicWordId = null, currentStatus = null, currentServiceRequestId = null, currentFilteredUserId = null;
+        let currentMagicWordId = null, currentStatus = null, currentServiceRequestId = null, currentFilteredUserId = null, currentServiceOrderChatId = null;
         let lastLatestRequestId = null, lastLatestRequestTime = 0;
         let isSoundEnabled = localStorage.getItem('isSoundEnabled') === 'true';
 
@@ -475,14 +1014,31 @@
             isSoundEnabled = !isSoundEnabled;
             localStorage.setItem('isSoundEnabled', isSoundEnabled);
             updateSoundButtonUI();
-            if (isSoundEnabled) { const a = document.getElementById("notificationSound"); if (a) a.play().catch(e => {}); }
+            if (isSoundEnabled) { const a = document.getElementById("notificationSound"); if (a) a.play().catch(e => { }); }
         }
 
         setInterval(() => { loadMagicWordRequests(currentFilteredUserId, true); }, 5000);
         setInterval(() => { loadServiceOrderRequests(true); }, 5000);
 
-        function showListView() { stopChatPolling(); document.getElementById("listView").classList.remove("hidden"); document.getElementById("detailView").classList.add("hidden"); loadMagicWordRequests(); loadServiceOrderRequests(); }
-        function showDetailView() { document.getElementById("listView").classList.add("hidden"); document.getElementById("detailView").classList.remove("hidden"); }
+        function showListView() {
+            stopChatPolling();
+            document.getElementById("listView").classList.remove("hidden");
+            document.getElementById("detailView").classList.add("hidden");
+            document.getElementById("serviceOrderDetailView").classList.add("hidden");
+            loadMagicWordRequests();
+            loadServiceOrderRequests();
+        }
+        function showDetailView() {
+            document.getElementById("listView").classList.add("hidden");
+            document.getElementById("serviceOrderDetailView").classList.add("hidden");
+            document.getElementById("detailView").classList.remove("hidden");
+        }
+        function showServiceOrderDetailView() {
+            stopChatPolling();
+            document.getElementById("listView").classList.add("hidden");
+            document.getElementById("detailView").classList.add("hidden");
+            document.getElementById("serviceOrderDetailView").classList.remove("hidden");
+        }
 
         async function searchUser(event) {
             event.preventDefault();
@@ -536,8 +1092,8 @@
                 const latestItem = (data.items && data.items.length > 0) ? data.items[0] : null;
                 const latestTime = latestItem ? new Date(latestItem.matchedAt).getTime() : 0;
                 if (lastLatestRequestTime > 0 && latestTime > lastLatestRequestTime && !filterUserId) {
-                    if (isSoundEnabled) { const audio = document.getElementById("notificationSound"); if (audio) { audio.currentTime = 0; audio.play().catch(e => {}); } }
-                    try { const toast = document.getElementById("newRequestToast"); if (toast && typeof bootstrap !== 'undefined') { bootstrap.Toast.getOrCreateInstance(toast).show(); } } catch (e) {}
+                    if (isSoundEnabled) { const audio = document.getElementById("notificationSound"); if (audio) { audio.currentTime = 0; audio.play().catch(e => { }); } }
+                    try { const toast = document.getElementById("newRequestToast"); if (toast && typeof bootstrap !== 'undefined') { bootstrap.Toast.getOrCreateInstance(toast).show(); } } catch (e) { }
                 }
                 if (latestItem) { lastLatestRequestId = latestItem.id; if (latestTime > lastLatestRequestTime || lastLatestRequestTime === 0) lastLatestRequestTime = latestTime; }
                 const listContainer = document.getElementById("listView");
@@ -655,7 +1211,7 @@
                 if (!data.found || !data.payments || data.payments.length === 0) { container.innerHTML = '<div class="alert alert-secondary text-center m-2">No payment history found</div>'; return; }
                 let html = '<ul class="list-group list-group-flush">';
                 data.payments.forEach(pay => {
-                    html += `<li class="list-group-item"><div class="d-flex justify-content-between"><strong>${pay.amount ? `₹${pay.amount}` : "N/A"}</strong><span class="badge bg-success">${pay.paymentStatus}</span></div><small class="text-muted d-block">${formatDateShort(pay.createdAt)}</small><small class="text-secondary">${pay.services || "Service"}</small><div class="small text-muted" style="font-size:0.75rem;">${pay.paymentId ? `ID: ${pay.paymentId.slice(0,10)}...` : "Online"}</div></li>`;
+                    html += `<li class="list-group-item"><div class="d-flex justify-content-between"><strong>${pay.amount ? `₹${pay.amount}` : "N/A"}</strong><span class="badge bg-success">${pay.paymentStatus}</span></div><small class="text-muted d-block">${formatDateShort(pay.createdAt)}</small><small class="text-secondary">${pay.services || "Service"}</small><div class="small text-muted" style="font-size:0.75rem;">${pay.paymentId ? `ID: ${pay.paymentId.slice(0, 10)}...` : "Online"}</div></li>`;
                 });
                 html += '</ul>'; container.innerHTML = html;
             } catch (e) { container.innerHTML = '<div class="text-danger text-center p-2">Error loading payments</div>'; }
@@ -681,39 +1237,57 @@
         }
 
         let chatPollingInterval = null;
-        function startChatPolling(chatId) { stopChatPolling(); if (!chatId) return; chatPollingInterval = setInterval(() => { loadChatMessages(chatId); }, 3000); }
+        function startChatPolling(chatId, target = "magic") {
+            stopChatPolling();
+            if (!chatId) return;
+            chatPollingInterval = setInterval(() => {
+                if (target === "serviceOrder") loadServiceOrderChatMessages(chatId);
+                else loadChatMessages(chatId);
+            }, 3000);
+        }
         function stopChatPolling() { if (chatPollingInterval) { clearInterval(chatPollingInterval); chatPollingInterval = null; } }
+
+        function renderChatMessages(messages, chatContainerId, emptyHtml = '<div class="text-center text-muted mt-3">No messages yet.</div>') {
+            const chatContainer = document.getElementById(chatContainerId);
+            if (!chatContainer) return;
+            const wasAtBottom = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 50;
+            chatContainer.innerHTML = "";
+            if (!messages || messages.length === 0) { chatContainer.innerHTML = emptyHtml; return; }
+            let lastDate = "";
+            messages.forEach(msg => {
+                const dateObj = new Date(msg.created_at);
+                const dateStr = isNaN(dateObj.getTime()) ? 'Unknown Date' : dateObj.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
+                if (dateStr !== lastDate) { const db = document.createElement("div"); db.className = "text-center my-3"; db.innerHTML = `<span class="badge bg-light text-dark shadow-sm px-3 py-2 rounded-pill fw-normal border">${dateStr}</span>`; chatContainer.appendChild(db); lastDate = dateStr; }
+                const wrapper = document.createElement("div");
+                const isUser = msg.role === "user";
+                wrapper.className = `d-flex mb-3 ${isUser ? "justify-content-start" : "justify-content-end"}`;
+                let contentHtml = "";
+                if (msg.content) contentHtml += `<div class="mb-1">${escapeHtml(msg.content)}</div>`;
+                if (msg.image_url) contentHtml += `<img src="${msg.image_url}" class="img-fluid rounded border mt-1" style="max-height:200px;max-width:100%;cursor:pointer;" onclick="window.open(this.src,'_blank')">`;
+                if (msg.audio_url) contentHtml += `<audio controls class="mt-1" style="max-width:200px;"><source src="${msg.audio_url}"></audio>`;
+                const timeStr = formatDateShort(msg.created_at).split(', ')[1] || '';
+                wrapper.innerHTML = `<div class="d-flex flex-column ${isUser ? "align-items-start" : "align-items-end"}" style="max-width:75%;"><div class="p-3 rounded-4 shadow-sm ${isUser ? "bg-white border text-dark" : "bg-primary text-white"}" style="border-bottom-left-radius:${isUser ? '4px' : '16px'};border-bottom-right-radius:${isUser ? '16px' : '4px'};">${contentHtml}</div><small class="text-muted mt-1 ms-1 me-1" style="font-size:0.75rem;">${timeStr}</small></div>`;
+                chatContainer.appendChild(wrapper);
+            });
+            if (wasAtBottom) chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
 
         async function loadChatMessages(chatId) {
             if (!chatId) return;
             try {
                 const response = await fetch(`${API_BASE}/chats/${chatId}/messages`);
                 const data = await response.json();
-                if (data.success && data.messages) {
-                    const chatContainer = document.getElementById("detail-chatContext");
-                    if (!chatContainer) return;
-                    const wasAtBottom = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 50;
-                    chatContainer.innerHTML = "";
-                    if (data.messages.length === 0) { chatContainer.innerHTML = '<div class="text-center text-muted mt-3">No messages yet.</div>'; return; }
-                    let lastDate = "";
-                    data.messages.forEach(msg => {
-                        const dateObj = new Date(msg.created_at);
-                        const dateStr = isNaN(dateObj.getTime()) ? 'Unknown Date' : dateObj.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
-                        if (dateStr !== lastDate) { const db = document.createElement("div"); db.className = "text-center my-3"; db.innerHTML = `<span class="badge bg-light text-dark shadow-sm px-3 py-2 rounded-pill fw-normal border">${dateStr}</span>`; chatContainer.appendChild(db); lastDate = dateStr; }
-                        const wrapper = document.createElement("div");
-                        const isUser = msg.role === "user";
-                        wrapper.className = `d-flex mb-3 ${isUser ? "justify-content-start" : "justify-content-end"}`;
-                        let contentHtml = "";
-                        if (msg.content) contentHtml += `<div class="mb-1">${escapeHtml(msg.content)}</div>`;
-                        if (msg.image_url) contentHtml += `<img src="${msg.image_url}" class="img-fluid rounded border mt-1" style="max-height:200px;max-width:100%;cursor:pointer;" onclick="window.open(this.src,'_blank')">`;
-                        if (msg.audio_url) contentHtml += `<audio controls class="mt-1" style="max-width:200px;"><source src="${msg.audio_url}"></audio>`;
-                        const timeStr = formatDateShort(msg.created_at).split(', ')[1] || '';
-                        wrapper.innerHTML = `<div class="d-flex flex-column ${isUser ? "align-items-start" : "align-items-end"}" style="max-width:75%;"><div class="p-3 rounded-4 shadow-sm ${isUser ? "bg-white border text-dark" : "bg-primary text-white"}" style="border-bottom-left-radius:${isUser ? '4px' : '16px'};border-bottom-right-radius:${isUser ? '16px' : '4px'};">${contentHtml}</div><small class="text-muted mt-1 ms-1 me-1" style="font-size:0.75rem;">${timeStr}</small></div>`;
-                        chatContainer.appendChild(wrapper);
-                    });
-                    if (wasAtBottom) chatContainer.scrollTop = chatContainer.scrollHeight;
-                }
+                if (data.success && data.messages) renderChatMessages(data.messages, "detail-chatContext");
             } catch (e) { console.error("Chat poll error:", e); }
+        }
+
+        async function loadServiceOrderChatMessages(chatId) {
+            if (!chatId) return;
+            try {
+                const response = await fetch(`${API_BASE}/chats/${chatId}/messages`);
+                const data = await response.json();
+                if (data.success && data.messages) renderChatMessages(data.messages, "sod-chatContext");
+            } catch (e) { console.error("Service order chat poll error:", e); }
         }
 
         async function loadMonuments() {
@@ -825,7 +1399,7 @@
         async function uploadCustomerServiceImage(file, chatId) {
             const formData = new FormData();
             formData.append("file", file); formData.append("chatId", chatId); formData.append("magicWordId", currentMagicWordId || "");
-            const resp = await fetch("/api/upload-customer-service-image", { method: "POST", body: formData });
+            const resp = await fetch(`${BASE}/api/upload-customer-service-image`, { method: "POST", body: formData });
             const data = await resp.json();
             if (!data.success) throw new Error(data.error || "Image upload failed");
             return data.imageUrl;
@@ -898,6 +1472,11 @@
                 const response = await fetch(url);
                 const data = await response.json();
 
+                console.log("Service orders API response:", data);
+                console.log("Service orders items:", data.items);
+                console.table(data.items || []);
+
+
                 const countEl = document.getElementById("orderRequestCount");
                 const listEl = document.getElementById("orderRequestsList");
                 const emptyEl = document.getElementById("orderEmptyMessage");
@@ -917,9 +1496,10 @@
                 if (emptyEl) emptyEl.classList.add("hidden");
                 if (listEl) {
                     listEl.innerHTML = data.items.map(item => {
-                        const date = formatDateShort(item.created_at || item.updated_at || item.date_of_service);
-                        const title = item.traveler_name || item.service_type || item.item_id || "Order";
-                        const monument = item.monument_to_visit || item.monument_id || "";
+                        console.log("Rendering order item:", item);
+                        const date = formatDateShort(item.field_values.travel_date);
+                        const title = item.service_name || "Order";
+                        const monument = item.field_values?.monument_id?.label || item.monument_name || "Destination";
                         const bookingStatus = item.booking_status || "booked";
                         return `<div class="grid-request-card" onclick="loadServiceOrderDetail('${item.id}')">
                             <div class="grid-card-header">
@@ -929,7 +1509,6 @@
                             <div class="grid-card-body">
                                 ${monument ? `<div class="grid-card-location">🏛️ ${escapeHtml(monument)}</div>` : ""}
                                 <div class="grid-card-location">📅 ${date}</div>
-                                <div class="grid-card-time" style="font-size:0.75rem;color:#aaa;">ID: ${item.id ? item.id.slice(-6) : "N/A"}</div>
                             </div>
                         </div>`;
                     }).join("");
@@ -950,9 +1529,11 @@
                 const o = data.order || {};
                 const u = data.user || {};
                 const v = data.vendor || {};
+                const chat = data.chat || {};
 
                 // Store current order id globally
                 window._currentServiceOrderId = orderId;
+                currentServiceOrderChatId = chat.id || "";
 
                 // --- Populate header ---
                 document.getElementById("sod-orderId").textContent = orderId.slice(-8).toUpperCase();
@@ -961,21 +1542,20 @@
                 statusBadge.className = `badge ${getOrderStatusBadge(o.booking_status)}`;
 
                 // --- Order Info ---
-                document.getElementById("sod-travelerName").textContent = o.traveler_name || u.firstName ? `${u.firstName||''} ${u.lastName||''}`.trim() || "—" : "—";
+                document.getElementById("sod-travelerName").textContent = o.traveler_name || `${u.firstName || ''}`.trim() || "—";
                 document.getElementById("sod-travelerPhone").textContent = o.traveler_phone_number || u.phoneNumber || "—";
-                document.getElementById("sod-monument").textContent = o.monument_to_visit || o.monument_id || "—";
-                document.getElementById("sod-serviceType").textContent = o.item_id || o.product_type || "—";
+                document.getElementById("sod-monument").textContent = o.monument_name || o.monument_to_visit || o.monument_id || "—";
+                document.getElementById("sod-serviceType").textContent = o.service_name || o.item_id || o.product_type || "—";
                 document.getElementById("sod-dateOfService").textContent = formatDateShort(o.date_of_service) || "—";
-                const ts = o.time_slot || {};
-                document.getElementById("sod-timeSlot").textContent = ts.label ? `${ts.label} (${ts.start_time || ''} – ${ts.end_time || ''})` : "—";
+                document.getElementById("sod-timeSlot").textContent = o.time_slot_display || "—";
                 document.getElementById("sod-travelers").textContent = o.number_of_travelers || "—";
                 document.getElementById("sod-languages").textContent = Array.isArray(o.language_preference) ? o.language_preference.join(", ") || "—" : (o.language_preference || "—");
+                renderDynamicOrderFields(o.field_values_display || []);
 
                 // --- Pricing ---
-                const pricing = o.pricing || {};
-                document.getElementById("sod-price").textContent = o.price != null ? `₹${o.price}` : (pricing.total_payable != null ? `₹${pricing.total_payable}` : "—");
+                document.getElementById("sod-price").textContent = o.price != null ? `₹${o.price}` : "—";
                 document.getElementById("sod-paymentStatus").textContent = o.payment_status || o.paymentStatus || "—";
-                document.getElementById("sod-commission").textContent = o.commission_amount != null ? `₹${o.commission_amount}` : "—";
+                document.getElementById("sod-commission").textContent = o.vendor_price != null ? `₹${o.vendor_price}` : "—";
 
                 // --- OTPs ---
                 document.getElementById("sod-startOtp").textContent = o.start_otp || "—";
@@ -983,7 +1563,7 @@
 
                 // --- User ---
                 document.getElementById("sod-userId").textContent = u.id || o.user_id || "—";
-                document.getElementById("sod-userName").textContent = `${u.firstName||''} ${u.lastName||''}`.trim() || "—";
+                document.getElementById("sod-userName").textContent = `${u.firstName || ''} ${u.lastName || ''}`.trim() || "—";
                 document.getElementById("sod-userEmail").textContent = u.email || "—";
                 document.getElementById("sod-userPhone").textContent = u.phoneNumber || "—";
 
@@ -992,8 +1572,7 @@
                 document.getElementById("sod-updatedAt").textContent = formatDateShort(o.updated_at) || "—";
 
                 // --- Status select ---
-                const statusSelect = document.getElementById("sod-newStatus");
-                statusSelect.value = o.booking_status || "booked";
+                populateOrderStatusOptions(o.booking_status, !!o.vendor_id);
 
                 // --- Vendor section ---
                 const vendorSection = document.getElementById("sod-currentVendor");
@@ -1006,8 +1585,21 @@
                 // Load vendor dropdown
                 await loadVendors(o.vendor_id);
 
-                // Show modal
-                new bootstrap.Modal(document.getElementById("serviceOrderDetailModal")).show();
+                const orderChatIdEl = document.getElementById("sod-chatId");
+                if (orderChatIdEl) orderChatIdEl.textContent = currentServiceOrderChatId || "—";
+                const orderChatInput = document.getElementById("sod-chatMessage");
+                const orderChatSendBtn = document.getElementById("sod-sendMessageBtn");
+                if (orderChatInput) orderChatInput.value = "";
+                if (orderChatSendBtn) orderChatSendBtn.disabled = !currentServiceOrderChatId;
+                if (currentServiceOrderChatId) {
+                    await loadServiceOrderChatMessages(currentServiceOrderChatId);
+                    startChatPolling(currentServiceOrderChatId, "serviceOrder");
+                } else {
+                    stopChatPolling();
+                    renderChatMessages([], "sod-chatContext", '<div class="text-center text-muted mt-3">No chat linked to this order.</div>');
+                }
+
+                showServiceOrderDetailView();
             } catch (err) {
                 alert("Error loading order: " + err.message);
             }
@@ -1015,19 +1607,91 @@
 
         function getOrderStatusBadge(status) {
             switch ((status || "").toLowerCase()) {
-                case "booked":      return "bg-success";
-                case "confirmed":   return "bg-primary";
-                case "in_progress": return "bg-warning";
-                case "completed":   return "bg-info";
-                case "cancelled":   return "bg-danger";
-                default:            return "bg-secondary";
+                case "booked": return "bg-secondary";
+                case "alloted": return "bg-primary";
+                case "ongoing": return "bg-warning text-dark";
+                case "completed": return "bg-success";
+                case "cancelled": return "bg-danger";
+                default: return "bg-secondary";
             }
+        }
+
+        function normalizeOrderStatusValue(status) {
+            switch ((status || "").toLowerCase()) {
+                case "confirmed":
+                    return "alloted";
+                case "in_progress":
+                    return "ongoing";
+                default:
+                    return (status || "").toLowerCase() || "booked";
+            }
+        }
+
+        function getAllowedOrderStatuses(currentStatus, hasVendor) {
+            const normalizedStatus = normalizeOrderStatusValue(currentStatus);
+            switch (normalizedStatus) {
+                case "booked":
+                    return hasVendor ? ["booked", "alloted", "cancelled"] : ["booked", "cancelled"];
+                case "alloted":
+                    return ["alloted", "ongoing", "cancelled"];
+                case "ongoing":
+                    return ["ongoing", "completed", "cancelled"];
+                case "completed":
+                    return ["completed"];
+                case "cancelled":
+                    return ["cancelled"];
+                default:
+                    return [normalizedStatus || "booked"];
+            }
+        }
+
+        function formatOrderStatusLabel(status) {
+            switch (normalizeOrderStatusValue(status)) {
+                case "booked": return "Booked";
+                case "alloted": return "Alloted";
+                case "ongoing": return "Ongoing";
+                case "completed": return "Completed";
+                case "cancelled": return "Cancelled";
+                default: return status || "Booked";
+            }
+        }
+
+        function populateOrderStatusOptions(currentStatus, hasVendor) {
+            const statusSelect = document.getElementById("sod-newStatus");
+            if (!statusSelect) return;
+
+            const normalizedStatus = normalizeOrderStatusValue(currentStatus);
+            const allowedStatuses = getAllowedOrderStatuses(normalizedStatus, hasVendor);
+            statusSelect.innerHTML = allowedStatuses.map(status =>
+                `<option value="${status}">${formatOrderStatusLabel(status)}</option>`
+            ).join("");
+            statusSelect.value = allowedStatuses.includes(normalizedStatus) ? normalizedStatus : allowedStatuses[0];
+        }
+
+        function renderDynamicOrderFields(fields) {
+            const container = document.getElementById("sod-dynamicFields");
+            if (!container) return;
+            if (!Array.isArray(fields) || fields.length === 0) {
+                container.innerHTML = "";
+                return;
+            }
+
+            container.innerHTML = `
+                <hr />
+                <div class="small text-muted mb-2">Additional booking details</div>
+                ${fields.map(field => `
+                    <div class="d-flex justify-content-between gap-3 mb-1">
+                        <strong style="color:#555;">${escapeHtml(field.label || field.key || "Field")}</strong>
+                        <span class="text-end">${escapeHtml(String(field.value ?? "—"))}</span>
+                    </div>
+                `).join("")}
+            `;
         }
 
         async function updateServiceOrderStatus() {
             const orderId = window._currentServiceOrderId;
             if (!orderId) return;
-            const newStatus = document.getElementById("sod-newStatus").value;
+            const newStatus = normalizeOrderStatusValue(document.getElementById("sod-newStatus").value);
             if (!newStatus) { alert("Please select a status"); return; }
             try {
                 const btn = document.getElementById("sod-updateStatusBtn");
@@ -1043,6 +1707,15 @@
                     badge.textContent = result.new_status;
                     badge.className = `badge ${getOrderStatusBadge(result.new_status)}`;
                     alert(`✅ Status updated to: ${result.new_status}`);
+                    if (result.new_status) {
+                        const normalizedStatus = normalizeOrderStatusValue(result.new_status);
+                        const badge = document.getElementById("sod-statusBadge");
+                        if (badge) {
+                            badge.textContent = normalizedStatus;
+                            badge.className = `badge ${getOrderStatusBadge(normalizedStatus)}`;
+                        }
+                        populateOrderStatusOptions(normalizedStatus, !!document.getElementById("sod-vendorSelect")?.value);
+                    }
                     loadServiceOrderRequests();
                 } else { alert("Error: " + result.error); }
             } catch (e) { alert("Error updating status: " + e.message); }
@@ -1058,28 +1731,29 @@
                 if (data.success && data.vendors) {
                     data.vendors.forEach(v => {
                         const opt = document.createElement("option");
-                        opt.value = v.id;
+                        opt.value = v.userName || v.id;
                         opt.textContent = `${v.name || v.userName}${v.phone ? ' | ' + v.phone : ''}`;
-                        if (v.id === selectedVendorId) opt.selected = true;
+                        if (opt.value === selectedVendorId || v.id === selectedVendorId) opt.selected = true;
                         sel.appendChild(opt);
                     });
                 }
             } catch (e) { console.error("loadVendors error:", e); }
         }
 
-        async function assignVendorToOrder() {
+        async function assignVendorToOrderLegacyUnused() {
             const orderId = window._currentServiceOrderId;
             if (!orderId) return;
             const vendorId = document.getElementById("sod-vendorSelect").value;
             if (!vendorId) { alert("Please select a vendor"); return; }
             const vendorPrice = document.getElementById("sod-vendorPrice").value;
+            const vendorUserName = document.getElementById("sod-currentVendor").value;
             try {
                 const btn = document.getElementById("sod-assignVendorBtn");
                 btn.disabled = true; btn.textContent = "Assigning...";
                 const res = await fetch(`${API_BASE}/service-orders/${orderId}/assign-vendor`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ vendor_id: vendorId, vendor_price: vendorPrice || null })
+                    body: JSON.stringify({ vendor_id: vendorUserName, vendor_price: vendorPrice || null })
                 });
                 const result = await res.json();
                 if (result.success) {
@@ -1092,173 +1766,358 @@
             finally { const btn = document.getElementById("sod-assignVendorBtn"); btn.disabled = false; btn.textContent = "Assign Vendor"; }
         }
 
+        async function assignVendorToOrder() {
+            const orderId = window._currentServiceOrderId;
+            if (!orderId) return;
+
+            const vendorId = document.getElementById("sod-vendorSelect").value;
+            if (!vendorId) {
+                alert("Please select a vendor");
+                return;
+            }
+
+            const vendorPrice = document.getElementById("sod-vendorPrice").value;
+            const btn = document.getElementById("sod-assignVendorBtn");
+
+            try {
+                btn.disabled = true;
+                btn.textContent = "Assigning...";
+
+                const res = await fetch(`${API_BASE}/service-orders/${orderId}/assign-vendor`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ vendor_id: vendorId, vendor_price: vendorPrice || null })
+                });
+                const result = await res.json();
+
+                if (!result.success) {
+                    alert("Error: " + result.error);
+                    return;
+                }
+
+                document.getElementById("sod-currentVendor").innerHTML =
+                    `<span class="badge bg-success me-2">Assigned</span><strong>${escapeHtml(result.vendor_name || result.vendor_id)}</strong>`;
+
+                if (result.new_status) {
+                    const normalizedStatus = normalizeOrderStatusValue(result.new_status);
+                    const badge = document.getElementById("sod-statusBadge");
+                    if (badge) {
+                        badge.textContent = normalizedStatus;
+                        badge.className = `badge ${getOrderStatusBadge(normalizedStatus)}`;
+                    }
+                    populateOrderStatusOptions(normalizedStatus, true);
+                }
+
+                alert(`Vendor assigned: ${result.vendor_name || result.vendor_id}`);
+                loadServiceOrderRequests();
+            } catch (e) {
+                alert("Error assigning vendor: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Assign Vendor";
+            }
+        }
+
+        async function updateServiceOrderStatus() {
+            const orderId = window._currentServiceOrderId;
+            if (!orderId) return;
+
+            const newStatus = normalizeOrderStatusValue(document.getElementById("sod-newStatus").value);
+            if (!newStatus) {
+                alert("Please select a status");
+                return;
+            }
+
+            const btn = document.getElementById("sod-updateStatusBtn");
+            try {
+                btn.disabled = true;
+                btn.textContent = "Updating...";
+
+                const res = await fetch(`${API_BASE}/service-orders/${orderId}/status`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                const result = await res.json();
+
+                if (!result.success) {
+                    alert("Error: " + result.error);
+                    return;
+                }
+
+                const normalizedStatus = normalizeOrderStatusValue(result.new_status);
+                const badge = document.getElementById("sod-statusBadge");
+                if (badge) {
+                    badge.textContent = normalizedStatus;
+                    badge.className = `badge ${getOrderStatusBadge(normalizedStatus)}`;
+                }
+
+                populateOrderStatusOptions(
+                    normalizedStatus,
+                    !!document.getElementById("sod-vendorSelect")?.value
+                );
+
+                alert(`Status updated to: ${normalizedStatus}`);
+                loadServiceOrderRequests();
+            } catch (e) {
+                alert("Error updating status: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Update Status";
+            }
+        }
+
+        async function sendServiceOrderMessage() {
+            if (!currentServiceOrderChatId) { alert("Chat not found for this order"); return; }
+            const input = document.getElementById("sod-chatMessage");
+            const btn = document.getElementById("sod-sendMessageBtn");
+            const message = (input?.value || "").trim();
+            if (!message) { alert("Enter message"); return; }
+            try {
+                btn.disabled = true;
+                btn.textContent = "Sending...";
+                const response = await fetch(`${BASE}/api/chats/${currentServiceOrderChatId}/send-message`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ messageType: "custom", message })
+                });
+                const result = await response.json();
+                if (!result.success) {
+                    alert(`Error: ${result.error}`);
+                    return;
+                }
+                input.value = "";
+                await loadServiceOrderChatMessages(currentServiceOrderChatId);
+            } catch (e) {
+                alert("Error sending message: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Send Message";
+            }
+        }
+
         // Start polling on load
         loadMagicWordRequests();
         loadServiceOrderRequests();
     </script>
 
-    <!-- ============================================================ -->
-    <!-- SERVICE ORDER DETAIL MODAL                                   -->
-    <!-- ============================================================ -->
-    <div class="modal fade" id="serviceOrderDetailModal" tabindex="-1">
-      <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-
-          <!-- Header -->
-          <div class="modal-header" style="background:#2c3e50;">
-            <div>
-              <h5 class="modal-title text-white mb-0">🛒 Service Order Detail</h5>
-              <small class="text-white-50">ID: <span id="sod-orderId" style="font-family:monospace;">—</span></small>
+    <div id="serviceOrderDetailView" class="hidden">
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">← Back to Dashboard</button>
+                <span id="sod-statusBadge" class="badge bg-success fs-6">booked</span>
             </div>
-            <div class="d-flex align-items-center gap-3">
-              <span id="sod-statusBadge" class="badge bg-success fs-6">booked</span>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-          </div>
-
-          <!-- Body -->
-          <div class="modal-body" style="background:#f5f7fa;">
-            <div class="row g-3">
-
-              <!-- LEFT COL: Order Info + Pricing -->
-              <div class="col-lg-4">
-
-                <!-- Order Info -->
-                <div class="card border-0 shadow-sm mb-3">
-                  <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">📋 Order Information</div>
-                  <div class="card-body">
-                    <table class="table table-sm table-borderless mb-0">
-                      <tbody>
-                        <tr><th style="width:45%;color:#555;">Traveler</th><td id="sod-travelerName">—</td></tr>
-                        <tr><th style="color:#555;">Phone</th><td id="sod-travelerPhone">—</td></tr>
-                        <tr><th style="color:#555;">Monument</th><td id="sod-monument">—</td></tr>
-                        <tr><th style="color:#555;">Service Type</th><td id="sod-serviceType">—</td></tr>
-                        <tr><th style="color:#555;">Date of Service</th><td id="sod-dateOfService">—</td></tr>
-                        <tr><th style="color:#555;">Time Slot</th><td id="sod-timeSlot">—</td></tr>
-                        <tr><th style="color:#555;">Travelers</th><td id="sod-travelers">—</td></tr>
-                        <tr><th style="color:#555;">Languages</th><td id="sod-languages">—</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <!-- Pricing & Payment -->
-                <div class="card border-0 shadow-sm mb-3">
-                  <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">💰 Pricing & Payment</div>
-                  <div class="card-body">
-                    <table class="table table-sm table-borderless mb-0">
-                      <tbody>
-                        <tr><th style="width:45%;color:#555;">Total Price</th><td id="sod-price">—</td></tr>
-                        <tr><th style="color:#555;">Payment Status</th><td><span id="sod-paymentStatus">—</span></td></tr>
-                        <tr><th style="color:#555;">Commission</th><td id="sod-commission">—</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <!-- OTPs -->
-                <div class="card border-0 shadow-sm">
-                  <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">🔐 OTPs</div>
-                  <div class="card-body">
-                    <table class="table table-sm table-borderless mb-0">
-                      <tbody>
-                        <tr><th style="width:45%;color:#555;">Start OTP</th><td><code id="sod-startOtp">—</code></td></tr>
-                        <tr><th style="color:#555;">End OTP</th><td><code id="sod-endOtp">—</code></td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-              </div><!-- /LEFT -->
-
-              <!-- MIDDLE COL: Status Change + User Info -->
-              <div class="col-lg-4">
-
-                <!-- Status Management -->
-                <div class="card border-0 shadow-sm mb-3">
-                  <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">🔄 Update Booking Status</div>
-                  <div class="card-body">
-                    <label class="form-label">Select New Status</label>
-                    <select class="form-select mb-3" id="sod-newStatus">
-                      <option value="booked">🟢 Booked</option>
-                      <option value="confirmed">🔵 Confirmed</option>
-                      <option value="in_progress">🟡 In Progress</option>
-                      <option value="completed">🔷 Completed</option>
-                      <option value="cancelled">🔴 Cancelled</option>
-                    </select>
-                    <button id="sod-updateStatusBtn" class="btn btn-primary w-100" onclick="updateServiceOrderStatus()">Update Status</button>
-                  </div>
-                </div>
-
-                <!-- User Info -->
-                <div class="card border-0 shadow-sm">
-                  <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">👤 User Details</div>
-                  <div class="card-body">
-                    <table class="table table-sm table-borderless mb-0">
-                      <tbody>
-                        <tr><th style="width:40%;color:#555;">User ID</th><td><code id="sod-userId" style="font-size:0.75rem;">—</code></td></tr>
-                        <tr><th style="color:#555;">Name</th><td id="sod-userName">—</td></tr>
-                        <tr><th style="color:#555;">Email</th><td id="sod-userEmail">—</td></tr>
-                        <tr><th style="color:#555;">Phone</th><td id="sod-userPhone">—</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-              </div><!-- /MIDDLE -->
-
-              <!-- RIGHT COL: Vendor Assignment + Timestamps -->
-              <div class="col-lg-4">
-
-                <!-- Vendor Assignment -->
-                <div class="card border-0 shadow-sm mb-3">
-                  <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">🧑‍🔧 Vendor Assignment</div>
-                  <div class="card-body">
-                    <div class="mb-3">
-                      <label class="form-label" style="font-weight:600;font-size:0.85rem;">Current Vendor</label>
-                      <div id="sod-currentVendor" class="p-2 rounded" style="background:#f8f9fa;border:1px solid #e0e0e0;">
-                        <span class="badge bg-secondary">Not assigned</span>
-                      </div>
-                    </div>
-                    <hr/>
-                    <label class="form-label" style="font-weight:600;font-size:0.85rem;">Assign / Change Vendor</label>
-                    <select class="form-select mb-2" id="sod-vendorSelect">
-                      <option value="">Loading vendors...</option>
-                    </select>
-                    <div class="mb-3">
-                      <label class="form-label" style="font-size:0.85rem;">Vendor Price (₹)</label>
-                      <input type="number" class="form-control" id="sod-vendorPrice" placeholder="e.g. 1500" min="0" step="1" />
-                    </div>
-                    <button id="sod-assignVendorBtn" class="btn btn-success w-100" onclick="assignVendorToOrder()">Assign Vendor</button>
-                  </div>
-                </div>
-
-                <!-- Timestamps -->
-                <div class="card border-0 shadow-sm">
-                  <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">🕐 Timestamps</div>
-                  <div class="card-body">
-                    <table class="table table-sm table-borderless mb-0">
-                      <tbody>
-                        <tr><th style="width:45%;color:#555;">Created</th><td id="sod-createdAt">—</td></tr>
-                        <tr><th style="color:#555;">Updated</th><td id="sod-updatedAt">—</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-              </div><!-- /RIGHT -->
-
-            </div><!-- /row -->
-          </div><!-- /modal-body -->
-
-          <div class="modal-footer" style="background:#f5f7fa;">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-
+            <h1>Service Order Detail</h1>
+            <p class="text-muted mb-0">Order ID: <code id="sod-orderId">—</code></p>
         </div>
-      </div>
+
+        <div class="row g-3">
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Order Information
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Traveler</th>
+                                    <td id="sod-travelerName">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Phone</th>
+                                    <td id="sod-travelerPhone">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Monument</th>
+                                    <td id="sod-monument">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Service Type</th>
+                                    <td id="sod-serviceType">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Date of Service</th>
+                                    <td id="sod-dateOfService">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Time Slot</th>
+                                    <td id="sod-timeSlot">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Travelers</th>
+                                    <td id="sod-travelers">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Languages</th>
+                                    <td id="sod-languages">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="sod-dynamicFields" class="mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Pricing & Payment
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Total Price</th>
+                                    <td id="sod-price">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Payment Status</th>
+                                    <td><span id="sod-paymentStatus">—</span></td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Commission</th>
+                                    <td id="sod-commission">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">OTPs</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Start OTP</th>
+                                    <td><code id="sod-startOtp">—</code></td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">End OTP</th>
+                                    <td><code id="sod-endOtp">—</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Update Booking
+                        Status</div>
+                    <div class="card-body">
+                        <label class="form-label">Select New Status</label>
+                        <select class="form-select mb-3" id="sod-newStatus">
+                            <option value="booked">Booked</option>
+                            <option value="alloted">Alloted</option>
+                            <option value="ongoing">Ongoing</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <button id="sod-updateStatusBtn" class="btn btn-primary w-100"
+                            onclick="updateServiceOrderStatus()">Update Status</button>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">User Details</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:40%;color:#555;">User ID</th>
+                                    <td><code id="sod-userId" style="font-size:0.75rem;">—</code></td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Name</th>
+                                    <td id="sod-userName">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Email</th>
+                                    <td id="sod-userEmail">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Phone</th>
+                                    <td id="sod-userPhone">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Vendor Assignment
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight:600;font-size:0.85rem;">Current Vendor</label>
+                            <div id="sod-currentVendor" class="p-2 rounded"
+                                style="background:#f8f9fa;border:1px solid #e0e0e0;">
+                                <span class="badge bg-secondary">Not assigned</span>
+                            </div>
+                        </div>
+                        <hr />
+                        <label class="form-label" style="font-weight:600;font-size:0.85rem;">Assign / Change
+                            Vendor</label>
+                        <select class="form-select mb-2" id="sod-vendorSelect">
+                            <option value="">Loading vendors...</option>
+                        </select>
+                        <div class="mb-3">
+                            <label class="form-label" style="font-size:0.85rem;">Vendor Price (₹)</label>
+                            <input type="number" class="form-control" id="sod-vendorPrice" placeholder="e.g. 1500"
+                                min="0" step="1" />
+                        </div>
+                        <button id="sod-assignVendorBtn" class="btn btn-success w-100"
+                            onclick="assignVendorToOrder()">Assign Vendor</button>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Timestamps</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Created</th>
+                                    <td id="sod-createdAt">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Updated</th>
+                                    <td id="sod-updatedAt">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mt-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Chat Messages (Last
+                        10)</div>
+                    <div class="card-body" style="padding:0;">
+                        <div class="p-3 border-bottom bg-light">
+                            <strong style="color:#555;">Chat ID:</strong> <code id="sod-chatId">-</code>
+                        </div>
+                        <div id="sod-chatContext" class="chat-messages-container">
+                            <div class="text-center py-4 text-muted">Select an order to load chat messages.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mt-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Send Message</div>
+                    <div class="card-body">
+                        <textarea class="form-control mb-3" id="sod-chatMessage" rows="3"
+                            placeholder="Type your message to the user..."></textarea>
+                        <button id="sod-sendMessageBtn" class="btn btn-primary w-100"
+                            onclick="sendServiceOrderMessage()">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-secondary mt-4" onclick="showListView()">← Back to Dashboard</button>
     </div>
-    <!-- / SERVICE ORDER DETAIL MODAL -->
 
 </body>
+
 </html>

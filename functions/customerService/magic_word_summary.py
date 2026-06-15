@@ -55,22 +55,24 @@ def get_magicword_requests(limit: int = 1000) -> dict:
 
             items.append(d)
 
-        print(f"✅ Fetched {len(items)} magic word requests with status in ['requested', 'inProgress']")
+        logging.info(
+            "Fetched %s magic word requests with status in ['requested', 'inProgress']",
+            len(items),
+        )
         
         # ✅ Debug: Show all documents if none found
         if len(items) == 0:
-            print("⚠️ No items found with status=['requested', 'inProgress']")
+            logging.warning("No items found with status=['requested', 'inProgress']")
             all_docs = col.stream()
             all_items = []
             for doc in all_docs:
                 all_items.append({"id": doc.id, "status": doc.get("status")})
-            print(f"📋 All documents in magicWordUser: {all_items[:10]}")  # Show first 10
+            logging.info("Sample magicWordUser documents: %s", all_items[:10])
         
         return {"found": True, "count": len(items), "items": items}
 
     except Exception as e:
         logging.exception("get_magicword_requests error: %s", e)
-        print(f"❌ ERROR: {str(e)}")  # ✅ Print error
         return {"found": False, "error": str(e)}
 
 
@@ -144,7 +146,7 @@ def get_magicword_detail(magic_word_user_id: str) -> dict:
             magic_data["matchedAt"] = iso
             magic_data["matchedAt_readable"] = _iso_to_readable(iso)
 
-        print(f"✅ Returning details for {magic_word_user_id}. Found=True")
+        logging.info("Returning details for %s. Found=True", magic_word_user_id)
         
         # 6️⃣ Return complete detail
         return {
@@ -236,7 +238,7 @@ def get_user_completed_orders(user_id: str, limit: int = 50) -> dict:
         return {"found": False, "error": "Firestore client not initialized"}
 
     try:
-        col = db.collection("serviceOrder")
+        col = db.collection("serviceJsonOrder")
         
         # Filter by uid
         q = (
@@ -374,8 +376,12 @@ def create_order_for_magic_word(magic_word_user_id: str, magic_word_data: dict) 
 
         logging.info(f"✅ Order created: {order_id} for magic word {magic_word_user_id}")
         logging.info(f"✅ Updated magicWordUser {magic_word_user_id} with orderId: {order_id}")
-        print(f"📋 CREATE ORDER: Order ID={order_id}, Magic Word={magic_word}, User ID={user_id}")
-        print(f"📋 LINKED: Magic Word User ID={magic_word_user_id} now has orderId={order_id}")
+        logging.info(
+            "Created order %s for magic word %s and linked magicWordUser %s",
+            order_id,
+            magic_word,
+            magic_word_user_id,
+        )
 
         return {
             "success": True,
@@ -419,7 +425,12 @@ def send_message_to_chat(chat_id: str, user_id: str, magic_word: str) -> dict:
         message_id = message_ref[1].id
 
         logging.info(f"✅ Message sent to chat {chat_id}: {message_id}")
-        print(f"📨 SEND MESSAGE: Chat ID={chat_id}, Message ID={message_id}, Magic Word='{magic_word}'")
+        logging.info(
+            "Sent completion message to chat %s with message %s for magic word '%s'",
+            chat_id,
+            message_id,
+            magic_word,
+        )
 
         return {
             "success": True,
@@ -452,7 +463,7 @@ def send_service_request_message(chat_id: str, magic_word: str, booking_details:
         other_specify = sd.get("otherSpecify", "")
         if service_id == "other" and other_specify:
             service_name = f"{service_name} - {other_specify}"
-            print(f"✅ CUSTOM SERVICE: {service_name}")
+            logging.info("Custom service specified: %s", service_name)
         
         date_of_travel = sd.get("dateOfTravel", "N/A")
 
@@ -478,13 +489,13 @@ def send_service_request_message(chat_id: str, magic_word: str, booking_details:
             "content": message_text,
             "created_at": _get_iso_timestamp(),
             "location": chat_location,
-            # "user_id": "CustomerService",  # ✅ Identify sender
+            "user_id": "CustomerService",
         }
         
         db.collection("chats").document(chat_id).collection("messages").add(message_data)
         
         logging.info(f"✅ Service request message sent to chat {chat_id}")
-        print(f"📨 SERVICE REQUEST MESSAGE: Chat={chat_id}, Service={service_name}")
+        logging.info("Sent service request message to chat %s for service %s", chat_id, service_name)
         
         return {"success": True, "message": "Service request message sent"}
     
@@ -600,7 +611,12 @@ Your booking has been confirmed! Thank you for choosing our service.
         db.collection("chats").document(chat_id).collection("messages").add(message_data)
         
         logging.info(f"✅ Booking confirmation message sent to chat {chat_id}")
-        print(f"📨 BOOKING CONFIRMATION: Chat={chat_id}, Service={service_type}, Total=₹{total_price}")
+        logging.info(
+            "Sent booking confirmation to chat %s for service %s with total %s",
+            chat_id,
+            service_type,
+            total_price,
+        )
         
         return {"success": True, "message": "Booking confirmation message sent"}
     
@@ -626,14 +642,16 @@ def _get_service_type(service_id: str) -> str:
     return str(service_id).lower()
 
 
-def _get_selected_service_types(cart_items: list) -> list:
-    service_types = set()
-    for item in cart_items or []:
-        # ✅ in the new schema we store item_id
-        item_id = item.get("item_id", "")
-        if item_id:
-            service_types.add(_get_service_type(item_id))
-    return list(service_types)
+def _get_primary_service(cart_items: list, fallback_service_id: str = "", fallback_service_name: str = "") -> dict:
+    primary_item = (cart_items or [None])[0] or {}
+    service_id = primary_item.get("item_id") or fallback_service_id or ""
+    service_name = primary_item.get("name") or fallback_service_name or _get_service_name(service_id)
+    service_type = _get_service_type(service_id) if service_id else ""
+    return {
+        "service_id": service_id,
+        "service_name": service_name,
+        "service_type": service_type,
+    }
 
 
 def _to_bool(v) -> bool:
@@ -703,14 +721,16 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
         # ✅ Set service request status based on payment
         if payment_status == "success":
             sr_status = "Ordered Success"  # ✅ Payment successful
-            print(f"✅ Payment successful - Setting status to: Ordered Success")
+            logging.info("Payment successful - setting service request status to Ordered Success")
         else:
             sr_status = "draft"  # Default status
-            print(f"⏳ Payment pending - Setting status to: draft")
+            logging.info("Payment pending - setting service request status to draft")
         
         # -----------------------------
         # ✅ Build cart (accept both old + new keys)
         # -----------------------------
+        requested_service_id = _pick(sd, "typeOfService", "type_of_service", default="") or ""
+        requested_service_name = _pick(sd, "serviceName", "service_name", default="") or ""
         raw_cart = _pick(sd, "cartItems", "cart_items", "cart", default=[]) or []
         cart_items = []
 
@@ -748,15 +768,21 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
                 }
             )
 
+        if len(cart_items) > 1:
+            logging.warning(
+                "Received %s cart items for service request %s; keeping only the first item because the flow now supports one service.",
+                len(cart_items),
+                magic_word_user_id,
+            )
+            cart_items = cart_items[:1]
+
         # fallback: if no cart provided, create single item from type_of_service
         if not cart_items:
-            tos = _pick(sd, "typeOfService", "type_of_service", default="")
             cart_total_guess = int(_pick(sd, "price", "cart_total", "cartTotal", default=0) or 0)
-            service_name = _pick(sd, "serviceName", "service_name", default="") or ""
             cart_items = [{
-                "item_id": tos,
-                "name": _get_service_name(tos),
-                "details": service_name,
+                "item_id": requested_service_id,
+                "name": requested_service_name or _get_service_name(requested_service_id),
+                "details": requested_service_name,
                 # **({"other_specify": other_specify} if other_specify else {}),  # ✅ ONLY include if custom service
 
                 "quantity": 1,
@@ -764,7 +790,11 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
                 "total_price": cart_total_guess,
             }]
 
-        service_types = _get_selected_service_types(cart_items)
+        primary_service = _get_primary_service(
+            cart_items,
+            fallback_service_id=requested_service_id,
+            fallback_service_name=requested_service_name,
+        )
 
         # -----------------------------
         # ✅ Pricing (prefer explicit pricing object if present)
@@ -872,9 +902,17 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
             "language_preference": language_preference,  # ✅ STORE LANGUAGES HERE
             "monument_to_visit": monument_title,
 
-            # cart
-            "cart": cart_items,
-            "service_types": service_types,
+            # service
+            "service_id": primary_service["service_id"],
+            "service_name": primary_service["service_name"],
+            "service_type": primary_service["service_type"],
+            "service_details": {
+                "service_id": primary_service["service_id"],
+                "service_name": primary_service["service_name"],
+                "service_type": primary_service["service_type"],
+                "unit_price": cart_items[0].get("unit_price", 0) if cart_items else 0,
+                "total_price": cart_items[0].get("total_price", 0) if cart_items else 0,
+            },
 
             # guide_details (ONLY guide_count + gender_preference)
             "guide_details": {
@@ -965,6 +1003,10 @@ def create_service_order(magic_word_user_id: str, service_request_id: str, booki
         
         # Extract pricing details
         pricing = service_data.get("pricing", {})
+        legacy_service_types = service_data.get("service_types") or []
+        service_id = service_data.get("service_id") or (legacy_service_types[0] if legacy_service_types else "")
+        service_name = service_data.get("service_name") or _get_service_name(service_id)
+        service_type = service_data.get("service_type") or _get_service_type(service_id) or "service"
         
         # ✅ Build order document - ONLY WITH FIELDS FROM serviceOrder COLLECTION
         order_data = {
@@ -985,9 +1027,10 @@ def create_service_order(magic_word_user_id: str, service_request_id: str, booki
             "end_otp_verified": False,
             
             # ✅ Item/Service Info (from service_requests)
-            "item_id": service_data.get("service_types", [""])[0] if service_data.get("service_types") else "",
+            "item_id": service_id,
             "monument_id": service_data.get("monument_to_visit", ""),
-            "product_type": "guide",
+            "product_type": service_type,
+            "service_name": service_name,
             
             # ✅ Pricing (from service_requests)
             "price": int(pricing.get("total_payable", 0)),
@@ -1034,12 +1077,13 @@ def create_service_order(magic_word_user_id: str, service_request_id: str, booki
 
         logging.info(f"✅ Service order created: {order_id}")
         logging.info(f"✅ Status: booked, Price: ₹{order_data['price']}, Payment: {order_data['payment_status']}")
-        print(f"🎫 SERVICE ORDER CREATED")
-        print(f"   Order ID: {order_id}")
-        print(f"   Status: booked")
-        print(f"   Price: ₹{order_data['price']}")
-        print(f"   Start OTP: {order_data['start_otp']}")
-        print(f"   Payment Status: {order_data['payment_status']}")
+        logging.info(
+            "Service order created: order_id=%s status=booked price=%s start_otp=%s payment_status=%s",
+            order_id,
+            order_data["price"],
+            order_data["start_otp"],
+            order_data["payment_status"],
+        )
 
         return {
             "success": True,

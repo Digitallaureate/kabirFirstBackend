@@ -54,10 +54,11 @@
     <script>
         function getBasePath() {
             const path = window.location.pathname || "/";
-            const parts = path.split("/").filter(Boolean);
-            if (parts.length > 0 && (parts[0] === "customerService_app" || parts[0] === "support")) {
-                return "/" + parts[0];
+            const customerServiceIndex = path.indexOf("/customerService_app");
+            if (customerServiceIndex !== -1) {
+                return path.slice(0, customerServiceIndex + "/customerService_app".length);
             }
+            if (path.startsWith("/support/") || path === "/support") return "/support";
             return "";
         }
         const BASE = getBasePath();
@@ -71,8 +72,10 @@
         }
 
         // Fix Home button to respect base path
-        document.querySelector('[onclick="window.location.href=\'/dashboard\'"]')
-            .setAttribute('onclick', `window.location.href='${BASE}/dashboard'`);
+        const homeButton = document.querySelector('[onclick="window.location.href=\'/dashboard\'"]');
+        if (homeButton) {
+            homeButton.setAttribute('onclick', `window.location.href='${BASE}/dashboard'`);
+        }
     </script>
 </body>
 </html>
