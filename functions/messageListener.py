@@ -165,7 +165,7 @@ def on_message_created(event: firestore_fn.Event[firestore_fn.DocumentSnapshot])
                     if not participants:
                         logging.warning("⚠️ No participants found; cannot send push")
                     else:
-                        title = "Kabir Support"
+                        title = "Traviz Team"
                         body = (
                             (content[:120] + "…")
                             if content and len(content) > 120
