@@ -1,0 +1,1128 @@
+[
+  {
+    "longitude": "-74.0445",
+    "latitude": "40.6892",
+    "title": "Statue of Liberty Gift",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "New York, USA",
+    "content": "The Statue of Liberty was a gift from France to the United States, dedicated in 1886 to commemorate the centennial of American independence.",
+    "id": "04af11df-363c-4e67-9f43-f0d904f74ba0",
+    "tags": [
+      "New York",
+      "France",
+      "International Relations"
+    ],
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "04af11df-363c-4e67-9f43-f0d904f74ba0"
+  },
+  {
+    "longitude": "2.2945",
+    "latitude": "48.8584",
+    "title": "Eiffel Tower Facts",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "Paris, France",
+    "content": "The Eiffel Tower was built for the 1889 World's Fair and was initially meant to be a temporary structure. It was almost dismantled in 1909!",
+    "id": "22ca5343-78e2-428b-9e2a-14b26af9ad48",
+    "tags": [
+      "Paris",
+      "History",
+      "Architecture"
+    ],
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "22ca5343-78e2-428b-9e2a-14b26af9ad48"
+  },
+  {
+    "longitude": "-74.0445",
+    "latitude": "40.6892",
+    "title": "Statue's Broken Chains",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "New York, USA",
+    "content": "At the feet of the Statue of Liberty lie broken chains, symbolizing freedom from oppression and slavery, which are not easily visible from the ground.",
+    "id": "5ad899bb-0019-4c21-8b10-5a9fd5ff23fd",
+    "tags": [
+      "New York",
+      "Symbolism",
+      "Freedom"
+    ],
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "5ad899bb-0019-4c21-8b10-5a9fd5ff23fd"
+  },
+  {
+    "longitude": "116.5704",
+    "latitude": "40.4319",
+    "title": "Great Wall Visibility from Space",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "Beijing, China",
+    "content": "Contrary to popular belief, the Great Wall of China cannot be seen from the Moon with the naked eye. It can be seen from low Earth orbit under perfect conditions.",
+    "id": "80d1a449-d62a-40a2-b78e-784e459fb7c5",
+    "tags": [
+      "China",
+      "Space",
+      "Misconceptions"
+    ],
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "80d1a449-d62a-40a2-b78e-784e459fb7c5"
+  },
+  {
+    "longitude": "116.5704",
+    "latitude": "40.4319",
+    "title": "Great Wall Length",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "Beijing, China",
+    "content": "The Great Wall of China is approximately 13,171 miles (21,196 kilometers) long, making it the longest wall in the world.",
+    "id": "9fd5062b-11fd-4a27-925f-82b2f18b7cba",
+    "tags": [
+      "China",
+      "Ancient Wonders",
+      "Engineering"
+    ],
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "9fd5062b-11fd-4a27-925f-82b2f18b7cba"
+  },
+  {
+    "longitude": "77.348235",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "title": "Test Bristol 1 MG",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Test Bristol",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FMehtabBagsampleHG.jpeg?alt=media&token=8698a4f8-3453-459d-be44-dfae7468e3ba",
+    "id": "TestBristol1",
+    "tags": [
+      "A sample stop where discovery begins",
+      "4.5/5.0",
+      "Open all day"
+    ],
+    "content": "Test Bristol 1 MG is a sample hidden gem entry designed to showcase",
+    "latitude": " 28.597062",
+    "is_active": false,
+    "docId": "TestBristol1"
+  },
+  {
+    "longitude": "77.348236",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "title": "Test Bristol 2 LK",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Test Bristol",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FBaby%20Taj%20Mahal%20hero%20image.jpg?alt=media&token=287ccd6f-24cc-42d9-8b80-8ee973e6b546",
+    "id": "TestBristol2",
+    "tags": [
+      "A quiet sample where stories can unfold",
+      "4.4/5.0",
+      "Open all day"
+    ],
+    "content": "Test Bristol 2 LK is a sample hidden gem crafted to represent exploratory storytelling",
+    "latitude": " 28.597268",
+    "is_active": false,
+    "docId": "TestBristol2"
+  },
+  {
+    "longitude": "77.348237",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "title": "Test Bristol 3",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Test Bristol",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fchini-ka-rauzamain.jpg?alt=media&token=90320d3f-605c-4e1c-93a9-0faaa8283e1",
+    "id": "TestBristol3",
+    "tags": [
+      "A hidden sample waiting to be explored",
+      "4.3/5.0",
+      "Open all day"
+    ],
+    "content": "Test Bristol 3 is a sample experiential entry built for hidden gem discovery",
+    "latitude": " 28.597165",
+    "is_active": false,
+    "docId": "TestBristol3"
+  },
+  {
+    "longitude": "78.021950",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Famar_singh_gate_agraforst.jpg?alt=media&token=5770dce7-a600-4c16-81ca-168331ac71d3",
+    "latitude": "27.176656",
+    "id": "agra-fort-amar-singh-gate",
+    "created_at": "2026-08-21T08:13:47.457727Z",
+    "docId": "agra-fort-amar-singh-gate",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Amar Singh Gate",
+    "content": "The historic southern gateway and present-day visitor entrance to Agra Fort.",
+    "tags": [
+      "The defensive gateway through which every visitor enters the fort",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.023110",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fanguri_bagh_agrafort.jpg?alt=media&token=4c19a0ea-edfc-4825-8ab5-74820562ee41",
+    "latitude": "27.178430",
+    "id": "agra-fort-anguri-bagh",
+    "created_at": "2026-08-21T08:13:47.457827Z",
+    "docId": "agra-fort-anguri-bagh",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Anguri Bagh",
+    "content": "A formal Mughal garden of geometric beds and pathways lying beside Khas Mahal.",
+    "tags": [
+      "The geometric Garden of Grapes beside the royal apartments",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.022540",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fdiwan-i-aam-agrafort.jpg?alt=media&token=003e9e1e-ccf4-4f88-9cdc-3c204a4f3380",
+    "latitude": "27.178970",
+    "id": "agra-fort-diwan-i-am",
+    "created_at": "2026-08-21T08:13:47.457898Z",
+    "docId": "agra-fort-diwan-i-am",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Diwan-i-Am",
+    "content": "The Hall of Public Audience where Shah Jahan conducted public court and heard petitions.",
+    "tags": [
+      "Where the emperor heard petitions from his subjects",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.023370",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fdiwan-i-kash_agrafort.jpg?alt=media&token=3f0c2c15-76ca-4f48-827f-bb3799639fb1",
+    "latitude": "27.178900",
+    "id": "agra-fort-diwan-i-khas",
+    "created_at": "2026-08-21T08:13:47.457932Z",
+    "docId": "agra-fort-diwan-i-khas",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Diwan-i-Khas",
+    "content": "Shah Jahan's elegant private audience hall for important guests and affairs of state.",
+    "tags": [
+      "A private audience hall for emperors, nobles and ambassadors",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.023000",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fjahangiri_mahal_agrafort.jpg?alt=media&token=40bb6aed-e58d-44ab-b16b-a22e53790581",
+    "latitude": "27.177889",
+    "id": "agra-fort-jahangiri-mahal",
+    "created_at": "2026-08-21T08:13:47.457759Z",
+    "docId": "agra-fort-jahangiri-mahal",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Jahangiri Mahal",
+    "content": "A grand red-sandstone palace from Akbar's reign, later known as Jahangiri Mahal.",
+    "tags": [
+      "One of the finest surviving palaces from Akbar's Agra Fort",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.023560",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fkhas_mahal_agrafort.jpg?alt=media&token=c294c7b3-6d72-473a-8a25-cd86f777bbdf",
+    "latitude": "27.178440",
+    "id": "agra-fort-khas-mahal",
+    "created_at": "2026-08-21T08:13:47.457793Z",
+    "docId": "agra-fort-khas-mahal",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Khas Mahal",
+    "content": "A refined white-marble palace overlooking the Yamuna on one side and Anguri Bagh on the other.",
+    "tags": [
+      "Shah Jahan's elegant marble retreat overlooking the Yamuna",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.023200",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fmachchi_bhawan_agrafort.jpg?alt=media&token=1b9ec207-e9f3-49f2-90b9-1aad386eaf2b",
+    "latitude": "27.178900",
+    "id": "agra-fort-machchi-bhawan",
+    "created_at": "2026-08-21T08:13:47.458030Z",
+    "docId": "agra-fort-machchi-bhawan",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Machchi Bhawan",
+    "content": "A large palace courtyard traditionally called the Fish House and historically associated with the imperial treasury.",
+    "tags": [
+      "A royal courtyard whose name hides a treasury story",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.023610",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fmasamman_burj_agrafort.jpg?alt=media&token=c6fe1711-e20c-41f6-83f3-97381ee191ab",
+    "latitude": "27.178840",
+    "id": "agra-fort-musamman-burj",
+    "created_at": "2026-08-21T08:13:47.457862Z",
+    "docId": "agra-fort-musamman-burj",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Musamman Burj",
+    "content": "An octagonal marble pavilion overlooking the Yamuna and the distant Taj Mahal.",
+    "tags": [
+      "The marble tower from which Shah Jahan could see the Taj",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.022580",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fnagina_masjid_agrafort.jpg?alt=media&token=87c1b1ae-8847-4e3b-9c4a-43f01fcd20f9",
+    "latitude": "27.179380",
+    "id": "agra-fort-nagina-masjid",
+    "created_at": "2026-08-21T08:13:47.457996Z",
+    "docId": "agra-fort-nagina-masjid",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Nagina Masjid",
+    "content": "An intimate white-marble mosque built by Shah Jahan within the royal palace area.",
+    "tags": [
+      "A small marble mosque created for private royal worship",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.023130",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fsheesh_mahal_agrafort.jpg?alt=media&token=2f30391e-d5c6-4e37-b3ce-5262e99282f4",
+    "latitude": "27.178760",
+    "id": "agra-fort-sheesh-mahal",
+    "created_at": "2026-08-21T08:13:47.457962Z",
+    "docId": "agra-fort-sheesh-mahal",
+    "location": "Agra Fort",
+    "assistant_id": "KEEP_AGRA_FORT_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Sheesh Mahal",
+    "content": "The Palace of Mirrors, a richly decorated Shah Jahan-era complex associated with the imperial baths.",
+    "tags": [
+      "A royal chamber once sparkling with thousands of tiny mirrors",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.950370",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fcharbagh_garden_sikandra.jpg?alt=media&token=83c6d53e-e0d1-4caa-af50-dd08378d5d4f",
+    "latitude": "27.218950",
+    "id": "akbars-tomb-charbagh",
+    "created_at": "2026-08-21T08:13:47.458109Z",
+    "docId": "akbars-tomb-charbagh",
+    "location": "Sikandra",
+    "assistant_id": "KEEP_SIKANDRA_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Charbagh Garden",
+    "content": "The immense four-part Mughal garden surrounding Akbar's mausoleum at Sikandra.",
+    "tags": [
+      "A vast paradise garden leading toward Akbar's tomb",
+      "4.4/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.952450",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fkanch_mahal_sikandra.jpg?alt=media&token=9925157f-8031-4e43-8cf7-2c033aaea54b",
+    "latitude": "27.216540",
+    "id": "akbars-tomb-kanch-mahal",
+    "created_at": "2026-08-21T08:13:47.458240Z",
+    "docId": "akbars-tomb-kanch-mahal",
+    "location": "Sikandra",
+    "assistant_id": "KEEP_SIKANDRA_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Kanch Mahal",
+    "content": "An early 17th-century Mughal palace known for carved sandstone and traces of colourful glazed-tile decoration.",
+    "tags": [
+      "A hidden Mughal palace beside Akbar's grand tomb",
+      "4.4/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.950400",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fakbar_main_mausoleum_sikandra.jpg?alt=media&token=22fb7ee4-57d7-4ceb-b6b3-fa11fa7161ce",
+    "latitude": "27.220420",
+    "id": "akbars-tomb-main-mausoleum",
+    "created_at": "2026-08-21T08:13:47.458143Z",
+    "docId": "akbars-tomb-main-mausoleum",
+    "location": "Sikandra",
+    "assistant_id": "KEEP_SIKANDRA_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Akbar's Main Mausoleum",
+    "content": "The monumental red-sandstone and marble mausoleum containing Emperor Akbar's grave.",
+    "tags": [
+      "The five-tiered resting place of Emperor Akbar",
+      "4.4/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.950340",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fgreat_south_gateway_sikandra.jpg?alt=media&token=e7578393-65de-4ede-9797-dc26bbe64f47",
+    "latitude": "27.217470",
+    "id": "akbars-tomb-south-gateway",
+    "created_at": "2026-08-21T08:13:47.458070Z",
+    "docId": "akbars-tomb-south-gateway",
+    "location": "Sikandra",
+    "assistant_id": "KEEP_SIKANDRA_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Great South Gateway",
+    "content": "The monumental southern gateway leading into Akbar's vast garden-tomb complex.",
+    "tags": [
+      "The grand gateway that announces Akbar's final resting place",
+      "4.4/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.03230",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fcharbagh_garden_babytaj.jpg?alt=media&token=1fc74452-8e26-4c56-8266-53d8b34015d3",
+    "latitude": "27.19290",
+    "id": "baby-taj-charbagh",
+    "created_at": "2026-08-21T08:13:47.458355Z",
+    "docId": "baby-taj-charbagh",
+    "location": "Baby Taj Mahal",
+    "assistant_id": "KEEP_BABY_TAJ_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Charbagh Garden",
+    "content": "The formal Mughal garden of pathways and water channels surrounding I'timad-ud-Daulah's mausoleum.",
+    "tags": [
+      "A four-part paradise garden surrounding the marble tomb",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.03300",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Feast_gateway_babytaj.jpg?alt=media&token=931718a4-5e3f-4630-a1b7-c93e591d83e8",
+    "latitude": "27.19290",
+    "id": "baby-taj-east-gateway",
+    "created_at": "2026-08-21T08:13:47.458281Z",
+    "docId": "baby-taj-east-gateway",
+    "location": "Baby Taj Mahal",
+    "assistant_id": "KEEP_BABY_TAJ_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "East Gateway",
+    "content": "The principal entrance to I'timad-ud-Daulah's garden-tomb, richly decorated with white-marble inlay.",
+    "tags": [
+      "The red-sandstone gateway into Agra's marble jewel box",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.03154942",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fmain_mausoleum_babytaj.jpg?alt=media&token=00b477de-5525-4aed-99d5-d2b6c133f4aa",
+    "latitude": "27.19306859",
+    "id": "baby-taj-main-mausoleum",
+    "created_at": "2026-08-21T08:13:47.458401Z",
+    "docId": "baby-taj-main-mausoleum",
+    "location": "Baby Taj Mahal",
+    "assistant_id": "KEEP_BABY_TAJ_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Main Mausoleum",
+    "content": "The white-marble mausoleum built by Nur Jahan for her parents and celebrated for its intricate stone inlay and jali screens.",
+    "tags": [
+      "The marble jewel box that helped transform Mughal architecture",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.03070",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Friverfront_babytaj.jpg?alt=media&token=3c3093f8-4cb0-4ddb-ad34-00607018890e",
+    "latitude": "27.19290",
+    "id": "baby-taj-riverfront-pavilion",
+    "created_at": "2026-08-21T08:13:47.458445Z",
+    "docId": "baby-taj-riverfront-pavilion",
+    "location": "Baby Taj Mahal",
+    "assistant_id": "KEEP_BABY_TAJ_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Riverfront Pavilion",
+    "content": "The western garden pavilion overlooking the Yamuna and connecting the tomb to Agra's Mughal riverfront tradition.",
+    "tags": [
+      "A Mughal pavilion opening the garden toward the Yamuna",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "2.2945",
+    "latitude": "48.8584",
+    "title": "Eiffel Tower Paint",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "Paris, France",
+    "content": "The Eiffel Tower is painted every seven years using 60 tons of paint. It has been painted in various shades over the years, but currently wears a custom 'Eiffel Tower Brown'.",
+    "id": "f546629e-ef7d-49f9-a2e4-d5ff114122cf",
+    "tags": [
+      "Paris",
+      "Maintenance",
+      "Design"
+    ],
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "f546629e-ef7d-49f9-a2e4-d5ff114122cf"
+  },
+  {
+    "longitude": "77.66618",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fanup_talao_fatehpurisikri.jpg?alt=media&token=12835a8a-2c05-422e-9aa6-a01b5149c5e8",
+    "latitude": "27.09682",
+    "id": "fatehpur-sikri-anup-talao",
+    "created_at": "2026-08-21T08:13:47.458743Z",
+    "docId": "fatehpur-sikri-anup-talao",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Anup Talao",
+    "content": "An ornamental square pool with a central platform linked to its sides by four narrow bridges.",
+    "tags": [
+      "The Peerless Pool at the centre of Akbar's private court",
+      "4.6/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66276",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fbirbal_house_fatehpursikri.jpg?alt=media&token=150b95b0-c35e-43c1-9b0a-dcf0ff5bd27c",
+    "latitude": "27.09779",
+    "id": "fatehpur-sikri-birbals-house",
+    "created_at": "2026-08-21T08:13:47.458808Z",
+    "docId": "fatehpur-sikri-birbals-house",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Birbal's House",
+    "content": "An exceptionally ornate residential building traditionally known as Birbal's House.",
+    "tags": [
+      "One of Fatehpur Sikri's most richly carved small palaces",
+      "4.3/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66279",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fbuland_darwaza_fatehpursikri.jpg?alt=media&token=2342bd4f-b43f-429f-9806-07be250dd913",
+    "latitude": "27.09431",
+    "id": "fatehpur-sikri-buland-darwaza",
+    "created_at": "2026-08-21T08:13:47.458490Z",
+    "docId": "fatehpur-sikri-buland-darwaza",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Buland Darwaza",
+    "content": "The immense ceremonial gateway built to commemorate Akbar's victory in Gujarat.",
+    "tags": [
+      "Akbar's monumental Gate of Victory",
+      "4.4/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66690",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fdiwan-i-aam_fatehpursikri.jpg?alt=media&token=031a3b01-ac7b-4127-b773-d2491264b792",
+    "latitude": "27.09754",
+    "id": "fatehpur-sikri-diwan-i-am",
+    "created_at": "2026-08-21T08:13:47.458595Z",
+    "docId": "fatehpur-sikri-diwan-i-am",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Diwan-i-Am",
+    "content": "The Hall of Public Audience where Akbar conducted public court, ceremonies and assemblies.",
+    "tags": [
+      "Where Akbar met his subjects and heard public petitions",
+      "4.4/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66612",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fdiwan_i_khas_fatehpursikri.jpg?alt=media&token=d170a1c3-9875-41a3-98ca-3998ce8a45de",
+    "latitude": "27.09783",
+    "id": "fatehpur-sikri-diwan-i-khas",
+    "created_at": "2026-08-21T08:13:47.458631Z",
+    "docId": "fatehpur-sikri-diwan-i-khas",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Diwan-i-Khas",
+    "content": "The remarkable private audience hall famous for its richly carved central column and radiating stone bridges.",
+    "tags": [
+      "A mysterious hall built around one extraordinary stone pillar",
+      "4.6/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66278",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fjama_masjid_fatehpursikri.jpg?alt=media&token=effb9a71-2abc-4401-b13f-56c2611a6929",
+    "latitude": "27.09500",
+    "id": "fatehpur-sikri-jama-masjid",
+    "created_at": "2026-08-21T08:13:47.458527Z",
+    "docId": "fatehpur-sikri-jama-masjid",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Jama Masjid",
+    "content": "The vast congregational mosque around which Akbar's new imperial city developed.",
+    "tags": [
+      "One of India's great Mughal congregational mosques",
+      "4.2/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66575",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fjodha_bhai_place_fatehpursikri.jpg?alt=media&token=62e26e4c-a765-43c3-9a30-13d6c21403f2",
+    "latitude": "27.09709",
+    "id": "fatehpur-sikri-jodha-bai-palace",
+    "created_at": "2026-08-21T08:13:47.458699Z",
+    "docId": "fatehpur-sikri-jodha-bai-palace",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Palace of Jodha Bai",
+    "content": "A large enclosed royal residence blending several Indian and Islamic architectural traditions.",
+    "tags": [
+      "The largest residential palace in Akbar's royal complex",
+      "4.6/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66610",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fkhwabgah_fatehpursikri.jpg?alt=media&token=f3eeb87c-b122-4092-8ae9-d061a9200451",
+    "latitude": "27.09656",
+    "id": "fatehpur-sikri-khwabgah",
+    "created_at": "2026-08-21T08:13:47.458777Z",
+    "docId": "fatehpur-sikri-khwabgah",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Khwabgah",
+    "content": "The emperor's private residential chambers, including his library, resting room and upper bedchamber.",
+    "tags": [
+      "Akbar's private sleeping chamber beside Anup Talao",
+      "4.3/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66574",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fpanch_mahal.jpg?alt=media&token=fdb69597-f865-45c1-a4eb-4a2c011b786b",
+    "latitude": "27.09716",
+    "id": "fatehpur-sikri-panch-mahal",
+    "created_at": "2026-08-21T08:13:47.458665Z",
+    "docId": "fatehpur-sikri-panch-mahal",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Panch Mahal",
+    "content": "A five-storey open pavilion whose increasingly smaller levels create one of Fatehpur Sikri's most distinctive silhouettes.",
+    "tags": [
+      "Five airy levels rising above Akbar's palace",
+      "4.5/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "77.66274",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Ftomb_sheikh_salim_chishti_fatehpur_sikri.webp?alt=media&token=61fd4c4b-421f-48ca-81f5-0bc32bb3262f",
+    "latitude": "27.09515",
+    "id": "fatehpur-sikri-salim-chishti-tomb",
+    "created_at": "2026-08-21T08:13:47.458558Z",
+    "docId": "fatehpur-sikri-salim-chishti-tomb",
+    "location": "Fatehpur Sikri",
+    "assistant_id": "KEEP_FATEHPUR_SIKRI_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Tomb of Sheikh Salim Chishti",
+    "content": "The white-marble tomb of Sheikh Salim Chishti standing within the Jama Masjid courtyard.",
+    "tags": [
+      "The Sufi shrine at the spiritual heart of Fatehpur Sikri",
+      "4.4/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": 0,
+    "latitude": 0,
+    "id": "global-fallback-trivia",
+    "created_at": "2025-04-07T00:00:00.000Z",
+    "location": "Global",
+    "assistant_id": "asst_GenericFallback",
+    "content": "You’ve reached our global fallback trivia! Discover stories from across the world.",
+    "tags": [
+      "Global",
+      "Trivia",
+      "Fallback"
+    ],
+    "title": "Global Trivia: Wonders of the World",
+    "is_active": true,
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "docId": "global-fallback-trivia"
+  },
+  {
+    "longitude": "78.03993296753379",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Frambagh_gateway.jpg?alt=media&token=d5c6feb0-37f5-4233-b417-42474a8bc9c7",
+    "latitude": "27.20481987960999",
+    "id": "ram-bagh-gateways",
+    "created_at": "2026-08-21T08:13:47.458846Z",
+    "docId": "ram-bagh-gateways",
+    "location": "Ram Bagh",
+    "assistant_id": "KEEP_RAM_BAGH_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Ram Bagh Gateways",
+    "content": "The protected Mughal gateways marking the historic entrances to Ram Bagh.",
+    "tags": [
+      "Historic gateways into one of India's earliest Mughal gardens",
+      "4.2/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.03950",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Frambagh_katra.jpg?alt=media&token=0646decc-3854-4b3b-bfe9-be891b1d4aee",
+    "latitude": "27.20555",
+    "id": "ram-bagh-katra",
+    "created_at": "2026-08-21T08:13:47.458948Z",
+    "docId": "ram-bagh-katra",
+    "location": "Ram Bagh",
+    "assistant_id": "KEEP_RAM_BAGH_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Katra",
+    "content": "A protected group of historic structures forming part of the larger Ram Bagh architectural complex.",
+    "tags": [
+      "A surviving built enclosure beside Ram Bagh's garden landscape",
+      "4.2/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.038639",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Frambagh_riverfort.jpg?alt=media&token=b9d46fb2-856c-4652-a44f-f810ab486b51",
+    "latitude": "27.205306",
+    "id": "ram-bagh-riverfront-pavilions",
+    "created_at": "2026-08-21T08:13:47.458880Z",
+    "docId": "ram-bagh-riverfront-pavilions",
+    "location": "Ram Bagh",
+    "assistant_id": "KEEP_RAM_BAGH_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Riverfront Pavilions",
+    "content": "The river-facing pavilions and summer chambers overlooking the Yamuna at Ram Bagh.",
+    "tags": [
+      "Royal pavilions designed to catch the cool Yamuna breeze",
+      "4.2/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.03920",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Frambagh_cascadng.jpg?alt=media&token=5b422ade-84f2-4422-8686-1f58450870c1",
+    "latitude": "27.20515",
+    "id": "ram-bagh-water-terraces",
+    "created_at": "2026-08-21T08:13:47.458914Z",
+    "docId": "ram-bagh-water-terraces",
+    "location": "Ram Bagh",
+    "assistant_id": "KEEP_RAM_BAGH_SUBMONUMENT_ASSISTANT_ID",
+    "is_active": true,
+    "title": "Cascading Water Terraces",
+    "content": "Ram Bagh's terraced garden system of channels, tanks, fountains and cascading water.",
+    "tags": [
+      "A garden engineered around flowing water and three descending levels",
+      "4.2/5.0",
+      "Sunrise-Sunset"
+    ]
+  },
+  {
+    "longitude": "78.04212",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fcharbagh_tajmahal.jpg?alt=media&token=8d4cc697-a27e-4bd5-82ac-2be33613071d",
+    "latitude": "27.17325",
+    "id": "taj-mahal-charbagh",
+    "created_at": "2026-08-21T08:13:47.457472Z",
+    "docId": "taj-mahal-charbagh",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "title": "Charbagh",
+    "content": "The four-part Mughal garden of lawns, pathways, water channels and reflecting pools leading toward the Taj Mahal.",
+    "tags": [
+      "A paradise garden designed to lead your eyes toward the Taj",
+      "4.6/5.0",
+      "30 min before sunrise–30 min before sunset"
+    ]
+  },
+  {
+    "longitude": "78.04130562444298",
+    "latitude": "27.172449524606872",
+    "title": "Lakeside Tomb",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "id": "taj-mahal-charbagh-1",
+    "tags": [
+      "Not just a monument but a monument worth walking into",
+      "4.9/5.0",
+      "7:00am-9:00pm"
+    ],
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FLakesidetombsampleHG.jpeg?alt=media&token=7c95a6b3-bb16-405c-a8bb-3804b51500e8",
+    "content": "Lakeside tomb is a sample entry for hidden gems. ",
+    "is_active": false,
+    "docId": "taj-mahal-charbagh-1"
+  },
+  {
+    "longitude": "78.04132341460934",
+    "latitude": "27.17388657023558",
+    "id": "taj-mahal-charbagh-2",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "content": "Mehtab Bagh offers a peaceful riverside view..",
+    "is_active": true,
+    "title": "Mehtab Bagh",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FMehtabBagsampleHG.jpeg?alt=media&token=8698a4f8-3453-459d-be44-dfae7468e3ba",
+    "tags": [
+      "A quiet frame where the Taj reflects in silence",
+      "4.8/5.0",
+      "6:00am-6:00pm"
+    ],
+    "docId": "taj-mahal-charbagh-2"
+  },
+  {
+    "longitude": "78.04292455568476",
+    "latitude": "27.17390039950178",
+    "title": "Chini Ka Rauza",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fchini-ka-rauzamain.jpg?alt=media&token=90320d3f-605c-4e1c-93a9-0faaa8283e1f",
+    "id": "taj-mahal-charbagh-3",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": false,
+    "location": "Chini Ka Rauza, Agra",
+    "content": "Chini Ka Rauza is the riverside tomb of scholar and Mughal statesman Allama Afzal Khan, celebrated for its rare blue and turquoise Persian-style glazed tile decoration.",
+    "tags": [
+      "Where Persian tilework brings Mughal Agra to life",
+      "4.6/5.0",
+      "Sunrise to Sunset • Open Daily"
+    ],
+    "docId": "taj-mahal-charbagh-3"
+  },
+  {
+    "longitude": "78.04292455568476",
+    "latitude": "27.172475976083458",
+    "id": "taj-mahal-charbagh-4",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2Fchar%20bhag%20topview.jpg?alt=media&token=7d182b7c-5bf3-46e9-9ade-6f75f1d4287c",
+    "is_active": true,
+    "tags": [
+      "Where paradise was designed in perfect symmetry",
+      "4.9/5.0",
+      "6:00am-6:00pm"
+    ],
+    "title": "Taj Mahal Charbagh",
+    "content": "The Taj Mahal Charbagh is a geometrically planned Mughal garden divided by pathways and water channels, creating the symmetry and sense of paradise that define the Taj Mahal complex.",
+    "docId": "taj-mahal-charbagh-4"
+  },
+  {
+    "longitude": "78.04209849634834",
+    "latitude": "27.171676834439285",
+    "title": "Darwaza-i-Rauza (Great Gate)",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2Fdarwazeauza.jpg?alt=media&token=a8dbd091-16fb-4268-8379-6619e186206a",
+    "id": "taj-mahal-darwaza-i-rauza",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "location": "Taj Mahal, Agra",
+    "tags": [
+      "The grand gateway where your first Taj reveal begins",
+      "4.9/5.0",
+      "Open except Friday"
+    ],
+    "content": "Darwaza-i-Rauza, the Great Gate of the Taj Mahal, marks the dramatic transition from the ceremonial forecourt into the Mughal garden and prepares visitors for their first grand view of the mausoleum.",
+    "docId": "taj-mahal-darwaza-i-rauza"
+  },
+  {
+    "longitude": "78.04220",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fgreat_gate_tajmahal.jpg?alt=media&token=7ecf6ecf-3c57-445e-b755-ed002796c964",
+    "latitude": "27.17150",
+    "id": "taj-mahal-great-gate",
+    "created_at": "2026-08-21T08:13:47.457337Z",
+    "docId": "taj-mahal-great-gate",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "title": "Great Gate (Darwaza-i Rauza)",
+    "content": "The monumental red-sandstone gateway between Jilaukhana and the Taj Mahal's Charbagh garden.",
+    "tags": [
+      "The grand gateway that reveals your first view of the Taj",
+      "4.6/5.0",
+      "30 min before sunrise–30 min before sunset"
+    ]
+  },
+  {
+    "longitude": "78.04214",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fjilaukhana.jpg?alt=media&token=9c679e4e-5de0-449d-b723-1c797ed14997",
+    "latitude": "27.17094",
+    "id": "taj-mahal-jilaukhana",
+    "created_at": "2026-08-21T08:13:47.454380Z",
+    "docId": "taj-mahal-jilaukhana",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "title": "Jilaukhana",
+    "content": "The ceremonial forecourt that prepared visitors for their entrance into the Taj Mahal.",
+    "tags": [
+      "Where royal visitors gathered before entering the Taj",
+      "4.4/5.0",
+      "30 min before sunrise-30 min before sunset"
+    ]
+  },
+  {
+    "longitude": "78.0421150844759",
+    "latitude": "27.170943877220598",
+    "id": "taj-mahal-jilukhana-entrance",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "content": "Jilaukhana is the ceremonial forecourt of the Taj Mahal, where visitors historically gathered before passing through the Great Gate into the funerary garden.",
+    "is_active": false,
+    "location": "Taj Mahal, Agra",
+    "tags": [
+      "The ceremonial forecourt before the Taj's grand reveal",
+      "4.8/5.0",
+      "Open except Friday"
+    ],
+    "title": "Jilaukhana (Forecourt)",
+    "docId": "taj-mahal-jilukhana-entrance"
+  },
+  {
+    "longitude": "78.04214",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fmain_mosuleam_tajmahal.jpg?alt=media&token=d5d3254d-05c2-43f0-9237-4bbc00d46a1c",
+    "latitude": "27.17514",
+    "title": "Main Mausoleum",
+    "created_at": "2026-08-21T08:13:47.457518Z",
+    "docId": "taj-mahal-main-mausoleum",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "id": "taj-mahal-main-mausoleum",
+    "is_active": true,
+    "location": "Taj Mahal",
+    "content": "The iconic white-marble mausoleum built for Mumtaz Mahal and later also containing the tomb of Shah Jahan.",
+    "tags": [
+      "The marble heart of the Taj Mahal",
+      "4.6/5.0",
+      "30 min before sunrise–30 min before sunset"
+    ]
+  },
+  {
+    "longitude": "78.04065441243597",
+    "latitude": "27.175061161022377",
+    "title": "The Masjid ",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "id": "taj-mahal-masjid",
+    "is_active": false,
+    "location": "Taj Mahal, Agra",
+    "tags": [
+      "The red-sandstone mosque that anchors the Taj's western side",
+      "4.8/5.0",
+      "General viewing closed Friday"
+    ],
+    "content": "The Taj Mahal Masjid stands west of the main mausoleum in red sandstone, adding a sacred function to the complex while forming one half of its carefully balanced riverfront composition.",
+    "docId": "taj-mahal-masjid"
+  },
+  {
+    "longitude": "78.04344568223846",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fmihman_khana_tajmahal.jpg?alt=media&token=5b119626-b7d2-4828-84b5-1f8d3c9ec1ac",
+    "latitude": "27.175067287031876",
+    "title": "Mihman Khana",
+    "created_at": "2026-08-21T08:13:47.457654Z",
+    "docId": "taj-mahal-mihman-khana",
+    "id": "taj-mahal-mihman-khana",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "location": "Taj Mahal",
+    "content": "The eastern assembly hall that mirrors the Taj Mahal Mosque and completes the riverfront composition.",
+    "tags": [
+      "The mosque's mirror image built to complete the Taj's symmetry",
+      "4.0/5.0",
+      "30 min before sunrise–30 min before sunset"
+    ]
+  },
+  {
+    "longitude": "78.04164699740011",
+    "content": "As you look up, towering over you is the first of the four Meel-i-Menara — the minarets that stand like vigilant sentinels at the corners of the Taj Mahal. These are not mere decorations, but guardians of this sacred monument, standing watch over the tomb and the legacy it holds. The minarets symbolize protection and strength. Though graceful, they are slightly tilted outward. This intentional design ensures that in the event of an earthquake, they would fall away from the mausoleum, safeguarding the central tomb from harm. Each minaret serves both a functional and symbolic purpose. They echo the tradition of Islamic architecture, where minarets call the faithful to prayer. Here, they elevate the spiritual presence of the Taj Mahal, as though reaching up to the heavens themselves, calling not just for prayer but for remembrance. Imagine this minaret as a steadfast guardian of Shah Jahan’s love for Mumtaz. As he crafted this monument, he knew that love — like this tower — must be protected, preserved from the passage of time. It stands tall, a reminder that even in the most delicate beauty, strength is required to preserve it. Take a moment to admire its symmetry and elegance. This tower is a pillar of love’s endurance, standing strong against the tests of time and fate.",
+    "id": "taj-mahal-minaret-1",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "latitude": "27.174540919741",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "tags": [
+      "Taj Mahal",
+      "Minarets",
+      "Meel-i-Menara",
+      "Mughal Architecture",
+      "Monument Guardians"
+    ],
+    "location": "Taj Mahal",
+    "title": "Minaret 1",
+    "is_active": false,
+    "docId": "taj-mahal-minaret-1"
+  },
+  {
+    "longitude": "78.0416038304382",
+    "content": "As you look up, towering over you is the second of the four Meel-i-Menara — the minarets that stand like vigilant sentinels at the corners of the Taj Mahal. These are not mere decorations, but guardians of this sacred monument, standing watch over the tomb and the legacy it holds. The minarets symbolize protection and strength. Though graceful, they are slightly tilted outward. This intentional design ensures that in the event of an earthquake, they would fall away from the mausoleum, safeguarding the central tomb from harm. Each minaret serves both a functional and symbolic purpose. They echo the tradition of Islamic architecture, where minarets call the faithful to prayer. Here, they elevate the spiritual presence of the Taj Mahal, as though reaching up to the heavens themselves, calling not just for prayer but for remembrance. Imagine this minaret as a steadfast guardian of Shah Jahan’s love for Mumtaz. As he crafted this monument, he knew that love — like this tower — must be protected, preserved from the passage of time. It stands tall, a reminder that even in the most delicate beauty, strength is required to preserve it. Take a moment to admire its symmetry and elegance. This tower is a pillar of love’s endurance, standing strong against the tests of time and fate.",
+    "id": "taj-mahal-minaret-2",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "latitude": "27.175415865364457",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "tags": [
+      "Taj Mahal",
+      "Minarets",
+      "Meel-i-Menara",
+      "Mughal Architecture",
+      "Monument Guardians"
+    ],
+    "location": "Taj Mahal",
+    "title": "Minaret 2",
+    "is_active": false,
+    "docId": "taj-mahal-minaret-2"
+  },
+  {
+    "longitude": "78.04261194779353",
+    "content": "As you look up, towering over you is the third of the four Meel-i-Menara — the minarets that stand like vigilant sentinels at the corners of the Taj Mahal. These are not mere decorations, but guardians of this sacred monument, standing watch over the tomb and the legacy it holds. The minarets symbolize protection and strength. Though graceful, they are slightly tilted outward. This intentional design ensures that in the event of an earthquake, they would fall away from the mausoleum, safeguarding the central tomb from harm. Each minaret serves both a functional and symbolic purpose. They echo the tradition of Islamic architecture, where minarets call the faithful to prayer. Here, they elevate the spiritual presence of the Taj Mahal, as though reaching up to the heavens themselves, calling not just for prayer but for remembrance. Imagine this minaret as a steadfast guardian of Shah Jahan’s love for Mumtaz. As he crafted this monument, he knew that love — like this tower — must be protected, preserved from the passage of time. It stands tall, a reminder that even in the most delicate beauty, strength is required to preserve it. Take a moment to admire its symmetry and elegance. This tower is a pillar of love’s endurance, standing strong against the tests of time and fate.",
+    "id": "taj-mahal-minaret-3",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "latitude": "27.175459330641303",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "tags": [
+      "Taj Mahal",
+      "Minarets",
+      "Meel-i-Menara",
+      "Mughal Architecture",
+      "Monument Guardians"
+    ],
+    "location": "Taj Mahal",
+    "title": "Minaret 3",
+    "is_active": false,
+    "docId": "taj-mahal-minaret-3"
+  },
+  {
+    "longitude": "78.04264452024442",
+    "content": "As you look up, towering over you is the fourth of the four Meel-i-Menara — the minarets that stand like vigilant sentinels at the corners of the Taj Mahal. These are not mere decorations, but guardians of this sacred monument, standing watch over the tomb and the legacy it holds. The minarets symbolize protection and strength. Though graceful, they are slightly tilted outward. This intentional design ensures that in the event of an earthquake, they would fall away from the mausoleum, safeguarding the central tomb from harm. Each minaret serves both a functional and symbolic purpose. They echo the tradition of Islamic architecture, where minarets call the faithful to prayer. Here, they elevate the spiritual presence of the Taj Mahal, as though reaching up to the heavens themselves, calling not just for prayer but for remembrance. Imagine this minaret as a steadfast guardian of Shah Jahan’s love for Mumtaz. As he crafted this monument, he knew that love — like this tower — must be protected, preserved from the passage of time. It stands tall, a reminder that even in the most delicate beauty, strength is required to preserve it. Take a moment to admire its symmetry and elegance. This tower is a pillar of love’s endurance, standing strong against the tests of time and fate.",
+    "id": "taj-mahal-minaret-4",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "latitude": "27.174578431058645",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "tags": [
+      "Taj Mahal",
+      "Minarets",
+      "Meel-i-Menara",
+      "Mughal Architecture",
+      "Monument Guardians"
+    ],
+    "location": "Taj Mahal",
+    "title": "Minaret 4",
+    "is_active": false,
+    "docId": "taj-mahal-minaret-4"
+  },
+  {
+    "longitude": "78.04214",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Fminarets_tajmahal.jpg?alt=media&token=6bd3817c-a8a8-46b6-8a09-be148f7927cd",
+    "latitude": "27.17505",
+    "id": "taj-mahal-minarets",
+    "created_at": "2026-08-21T08:13:47.457572Z",
+    "docId": "taj-mahal-minarets",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "title": "Taj Mahal Minarets",
+    "content": "Four soaring marble minarets positioned around the mausoleum platform to complete the Taj Mahal's monumental composition.",
+    "tags": [
+      "Four marble towers framing the Taj with perfect balance",
+      "4.6/5.0",
+      "30 min before sunrise–30 min before sunset"
+    ]
+  },
+  {
+    "longitude": "78.04095",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Ftajmahal_mosque.jpg?alt=media&token=e86d8b20-67da-4eb8-9cea-8b993c64b1fb",
+    "latitude": "27.17485",
+    "id": "taj-mahal-mosque",
+    "created_at": "2026-08-21T08:13:47.457614Z",
+    "docId": "taj-mahal-mosque",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "title": "Taj Mahal Mosque",
+    "content": "The functioning Mughal mosque standing west of the main mausoleum and completing the Taj Mahal's riverfront ensemble.",
+    "tags": [
+      "The sacred red-sandstone counterpart beside the white Taj",
+      "4.5/5.0",
+      "30 min before sunrise–30 min before sunset"
+    ]
+  },
+  {
+    "longitude": "78.04211174333744",
+    "content": "As you stand before the Reflecting Pool, known as the Hauz, take a moment to absorb the sight before you. The Taj Mahal, perfectly mirrored in the still water, appears as though it is floating — weightless, timeless, and utterly flawless. Look closely at the reflection. The pool was purposefully designed to capture this image, creating a duality that speaks to the balance between life and death, heaven and earth, reality and illusion. For a brief moment, everything feels aligned — perfectly symmetrical, just as love was in Shah Jahan’s eyes. In Mughal architecture, water symbolizes purity and life. The Hauz here doesn’t just reflect the Taj Mahal; it reflects the soul of the monument and the emotions behind it. It reminds us that true beauty is not only in what is built but in what is mirrored back to us. Pause for a moment. See your own reflection in the water. Just as the Taj’s image is held still in its surface, the love story that built this monument lives on in the hearts of those who come to witness it.",
+    "id": "taj-mahal-reflecting-pool",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Taj Mahal",
+    "latitude": "27.173139288526674",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "tags": [
+      "Taj Mahal",
+      "Reflecting Pool",
+      "Hauz",
+      "Mughal Architecture",
+      "Water Symbolism"
+    ],
+    "title": "Reflecting Pool",
+    "is_active": false,
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/event%2Ftaj_mahal_reflecting.jpg?alt=media&token=be71b63b-b426-4f3c-9e1c-59b634142606",
+    "docId": "taj-mahal-reflecting-pool"
+  },
+  {
+    "longitude": "78.04214",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/submonument%2Friverfront_tajmahal.jpg?alt=media&token=302e1c3d-3ad1-40e1-94cc-727c76abb77b",
+    "latitude": "27.17555",
+    "id": "taj-mahal-riverfront-terrace",
+    "created_at": "2026-08-21T08:13:47.457690Z",
+    "docId": "taj-mahal-riverfront-terrace",
+    "location": "Taj Mahal",
+    "assistant_id": "asst_zD1fLRYAcGZKfuCaeqh10m6U",
+    "is_active": true,
+    "title": "Riverfront Terrace",
+    "content": "The vast sandstone riverfront platform linking the mausoleum, mosque and Mihman Khana along the Yamuna.",
+    "tags": [
+      "Where the Taj Mahal meets the Yamuna",
+      "4.6/5.0",
+      "30 min before sunrise–30 min before sunset"
+    ]
+  }
+]

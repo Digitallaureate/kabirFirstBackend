@@ -1,0 +1,1232 @@
+{
+  "found": true,
+  "userCount": 18,
+  "totalQualifiedChatCount": 48,
+  "totalCreatedBlogCount": 9,
+  "totalCreatableBlogCount": 41,
+  "qualifiedChatUserDistribution": [
+    {
+      "qualifiedChatCount": 1,
+      "userCount": 9
+    },
+    {
+      "qualifiedChatCount": 2,
+      "userCount": 4
+    },
+    {
+      "qualifiedChatCount": 3,
+      "userCount": 3
+    },
+    {
+      "qualifiedChatCount": 5,
+      "userCount": 1
+    },
+    {
+      "qualifiedChatCount": 10,
+      "userCount": 1
+    }
+  ],
+  "qualificationRules": {
+    "minTextCount": 10,
+    "minImageCount": 4
+  },
+  "reports": [
+    {
+      "uid": "0mCWl7qWlsZuCnjzrVtQPwDeLJy1",
+      "user": {
+        "phoneNumber": "+919711000152",
+        "lastName": null,
+        "userLocation": null,
+        "photoURL": "",
+        "firstName": null,
+        "email": "",
+        "uid": "0mCWl7qWlsZuCnjzrVtQPwDeLJy1",
+        "docId": "0mCWl7qWlsZuCnjzrVtQPwDeLJy1"
+      },
+      "creatableChatCount": 2,
+      "qualifiedChatCount": 2,
+      "createdBlogCount": 1,
+      "creatableBlogCount": 2,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "0mCWl7qWlsZuCnjzrVtQPwDeLJy1"
+          ],
+          "created_at": "2025-07-18T01:09:26.613Z",
+          "location": "universal",
+          "id": "84a26d0c-60d0-4a6b-bbea-6103444c0fe9",
+          "isHumanInteraction": false,
+          "updated_at": "2026-05-19T04:38:59.235882Z",
+          "thread_id": "thread_ShC9S6WwmY8CVKGfBsRcG9AN",
+          "created_at_readable": "Jul 18, 2025 06:39 AM",
+          "updated_at_readable": "May 19, 2026 10:08 AM",
+          "docId": "84a26d0c-60d0-4a6b-bbea-6103444c0fe9",
+          "messageCount": 109,
+          "textCount": 109,
+          "imageCount": 6,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "0mCWl7qWlsZuCnjzrVtQPwDeLJy1"
+          ],
+          "created_at": "2026-03-21T05:10:35.207Z",
+          "location": "Taj Mahal",
+          "id": "b539ab4f-9c3a-492c-91ba-ae47a0dfa60b",
+          "updated_at": "2026-03-21T07:05:59.392Z",
+          "thread_id": "thread_av69EHIMZCcRVBb9GR4psBq9",
+          "created_at_readable": "Mar 21, 2026 10:40 AM",
+          "updated_at_readable": "Mar 21, 2026 12:35 PM",
+          "docId": "b539ab4f-9c3a-492c-91ba-ae47a0dfa60b",
+          "messageCount": 14,
+          "textCount": 14,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "BfK7XqO3AxhnOa2kY30XesOM2AK2",
+      "user": {
+        "email": "reflectro4@gmail.com",
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "",
+        "photoURL": "",
+        "firstName": "Traveler",
+        "phoneNumber": null,
+        "uid": "BfK7XqO3AxhnOa2kY30XesOM2AK2",
+        "docId": "BfK7XqO3AxhnOa2kY30XesOM2AK2"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "BfK7XqO3AxhnOa2kY30XesOM2AK2"
+          ],
+          "created_at": "2025-12-04T08:00:05.374Z",
+          "location": "universal",
+          "id": "a0251f06-c6f1-4226-b131-2e1b50cb6586",
+          "isHumanInteraction": false,
+          "updated_at": "2026-06-03T08:42:52.829481Z",
+          "thread_id": "thread_h13mn4Je06auRm3pBQEABYHx",
+          "created_at_readable": "Dec 04, 2025 01:30 PM",
+          "updated_at_readable": "Jun 03, 2026 02:12 PM",
+          "docId": "a0251f06-c6f1-4226-b131-2e1b50cb6586",
+          "messageCount": 112,
+          "textCount": 112,
+          "imageCount": 11,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "DeWSr0zdrCbA08vGZinkdS2jrpx1",
+      "user": {
+        "phoneNumber": "+918974317975",
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "DB",
+        "photoURL": null,
+        "firstName": "Saheli",
+        "email": null,
+        "uid": "DeWSr0zdrCbA08vGZinkdS2jrpx1",
+        "docId": "DeWSr0zdrCbA08vGZinkdS2jrpx1"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "DeWSr0zdrCbA08vGZinkdS2jrpx1"
+          ],
+          "created_at": "2025-11-15T10:34:24.534Z",
+          "location": "universal",
+          "id": "b69cbbca-cb0a-48d1-ba26-8c83d8d14bcc",
+          "updated_at": "2026-03-05T20:17:12.903Z",
+          "thread_id": "thread_uX9qw77qmUoMCFeKlb4i8G10",
+          "created_at_readable": "Nov 15, 2025 04:04 PM",
+          "updated_at_readable": "Mar 06, 2026 01:47 AM",
+          "docId": "b69cbbca-cb0a-48d1-ba26-8c83d8d14bcc",
+          "messageCount": 43,
+          "textCount": 43,
+          "imageCount": 8,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "EDrhEcem8hPgu7LysSCc0H4UoOV2",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": "yash patel",
+        "lastName": "Yash Patel",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKiqwGL1saiwEbpTjj3IS-4FC6BWENgZL0u5DLmwKJD5qr5lYI=s96-c",
+        "firstName": "Yash Patel",
+        "email": "patelyash142007@gmail.com",
+        "uid": "EDrhEcem8hPgu7LysSCc0H4UoOV2",
+        "docId": "EDrhEcem8hPgu7LysSCc0H4UoOV2"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "EDrhEcem8hPgu7LysSCc0H4UoOV2"
+          ],
+          "created_at": "2025-07-20T05:09:59.373Z",
+          "location": "Taj Mahal",
+          "id": "c60e2eb9-8ac9-4867-9b60-62f509b98691",
+          "updated_at": "2025-07-20T05:14:25.936Z",
+          "thread_id": "thread_YEfvi2IcHBooyvzMivKHg0Er",
+          "created_at_readable": "Jul 20, 2025 10:39 AM",
+          "updated_at_readable": "Jul 20, 2025 10:44 AM",
+          "docId": "c60e2eb9-8ac9-4867-9b60-62f509b98691",
+          "messageCount": 10,
+          "textCount": 10,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "INwDpHABZERqQeOHSVLREJnHDDY2",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Gracy G vlog",
+        "photoURL": null,
+        "firstName": "Gunjan Chaudhary ",
+        "email": "darshi5151@gmail.com",
+        "uid": "INwDpHABZERqQeOHSVLREJnHDDY2",
+        "docId": "INwDpHABZERqQeOHSVLREJnHDDY2"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "INwDpHABZERqQeOHSVLREJnHDDY2"
+          ],
+          "created_at": "2026-04-09T07:36:58.485Z",
+          "location": "universal",
+          "id": "2e74687d-eb49-4a7b-8c10-5e11e56e7091",
+          "updated_at": "2026-04-11T12:41:17.165673Z",
+          "thread_id": "thread_eq2HpdJCatD0bZV1oHc1YC6w",
+          "created_at_readable": "Apr 09, 2026 01:06 PM",
+          "updated_at_readable": "Apr 11, 2026 06:11 PM",
+          "docId": "2e74687d-eb49-4a7b-8c10-5e11e56e7091",
+          "messageCount": 32,
+          "textCount": 32,
+          "imageCount": 9,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "JT0kmPFRJCZ6sZUETVFDtStWvFu1",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Rajat Kumar",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocKD39fBAGjf3yywTEC1eqW8FU5RrvPeV_Cfs8P9ehjqHWPb-g=s96-c",
+        "firstName": "Rajat Kumar",
+        "email": "rajatkumar04061997@gmail.com",
+        "uid": "JT0kmPFRJCZ6sZUETVFDtStWvFu1",
+        "docId": "JT0kmPFRJCZ6sZUETVFDtStWvFu1"
+      },
+      "creatableChatCount": 2,
+      "qualifiedChatCount": 2,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 2,
+      "creatableChats": [
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside India Gate",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "JT0kmPFRJCZ6sZUETVFDtStWvFu1"
+          ],
+          "created_at": "2025-07-03T07:38:47.174Z",
+          "location": "India Gate",
+          "id": "3ff12af3-ccdd-414e-8499-dd161abfe91b",
+          "updated_at": "2026-02-17T12:23:48.387977Z",
+          "thread_id": "thread_9Us1MonYl93AbLJg9fboQ5Qx",
+          "created_at_readable": "Jul 03, 2025 01:08 PM",
+          "updated_at_readable": "Feb 17, 2026 05:53 PM",
+          "docId": "3ff12af3-ccdd-414e-8499-dd161abfe91b",
+          "messageCount": 47,
+          "textCount": 47,
+          "imageCount": 10,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "JT0kmPFRJCZ6sZUETVFDtStWvFu1"
+          ],
+          "created_at": "2026-02-13T04:30:26.621Z",
+          "location": "universal",
+          "id": "ad599ccc-d147-4a12-88da-cc6380f2bb0c",
+          "isHumanInteraction": false,
+          "updated_at": "2026-05-27T08:08:16.082178Z",
+          "thread_id": "thread_2jGY89vRmKcERZXJ51kiBUov",
+          "created_at_readable": "Feb 13, 2026 10:00 AM",
+          "updated_at_readable": "May 27, 2026 01:38 PM",
+          "docId": "ad599ccc-d147-4a12-88da-cc6380f2bb0c",
+          "messageCount": 67,
+          "textCount": 67,
+          "imageCount": 6,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "LFpe9jnwxPQoxNdgFV7B5et50J93",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Rajat Singh",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocLESUYIwLvpBWmitwfzTAbfiiBpis6ZDsId1WnjThLSFWyR1B88=s96-c",
+        "firstName": "Rajat Singh",
+        "email": "rajatsingh0406@gmail.com",
+        "uid": "LFpe9jnwxPQoxNdgFV7B5et50J93",
+        "docId": "LFpe9jnwxPQoxNdgFV7B5et50J93"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "LFpe9jnwxPQoxNdgFV7B5et50J93"
+          ],
+          "created_at": "2025-06-23T16:11:34.043Z",
+          "location": "universal",
+          "id": "1fba0d15-c7a8-4851-856c-58af5ac4c989",
+          "isHumanInteraction": false,
+          "updated_at": "2026-06-02T09:38:47.689748Z",
+          "thread_id": "thread_soWKAtq8m8arCbvLu3r7RYHG",
+          "created_at_readable": "Jun 23, 2025 09:41 PM",
+          "updated_at_readable": "Jun 02, 2026 03:08 PM",
+          "docId": "1fba0d15-c7a8-4851-856c-58af5ac4c989",
+          "messageCount": 69,
+          "textCount": 69,
+          "imageCount": 6,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "Nn3mYW3nLmQoeXbASLdgTuTlYze2",
+      "user": {
+        "uid": "Nn3mYW3nLmQoeXbASLdgTuTlYze2",
+        "userLocation": null,
+        "firstNameLower": null,
+        "updatedAt": "2026-05-04T09:09:12.606472Z",
+        "phoneNumber": null,
+        "unread_notification_count": 9,
+        "lastName": "Rajat Singh",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocK8ghP7mieqx3GAbV-PtWFgGpTo6PcXCbB9KyEaLfvVxcZCKg=s96-c",
+        "firstName": "Rajat Singh",
+        "email": "rajatkumar.pmgengineering@gmail.com",
+        "countryCode": "+91",
+        "updatedAt_readable": "May 04, 2026 02:39 PM",
+        "docId": "Nn3mYW3nLmQoeXbASLdgTuTlYze2"
+      },
+      "creatableChatCount": 3,
+      "qualifiedChatCount": 4,
+      "createdBlogCount": 1,
+      "creatableBlogCount": 3,
+      "creatableChats": [
+        {
+          "chat_type": "trivia",
+          "chat_name": "Humayun's Tomb - Hidden Gems",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "Nn3mYW3nLmQoeXbASLdgTuTlYze2"
+          ],
+          "created_at": "2025-06-12T02:13:39.577Z",
+          "location": "Humayun's Tomb",
+          "id": "03ade72b-867c-44fc-b336-a3f4625888e0",
+          "updated_at": "2025-08-03T17:33:01.279268Z",
+          "thread_id": "thread_y8mQhegiT09uSHMM4Po612NY",
+          "created_at_readable": "Jun 12, 2025 07:43 AM",
+          "updated_at_readable": "Aug 03, 2025 11:03 PM",
+          "docId": "03ade72b-867c-44fc-b336-a3f4625888e0",
+          "messageCount": 18,
+          "textCount": 18,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Fatehpur Sikri",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "id": "07bf7656-d31e-4c07-b7bd-d6686d02ffe5",
+          "created_at": "2026-05-30T10:12:24.688Z",
+          "location": "Fatehpur Sikri",
+          "participants": [
+            "Nn3mYW3nLmQoeXbASLdgTuTlYze2"
+          ],
+          "updated_at": "2026-06-03T05:13:23.092944Z",
+          "thread_id": "thread_bzDOdBJiMD4M2LenWUjcSy2O",
+          "created_at_readable": "May 30, 2026 03:42 PM",
+          "updated_at_readable": "Jun 03, 2026 10:43 AM",
+          "docId": "07bf7656-d31e-4c07-b7bd-d6686d02ffe5",
+          "messageCount": 39,
+          "textCount": 39,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "global",
+          "chat_name": "Companion",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "Nn3mYW3nLmQoeXbASLdgTuTlYze2"
+          ],
+          "created_at": "2025-06-09T09:06:56.628Z",
+          "location": "universal",
+          "id": "ba7dbacf-9049-4809-ba00-50b252a188d2",
+          "isHumanInteraction": false,
+          "updated_at": "2026-08-17T15:04:41.766193Z",
+          "thread_id": "thread_sllSuvyUgPrUXprRmZcpkxty",
+          "created_at_readable": "Jun 09, 2025 02:36 PM",
+          "updated_at_readable": "Aug 17, 2026 08:34 PM",
+          "docId": "ba7dbacf-9049-4809-ba00-50b252a188d2",
+          "messageCount": 2024,
+          "textCount": 2024,
+          "imageCount": 242,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "SU16nK2KNpW0w9o3DmuiWTproC43",
+      "user": {
+        "email": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Traveler",
+        "photoURL": null,
+        "firstName": "Sagar Choudhary ",
+        "phoneNumber": "+919176396060",
+        "uid": "SU16nK2KNpW0w9o3DmuiWTproC43",
+        "docId": "SU16nK2KNpW0w9o3DmuiWTproC43"
+      },
+      "creatableChatCount": 2,
+      "qualifiedChatCount": 2,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 2,
+      "creatableChats": [
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Test Bristol",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "SU16nK2KNpW0w9o3DmuiWTproC43"
+          ],
+          "created_at": "2025-11-22T07:03:43.054Z",
+          "location": "Test Bristol",
+          "id": "82b170b8-3b14-4387-b134-0a0509880c40",
+          "updated_at": "2025-11-25T08:15:44.579535Z",
+          "thread_id": "thread_2dLVfMrGVhpCBozfCVUGM3ba",
+          "created_at_readable": "Nov 22, 2025 12:33 PM",
+          "updated_at_readable": "Nov 25, 2025 01:45 PM",
+          "docId": "82b170b8-3b14-4387-b134-0a0509880c40",
+          "messageCount": 15,
+          "textCount": 15,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "SU16nK2KNpW0w9o3DmuiWTproC43"
+          ],
+          "created_at": "2025-06-17T15:21:04.137Z",
+          "location": "universal",
+          "id": "997d28fc-8e2b-46c4-bc53-c588c0e73937",
+          "updated_at": "2026-06-09T09:41:07.115292Z",
+          "thread_id": "thread_NT9HKHsrhkZVHWr7Jo1ep0za",
+          "created_at_readable": "Jun 17, 2025 08:51 PM",
+          "updated_at_readable": "Jun 09, 2026 03:11 PM",
+          "docId": "997d28fc-8e2b-46c4-bc53-c588c0e73937",
+          "messageCount": 53,
+          "textCount": 53,
+          "imageCount": 9,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "W5DtHFeGPiX13cgurcp59Ic5fM42",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "unread_notification_count": 4,
+        "lastName": "Sagar Choudhary",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocL9f92goprLndvNR0FKyrFipUjEIRtTFCqgm78hmcR2DDDGOw=s96-c",
+        "firstName": "Sagar Choudhary",
+        "email": "sagar200991@gmail.com",
+        "uid": "W5DtHFeGPiX13cgurcp59Ic5fM42",
+        "docId": "W5DtHFeGPiX13cgurcp59Ic5fM42"
+      },
+      "creatableChatCount": 10,
+      "qualifiedChatCount": 10,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 10,
+      "creatableChats": [
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-06-15T05:55:32.133Z",
+          "location": "Taj Mahal",
+          "id": "2757d782-125e-4a26-a673-ff48b07cda00",
+          "isHumanInteraction": false,
+          "updated_at": "2026-08-05T11:10:25.304242Z",
+          "thread_id": "thread_jsEzxB3QOl6EhrL1c5CwsYRs",
+          "created_at_readable": "Jun 15, 2025 11:25 AM",
+          "updated_at_readable": "Aug 05, 2026 04:40 PM",
+          "docId": "2757d782-125e-4a26-a673-ff48b07cda00",
+          "messageCount": 666,
+          "textCount": 666,
+          "imageCount": 135,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Lotus Temple",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-06-09T17:30:36.393Z",
+          "location": "Lotus Temple",
+          "id": "3a245b00-4e11-49bb-8edd-4b1fbcb2d816",
+          "isHumanInteraction": false,
+          "updated_at": "2026-02-17T11:51:35.067117Z",
+          "thread_id": "thread_x9NEyOIHy5aMxaFupWwSR906",
+          "created_at_readable": "Jun 09, 2025 11:00 PM",
+          "updated_at_readable": "Feb 17, 2026 05:21 PM",
+          "docId": "3a245b00-4e11-49bb-8edd-4b1fbcb2d816",
+          "messageCount": 125,
+          "textCount": 125,
+          "imageCount": 8,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "trivia",
+          "chat_name": "Lotus Temple - Hidden Gems",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-06-10T07:55:15.864Z",
+          "location": "Lotus Temple",
+          "id": "5453120a-8925-4db3-8bb5-61248aeef4b0",
+          "updated_at": "2025-07-18T13:19:50.588039Z",
+          "thread_id": "thread_duxqQiJQmQTum3wkXQo3MWSR",
+          "created_at_readable": "Jun 10, 2025 01:25 PM",
+          "updated_at_readable": "Jul 18, 2025 06:49 PM",
+          "docId": "5453120a-8925-4db3-8bb5-61248aeef4b0",
+          "messageCount": 12,
+          "textCount": 12,
+          "imageCount": 6,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside India Gate",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-06-27T08:58:51.300Z",
+          "location": "India Gate",
+          "id": "6b345d06-6e1d-4e68-b4ee-c532b02f9028",
+          "updated_at": "2025-07-18T13:02:34.585991Z",
+          "thread_id": "thread_XaDMFXgzneFTfJW3wsqxGHyp",
+          "created_at_readable": "Jun 27, 2025 02:28 PM",
+          "updated_at_readable": "Jul 18, 2025 06:32 PM",
+          "docId": "6b345d06-6e1d-4e68-b4ee-c532b02f9028",
+          "messageCount": 98,
+          "textCount": 98,
+          "imageCount": 7,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Test Bristol",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-11-14T13:47:30.862Z",
+          "location": "Test Bristol",
+          "id": "701a1a3d-a934-43a7-a7a1-44f6ab2c8dad",
+          "isHumanInteraction": false,
+          "updated_at": "2026-02-19T20:54:05.820360Z",
+          "thread_id": "thread_hS2Qflt15kx21nJ853dcmppC",
+          "created_at_readable": "Nov 14, 2025 07:17 PM",
+          "updated_at_readable": "Feb 20, 2026 02:24 AM",
+          "docId": "701a1a3d-a934-43a7-a7a1-44f6ab2c8dad",
+          "messageCount": 67,
+          "textCount": 67,
+          "imageCount": 8,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Agra Fort",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-09-09T06:21:43.270Z",
+          "location": "Agra Fort",
+          "id": "88ccd100-164c-4f91-aae5-e4c3bbb11d19",
+          "updated_at": "2026-03-20T14:29:12.606936Z",
+          "thread_id": "thread_Xl6I2SW8dO5x3jtszLqnwwdU",
+          "created_at_readable": "Sep 09, 2025 11:51 AM",
+          "updated_at_readable": "Mar 20, 2026 07:59 PM",
+          "docId": "88ccd100-164c-4f91-aae5-e4c3bbb11d19",
+          "messageCount": 206,
+          "textCount": 206,
+          "imageCount": 78,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "global",
+          "chat_name": "Companion",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2026-07-13T06:11:38.801850Z",
+          "location": "universal",
+          "id": "a6fdf5c3-064b-4567-a57f-242a0a130090",
+          "isHumanInteraction": false,
+          "updated_at": "2026-08-06T06:28:25.980976Z",
+          "created_at_readable": "Jul 13, 2026 11:41 AM",
+          "updated_at_readable": "Aug 06, 2026 11:58 AM",
+          "docId": "a6fdf5c3-064b-4567-a57f-242a0a130090",
+          "messageCount": 117,
+          "textCount": 117,
+          "imageCount": 10,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2026-02-06T09:43:42.360Z",
+          "location": "universal",
+          "id": "d291ddcd-ec82-4246-add3-c879588ebf48",
+          "isHumanInteraction": true,
+          "updated_at": "2026-06-17T12:00:21.989412Z",
+          "thread_id": "thread_hEAaA0tQrP6sSX8NFshwTq8m",
+          "created_at_readable": "Feb 06, 2026 03:13 PM",
+          "updated_at_readable": "Jun 17, 2026 05:30 PM",
+          "docId": "d291ddcd-ec82-4246-add3-c879588ebf48",
+          "messageCount": 543,
+          "textCount": 543,
+          "imageCount": 38,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Baby Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-12-07T06:15:15.971Z",
+          "location": "Baby Taj Mahal",
+          "id": "db7c4318-e526-4932-b2d0-158ecf9f24f9",
+          "isHumanInteraction": false,
+          "updated_at": "2026-02-17T11:42:26.600488Z",
+          "thread_id": "thread_jG6F2bPEYSNg7Un6QFhQPjrl",
+          "created_at_readable": "Dec 07, 2025 11:45 AM",
+          "updated_at_readable": "Feb 17, 2026 05:12 PM",
+          "docId": "db7c4318-e526-4932-b2d0-158ecf9f24f9",
+          "messageCount": 26,
+          "textCount": 26,
+          "imageCount": 6,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Ram Bagh",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "W5DtHFeGPiX13cgurcp59Ic5fM42"
+          ],
+          "created_at": "2025-11-29T11:46:53.312Z",
+          "location": "Ram Bagh",
+          "id": "f03679ec-7e2f-4f2f-98d4-186ef5da431f",
+          "isHumanInteraction": false,
+          "updated_at": "2025-12-23T13:30:28.713748Z",
+          "thread_id": "thread_uO8j2KZLpwVXeQ0fLqJSjvOf",
+          "created_at_readable": "Nov 29, 2025 05:16 PM",
+          "updated_at_readable": "Dec 23, 2025 07:00 PM",
+          "docId": "f03679ec-7e2f-4f2f-98d4-186ef5da431f",
+          "messageCount": 39,
+          "textCount": 39,
+          "imageCount": 9,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "XygTsJTy8MfPAErO3Gyn6BvmDPP2",
+      "user": {
+        "email": "saumya364agarwal@gmail.com",
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Traveler",
+        "photoURL": null,
+        "firstName": "Saumya ",
+        "phoneNumber": "+919569750656",
+        "uid": "XygTsJTy8MfPAErO3Gyn6BvmDPP2",
+        "docId": "XygTsJTy8MfPAErO3Gyn6BvmDPP2"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "XygTsJTy8MfPAErO3Gyn6BvmDPP2"
+          ],
+          "created_at": "2026-02-12T10:20:06.605Z",
+          "location": "universal",
+          "id": "a4df323d-c0b3-47f4-973d-7f87f60db56a",
+          "updated_at": "2026-04-02T08:38:41.481960Z",
+          "thread_id": "thread_Bfc3ktNMOlYtu8hGhD0opV0x",
+          "created_at_readable": "Feb 12, 2026 03:50 PM",
+          "updated_at_readable": "Apr 02, 2026 02:08 PM",
+          "docId": "a4df323d-c0b3-47f4-973d-7f87f60db56a",
+          "messageCount": 16,
+          "textCount": 16,
+          "imageCount": 5,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "cPxJ84fpWnPeI0PdM71Rm3Zcf0k1",
+      "user": {
+        "email": "motogplay1111@gmail.com",
+        "userLocation": null,
+        "firstNameLower": "ankur",
+        "lastName": "Mota Bhai",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocLZ85DDAibVdolqbgMNvqJSZVXk8kwjt39KJzB9RE54WekLEw=s96-c",
+        "firstName": "Ankur",
+        "phoneNumber": "",
+        "uid": "cPxJ84fpWnPeI0PdM71Rm3Zcf0k1",
+        "docId": "cPxJ84fpWnPeI0PdM71Rm3Zcf0k1"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "cPxJ84fpWnPeI0PdM71Rm3Zcf0k1"
+          ],
+          "created_at": "2025-08-12T14:31:12.190Z",
+          "location": "universal",
+          "id": "19b95ebd-7bff-4c50-a965-dcde05fda088",
+          "updated_at": "2025-08-12T15:03:22.179254Z",
+          "thread_id": "thread_gNzympB8drM01PdO8jA772wx",
+          "created_at_readable": "Aug 12, 2025 08:01 PM",
+          "updated_at_readable": "Aug 12, 2025 08:33 PM",
+          "docId": "19b95ebd-7bff-4c50-a965-dcde05fda088",
+          "messageCount": 58,
+          "textCount": 58,
+          "imageCount": 11,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "dm7F3EwiEbem9WxepBzyCszlZCy2",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": "samanta pandey",
+        "lastName": "samanta pandey",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocLCO_RlTPrVFPkssFGc-YyHw8DZhmPv01-ZT_xSIjO0HIesg7f2=s96-c",
+        "firstName": "samanta pandey",
+        "email": "samantapy123@gmail.com",
+        "uid": "dm7F3EwiEbem9WxepBzyCszlZCy2",
+        "docId": "dm7F3EwiEbem9WxepBzyCszlZCy2"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "dm7F3EwiEbem9WxepBzyCszlZCy2"
+          ],
+          "created_at": "2025-08-12T17:13:05.719Z",
+          "location": "universal",
+          "id": "90e743da-4088-407e-9392-84669449d45d",
+          "updated_at": "2025-08-12T18:02:37.456203Z",
+          "thread_id": "thread_LUPf9lfTleka2TekKTjEimoq",
+          "created_at_readable": "Aug 12, 2025 10:43 PM",
+          "updated_at_readable": "Aug 12, 2025 11:32 PM",
+          "docId": "90e743da-4088-407e-9392-84669449d45d",
+          "messageCount": 49,
+          "textCount": 49,
+          "imageCount": 5,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "jA3N7IUspkct1d9j4cKVxbrJVFl2",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Saheli DebBarma",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocL4vUnofknq0n-lErmBV70tT4cFEvFqremSCrT2tqAG18EH8aN7=s96-c",
+        "firstName": "Saheli DebBarma",
+        "email": "sdbpixie@gmail.com",
+        "uid": "jA3N7IUspkct1d9j4cKVxbrJVFl2",
+        "docId": "jA3N7IUspkct1d9j4cKVxbrJVFl2"
+      },
+      "creatableChatCount": 3,
+      "qualifiedChatCount": 3,
+      "createdBlogCount": 1,
+      "creatableBlogCount": 3,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "jA3N7IUspkct1d9j4cKVxbrJVFl2"
+          ],
+          "created_at": "2025-06-09T17:12:13.592Z",
+          "location": "universal",
+          "id": "0de9924a-e50b-4551-9139-4dfb4c787cda",
+          "isHumanInteraction": false,
+          "updated_at": "2026-05-03T07:36:33.007163Z",
+          "thread_id": "thread_F3fCyWKFegt4HBiYrRQUCCTl",
+          "created_at_readable": "Jun 09, 2025 10:42 PM",
+          "updated_at_readable": "May 03, 2026 01:06 PM",
+          "docId": "0de9924a-e50b-4551-9139-4dfb4c787cda",
+          "messageCount": 287,
+          "textCount": 287,
+          "imageCount": 40,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside the City Palace Jaipur",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "jA3N7IUspkct1d9j4cKVxbrJVFl2"
+          ],
+          "created_at": "2025-06-10T05:38:42.405Z",
+          "location": "City Palace Jaipur",
+          "id": "3e6a2c39-609e-4459-adae-6a6da49bac97",
+          "updated_at": "2025-06-10T15:55:35.532Z",
+          "thread_id": "thread_kZDRG3is0KBy3wNtZ6xsr4RZ",
+          "created_at_readable": "Jun 10, 2025 11:08 AM",
+          "updated_at_readable": "Jun 10, 2025 09:25 PM",
+          "docId": "3e6a2c39-609e-4459-adae-6a6da49bac97",
+          "messageCount": 12,
+          "textCount": 12,
+          "imageCount": 5,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "jA3N7IUspkct1d9j4cKVxbrJVFl2"
+          ],
+          "created_at": "2025-07-07T11:33:35.576Z",
+          "location": "Taj Mahal",
+          "id": "faaab12b-96fb-4758-a397-1be44306492f",
+          "updated_at": "2026-03-29T05:23:27.463704Z",
+          "thread_id": "thread_Aj3Y0Tk04yqOFFfhf6zwJfY3",
+          "created_at_readable": "Jul 07, 2025 05:03 PM",
+          "updated_at_readable": "Mar 29, 2026 10:53 AM",
+          "docId": "faaab12b-96fb-4758-a397-1be44306492f",
+          "messageCount": 250,
+          "textCount": 250,
+          "imageCount": 57,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "m2ThItOXOxYFJyxJfXZUiBOzGg72",
+      "user": {
+        "email": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Traveler",
+        "photoURL": null,
+        "firstName": "vipin gupta",
+        "phoneNumber": "+918882830660",
+        "uid": "m2ThItOXOxYFJyxJfXZUiBOzGg72",
+        "docId": "m2ThItOXOxYFJyxJfXZUiBOzGg72"
+      },
+      "creatableChatCount": 3,
+      "qualifiedChatCount": 5,
+      "createdBlogCount": 2,
+      "creatableBlogCount": 3,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "m2ThItOXOxYFJyxJfXZUiBOzGg72"
+          ],
+          "created_at": "2026-02-04T12:37:02.297Z",
+          "location": "universal",
+          "id": "43abcf50-b283-40e8-814b-92ff768a7298",
+          "isHumanInteraction": false,
+          "updated_at": "2026-08-03T02:46:55.430665Z",
+          "thread_id": "thread_QqdJ3BQIpiKRFC3eCwA2l4UE",
+          "created_at_readable": "Feb 04, 2026 06:07 PM",
+          "updated_at_readable": "Aug 03, 2026 08:16 AM",
+          "docId": "43abcf50-b283-40e8-814b-92ff768a7298",
+          "messageCount": 255,
+          "textCount": 255,
+          "imageCount": 29,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside India Gate",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "m2ThItOXOxYFJyxJfXZUiBOzGg72"
+          ],
+          "created_at": "2026-02-13T09:03:53.115Z",
+          "location": "India Gate",
+          "id": "b9d991ed-a924-42bd-80c9-ba04c8fbd815",
+          "updated_at": "2026-02-13T13:00:33.100Z",
+          "thread_id": "thread_HRuGPmWc0V0IR4DjS52ZzJtL",
+          "created_at_readable": "Feb 13, 2026 02:33 PM",
+          "updated_at_readable": "Feb 13, 2026 06:30 PM",
+          "docId": "b9d991ed-a924-42bd-80c9-ba04c8fbd815",
+          "messageCount": 57,
+          "textCount": 57,
+          "imageCount": 15,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Baby Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "m2ThItOXOxYFJyxJfXZUiBOzGg72"
+          ],
+          "created_at": "2026-02-07T05:33:07.035Z",
+          "location": "Baby Taj Mahal",
+          "id": "be446b79-8f9e-4c98-b96d-ba7316adf709",
+          "updated_at": "2026-02-22T15:50:58.559131Z",
+          "thread_id": "thread_Cdhh5DCUtTm8bRG52tTjGnam",
+          "created_at_readable": "Feb 07, 2026 11:03 AM",
+          "updated_at_readable": "Feb 22, 2026 09:20 PM",
+          "docId": "be446b79-8f9e-4c98-b96d-ba7316adf709",
+          "messageCount": 43,
+          "textCount": 43,
+          "imageCount": 18,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "mO9HbdmJIiVU32HYM2bMOVasnM32",
+      "user": {
+        "email": "kunshrandom@mail.com",
+        "userLocation": null,
+        "firstNameLower": "kunsh",
+        "lastName": "mittal",
+        "photoURL": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/Profile%2F451e4559-5a42-4b40-b78b-d603d2db7fc15805469663818303655.jpg?alt=media&token=c0bff088-594c-46ef-a2de-8a1bec0023d6",
+        "firstName": "kunsh",
+        "phoneNumber": "",
+        "uid": "mO9HbdmJIiVU32HYM2bMOVasnM32",
+        "docId": "mO9HbdmJIiVU32HYM2bMOVasnM32"
+      },
+      "creatableChatCount": 1,
+      "qualifiedChatCount": 1,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 1,
+      "creatableChats": [
+        {
+          "chat_type": "global",
+          "chat_name": "ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "mO9HbdmJIiVU32HYM2bMOVasnM32"
+          ],
+          "created_at": "2025-06-12T06:21:57.343Z",
+          "location": "universe",
+          "id": "56a1d00e-6262-4b06-8838-ec939ff12392",
+          "updated_at": "2025-06-12T06:52:41.159Z",
+          "thread_id": "thread_t1AVAJNsNZ2IJOCmUc3UBpuU",
+          "created_at_readable": "Jun 12, 2025 11:51 AM",
+          "updated_at_readable": "Jun 12, 2025 12:22 PM",
+          "docId": "56a1d00e-6262-4b06-8838-ec939ff12392",
+          "messageCount": 16,
+          "textCount": 16,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "sX30BEuboeaYoz4VqQFWFoejLoj2",
+      "user": {
+        "phoneNumber": null,
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Vipin Gupta",
+        "photoURL": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2Ftest%2Fscaled_2050979f-2433-45ae-93a4-4791b083ad1a8472627601987630303.jpg?alt=media&token=8c97a4b4-4ac6-4655-b2b1-635e9ab13a23",
+        "firstName": "Vipin guptav",
+        "email": "vipinguptav567@gmail.com",
+        "uid": "sX30BEuboeaYoz4VqQFWFoejLoj2",
+        "docId": "sX30BEuboeaYoz4VqQFWFoejLoj2"
+      },
+      "creatableChatCount": 5,
+      "qualifiedChatCount": 5,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 5,
+      "creatableChats": [
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Lotus Temple",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "sX30BEuboeaYoz4VqQFWFoejLoj2"
+          ],
+          "created_at": "2026-02-02T09:06:39.261Z",
+          "location": "Lotus Temple",
+          "id": "1284346f-bba6-4784-891d-73e2b9b1d76a",
+          "updated_at": "2026-02-18T06:20:43.414860Z",
+          "thread_id": "thread_0XRtk9IiIcRSb5bn1TkGkRS6",
+          "created_at_readable": "Feb 02, 2026 02:36 PM",
+          "updated_at_readable": "Feb 18, 2026 11:50 AM",
+          "docId": "1284346f-bba6-4784-891d-73e2b9b1d76a",
+          "messageCount": 19,
+          "textCount": 19,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "sX30BEuboeaYoz4VqQFWFoejLoj2"
+          ],
+          "created_at": "2026-01-29T08:02:07.048Z",
+          "location": "universal",
+          "id": "595ce8e4-5e0b-4123-a878-1d452bf01237",
+          "isHumanInteraction": false,
+          "updated_at": "2026-04-15T07:58:55.510Z",
+          "thread_id": "thread_JStcZrFzdI0DjIQGOXUUhHUL",
+          "created_at_readable": "Jan 29, 2026 01:32 PM",
+          "updated_at_readable": "Apr 15, 2026 01:28 PM",
+          "docId": "595ce8e4-5e0b-4123-a878-1d452bf01237",
+          "messageCount": 417,
+          "textCount": 417,
+          "imageCount": 66,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "sX30BEuboeaYoz4VqQFWFoejLoj2"
+          ],
+          "created_at": "2026-01-29T08:03:52.678Z",
+          "location": "Taj Mahal",
+          "id": "ca2bbe19-5ea5-43d1-955d-ed3db5ec186e",
+          "updated_at": "2026-04-15T07:50:45.743813Z",
+          "thread_id": "thread_OxOBwPLLrUOZL3IDKE7qTVZJ",
+          "created_at_readable": "Jan 29, 2026 01:33 PM",
+          "updated_at_readable": "Apr 15, 2026 01:20 PM",
+          "docId": "ca2bbe19-5ea5-43d1-955d-ed3db5ec186e",
+          "messageCount": 63,
+          "textCount": 63,
+          "imageCount": 10,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Baby Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "sX30BEuboeaYoz4VqQFWFoejLoj2"
+          ],
+          "created_at": "2026-01-29T08:05:27.579Z",
+          "location": "Baby Taj Mahal",
+          "id": "cb262310-f858-4814-ae98-0dae30214181",
+          "updated_at": "2026-04-15T07:37:43.960962Z",
+          "thread_id": "thread_CtQSXGnnoXTKMsoAYa1EzQ23",
+          "created_at_readable": "Jan 29, 2026 01:35 PM",
+          "updated_at_readable": "Apr 15, 2026 01:07 PM",
+          "docId": "cb262310-f858-4814-ae98-0dae30214181",
+          "messageCount": 13,
+          "textCount": 13,
+          "imageCount": 4,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside India Gate",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "sX30BEuboeaYoz4VqQFWFoejLoj2"
+          ],
+          "created_at": "2026-02-02T09:22:22.552Z",
+          "location": "India Gate",
+          "id": "d22d1afb-3243-46a1-bdbc-2fa896a217e3",
+          "updated_at": "2026-04-14T17:09:25.744472Z",
+          "thread_id": "thread_r7dxGNYOogInmH3InCXWyApP",
+          "created_at_readable": "Feb 02, 2026 02:52 PM",
+          "updated_at_readable": "Apr 14, 2026 10:39 PM",
+          "docId": "d22d1afb-3243-46a1-bdbc-2fa896a217e3",
+          "messageCount": 121,
+          "textCount": 121,
+          "imageCount": 20,
+          "qualifiesForBlog": true
+        }
+      ]
+    },
+    {
+      "uid": "zC0Q8H0eh0b3Y8a15WAtcDUi6TE3",
+      "user": {
+        "email": "digitallaureate56@gmail.com",
+        "userLocation": null,
+        "firstNameLower": null,
+        "lastName": "Digital Laureate",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocLBFRqxE3J4tGcPQtUJ3ZO25SpLn5_GcIGUGfx3KKr4iwY4zw=s96-c",
+        "firstName": "Digital Laureate",
+        "phoneNumber": null,
+        "uid": "zC0Q8H0eh0b3Y8a15WAtcDUi6TE3",
+        "docId": "zC0Q8H0eh0b3Y8a15WAtcDUi6TE3"
+      },
+      "creatableChatCount": 2,
+      "qualifiedChatCount": 2,
+      "createdBlogCount": 0,
+      "creatableBlogCount": 2,
+      "creatableChats": [
+        {
+          "chat_type": "journey",
+          "chat_name": "Inside Taj Mahal",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "zC0Q8H0eh0b3Y8a15WAtcDUi6TE3"
+          ],
+          "created_at": "2025-07-19T12:23:25.541Z",
+          "location": "Taj Mahal",
+          "id": "2da513f0-092e-4023-846b-e7f1c69c831f",
+          "updated_at": "2025-10-03T08:38:07.921326Z",
+          "thread_id": "thread_W5sGw8VR1wTWYoWVhUWJjgNO",
+          "created_at_readable": "Jul 19, 2025 05:53 PM",
+          "updated_at_readable": "Oct 03, 2025 02:08 PM",
+          "docId": "2da513f0-092e-4023-846b-e7f1c69c831f",
+          "messageCount": 15,
+          "textCount": 15,
+          "imageCount": 5,
+          "qualifiesForBlog": true
+        },
+        {
+          "chat_type": "global",
+          "chat_name": "Ask Kabir",
+          "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+          "participants": [
+            "zC0Q8H0eh0b3Y8a15WAtcDUi6TE3"
+          ],
+          "created_at": "2025-06-22T07:08:33.654Z",
+          "location": "universal",
+          "id": "fbb89bb7-042a-42bf-88c6-287fc9c38787",
+          "updated_at": "2025-10-03T08:15:58.960965Z",
+          "thread_id": "thread_zx7zDsrd60sHghiXoTmGGjlm",
+          "created_at_readable": "Jun 22, 2025 12:38 PM",
+          "updated_at_readable": "Oct 03, 2025 01:45 PM",
+          "docId": "fbb89bb7-042a-42bf-88c6-287fc9c38787",
+          "messageCount": 106,
+          "textCount": 106,
+          "imageCount": 8,
+          "qualifiesForBlog": true
+        }
+      ]
+    }
+  ]
+}

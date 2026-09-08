@@ -1,0 +1,308 @@
+[
+  {
+    "longitude": "78.055795",
+    "difficulty_level": "Medium",
+    "content": "A modern & minimalist place to eat in the sea of Royal glitter in Agra",
+    "id": "3e165004-6877-424e-b952-a28b7dbd0b16",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FTimber%26TableSample.jpeg?alt=media&token=879a9501-f5e2-4d2b-bf5a-1c666413aa42",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "latitude": "27.159251",
+    "tags": [
+      "Minimalist luxury with a warm ambiance",
+      "4.9/5.0",
+      "₹2500 for two",
+      "10:00am-11.30pm"
+    ],
+    "title": "Timber & Table",
+    "location": "Agra, UP",
+    "is_active": false,
+    "docId": "3e165004-6877-424e-b952-a28b7dbd0b16"
+  },
+  {
+    "longitude": "-74.0445",
+    "difficulty_level": "Medium",
+    "latitude": "40.6892",
+    "title": "Statue of Liberty Crown Access",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "New York, USA",
+    "content": "Crown access tickets are limited and sell out months in advance. Book as early as possible if you want to climb to the crown.",
+    "id": "53fa882e-06a5-4038-8978-e048cc23e394",
+    "tags": [
+      "New York",
+      "Planning",
+      "Special Access"
+    ],
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "53fa882e-06a5-4038-8978-e048cc23e394"
+  },
+  {
+    "longitude": "-74.0445",
+    "difficulty_level": "Medium",
+    "latitude": "40.6892",
+    "title": "Photography at Statue of Liberty",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "New York, USA",
+    "content": "For the best photos of the Statue of Liberty, take the Staten Island Ferry which is free and offers great views from the water.",
+    "id": "6ad55b24-832b-462e-8554-ef08fd3d41f4",
+    "tags": [
+      "Photography",
+      "Budget",
+      "New York"
+    ],
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "6ad55b24-832b-462e-8554-ef08fd3d41f4"
+  },
+  {
+    "longitude": "2.2945",
+    "difficulty_level": "Easy",
+    "latitude": "48.8584",
+    "title": "Best Time to Visit Eiffel Tower",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "Paris, France",
+    "content": "Visit the Eiffel Tower early in the morning (around 9 AM) or after 7 PM to avoid large crowds. Sunset views are particularly spectacular.",
+    "id": "80854849-e415-48f9-a0b1-4807f7a90b76",
+    "tags": [
+      "Paris",
+      "Sightseeing",
+      "Crowds"
+    ],
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "is_active": false,
+    "docId": "80854849-e415-48f9-a0b1-4807f7a90b76"
+  },
+  {
+    "longitude": "78.04229167",
+    "difficulty_level": "Medium",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "title": "Joney’s Place",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Agra, UP",
+    "id": "FEd3kA0c9aSx2BXa82mH\n",
+    "latitude": "27.1694298",
+    "is_active": true,
+    "content": "Joney’s Place is a small, budget-friendly food stop near the South Gate area of the Taj Mahal in Tajganj, Agra. It is best suited for backpackers, solo travelers, budget tourists, and users who want a quick, simple meal near the Taj Mahal rather than a premium restaurant experience. It is not a luxury restaurant; its value comes from location, affordability, and casual traveler familiarity.\nCuisine style: North Indian, fast food, biryani, Chinese-style quick dishes, beverages, sandwiches, and simple snacks depending on menu availability.\nBest for: budget meal, quick bite near Taj Mahal, solo travelers, backpackers, simple breakfast, lunch or dinner, travelers staying in Tajganj guesthouses, and users who want something light, nearby, and inexpensive.\nTypical price level: budget. Listings show around ₹450 for two. This is one of the lowest-cost options among the selected restaurants, so Traviz should recommend it when the user asks for cheap food near Taj Mahal.\nTiming context: Zomato/District-style listings show opening around 6:00 AM and closing around 10:30 PM. Timings can change, so Traviz should recommend checking before visiting early morning or late evening.\nLocation context: Near South Gate, Miyan Nazir Road, Kutta Park, Tajganj, Agra. Very relevant for users around Taj Mahal South Gate, budget hotels, hostels, or guesthouses.\nTraviz response style: If the user asks “Is it fancy?”, say no, it is more of a simple, casual, budget-friendly place. If the user asks “Is it good before Taj Mahal?”, say yes, it can work for a quick breakfast or snack because it opens early in many listings and is near the Taj area. If the user asks for family fine dining, recommend Pinch of Spice or Peshawri instead. If the user asks for “cheap food near Taj Mahal,” prioritize Joney’s Place. If the user asks about ambience, keep expectations realistic: simple, compact, casual, and not premium.\nBooking instruction: If the user asks for reservation, table booking, restaurant booking, availability, or help with visiting, Traviz should say: “Traviz can do it for you. Just say ‘Confirm Traviz’ and our team will help you with the booking.”\nPlanning tip: Good for quick meals when the user does not want to spend much time or money. Best for convenience, not luxury. Good before or after a Taj Mahal visit if the user is already near South Gate. It may not be ideal for large groups, formal meals, or users expecting polished service and ambience.\nNearby travel connection: Very useful around Taj Mahal South Gate. Suggest it for early Taj Mahal visitors, backpackers, and travelers looking for a quick food stop before moving to Agra Fort or Mehtab Bagh.",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2Fjoney's%20place.jpg?alt=media&token=0c44da36-5069-4011-8620-63dedb36fb52",
+    "tags": [
+      "Budget food near Taj Mahal\"",
+      "4.6/5.0",
+      "North Indian | Fast Food",
+      "₹450 for two",
+      "3:00PM-5:00PM"
+    ],
+    "docId": "FEd3kA0c9aSx2BXa82mH"
+  },
+  {
+    "longitude": "78.0436561264324",
+    "difficulty_level": "Medium",
+    "latitude": "27.1597600336114",
+    "title": "Pinch of Spice",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "location": "Agra, UP",
+    "id": "af1a2436-9169-4f62-99cc-5f7cddcc6be7",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "is_active": true,
+    "content": "Pinch of Spice is a well-known mid-range to upper-mid-range restaurant in Agra, especially popular with families, groups, and tourists looking for reliable North Indian food near the Tajganj/Fatehabad Road area. It is a good recommendation for users who want a safe, comfortable, mainstream restaurant rather than experimental food or street food. It is especially useful for family lunches and dinners during Agra sightseeing.\nCuisine style: North Indian, Mughlai, Chinese, Continental, desserts, beverages, and broad multi-cuisine dining. It is mainly useful as a dependable North Indian/Mughlai restaurant for tourists.\nBest for: family dining, group lunch, comfortable AC restaurant, North Indian meal, vegetarian and non-vegetarian options, tourist-friendly dining, lunch after Taj Mahal or Agra Fort, dinner before returning to hotel.\nTypical price level: medium to upper-mid. District/Zomato-style listings show around ₹1600 for two. This makes it more affordable than Peshawri but more expensive than budget cafés like Joney’s Place.\nTiming context: District lists it as opening around 12:00 PM. Exact closing time may vary, so Traviz should ask the user to confirm before visiting late at night.\nLocation context: 1076/2, Fatehabad Road, Tajganj, Agra. Convenient for Taj Mahal visitors, Fatehabad Road hotels, and travelers moving between monuments and hotels.\nTraviz response style: If the user asks “Is this good for family?”, say yes, this is one of the safer choices for family dining in Agra because it has comfortable ambience, broad menu, and tourist-friendly service. If user asks for “authentic local food,” explain that it is more polished restaurant-style North Indian food, not street/local hidden-gem food. If user asks for “budget,” mention that it is not the cheapest but reasonable for a proper sit-down meal. If user asks for lunch planning, suggest it after Taj Mahal or Agra Fort. If user is with children or elders, recommend it over crowded cafés.\nBooking instruction: If the user asks for reservation, table booking, restaurant booking, availability, or help with visiting, Traviz should say: “Traviz can do it for you. Just say ‘Confirm Traviz’ and our team will help you with the booking.”\nPlanning tip: Good for lunch or dinner when the user wants predictable food quality and comfort. It may get crowded during weekends and holiday evenings. Good backup option when the user is unsure what everyone in the group wants because the menu is broad.\nNearby travel connection: Works well after Taj Mahal morning visit, Agra Fort sightseeing, or shopping around the Tajganj/Fatehabad Road side. If user asks for one dependable restaurant for a family meal in Agra, prioritize Pinch of Spice.",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2Fpinch%20of%20spice%20image.jpg?alt=media&token=bfb7427c-11c4-4956-ac0e-35aaecd60d76",
+    "tags": [
+      "Family-friendly North Indian dining",
+      "4.5/5.0",
+      "North Indian | Mughlai",
+      "₹1600 for two",
+      "10:30AM-9:00PM"
+    ],
+    "docId": "af1a2436-9169-4f62-99cc-5f7cddcc6be7"
+  },
+  {
+    "longitude": "78.0211",
+    "difficulty_level": "Easy",
+    "latitude": "27.1795",
+    "id": "agra-fort-light-sound-show",
+    "created_at": "2026-08-20T00:00:00.000Z",
+    "location": "Agra Fort, Agra, UP",
+    "assistant_id": "asst_WbEYXFoI54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/event%2Flight-and-sound-show.jpg?alt=media&token=9ed3a611-8fe6-449a-9b94-e37f784be76a",
+    "is_active": true,
+    "title": "Agra: Yugon Ka Safar",
+    "content": "Experience Agra's history through projection mapping, narration, music and light inside the historic Agra Fort. The show is available in Hindi and English.",
+    "tags": [
+      "Every Day",
+      "Hindi 6:30 PM | English 7:30 PM"
+    ],
+    "docId": "agra-fort-light-sound-show"
+  },
+  {
+    "longitude": "78.5412",
+    "difficulty_level": "Easy",
+    "latitude": "26.9344",
+    "id": "bateshwar-shravan-somwar-2026",
+    "created_at": "2026-08-20T00:00:00.000Z",
+    "location": "Bateshwar Dham, Agra District, UP",
+    "assistant_id": "asst_WbEYXFoI54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/event%2Fbateshwar_mela.jpg?alt=media&token=8a761c5d-5035-411a-b15e-630f4a19bc70",
+    "is_active": true,
+    "title": "Bateshwar Shravan Somwar",
+    "content": "Experience the devotional atmosphere of Shravan at Bateshwar Dham during the final Shravan Monday, with temple rituals, pilgrims and a vibrant spiritual atmosphere.",
+    "tags": [
+      "24th Aug",
+      "Shravan Somwar"
+    ],
+    "docId": "bateshwar-shravan-somwar-2026"
+  },
+  {
+    "longitude": "78.05579174391185",
+    "difficulty_level": "Easy",
+    "latitude": "27.159145489325102",
+    "id": "bon-barbecue-restaurant",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Agra, UP",
+    "title": "Temple Aarti",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "is_active": true,
+    "tags": [
+      "Every Friday",
+      "6.30 PM"
+    ],
+    "content": "Kailash Temple Aarti is one of the most famous in Agra. Many spiritual traveller's love the vibe during the Aarti. Try to reach before 6.15 pm at Kailash temple for best experince. ",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FTempleAartiSample.jpeg?alt=media&token=730a9db0-738d-4d7d-9422-915e8856ce73",
+    "docId": "bon-barbecue-restaurant"
+  },
+  {
+    "longitude": "78.055792",
+    "difficulty_level": "Easy",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "title": "Rooftop DJ Night",
+    "created_at": "2025-03-28T15:45:25.234Z",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FRoofttopDJNightSample.jpeg?alt=media&token=c9db8f50-ce31-47ff-a98d-efcfb2d1d8a9",
+    "location": "Agra, UP",
+    "id": "db00d96f-8eea-45a9-96d8-b06ec2cdbe4c",
+    "tags": [
+      "On 24th May",
+      "4:00-10:30pm"
+    ],
+    "latitude": "27.159148",
+    "content": "Live music by DJ Yoyo at Agra. Once in a lifetime experience. To check availability, say \"Connect Traviz\" ",
+    "is_active": false,
+    "docId": "db00d96f-8eea-45a9-96d8-b06ec2cdbe4c"
+  },
+  {
+    "longitude": "0",
+    "difficulty_level": "Easy",
+    "content": "For the best global travel photos, find viewpoints at sunrise or sunset for natural lighting.",
+    "id": "global-fallback-photo",
+    "created_at": "2025-04-07T00:00:00.000Z",
+    "location": "Global",
+    "title": "Global Photography Tip",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "tags": [
+      "Photography",
+      "Travel Tips",
+      "Global"
+    ],
+    "is_active": true,
+    "latitude": "0",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain.jpg?alt=media&token=4f170dec-0dac-4a2a-82d4-c83223dc4013",
+    "docId": "global-fallback-photo"
+  },
+  {
+    "longitude": "78.05985",
+    "difficulty_level": "Easy",
+    "latitude": "27.16199",
+    "id": "mohabbat-the-taj",
+    "created_at": "2026-08-20T00:00:00.000Z",
+    "location": "Kalakriti Cultural & Convention Centre, Agra, UP",
+    "assistant_id": "asst_WbEYXFoI54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/event%2Fkalakirti1.jpg?alt=media&token=8c5665e1-baaa-4775-8544-c06e0bde8661",
+    "is_active": true,
+    "title": "Mohabbat the Taj",
+    "content": "Watch the story of Shah Jahan and Mumtaz Mahal come alive through a theatrical performance featuring music, dance, costumes and stage effects.",
+    "tags": [
+      "Every Day",
+      "6:45 PM"
+    ],
+    "docId": "mohabbat-the-taj"
+  },
+  {
+    "longitude": "78.00900312879504",
+    "difficulty_level": "Easy",
+    "latitude": "27.164827245821776",
+    "id": "sadar-bazar-agra",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Agra, India",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FLocalFairSample.jpeg?alt=media&token=9b26c89d-c42a-421a-9ffb-43e1c6e7079d",
+    "tags": [
+      "Till 29th May",
+      "6:00-10:00pm"
+    ],
+    "title": "Agra Fair",
+    "content": "Enjoy the local fair at Agra like locals",
+    "is_active": false,
+    "docId": "sadar-bazar-agra"
+  },
+  {
+    "longitude": "78.0443753534195",
+    "difficulty_level": "Medium",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "title": "Peshawri, ITC Mughal",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Agra, UP",
+    "id": "shivpen-ryouri-restaurant",
+    "latitude": "27.1610142894371",
+    "is_active": true,
+    "content": "Peshawri is a premium North-West Frontier and Mughlai-style fine dining restaurant located inside ITC Mughal, Tajganj, Agra. It is best suited for travelers who want a royal, high-end dining experience after visiting the Taj Mahal or Agra Fort. The restaurant is known for tandoori preparations, kebabs, dal, Indian breads, rich gravies, and a luxury hotel ambience. It is a good recommendation for couples, families, foreign tourists, business travelers, and users asking for “best premium dinner in Agra” or “authentic Mughlai food near Taj Mahal.”\nCuisine style: North Indian, Mughlai, North-West Frontier, tandoor-based dishes, kebabs, breads, dal, rich Indian mains, premium desserts.\nBest for: luxury dinner, special occasion, anniversary meal, foreign tourist experience, family fine dining, post-Taj Mahal dinner, premium Indian food experience.\nTypical price level: expensive/premium. Approximate cost for two is around ₹6000, so inform the user that this is not a budget restaurant.\nTiming context: Peshawri generally operates around lunch and dinner slots, with Marriott/ITC dining information showing 12:30 PM–2:30 PM and 7:00 PM–11:30 PM. Ask the user to confirm before visiting because hotel restaurant timings may change.\nLocation context: It is inside ITC Mughal, Tajganj, Agra. It is convenient for travelers staying near Fatehabad Road, Tajganj, Taj Mahal, or premium hotels in the Taj area.\nTraviz response style: If the user asks whether it is worth visiting, say it is worth it if they want a premium, slow, royal Indian dining experience rather than a quick meal. If the user asks for budget food, suggest that Peshawri may feel too expensive and recommend Joney’s Place or a mid-range option like Pinch of Spice instead. If the user asks for vegetarian options, mention that Indian breads, dal, paneer-style dishes, and vegetarian mains are usually available, but menu should be checked before visiting. If the user asks for non-veg, highlight kebabs, tandoori items, and Mughlai-style preparations. If the user is in a hurry, advise avoiding it because fine dining may take time.\nPlanning tip: Best visited for dinner after sightseeing. Reservation is recommended, especially on weekends, holidays, and tourist-heavy evenings. Dress smart casual if possible because it is inside a luxury hotel. Good for a memorable meal, not ideal for very low-budget travelers or quick street-food style eating.\nNearby travel connection: Good after Taj Mahal, Agra Fort, Mehtab Bagh, or a hotel stay in Tajganj. If the user is planning a romantic or premium Agra evening, suggest Taj Mahal sunset or Mehtab Bagh first, then Peshawri for dinner.",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2Fitc-mughal-agra.jpg?alt=media&token=1b182547-76c0-4eaa-aebb-0fbab13b083d",
+    "tags": [
+      "Royal Mughlai dining experience",
+      "4.7/5.0",
+      "North Indian | Mughlai",
+      "₹6000 for two",
+      "9:00AM-11:0PM"
+    ],
+    "docId": "shivpen-ryouri-restaurant"
+  },
+  {
+    "longitude": "78.0421",
+    "difficulty_level": "Easy",
+    "latitude": "27.1751",
+    "id": "taj-mahal-night-viewing-aug-2026",
+    "created_at": "2026-08-20T00:00:00.000Z",
+    "location": "Taj Mahal, Agra, UP",
+    "assistant_id": "asst_WbEYXFoI54cjAiKx9yjxNyYV",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/event%2Fmoonlight_tajmahal.jpg?alt=media&token=1a8f1e7c-90d9-4f1e-a1b9-4e2887466c9b",
+    "is_active": true,
+    "title": "Taj Mahal Night Viewing",
+    "content": "Experience the Taj Mahal under moonlight during the special full-moon night-viewing period. Entry is available in limited timed batches and requires a separate night-viewing ticket.",
+    "tags": [
+      "26-30 Aug",
+      "8:00-11:59 PM"
+    ],
+    "docId": "taj-mahal-night-viewing-aug-2026"
+  },
+  {
+    "longitude": "78.05030092",
+    "difficulty_level": "Medium",
+    "assistant_id": "asst_WbEYXFol54cjAiKx9yjxNyYV",
+    "title": "The Salt Café Kitchen & Bar",
+    "created_at": "2025-04-05T00:00:00.000Z",
+    "location": "Agra, UP",
+    "id": "the-salt-cafe-kitchen-and-bar",
+    "latitude": "27.15769819",
+    "is_active": true,
+    "content": "The Salt Café Kitchen & Bar is a modern café, restaurant, and bar located on Fatehabad Road in Tajganj, Agra. It is popular for a stylish urban dining experience, rooftop/café-bar energy, multicuisine food, drinks, group outings, and evening plans. It is a good recommendation for users asking for “good café in Agra,” “modern restaurant near Taj Mahal,” “place for dinner and drinks,” “evening hangout,” or “where to chill after sightseeing.”\nCuisine style: North Indian, Continental, Chinese, Italian, finger food, drinks, café-bar style menu, and group-friendly food.\nBest for: modern dinner, friends, couples, drinks, café-bar ambience, group hangout, evening plan, casual date, and users who want a Delhi/Gurgaon-style café vibe in Agra.\nTypical price level: medium to upper-mid. Zomato-style listings show around ₹2000 for two. It is more expensive than Joney’s Place and generally higher than basic family restaurants, but below luxury hotel fine dining options like Peshawri.\nTiming context: Listings show opening around 12 noon and operating till around midnight on some days. Timings may vary, so Traviz should ask the user to confirm before going late at night.\nLocation context: 1C, 3rd Floor, Fatehabad Road, Tajganj, Agra. Convenient for the Taj Mahal area, Fatehabad Road hotels, and evening plans after sightseeing.\nTraviz response style: If the user asks “Is this good for nightlife?”, say it is one of the better modern café/bar-style choices in the Tajganj/Fatehabad Road area, but Agra nightlife is still quieter than metro cities. If the user asks “Is it good for family?”, say it can work for families, but it feels more café/bar and modern than purely traditional family dining. If the user asks for a “romantic dinner,” suggest The Salt Café for a modern casual date and Peshawri for a premium royal dinner. If the user asks for “budget,” explain that it is not a budget restaurant; recommend Joney’s Place for budget food or Pinch of Spice for a family sit-down dining option. If the user asks for “drinks and dinner,” suggest The Salt Café as a strong option because it combines café-bar ambience with a multicuisine food menu. If the user asks for “where to chill after sightseeing,” recommend it for evening or dinner after Taj Mahal, Mehtab Bagh, or Agra Fort.\nBooking instruction: If the user asks for reservation, table booking, restaurant booking, availability, or help with visiting, Traviz should say: “Traviz can do it for you. Just say ‘Confirm Traviz’ and our team will help you with the booking.”\nPlanning tip: Best for evening or dinner after monument visits. Good when the user wants ambience, photos, multi-cuisine options, drinks, and a lively setting. Recommend checking table availability on weekends, festive days, and peak tourist evenings. Good alternative to Tea’se Me if the user wants a more modern café-bar setup.\nNearby travel connection: Works well after Taj Mahal, Mehtab Bagh, Agra Fort, or hotel check-in around Fatehabad Road. If the user wants to end the day with food and drinks, recommend The Salt Café.",
+    "category": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2Fbanquet-halls-the-salt-cafe-agra-event-space-7_15_305693-166859183139131.jpeg?alt=media&token=7100587a-619a-415d-b52e-1d9e5f5f84b3",
+    "tags": [
+      "Modern rooftop café and bar",
+      "4.9/5.0",
+      "North Indian | Continental",
+      "₹2000 for two",
+      "12:00 Noon -11:00PM"
+    ],
+    "docId": "the-salt-cafe-kitchen-and-bar"
+  }
+]

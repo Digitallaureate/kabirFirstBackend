@@ -1,0 +1,329 @@
+[
+  {
+    "longitude": "78.0560403",
+    "site_name": "Taj Mahal",
+    "services": [
+      "Best at Sunrise",
+      "UNESCO Heritage",
+      "World Wonder"
+    ],
+    "site_type": "October - March \\n6:00-9:00am",
+    "latitude": "27.175271777947",
+    "id": "taj_mahal_001",
+    "created_at": "2025-04-01T10:15:21.130000+00:00",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FTaj%20mahal%20hero%20image.jpg?alt=media&token=73947c6e-c6d7-4c86-985a-62c3d99993ee",
+    "is_active": true,
+    "site_description": "6:30am-6:00pm \\nClosed on Friday",
+    "docId": "QUjDTSrmldqOiOEYFJIe"
+  },
+  {
+    "longitude": "77.348235",
+    "site_name": "Test Bristol",
+    "services": [
+      "Best for Exploration",
+      "Local Experience",
+      "Guided Tours"
+    ],
+    "site_type": "All Year \\n 10:00-18:00",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "id": "TestBristol1",
+    "created_at": "2025-04-01T22:30:00+05:30",
+    "location": "Noida",
+    "latitude": " 28.597062",
+    "prompt": "https://t3.ftcdn.net/jpg/02/79/09/84/360_F_279098467_wy75eVNsfvhmqULOxzoFvGsjJwtSLyx8.jpg",
+    "is_active": false,
+    "site_description": "9:00am-7:00pm \\n Open all days",
+    "docId": "TestBristol1"
+  },
+  {
+    "longitude": "78.02118986865628",
+    "site_name": "Agra Fort",
+    "site_type": "October - March /n 6:00-9:00am",
+    "services": [
+      "The Amar Singh Gate",
+      "Mughal Power Centre",
+      "Imperial History"
+    ],
+    "latitude": "27.179990187486627",
+    "id": "agra-fort-001",
+    "created_at": "2025-04-01T17:00:00+00:00",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FAgraFortMain%20hero%20image.jpg?alt=media&token=432f47ba-a0fe-446b-86ec-a60e81a928f0",
+    "is_active": true,
+    "site_description": "6:00am-6:00pm /n Open all days",
+    "docId": "agra-fort-001"
+  },
+  {
+    "longitude": "77.95095921109048",
+    "site_name": "Sikandra",
+    "site_type": "October - March /n7:00-10:00am",
+    "services": [
+      "Akbar’s Tomb",
+      "Planned by Akbar Himself",
+      "Peaceful Mughal Garden Tomb"
+    ],
+    "latitude": "27.220775034555352",
+    "id": "akbars-tomb-001",
+    "created_at": "April 1, 2025 at 5:30:00 PM UTC+5:30",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_ui%20_image%2FSikandra%20Akbar's%20tomb.jpeg?alt=media&token=99e1eada-c95c-400c-92fd-851882a07d8c",
+    "is_active": true,
+    "site_description": "Sunrise-Sunset /n6:00 am to 6:00pm",
+    "docId": "akbars-tomb-001"
+  },
+  {
+    "longitude": "75.85238117765621",
+    "site_name": "Amer Fort",
+    "site_type": "October - March /n 7:00-10:00am",
+    "services": [
+      "Guided Tours",
+      "Royal Heritage",
+      "Light and Sound Show",
+      "Photography Spot"
+    ],
+    "latitude": "26.984783617564823",
+    "id": "amer-fort-001",
+    "created_at": "2025-04-05T00:00:00+00:00",
+    "location": "Jaipur, India",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FAmerfort%20hero%20image.png?alt=media&token=b2e5b7e7-9065-40b5-bafe-f2cdb983cd14",
+    "is_active": false,
+    "site_description": "8:00am-5:30pm /n Open all days",
+    "docId": "amer-fort-001"
+  },
+  {
+    "longitude": "78.03154942",
+    "site_name": "Baby Taj Mahal",
+    "site_type": "October - March /n 6:30-9:30am",
+    "services": [
+      "I'timad-ud-Daulah",
+      "Jewel box",
+      "Before the Taj Mahal"
+    ],
+    "latitude": "27.19306859",
+    "id": "baby-taj-001",
+    "created_at": "2025-04-01T12:00:00+00:00",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FBaby%20Taj%20Mahal%20hero%20image.jpg?alt=media&token=287ccd6f-24cc-42d9-8b80-8ee973e6b546",
+    "is_active": true,
+    "site_description": "6:00am-6:00pm /n Open all days",
+    "docId": "baby-taj-001"
+  },
+  {
+    "longitude": "78.03729293399105",
+    "site_name": "Bagh-i Shah Nawaz Khan",
+    "site_type": "All Year /n Best visited in morning",
+    "services": [
+      "Hidden Gem",
+      "Lost Mughal Site",
+      "Historical Storytelling"
+    ],
+    "latitude": "27.210497892451603",
+    "id": "bagh-shah-nawaz-001",
+    "created_at": "2025-04-03T12:00:00+00:00",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fbagh-shah-nawazmain.jpg?alt=media&token=6f798c99-6546-4c04-a9fe-1f668b0f5dc2",
+    "is_active": false,
+    "site_description": "Sunrise-Sunset /n Open access",
+    "docId": "bagh-shah-nawaz-001"
+  },
+  {
+    "longitude": "78.03425134678865",
+    "site_name": "Chini-ka Rauza",
+    "site_type": "October - March /n Best visited early morning",
+    "services": [
+      "Glazed Tile Work",
+      "Indo-Persian Influence",
+      "Near Ram Bhag"
+    ],
+    "latitude": "27.200902091349086",
+    "id": "chini-ka-rauza-006",
+    "created_at": "2025-04-03T12:00:00+00:00",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fchini-ka-rauzamain.jpg?alt=media&token=90320d3f-605c-4e1c-93a9-0faaa8283e1f",
+    "is_active": true,
+    "site_description": "Sunrise-Sunset /n Open all days",
+    "docId": "chini-ka-rauza-006"
+  },
+  {
+    "longitude": "75.82376966700372",
+    "site_name": "City Palace Jaipur",
+    "site_type": "October - March /n 9:00-11:00am",
+    "services": [
+      "Royal Heritage",
+      "Museum Experience",
+      "Cultural Landmark"
+    ],
+    "latitude": "26.925835521282938",
+    "id": "city-palace-jaipur-001",
+    "created_at": "2025-04-05T00:00:00+00:00",
+    "location": "Jaipur, India",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fcity-palace-jaipurmain%20hero%20image.jpg?alt=media&token=cb181d9f-477e-4a14-84ce-d22b0e85e038",
+    "is_active": false,
+    "site_description": "9:30am-5:00pm /n Open all days",
+    "docId": "city-palace-jaipur-001"
+  },
+  {
+    "longitude": "77.66572626194562",
+    "site_name": "Fatehpur Sikri",
+    "services": [
+      "Akbar’s Dream Capital",
+      "City of Red Sandstone",
+      "Home of Buland Darwaza"
+    ],
+    "site_type": "October - March /n7:00-10:00am",
+    "latitude": "27.096849326914665",
+    "id": "fatehpur-sikri-001",
+    "created_at": "2025-04-01T12:00:00+00:00",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FFatehpur%20Sikrmain.jpg?alt=media&token=d6b764ae-dbd1-4e05-aa6f-a0fe686bdf69",
+    "is_active": true,
+    "site_description": "Sunrise-Sunset /n6:00 am to 6:00pm",
+    "docId": "fatehpur-sikri-001"
+  },
+  {
+    "longitude": "0.0000",
+    "services": [
+      "General Guidance",
+      "Travel Tips",
+      "Q&A Support"
+    ],
+    "site_name": "Global Explorer",
+    "site_type": "Virtual Assistance",
+    "latitude": "0.0000",
+    "id": "global-fallback-site",
+    "created_at": "2025-04-07T00:00:00+00:00",
+    "location": "Global",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FTaj%20mahal%20hero%20image.jpg?alt=media&token=73947c6e-c6d7-4c86-985a-62c3d99993ee",
+    "is_active": true,
+    "site_description": "Generic fallback entry used when no specific point of interest is nearby. Provides worldwide information and assistance.",
+    "docId": "global-fallback-site"
+  },
+  {
+    "longitude": "75.82662614241977",
+    "services": [
+      "\"Architectural Tours\"",
+      "\"Royal Heritage\"",
+      "\"Photography Spot\"",
+      "\"Historical Monument\""
+    ],
+    "site_name": "Hawa Mahal",
+    "site_type": "Palace",
+    "latitude": "26.923956225486748",
+    "id": "hawa-mahal-001",
+    "created_at": "2025-04-05T00:00:00+00:00",
+    "location": "Jaipur, India",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2FHawamahalMain%20hero%20image.jpg?alt=media&token=ebe2cc23-99be-402a-afef-73f23f7ac8fd",
+    "is_active": false,
+    "site_description": "Hawa Mahal, or the \"Palace of Winds,\" is an iconic monument in Jaipur, Rajasthan. Built in 1799 by Maharaja Sawai Pratap Singh, the palace was designed by Lal Chand Ustad in the form of Lord Krishna's crown. Its unique five-storey facade with 953 small windows, or jharokhas, allowed royal women to observe street festivals without being seen. Made of red and pink sandstone, Hawa Mahal is a stunning example of Rajput architecture and a must-visit landmark.",
+    "docId": "hawa-mahal-001"
+  },
+  {
+    "longitude": "77.25086848225975",
+    "services": [
+      "\"Heritage Tours\"",
+      "\"Mughal Architecture\"",
+      "\"Early Mughal History\"",
+      "\"UNESCO World Heritage\""
+    ],
+    "site_name": "Humayun's Tomb",
+    "site_type": "Tomb",
+    "latitude": "28.593307902287332",
+    "id": "humayuns-tomb-001",
+    "created_at": "2025-04-05T00:00:00+00:00",
+    "location": "Delhi, India",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fhumayuns-tombmain%20hero%20image.jpg?alt=media&token=c7ba5ad4-9e9d-4f50-a741-5abbf10dc848",
+    "is_active": false,
+    "site_description": "Humayun's Tomb is a UNESCO World Heritage Site and one of the earliest examples of grand Mughal architecture in India. Commissioned by Empress Bega Begum in 1565, it set the precedent for later Mughal mausoleums, including the Taj Mahal. The tomb complex features Persian-style gardens, arched gateways, and symmetrical layouts, making it a masterpiece of Indo-Islamic architecture.",
+    "docId": "humayuns-tomb-001"
+  },
+  {
+    "longitude": "77.23104043222838",
+    "services": [
+      "\"Heritage Tours\"",
+      "\"War Memorial\"",
+      "\"Historical Monument\"",
+      "\"National Symbol\""
+    ],
+    "site_name": "India Gate",
+    "site_type": "Memorial",
+    "latitude": "28.613459237840317",
+    "id": "india-gate-001",
+    "created_at": "2025-04-05T00:00:00+00:00",
+    "location": "Delhi, India",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Findia-gatemain%20hero%20image.jpg?alt=media&token=c2f9153a-74b2-45bb-b4e6-b035a8a974f6",
+    "is_active": false,
+    "site_description": "India Gate is a prominent war memorial in New Delhi, built in honor of the soldiers of the Indian Army who lost their lives during World War I and the Third Anglo-Afghan War. Designed by Sir Edwin Lutyens and completed in 1931, the structure stands at 42 meters tall, featuring the names of over 13,000 soldiers inscribed on its surface. The eternal flame, Amar Jawan Jyoti, burns in tribute to the unknown soldiers, making it a powerful symbol of sacrifice and national pride.",
+    "docId": "india-gate-001"
+  },
+  {
+    "longitude": "77.25846468185581",
+    "services": [
+      "\"Architectural Tours\"",
+      "\"Spiritual Retreat\"",
+      "\"Modern Architecture\"",
+      "\"UNESCO Tentative List\""
+    ],
+    "site_name": "Lotus Temple",
+    "site_type": "Temple",
+    "latitude": "28.553581522881707",
+    "id": "lotus-temple-001",
+    "created_at": "2025-04-05T00:00:00+00:00",
+    "location": "Delhi, India",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Flotus-templemain%20hero%20image.jpg?alt=media&token=9ede903c-7dc5-4d19-a4b5-bb7efc656a35",
+    "is_active": false,
+    "site_description": "The Lotus Temple, officially known as the Bahá'í House of Worship, is a modern architectural marvel in Delhi. Notable for its flowerlike design inspired by the lotus, the temple welcomes people of all religions and beliefs to meditate and reflect. Made of white marble, the structure symbolizes purity and peace, surrounded by nine pools and lush gardens, offering a serene escape in the heart of the city.",
+    "docId": "lotus-temple-001"
+  },
+  {
+    "longitude": "78.03993296753379",
+    "services": [
+      "Historical Facts"
+    ],
+    "site_name": "Ram Bagh",
+    "site_type": "Mughal Garden (Preserved)",
+    "latitude": "27.20481987960999",
+    "id": "ram-bagh-003",
+    "created_at": "2025-04-03T12:00:00+00:00",
+    "location": "Agra, UP",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fram-baghmain.jpg?alt=media&token=8e7ecf05-7676-4e9a-a338-21d5f6e60f4f",
+    "is_active": false,
+    "site_description": "Ram Bagh, originally known as Bagh-i Nur Afshan (Light-Scattering Garden), is the oldest surviving Mughal garden in Agra. Created under the patronage of Empress Nur Jahan in the reign of Jahangir, it exemplifies early Mughal garden design focused on water symmetry and riverfront terrace planning. The garden includes terraced walkways, sunken water channels, tahkhanas (cool underground chambers), pavilions with intricate paintings, and symbolic elements like muqarnas and fish-scale patterned chutes. Though altered during British rule, many features have been restored by the Archaeological Survey of India. Its rich iconography and connection to Jahangir and Nur Jahan reflect both power and paradise motifs.",
+    "docId": "ram-bagh-003"
+  },
+  {
+    "longitude": "77.24105430984929",
+    "services": [
+      "\"Guided Tours\"",
+      "\"Mughal Architecture\"",
+      "\"History of Shah Jahan\"",
+      "\"UNESCO World Heritage\""
+    ],
+    "site_name": "Red Fort",
+    "site_type": "Fort",
+    "latitude": "28.655918566787964",
+    "id": "red-fort-001",
+    "created_at": "2025-04-05T00:00:00+00:00",
+    "location": "Delhi, India",
+    "assistant_id": "asst_LhXBmOveZY0QpxBkWmboC7OE",
+    "prompt": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/app_image_asset1%2Fredfortmain%20hero%20image.png?alt=media&token=6e3786fd-1183-41ac-bac4-eea3b40d7fef",
+    "is_active": false,
+    "site_description": "The Red Fort, also known as Lal Qila, is a UNESCO World Heritage Site in Delhi built by Emperor Shah Jahan in the mid-17th century. With its imposing red sandstone walls, intricate Mughal architecture, and rich history, the fort stands as a symbol of India's past glory and is a prominent venue for national celebrations.",
+    "docId": "red-fort-001"
+  }
+]

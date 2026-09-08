@@ -1,0 +1,1801 @@
+[
+  {
+    "monument_id": "TestBristol1",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "TestBristol1_001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "TestBristol1_002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "TestBristol1_003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "TestBristol1_004_side_mosque_view"
+      }
+    ],
+    "docId": "TestBristol1"
+  },
+  {
+    "monument_id": "agra-fort-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_spot4.webp?alt=media&token=35406600-dea6-447d-a9cd-0125c93f9b60",
+        "spot_name": "Main Gate Frame",
+        "best_time": "Morning",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "id": "agra-fort-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_spot5.webp?alt=media&token=35406600-dea6-447d-a9cd-0125c93f9b60",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "agra-fort-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_spot6.jpg?alt=media&token=845df017-cedf-4d73-8ad3-e92b642226c6",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "agra-fort-003_mehtab_bagh_view"
+      }
+    ],
+    "docId": "agra-fort-001"
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713509Z",
+    "docId": "agra-fort-amar-singh-gate",
+    "monument_id": "agra-fort-amar-singh-gate",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_amarsinghgate_spot1.jpg?alt=media&token=5ee47b27-fe70-4d96-9d73-b6fd57a856cc",
+        "spot_name": "Full Gate Approach",
+        "best_time": "Morning",
+        "traviz_tip": "Stand on the public approach and photograph the gateway together with the massive red sandstone defensive walls.",
+        "id": "agra-fort-amar-singh-gate_001_full_gate_approach"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_amarsinghgate_spot2.jpg?alt=media&token=0f18c941-8144-47f4-b101-2eeb1b583166",
+        "spot_name": "Defensive Ramp",
+        "best_time": "Morning",
+        "traviz_tip": "Use the rising curved entrance ramp as a leading line to show how the gateway was designed to slow direct entry.",
+        "id": "agra-fort-amar-singh-gate_002_defensive_ramp"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_amarsinghgate_spot3.jpg?alt=media&token=5f725a8c-367f-47c5-a370-abdd90b21bd5",
+        "traviz_tip": "Once inside the permitted route, use the inner gateway arch to frame the fort beyond.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Inner Gate Frame",
+        "id": "agra-fort-amar-singh-gate_003_inner_gate_frame"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713649Z",
+    "docId": "agra-fort-anguri-bagh",
+    "monument_id": "agra-fort-anguri-bagh",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_anguribagh_spot1.jpg?alt=media&token=734a65ed-5c23-4456-adb8-155c64f6cbc6",
+        "traviz_tip": "Photograph from the slightly raised palace side to clearly show the geometric planting beds and pathways.",
+        "best_time": "Morning",
+        "spot_name": "Geometric Garden Overview",
+        "id": "agra-fort-anguri-bagh_001_geometric_garden_overview"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_anguribagh_spot2.jpg?alt=media&token=e4c2e1d0-c6ab-4bc2-9171-4aef2a411735",
+        "spot_name": "Garden Corner Diagonal",
+        "best_time": "Morning",
+        "traviz_tip": "Stand at a garden corner and use the diagonal lines of the beds to lead toward the surrounding palace architecture.",
+        "id": "agra-fort-anguri-bagh_002_garden_corner_diagonal"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_anguribagh_spot3.jpg?alt=media&token=fcadeabe-6388-4682-93e8-cd02bce445ef",
+        "traviz_tip": "Use the central pathway to create a symmetrical composition with Khas Mahal or the surrounding arcades in the background.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Central Garden Axis",
+        "id": "agra-fort-anguri-bagh_003_central_garden_axis"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713742Z",
+    "docId": "agra-fort-diwan-i-am",
+    "monument_id": "agra-fort-diwan-i-am",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_diwan-i-Am_spot1.jpg?alt=media&token=eb83c176-e572-45d4-b3a7-a56638bc68d9",
+        "traviz_tip": "Stand across the audience courtyard and photograph the full colonnaded hall in a wide, balanced frame.",
+        "best_time": "Morning",
+        "spot_name": "Audience Hall Front",
+        "id": "agra-fort-diwan-i-am_001_audience_hall_front"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_diwan-i-Am_spot2.jpg?alt=media&token=754e21aa-b372-49a7-abfc-465ae8cbeb95",
+        "spot_name": "Imperial Throne Axis",
+        "best_time": "Morning",
+        "traviz_tip": "Align yourself with the central axis toward the emperor's elevated throne area to recreate the formal court sightline.",
+        "id": "agra-fort-diwan-i-am_002_imperial_throne_axis"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_diwan-i-Am_spot3.jpg?alt=media&token=5112ba6e-645c-4761-bbc3-f092e1bc9f69",
+        "spot_name": "Repeating Columns",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move along a side colonnade and use the repeating pillars to create a strong depth perspective.",
+        "id": "agra-fort-diwan-i-am_003_repeating_columns"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713789Z",
+    "docId": "agra-fort-diwan-i-khas",
+    "monument_id": "agra-fort-diwan-i-khas",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_diwan-i-khas_spot1.jpg?alt=media&token=e3a7afc5-9ba9-4af5-8719-e6f7b279349b",
+        "spot_name": "Full Pavilion View",
+        "best_time": "Morning",
+        "traviz_tip": "Stand in the adjoining open area and photograph the complete private audience pavilion.",
+        "id": "agra-fort-diwan-i-khas_001_full_pavilion_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_diwan-i-khas_spot2.jpg?alt=media&token=652e064e-ff08-4529-9f80-8a0369e7c6e4",
+        "spot_name": "Corner Perspective",
+        "best_time": "Morning",
+        "traviz_tip": "Move to one corner and capture two sides of the pavilion to emphasize its open arches and proportions.",
+        "id": "agra-fort-diwan-i-khas_002_corner_perspective"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_diwan-i-khas_spot3.jpg?alt=media&token=f6e5fe36-6b27-4d1a-93fb-46fa7770bc9a",
+        "traviz_tip": "Use one of the surrounding arches as a foreground frame for Diwan-i-Khas and the palace buildings behind it.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Arch Frame",
+        "id": "agra-fort-diwan-i-khas_003_arch_frame"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713558Z",
+    "docId": "agra-fort-jahangiri-mahal",
+    "monument_id": "agra-fort-jahangiri-mahal",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_jahangirimahal_spot1.jpg?alt=media&token=176b72a0-e1be-4f65-bc3b-9a5e7368a1b1",
+        "traviz_tip": "Stand on the central approach and keep the main red sandstone façade perfectly centred.",
+        "best_time": "Morning",
+        "spot_name": "Symmetrical Facade",
+        "id": "agra-fort-jahangiri-mahal_001_symmetrical_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_jahangirimahal_spot2.jpg?alt=media&token=9206e4a5-c6d5-482f-8202-54d48ecec9c7",
+        "traviz_tip": "Photograph from the middle of the courtyard to capture the surrounding arcades, balconies and symmetry.",
+        "best_time": "Morning",
+        "spot_name": "Courtyard Centre",
+        "id": "agra-fort-jahangiri-mahal_002_courtyard_centre"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_jahangirimahal_spot3.jpg?alt=media&token=2314c44f-7b2e-4726-b17e-196564050bfa",
+        "spot_name": "Carved Corner Perspective",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move to a courtyard corner and photograph diagonally to highlight carved brackets, balconies and architectural depth.",
+        "id": "agra-fort-jahangiri-mahal_003_carved_corner_perspective"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713600Z",
+    "docId": "agra-fort-khas-mahal",
+    "monument_id": "agra-fort-khas-mahal",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_khasmahal_spot1.jpg?alt=media&token=12f90654-bb8e-4249-9c7f-7d80cb8761f7",
+        "spot_name": "Palace Over Anguri Bagh",
+        "best_time": "Morning",
+        "traviz_tip": "Photograph Khas Mahal from the Anguri Bagh side so the geometric garden forms the foreground beneath the marble palace.",
+        "id": "agra-fort-khas-mahal_001_palace_over_anguri_bagh"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_khasmahal_spot2.jpg?alt=media&token=2da72b07-b051-46da-b9c3-e2d52c8b6983",
+        "traviz_tip": "From a permitted river-facing position, compose the marble palace with the Yamuna beyond.",
+        "best_time": "Morning",
+        "spot_name": "River Side Palace View",
+        "id": "agra-fort-khas-mahal_002_river_side_palace_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_khasmahal_spot3.jpg?alt=media&token=e2ccc5c0-3386-4f88-a0f1-2bc341b0ef05",
+        "traviz_tip": "Use a permitted marble arch or pavilion opening to frame another section of Khas Mahal.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Marble Arch Frame",
+        "id": "agra-fort-khas-mahal_003_marble_arch_frame"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713950Z",
+    "docId": "agra-fort-machchi-bhawan",
+    "monument_id": "agra-fort-machchi-bhawan",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_machchibhawan_spot1.jpg?alt=media&token=c9a5be4e-2bba-4c40-9e92-4d3e3148c920",
+        "traviz_tip": "Photograph from a permitted corner to show the full scale of the historic courtyard and surrounding arcades.",
+        "best_time": "Morning",
+        "spot_name": "Courtyard Overview",
+        "id": "agra-fort-machchi-bhawan_001_courtyard_overview"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_machchibhawan_spot2.jpg?alt=media&token=5cd13c63-cba6-467e-abe5-a0287d5233d1",
+        "traviz_tip": "Use a long row of repeating arches to create depth through the Machchi Bhawan complex.",
+        "best_time": "Morning",
+        "spot_name": "Arcade Perspective",
+        "id": "agra-fort-machchi-bhawan_002_arcade_perspective"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_machchibhawan_spot3.jpg?alt=media&token=3a4a4dc6-c431-42a5-bca8-40e08d17fbba",
+        "traviz_tip": "From a permitted elevated position, photograph downward across the courtyard to reveal its geometry and relationship with nearby royal buildings.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Upper Courtyard View",
+        "id": "agra-fort-machchi-bhawan_003_upper_courtyard_view"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713695Z",
+    "docId": "agra-fort-musamman-burj",
+    "monument_id": "agra-fort-musamman-burj",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_musammanburj_spot1.jpg?alt=media&token=f14982ff-a45f-4bfd-82f2-5af06439dd55",
+        "traviz_tip": "From a permitted Taj-facing opening, frame the distant Taj Mahal across the Yamuna.",
+        "best_time": "Morning",
+        "spot_name": "Taj View from Burj",
+        "id": "agra-fort-musamman-burj_001_taj_view_from_burj"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_musammanburj_spot2.jpg?alt=media&token=dc77d20a-f90b-428b-a532-d0bf954214da",
+        "spot_name": "Octagonal Pavilion Exterior",
+        "best_time": "Morning",
+        "traviz_tip": "Step back into the adjoining permitted area and photograph the marble octagonal pavilion as the main subject.",
+        "id": "agra-fort-musamman-burj_002_octagonal_pavilion_exterior"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_musammanburj_spot3.jpg?alt=media&token=108c8482-a850-4544-8424-d67a01d65506",
+        "traviz_tip": "Use a marble jali or arch opening as a foreground frame for the river or distant Taj Mahal.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Marble Jali Frame",
+        "id": "agra-fort-musamman-burj_003_marble_jali_frame"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713893Z",
+    "docId": "agra-fort-nagina-masjid",
+    "monument_id": "agra-fort-nagina-masjid",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_nagina_spot1.jpg?alt=media&token=b7dc004c-5a31-4377-9e0b-1e73d4231b52",
+        "spot_name": "Three Dome Facade",
+        "best_time": "Morning",
+        "traviz_tip": "Stand in the courtyard and centre the mosque so its three domes and three main arches appear balanced.",
+        "id": "agra-fort-nagina-masjid_001_three_dome_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_nagina_spot2.jpg?alt=media&token=ee1591b2-112d-4a26-8022-008bf67e0b46",
+        "spot_name": "Side Corner View",
+        "best_time": "Morning",
+        "traviz_tip": "Move toward a courtyard corner for a diagonal composition showing the mosque's depth and marble surfaces.",
+        "id": "agra-fort-nagina-masjid_002_side_corner_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_nagina_spot3.jpg?alt=media&token=68722d62-a679-43b0-b483-d36b7e4f5b11",
+        "traviz_tip": "Use a nearby palace arch as a natural frame around Nagina Masjid.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Mosque Through an Arch",
+        "id": "agra-fort-nagina-masjid_003_mosque_through_an_arch"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713843Z",
+    "docId": "agra-fort-sheesh-mahal",
+    "monument_id": "agra-fort-sheesh-mahal",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_sheeshmahal_spot1.jpg?alt=media&token=e441431d-81af-4980-996f-c0fb880fe300",
+        "traviz_tip": "Photograph the Sheesh Mahal entrance or façade from the nearest permitted visitor position.",
+        "best_time": "Morning",
+        "spot_name": "Permitted Entrance View",
+        "id": "agra-fort-sheesh-mahal_001_permitted_entrance_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_sheeshmahal_spot2.jpg?alt=media&token=0c06342f-cc15-4e89-871c-327ef0c6e493",
+        "traviz_tip": "From the allowed viewing area, focus on surviving mirror, glass or decorative surface details without crossing barriers.",
+        "best_time": "Morning",
+        "spot_name": "Mirror Detail",
+        "id": "agra-fort-sheesh-mahal_002_mirror_detail"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fagrafort_sheeshmahal_spot3.jpg?alt=media&token=2f267ac4-6e6b-42c8-acef-27303db3bc7a",
+        "spot_name": "Palace Zone Context",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Use the adjoining courtyard or passage to show Sheesh Mahal within the larger Shah Jahan-era palace complex.",
+        "id": "agra-fort-sheesh-mahal_003_palace_zone_context"
+      }
+    ]
+  },
+  {
+    "monument_id": "akbars-tomb-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_spot4.webp?alt=media&token=1ffbee06-3a08-43a0-b435-44f7c832a75c",
+        "spot_name": "Main Gate Frame",
+        "best_time": "Morning",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "id": "akbars-tomb-001_001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_spot5.webp?alt=media&token=c222050e-ede9-4017-9acd-66d01709aeab",
+        "spot_name": "Reflection Pool",
+        "best_time": "Sunrise",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "id": "akbars-tomb-001_002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_spot6.webp?alt=media&token=72dc446d-ecfc-4568-85a6-8391a35e00d4",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "akbars-tomb-001_003_mehtab_bagh_view"
+      }
+    ],
+    "docId": "akbars-tomb-001"
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714031Z",
+    "docId": "akbars-tomb-charbagh",
+    "monument_id": "akbars-tomb-charbagh",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_charbagh_spot1.jpg?alt=media&token=42bd5496-29fe-426c-accd-1b2d0ee464f9",
+        "spot_name": "Tomb Garden Axis",
+        "best_time": "Morning",
+        "traviz_tip": "Stand on the main garden causeway and centre Akbar's mausoleum at the end of the long Charbagh axis.",
+        "id": "akbars-tomb-charbagh_001_tomb_garden_axis"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_charbagh_spot2.jpg?alt=media&token=53330360-64b2-49f1-8667-bd8dfa944e17",
+        "spot_name": "Wildlife Foreground",
+        "best_time": "Morning",
+        "traviz_tip": "If blackbuck or deer naturally enter the view, photograph them from a respectful distance with the garden or tomb behind them.",
+        "id": "akbars-tomb-charbagh_002_wildlife_foreground"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_charbagh_spot3.jpg?alt=media&token=2a23ebcc-bc1f-4993-b83a-4b92e69d90e9",
+        "spot_name": "Side Garden Perspective",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move to a side path and use trees, lawn and garden structures as foreground layers toward the mausoleum.",
+        "id": "akbars-tomb-charbagh_003_side_garden_perspective"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714106Z",
+    "docId": "akbars-tomb-kanch-mahal",
+    "monument_id": "akbars-tomb-kanch-mahal",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_kanchmahal_spot1.jpg?alt=media&token=a727c79a-ad84-46fc-a6e8-960e83886b68",
+        "spot_name": "Full Palace Facade",
+        "best_time": "Morning",
+        "traviz_tip": "Step back far enough to capture the full two-storey Kanch Mahal façade.",
+        "id": "akbars-tomb-kanch-mahal_001_full_palace_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_kanchmahal_spot2.jpg?alt=media&token=42a70ed7-2464-4fd4-a9bb-2ed37ebef7c2",
+        "spot_name": "Central Arch View",
+        "best_time": "Morning",
+        "traviz_tip": "Centre the main arch and surrounding carved sandstone for a strong architectural photograph.",
+        "id": "akbars-tomb-kanch-mahal_002_central_arch_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_kanchmahal_spot3.jpg?alt=media&token=ddf562f6-7538-487e-b7f8-b982857986e5",
+        "spot_name": "Jharokha Corner Detail",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Photograph from a corner angle to highlight projecting jharokhas, carved surfaces and surviving tile details.",
+        "id": "akbars-tomb-kanch-mahal_003_jharokha_corner_detail"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714068Z",
+    "docId": "akbars-tomb-main-mausoleum",
+    "monument_id": "akbars-tomb-main-mausoleum",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_mosoleum_spot1.jpg?alt=media&token=6e72c4f5-6bdb-446b-8954-83cd2f18f0a8",
+        "traviz_tip": "Stand centrally in front of the mausoleum and include the full multi-level red sandstone and marble composition.",
+        "best_time": "Morning",
+        "spot_name": "Full Front Facade",
+        "id": "akbars-tomb-main-mausoleum_001_full_front_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_mosoleum_spot2.jpg?alt=media&token=e40b9c39-33ee-4cfc-aa9b-5274cf1e71a6",
+        "spot_name": "Corner Pyramid View",
+        "best_time": "Morning",
+        "traviz_tip": "Move to a front corner to emphasize the receding storeys and upper marble pavilion.",
+        "id": "akbars-tomb-main-mausoleum_002_corner_pyramid_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_mosoleum_spot3.jpg?alt=media&token=7710e568-a820-40d5-aeda-578f2528a5f2",
+        "spot_name": "Entrance Arch Detail",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Use the large entrance arch as the main composition and include its painted, carved or inlaid details.",
+        "id": "akbars-tomb-main-mausoleum_003_entrance_arch_detail"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713996Z",
+    "docId": "akbars-tomb-south-gateway",
+    "monument_id": "akbars-tomb-south-gateway",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_gateway_spot1.jpg?alt=media&token=b90b7c92-7268-468c-ba9a-530b85c397ea",
+        "spot_name": "Full Gateway View",
+        "best_time": "Morning",
+        "traviz_tip": "Stand on the main approach axis and centre the gateway so all four white marble minarets are visible.",
+        "id": "akbars-tomb-south-gateway_001_full_gateway_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_gateway_spot2.jpg?alt=media&token=ddedc31f-76d9-49c4-806a-91e36d4aff4d",
+        "spot_name": "Minaret Angle",
+        "best_time": "Morning",
+        "traviz_tip": "Move toward one front corner and shoot upward to emphasize the red sandstone façade and slender marble minarets.",
+        "id": "akbars-tomb-south-gateway_002_minaret_angle"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fsikandra_gateway_spot3.jpg?alt=media&token=b9e96e77-fe01-425a-af31-0356bc9b0a13",
+        "traviz_tip": "From inside the gateway, frame the garden causeway and Akbar's mausoleum in the distance.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Tomb Through Gateway",
+        "id": "akbars-tomb-south-gateway_003_tomb_through_gateway"
+      }
+    ]
+  },
+  {
+    "monument_id": "amer-fort-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "amer-fort-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "amer-fort-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "amer-fort-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "amer-fort-004_side_mosque_view"
+      }
+    ],
+    "docId": "amer-fort-001"
+  },
+  {
+    "monument_id": "baby-taj-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "baby-taj-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "baby-taj-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "baby-taj-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "baby-taj-004_side_mosque_view"
+      }
+    ],
+    "docId": "baby-taj-001"
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714327Z",
+    "docId": "baby-taj-charbagh",
+    "monument_id": "baby-taj-charbagh",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_charbagh_spot1.jpg?alt=media&token=336b99e3-cce8-4757-808c-0883365dffa6",
+        "spot_name": "Central Garden Axis",
+        "best_time": "Morning",
+        "traviz_tip": "Stand on the main garden axis and centre the mausoleum beyond the pathways and water channels.",
+        "id": "baby-taj-charbagh_001_central_garden_axis"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_charbagh_spot2.jpg?alt=media&token=14bf4880-c694-4626-a79b-8c05625f4937",
+        "spot_name": "Garden Corner View",
+        "best_time": "Morning",
+        "traviz_tip": "Move to a garden corner and photograph diagonally across the geometric landscape toward the marble tomb.",
+        "id": "baby-taj-charbagh_002_garden_corner_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_charbagh_spot3.jpg?alt=media&token=371e6bb7-d0aa-4eae-8364-54474ff648b2",
+        "traviz_tip": "From near the mausoleum side, photograph back through the Charbagh toward the East Gateway.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Gateway Looking Back",
+        "id": "baby-taj-charbagh_003_gateway_looking_back"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714257Z",
+    "docId": "baby-taj-east-gateway",
+    "monument_id": "baby-taj-east-gateway",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_gateway_spot1.jpg?alt=media&token=5cceb34c-68bc-4f21-8f7b-57097335e13b",
+        "traviz_tip": "Stand on the central approach and photograph the red sandstone gateway symmetrically.",
+        "best_time": "Morning",
+        "spot_name": "Full Gateway Facade",
+        "id": "baby-taj-east-gateway_001_full_gateway_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_gateway_spot2.jpg?alt=media&token=2d308441-b4b0-4620-b4ff-af98c677d3ec",
+        "spot_name": "Tomb Through Gateway",
+        "best_time": "Morning",
+        "traviz_tip": "Stand inside the central arch and centre the white marble mausoleum in the opening.",
+        "id": "baby-taj-east-gateway_002_tomb_through_gateway"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_gateway_spot3.jpg?alt=media&token=f1ba729a-b333-48b2-8f01-e90c9cf6af76",
+        "spot_name": "Garden Side Gateway",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "From inside the Charbagh, turn back toward the gateway and use the garden axis as a leading line.",
+        "id": "baby-taj-east-gateway_003_garden_side_gateway"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714366Z",
+    "docId": "baby-taj-main-mausoleum",
+    "monument_id": "baby-taj-main-mausoleum",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_mosoleum_spot1.jpg?alt=media&token=31001d07-ca45-430b-add1-43e20702374c",
+        "spot_name": "Full Marble Facade",
+        "best_time": "Morning",
+        "traviz_tip": "Stand on the main approach and centre the white marble mausoleum and its corner towers.",
+        "id": "baby-taj-main-mausoleum_001_full_marble_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_mosoleum_spot2.jpg?alt=media&token=2c44c202-16af-4d0b-a438-dbeb8eb9f731",
+        "spot_name": "Three Quarter Corner",
+        "best_time": "Morning",
+        "traviz_tip": "Move toward a corner of the platform to show two façades and the building's compact jewel-box form.",
+        "id": "baby-taj-main-mausoleum_002_three_quarter_corner"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_mosoleum_spot3.jpg?alt=media&token=2f0257cd-4ccd-478c-ab8b-ba6f3f534827",
+        "traviz_tip": "Photograph the marble jali screens or coloured stone inlay closely from a permitted position.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Jali and Inlay Detail",
+        "id": "baby-taj-main-mausoleum_003_jali_and_inlay_detail"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714430Z",
+    "docId": "baby-taj-riverfront-pavilion",
+    "monument_id": "baby-taj-riverfront-pavilion",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_riverfort_spot1.jpg?alt=media&token=e1c3eb7c-306c-4734-b6d4-e9775c60d156",
+        "spot_name": "Garden Facing Pavilion",
+        "best_time": "Morning",
+        "traviz_tip": "Stand within the garden and photograph the full riverfront pavilion façade.",
+        "id": "baby-taj-riverfront-pavilion_001_garden_facing_pavilion"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_riverfort_spot2.jpg?alt=media&token=9c1fb798-cd94-4b07-8831-509864f80930",
+        "traviz_tip": "Use a permitted pavilion opening to frame the Yamuna beyond.",
+        "best_time": "Morning",
+        "spot_name": "Yamuna Through Pavilion",
+        "id": "baby-taj-riverfront-pavilion_002_yamuna_through_pavilion"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fbabytaj_riverfort_spot3.jpg?alt=media&token=191171b8-7cbf-4a3b-b6f0-9bd4744efb04",
+        "traviz_tip": "Photograph from a side angle that includes both the pavilion and part of the mausoleum or garden to show their relationship.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Pavilion and Tomb Relationship",
+        "id": "baby-taj-riverfront-pavilion_003_pavilion_and_tomb_relationship"
+      }
+    ]
+  },
+  {
+    "monument_id": "bagh-shah-nawaz-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "bagh-shah-nawaz-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "bagh-shah-nawaz-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "bagh-shah-nawaz-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "bagh-shah-nawaz-004_side_mosque_view"
+      }
+    ],
+    "docId": "bagh-shah-nawaz-001"
+  },
+  {
+    "monument_id": "chini-ka-rauza-006",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "chini-ka-rauza-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "chini-ka-rauza-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "chini-ka-rauza-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "chini-ka-rauza-004_side_mosque_view"
+      }
+    ],
+    "docId": "chini-ka-rauza-006"
+  },
+  {
+    "monument_id": "city-palace-jaipur-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "city-palace-jaipur-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "city-palace-jaipur-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "city-palace-jaipur-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "city-palace-jaipur-004_side_mosque_view"
+      }
+    ],
+    "docId": "city-palace-jaipur-001"
+  },
+  {
+    "monument_id": "fatehpur-sikri-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehput_spot5.webp?alt=media&token=80fa43ab-d928-4790-a4e0-b47f40cdd93d",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "fatehpur-sikri-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_spot2.jpg?alt=media&token=2c2384db-7b73-4e1c-a4cf-62a044bb9662",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "fatehpur-sikri-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_spot4.webp?alt=media&token=ea9d72e8-fbb6-4eff-aeda-80d60f16bf58",
+        "spot_name": "Mehtab Bagh View",
+        "best_time": "Sunset",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "id": "fatehpur-sikri-003_mehtab_bagh_view"
+      }
+    ],
+    "docId": "fatehpur-sikri-001"
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714848Z",
+    "docId": "fatehpur-sikri-anup-talao",
+    "monument_id": "fatehpur-sikri-anup-talao",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_anup_talao_spot1.png?alt=media&token=7d3078f7-80a3-4b0a-baec-3eebfaa0063e",
+        "spot_name": "Island and Four Bridges",
+        "best_time": "Morning",
+        "traviz_tip": "Stand at a corner of the pool and compose the central island platform with two or more of the narrow bridges.",
+        "id": "fatehpur-sikri-anup-talao_001_island_and_four_bridges"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_anup_talao_spot2.png?alt=media&token=d7cb0ea1-7309-41cc-aa53-f0b25398842a",
+        "traviz_tip": "Use one bridge as a strong diagonal leading line toward the central platform.",
+        "best_time": "Morning",
+        "spot_name": "Diagonal Bridge View",
+        "id": "fatehpur-sikri-anup-talao_002_diagonal_bridge_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_anup_talao_spot3.png?alt=media&token=b6127b05-55b3-4fe9-91f1-715b408d9d95",
+        "spot_name": "Khwabgah Reflection",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "When water conditions allow, compose the pool with Khwabgah or nearby palace architecture reflected on its surface.",
+        "id": "fatehpur-sikri-anup-talao_003_khwabgah_reflection"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714915Z",
+    "docId": "fatehpur-sikri-birbals-house",
+    "monument_id": "fatehpur-sikri-birbals-house",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_birbal_house_spot1.png?alt=media&token=087119b7-727a-4bdc-8c42-b74ef0241f97",
+        "traviz_tip": "Stand in front of the building and capture the complete richly carved façade.",
+        "best_time": "Morning",
+        "spot_name": "Full Ornate Facade",
+        "id": "fatehpur-sikri-birbals-house_001_full_ornate_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_birbal_house_spot2.png?alt=media&token=da9e01cd-e3e9-4cf6-bce8-0089181fcc82",
+        "traviz_tip": "Photograph from a corner so two elevations, projecting details and chhatris appear in one frame.",
+        "best_time": "Morning",
+        "spot_name": "Corner Angle",
+        "id": "fatehpur-sikri-birbals-house_002_corner_angle"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_birbal_house_spot3.png?alt=media&token=44951e07-4153-41a2-bec6-bf28db798a56",
+        "spot_name": "Carved Bracket Detail",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Focus closely on the elaborate stone brackets, beams and carved surfaces that distinguish the building.",
+        "id": "fatehpur-sikri-birbals-house_003_carved_bracket_detail"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714487Z",
+    "docId": "fatehpur-sikri-buland-darwaza",
+    "monument_id": "fatehpur-sikri-buland-darwaza",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_buland_darwaza_spot1.png?alt=media&token=15bfc5b8-1d1a-4199-88fc-9d5643dbb43d",
+        "spot_name": "Grand Staircase View",
+        "best_time": "Morning",
+        "traviz_tip": "Stand near the bottom of the monumental staircase and include the full height of Buland Darwaza for maximum sense of scale.",
+        "id": "fatehpur-sikri-buland-darwaza_001_grand_staircase_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_buland_darwaza_spot2.png?alt=media&token=07b1168e-187c-428c-bcc2-878de301cbd3",
+        "spot_name": "Halfway Symmetry",
+        "best_time": "Morning",
+        "traviz_tip": "From partway up the steps, centre the main arch so the gateway fills the frame more dramatically.",
+        "id": "fatehpur-sikri-buland-darwaza_002_halfway_symmetry"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_buland_darwaza_spot3.png?alt=media&token=590326ab-2bc7-4dfa-af9a-6805db1315de",
+        "spot_name": "Courtyard Side View",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "From inside the Jama Masjid courtyard, photograph the inner face of Buland Darwaza and its relationship with the mosque complex.",
+        "id": "fatehpur-sikri-buland-darwaza_003_courtyard_side_view"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714702Z",
+    "docId": "fatehpur-sikri-diwan-i-am",
+    "monument_id": "fatehpur-sikri-diwan-i-am",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_diwan-aam_spot1.jpg?alt=media&token=3d30ceb8-0361-4701-9c3f-f4e8f17ef8b0",
+        "spot_name": "Wide Audience Court",
+        "best_time": "Morning",
+        "traviz_tip": "Stand toward the far side of the court and photograph the full public audience setting.",
+        "id": "fatehpur-sikri-diwan-i-am_001_wide_audience_court"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_diwan-aam_spot2.jpg?alt=media&token=6cc1fcea-6b51-40e0-a068-6dffc26e1cc5",
+        "spot_name": "Imperial Pavilion Axis",
+        "best_time": "Morning",
+        "traviz_tip": "Align yourself with the emperor's pavilion to recreate the formal central sightline of the public court.",
+        "id": "fatehpur-sikri-diwan-i-am_002_imperial_pavilion_axis"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_diwan-aam_spot3.jpg?alt=media&token=8f97317d-9612-4d01-aedf-8374e377bedf",
+        "traviz_tip": "Use the repeating red sandstone columns along one side to create depth and strong leading lines.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Side Colonnade",
+        "id": "fatehpur-sikri-diwan-i-am_003_side_colonnade"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714744Z",
+    "docId": "fatehpur-sikri-diwan-i-khas",
+    "monument_id": "fatehpur-sikri-diwan-i-khas",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_diwan-khas_spot1.jpg?alt=media&token=28914284-9769-42f6-8fc4-973beeeee4ed",
+        "spot_name": "Full Exterior View",
+        "best_time": "Morning",
+        "traviz_tip": "Stand in the open courtyard and photograph the complete Diwan-i-Khas exterior.",
+        "id": "fatehpur-sikri-diwan-i-khas_001_full_exterior_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_diwan-khas_spot2.jpg?alt=media&token=f998f843-c250-4f57-a9fd-d9982c447305",
+        "traviz_tip": "Move to a corner angle to show two façades and the building's compact geometric form.",
+        "best_time": "Morning",
+        "spot_name": "Corner Geometry",
+        "id": "fatehpur-sikri-diwan-i-khas_002_corner_geometry"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_diwan-khas_spot3.jpg?alt=media&token=17e37d91-93b7-440e-aca0-0ba15fd671ef",
+        "spot_name": "Central Pillar Interior",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "From the permitted interior viewpoint, centre the famous carved pillar and radiating stone bridges.",
+        "id": "fatehpur-sikri-diwan-i-khas_003_central_pillar_interior"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714618Z",
+    "docId": "fatehpur-sikri-jama-masjid",
+    "monument_id": "fatehpur-sikri-jama-masjid",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_jama_masjid_spot1.png?alt=media&token=9a35b81a-f896-44a4-ac51-2516e77fd893",
+        "spot_name": "Wide Courtyard View",
+        "best_time": "Morning",
+        "traviz_tip": "Stand at a courtyard corner and capture the scale of the open court together with the mosque architecture.",
+        "id": "fatehpur-sikri-jama-masjid_001_wide_courtyard_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_jama_masjid_spot2.png?alt=media&token=077ce5fa-c100-4a20-a4f6-35a4d8566d45",
+        "spot_name": "Prayer Hall Facade",
+        "best_time": "Morning",
+        "traviz_tip": "Stand opposite the main prayer hall and keep the façade centred for a strong symmetrical composition.",
+        "id": "fatehpur-sikri-jama-masjid_002_prayer_hall_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_jama_masjid_spot3.png?alt=media&token=f96152c7-cc66-428f-912c-7145ae5c0f57",
+        "traviz_tip": "Compose the white Tomb of Sheikh Salim Chishti in the foreground with the red sandstone mosque behind it.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Mosque and Salim Chishti",
+        "id": "fatehpur-sikri-jama-masjid_003_mosque_and_salim_chishti"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714816Z",
+    "docId": "fatehpur-sikri-jodha-bai-palace",
+    "monument_id": "fatehpur-sikri-jodha-bai-palace",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_jodha_spot1.png?alt=media&token=a37d68b8-319f-4fc8-aef8-7ca1fae4ad62",
+        "spot_name": "Main Courtyard",
+        "best_time": "Morning",
+        "traviz_tip": "Stand in the centre of the main courtyard and balance the surrounding palace architecture around the frame.",
+        "id": "fatehpur-sikri-jodha-bai-palace_001_main_courtyard"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_jodha_spot2.png?alt=media&token=5f2b6ad1-978e-4a8f-880a-7e1a9c3a0f30",
+        "spot_name": "Gateway Frame",
+        "best_time": "Morning",
+        "traviz_tip": "Use the entrance gateway as a natural frame while looking inward toward the palace courtyard.",
+        "id": "fatehpur-sikri-jodha-bai-palace_002_gateway_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_jodha_spot3.png?alt=media&token=f9ade8b2-8489-4ab7-92e8-f83e5a93de25",
+        "traviz_tip": "Move to a courtyard corner and photograph diagonally to highlight carved pillars, brackets, balconies and chhatris.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Carved Corner Perspective",
+        "id": "fatehpur-sikri-jodha-bai-palace_003_carved_corner_perspective"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714882Z",
+    "docId": "fatehpur-sikri-khwabgah",
+    "monument_id": "fatehpur-sikri-khwabgah",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_khwahgah_spot1.png?alt=media&token=1edb7c81-7a28-4720-9dfb-087ace7f2e5c",
+        "spot_name": "Anup Talao Side",
+        "best_time": "Morning",
+        "traviz_tip": "Photograph Khwabgah from the Anup Talao side so the private palace setting is visible in context.",
+        "id": "fatehpur-sikri-khwabgah_001_anup_talao_side"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_khwahgah_spot2.png?alt=media&token=7f332cfc-cd3e-4729-af66-d06e874e6181",
+        "spot_name": "Doorway Frame",
+        "best_time": "Morning",
+        "traviz_tip": "Use a permitted doorway or arch to frame the adjoining palace architecture.",
+        "id": "fatehpur-sikri-khwabgah_002_doorway_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_khwahgah_spot3.png?alt=media&token=430a62ff-1ee5-47bb-89ea-c7e395123906",
+        "traviz_tip": "Move closer to permitted surfaces and photograph surviving painted, carved or architectural details rather than another wide view.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Architectural Detail",
+        "id": "fatehpur-sikri-khwabgah_003_architectural_detail"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714781Z",
+    "docId": "fatehpur-sikri-panch-mahal",
+    "monument_id": "fatehpur-sikri-panch-mahal",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_panchmahal_spot1.jpg?alt=media&token=02ceb86c-4f8e-4926-845b-ab6296d9acbb",
+        "traviz_tip": "Stand far enough back to include all five progressively smaller levels in one frame.",
+        "best_time": "Morning",
+        "spot_name": "Full Five Tier View",
+        "id": "fatehpur-sikri-panch-mahal_001_full_five_tier_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_panchmahal_spot2.jpg?alt=media&token=a3d08256-ff47-4f22-af35-f9049477db29",
+        "spot_name": "Anup Talao Side View",
+        "best_time": "Morning",
+        "traviz_tip": "Photograph Panch Mahal from the Anup Talao side so the surrounding court or pool area forms the foreground.",
+        "id": "fatehpur-sikri-panch-mahal_002_anup_talao_side_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_panchmahal_spot3.jpg?alt=media&token=7b347434-4040-4081-a414-c3b70f4bd4ba",
+        "spot_name": "Tiered Side Perspective",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move to a side angle and emphasize how each successive level becomes smaller toward the top chhatri.",
+        "id": "fatehpur-sikri-panch-mahal_003_tiered_side_perspective"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.714655Z",
+    "docId": "fatehpur-sikri-salim-chishti-tomb",
+    "monument_id": "fatehpur-sikri-salim-chishti-tomb",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_salim_spot1.png?alt=media&token=dcca00e4-4ba4-461c-9229-aff473735f6f",
+        "traviz_tip": "Stand in the Jama Masjid courtyard and centre the complete white marble shrine.",
+        "best_time": "Morning",
+        "spot_name": "Full Shrine Front",
+        "id": "fatehpur-sikri-salim-chishti-tomb_001_full_shrine_front"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_salim_spot2.png?alt=media&token=aa420a45-fd3d-45b8-8b64-c32ca1aa40ef",
+        "spot_name": "Shrine Through Red Arch",
+        "best_time": "Morning",
+        "traviz_tip": "Use one of the surrounding red sandstone arches to frame the white tomb and emphasize the colour contrast.",
+        "id": "fatehpur-sikri-salim-chishti-tomb_002_shrine_through_red_arch"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ffatehpur_salim_spot3.png?alt=media&token=d75d085f-015e-4939-b114-2d36ac02254d",
+        "traviz_tip": "Move close to a permitted exterior jali and photograph the carved marble screen with soft architectural detail behind it.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Marble Jali Detail",
+        "id": "fatehpur-sikri-salim-chishti-tomb_003_marble_jali_detail"
+      }
+    ]
+  },
+  {
+    "monument_id": "global-fallback-site",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "global-fallback-site-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "global-fallback-site-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "global-fallback-site-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "global-fallback-site-004_side_mosque_view"
+      }
+    ],
+    "docId": "global-fallback-site"
+  },
+  {
+    "monument_id": "global-fallback-trivia",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "global-fallback-trivia_001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "global-fallback-trivia_002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "global-fallback-trivia_003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "global-fallback-trivia_004_side_mosque_view"
+      }
+    ],
+    "docId": "global-fallback-trivia"
+  },
+  {
+    "monument_id": "hawa-mahal-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "hawa-mahal-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "hawa-mahal-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "hawa-mahal-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "hawa-mahal-004_side_mosque_view"
+      }
+    ],
+    "docId": "hawa-mahal-001"
+  },
+  {
+    "monument_id": "humayuns-tomb-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "humayuns-tomb-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "humayuns-tomb-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "humayuns-tomb-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "humayuns-tomb-004_side_mosque_view"
+      }
+    ],
+    "docId": "humayuns-tomb-001"
+  },
+  {
+    "monument_id": "india-gate-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "india-gate-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "india-gate-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "india-gate-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "india-gate-004_side_mosque_view"
+      }
+    ],
+    "docId": "india-gate-001"
+  },
+  {
+    "monument_id": "lotus-temple-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "lotus-temple-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "lotus-temple-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "lotus-temple-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "lotus-temple-004_side_mosque_view"
+      }
+    ],
+    "docId": "lotus-temple-001"
+  },
+  {
+    "monument_id": "ram-bagh-003",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "ram-bagh-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "ram-bagh-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "ram-bagh-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "ram-bagh-004_side_mosque_view"
+      }
+    ],
+    "docId": "ram-bagh-003"
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.715012Z",
+    "docId": "ram-bagh-gateways",
+    "monument_id": "ram-bagh-gateways",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_gateway_spot1.png?alt=media&token=ecf2d090-3b1a-49ae-9493-050fd04634f9",
+        "spot_name": "Full Gateway View",
+        "best_time": "Morning",
+        "traviz_tip": "Stand directly in front of a surviving historic gateway and keep the arch and surrounding masonry centred.",
+        "id": "ram-bagh-gateways_001_full_gateway_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_gateway_spot2.png?alt=media&token=7034ac4f-8988-4072-a261-b1812354b866",
+        "traviz_tip": "From within or beside the permitted gateway passage, use the arch to frame the garden beyond.",
+        "best_time": "Morning",
+        "spot_name": "Garden Through Arch",
+        "id": "ram-bagh-gateways_002_garden_through_arch"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_gateway_spot3.png?alt=media&token=cd649d5d-44f6-427d-b9b5-b2d805ed3952",
+        "spot_name": "Gateway Corner Angle",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move to roughly a 45-degree angle to show the gateway's depth together with adjacent historic masonry.",
+        "id": "ram-bagh-gateways_003_gateway_corner_angle"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.715141Z",
+    "docId": "ram-bagh-katra",
+    "monument_id": "ram-bagh-katra",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_katra_spot1.png?alt=media&token=55f5b8c5-aa1b-4901-801b-478784401d3c",
+        "spot_name": "Historic Complex Overview",
+        "best_time": "Morning",
+        "traviz_tip": "From the main permitted open area, photograph the surviving Katra structures together as one architectural group.",
+        "id": "ram-bagh-katra_001_historic_complex_overview"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_katra_spot2.png?alt=media&token=14bd16c2-5225-45cb-a4d8-8682019363b1",
+        "traviz_tip": "Use a surviving doorway or arch to frame another part of the historic complex.",
+        "best_time": "Morning",
+        "spot_name": "Archway Frame",
+        "id": "ram-bagh-katra_002_archway_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_katra_spot3.png?alt=media&token=e56d0d68-a258-4b3a-b120-28dd5690ce90",
+        "traviz_tip": "Move to a safe corner and photograph diagonally across the surviving rooms, kiosks or terrace remains to show depth.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Masonry Corner Perspective",
+        "id": "ram-bagh-katra_003_masonry_corner_perspective"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.715053Z",
+    "docId": "ram-bagh-riverfront-pavilions",
+    "monument_id": "ram-bagh-riverfront-pavilions",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_riverfort_spot1.jpg?alt=media&token=bcaaee06-2409-40e5-824f-aa3fc68ee587",
+        "spot_name": "Full Pavilion and Terrace",
+        "best_time": "Morning",
+        "traviz_tip": "Stand across the terrace and photograph the complete riverfront pavilion together with its platform or water features.",
+        "id": "ram-bagh-riverfront-pavilions_001_full_pavilion_and_terrace"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_riverfort_spot2.jpg?alt=media&token=6cde6b95-fffa-4006-a787-f702ada0f5d8",
+        "spot_name": "Yamuna Through Columns",
+        "best_time": "Morning",
+        "traviz_tip": "Use the pavilion columns or arches as a foreground frame for the Yamuna.",
+        "id": "ram-bagh-riverfront-pavilions_002_yamuna_through_columns"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_riverfort_spot3.jpg?alt=media&token=ee9002f2-3b4a-484b-9128-3cfed3eaca90",
+        "traviz_tip": "Move to the side of the permitted terrace and photograph the pavilion against the riverfront landscape.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Riverfront Side View",
+        "id": "ram-bagh-riverfront-pavilions_003_riverfront_side_view"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.715091Z",
+    "docId": "ram-bagh-water-terraces",
+    "monument_id": "ram-bagh-water-terraces",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_water_terrace_spot1.png?alt=media&token=08456c93-dab2-455f-b254-eefbf9c8eafe",
+        "traviz_tip": "Stand near the upper level and photograph along the channels so the terraces descend through the frame.",
+        "best_time": "Morning",
+        "spot_name": "Descending Water Axis",
+        "id": "ram-bagh-water-terraces_001_descending_water_axis"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_water_terrace_spot2.png?alt=media&token=eff76865-cd85-4e79-8d60-e39d7d646e4e",
+        "traviz_tip": "From a lower permitted level, photograph upward toward the channels, cascades and pavilion architecture.",
+        "best_time": "Morning",
+        "spot_name": "Lower Terrace Upward",
+        "id": "ram-bagh-water-terraces_002_lower_terrace_upward"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Frambagh_water_terrace_spot3.png?alt=media&token=ba27bf12-e263-4de1-b63f-f5cdbff6ab7a",
+        "traviz_tip": "Use a surviving channel or tank edge as a diagonal leading line through the garden.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Water Channel Diagonal",
+        "id": "ram-bagh-water-terraces_003_water_channel_diagonal"
+      }
+    ]
+  },
+  {
+    "monument_id": "red-fort-001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "red-fort-001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "red-fort-002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "red-fort-003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "red-fort-004_side_mosque_view"
+      }
+    ],
+    "docId": "red-fort-001"
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713122Z",
+    "docId": "taj-mahal-charbagh",
+    "monument_id": "taj-mahal-charbagh",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_charbagh_spot1.jpg?alt=media&token=527dcb16-84c2-4d4d-8506-d4a126ce27a3",
+        "spot_name": "Reflection Pool Axis",
+        "best_time": "Sunrise",
+        "traviz_tip": "Stand on the central garden axis and align the reflecting pool, fountains and Taj Mahal dome in one symmetrical frame.",
+        "id": "taj-mahal-charbagh_001_reflection_pool_axis"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_charbagh_spot2.jpg?alt=media&token=6ec8ae21-d381-4396-a309-dfbf14c482f8",
+        "traviz_tip": "Move to a side pathway and use the cypress trees and garden edge as leading lines toward the Taj Mahal.",
+        "best_time": "Morning",
+        "spot_name": "Cypress Path Perspective",
+        "id": "taj-mahal-charbagh_002_cypress_path_perspective"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_charbagh_spot3.jpg?alt=media&token=2c705973-9e2f-4cdf-a7d4-68faa234e5b9",
+        "spot_name": "Garden Symmetry",
+        "best_time": "Morning",
+        "traviz_tip": "Photograph from the central garden area so the paths, water channel and mausoleum form a balanced geometric composition.",
+        "id": "taj-mahal-charbagh_003_garden_symmetry"
+      }
+    ]
+  },
+  {
+    "monument_id": "taj-mahal-charbagh-2",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fmehtab_spot1.png?alt=media&token=57f8d22c-5402-4ea7-83ba-42d6fcd2ff16",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "taj-mahal-charbagh-2_001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fmehtab_spot2.png?alt=media&token=24da3afe-9093-4af8-b98d-2460496b95e6",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "taj-mahal-charbagh-2_002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Fmehtab_spot3.png?alt=media&token=07d73244-d20f-45cb-b57c-a6fb12412a78",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "taj-mahal-charbagh-2_003_mehtab_bagh_view"
+      }
+    ],
+    "docId": "taj-mahal-charbagh-2"
+  },
+  {
+    "monument_id": "taj-mahal-charbagh-4",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "taj-mahal-charbagh-4_001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "taj-mahal-charbagh-4_002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "taj-mahal-charbagh-4_003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "taj-mahal-charbagh-4_004_side_mosque_view"
+      }
+    ],
+    "docId": "taj-mahal-charbagh-4"
+  },
+  {
+    "monument_id": "taj-mahal-darwaza-i-rauza",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "best_time": "Morning",
+        "spot_name": "Main Gate Frame",
+        "id": "taj-mahal-darwaza-i-rauza_001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "taj-mahal-darwaza-i-rauza_002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "taj-mahal-darwaza-i-rauza_003_mehtab_bagh_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/chat_image_generation%2FLFpe9jnwxPQoxNdgFV7B5et50J93%2Ff075a4e0-3a32-4523-a50c-21f8a820424d.png?alt=media&token=df1d4cdf-4657-47ee-8ea1-12675681cf98",
+        "traviz_tip": "Use the red sandstone mosque arches to frame the white marble Taj.",
+        "best_time": "Morning",
+        "spot_name": "Side Mosque View",
+        "id": "taj-mahal-darwaza-i-rauza_004_side_mosque_view"
+      }
+    ],
+    "docId": "taj-mahal-darwaza-i-rauza"
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713016Z",
+    "docId": "taj-mahal-great-gate",
+    "monument_id": "taj-mahal-great-gate",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_greatgate_spot1.jpg?alt=media&token=f5247171-3388-4f25-adc7-f0fa11ae4395",
+        "spot_name": "Full Gate Facade",
+        "best_time": "Morning",
+        "traviz_tip": "Stand on the central axis in Jilaukhana and keep the gateway centred so the façade and corner chhatris balance evenly.",
+        "id": "taj-mahal-great-gate_001_full_gate_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_greatgate_spot2.jpg?alt=media&token=65e8397c-2242-48da-90cb-ff00afe49174",
+        "spot_name": "Taj Through the Arch",
+        "best_time": "Early Morning",
+        "traviz_tip": "Stand inside the central arch and centre the Taj Mahal in the dark opening for the classic first-reveal photograph.",
+        "id": "taj-mahal-great-gate_002_taj_through_the_arch"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_greatgate_spot3.jpg?alt=media&token=2f41b847-b36f-4fb7-a47e-5200234bb85b",
+        "spot_name": "Garden Side Gate View",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "From the Charbagh side, turn back toward the Great Gate and use the garden axis to lead the eye toward the gateway.",
+        "id": "taj-mahal-great-gate_003_garden_side_gate_view"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.710081Z",
+    "docId": "taj-mahal-jilaukhana",
+    "monument_id": "taj-mahal-jilaukhana",
+    "photography_spots": [
+      {
+        "image_url": "",
+        "traviz_tip": "Stand near the centre of Jilaukhana and keep the Great Gate perfectly centred for a strong symmetrical composition.",
+        "best_time": "Morning",
+        "spot_name": "Great Gate Axis",
+        "id": "taj-mahal-jilaukhana_001_great_gate_axis"
+      },
+      {
+        "image_url": "",
+        "traviz_tip": "Use one of the side arcade arches as a natural frame and include the forecourt beyond for depth.",
+        "best_time": "Morning",
+        "spot_name": "Arcade Frame",
+        "id": "taj-mahal-jilaukhana_002_arcade_frame"
+      },
+      {
+        "image_url": "",
+        "traviz_tip": "Move closer to the Great Gate, turn back toward Jilaukhana, and use the long forecourt to create a layered perspective.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Forecourt Depth",
+        "id": "taj-mahal-jilaukhana_003_forecourt_depth"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713191Z",
+    "docId": "taj-mahal-main-mausoleum",
+    "monument_id": "taj-mahal-main-mausoleum",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mosuleum_spot1.jpg?alt=media&token=6cac22b5-43cd-41e1-9892-c3d4cedaeaab",
+        "traviz_tip": "Stand near the main approach to the marble platform and centre the central pishtaq and dome for a clean frontal photograph.",
+        "best_time": "Morning",
+        "spot_name": "Marble Facade",
+        "id": "taj-mahal-main-mausoleum_001_marble_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mosuleum_spot2.jpg?alt=media&token=d6f8017f-5dfc-45c4-988d-5ff494b80200",
+        "traviz_tip": "Move toward a front corner of the platform and photograph diagonally to include the dome, façade and a nearby minaret.",
+        "best_time": "Early Morning",
+        "spot_name": "Corner Dome View",
+        "id": "taj-mahal-main-mausoleum_002_corner_dome_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mosuleum_spot3.jpg?alt=media&token=e2e4a4df-2fff-4ed1-9c9a-d5ee67e85dc0",
+        "spot_name": "Side Pishtaq Perspective",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Use one of the large side arches as the main subject and angle the frame to show the depth of the marble façade.",
+        "id": "taj-mahal-main-mausoleum_003_side_pishtaq_perspective"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713391Z",
+    "docId": "taj-mahal-mihman-khana",
+    "monument_id": "taj-mahal-mihman-khana",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mihmankhana_spot1.jpg?alt=media&token=369351a2-f5b6-4ecd-97a4-fff02d5960f7",
+        "traviz_tip": "Stand directly in front of Mihman Khana and keep the central arch aligned for a balanced symmetrical frame.",
+        "best_time": "Morning",
+        "spot_name": "Full Facade View",
+        "id": "taj-mahal-mihman-khana_001_full_facade_view"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mihmankhana_spot2.jpg?alt=media&token=5e76b7ff-ba88-4c87-a966-73350cca361e",
+        "spot_name": "Taj Through the Arch",
+        "best_time": "Morning",
+        "traviz_tip": "Use one of the red sandstone arches to frame the white marble Taj Mahal in the distance.",
+        "id": "taj-mahal-mihman-khana_002_taj_through_the_arch"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mihmankhana_spot3.jpg?alt=media&token=dc65bf99-3cb5-42a5-9784-8010558dba66",
+        "spot_name": "Three Quarter Facade",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move toward a corner of the platform and photograph the building diagonally to show its façade and architectural depth.",
+        "id": "taj-mahal-mihman-khana_003_three_quarter_facade"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713248Z",
+    "docId": "taj-mahal-minarets",
+    "monument_id": "taj-mahal-minarets",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_minaret_spot1.jpg?alt=media&token=e5241640-e531-472f-bd77-7e98b3a5bc97",
+        "traviz_tip": "Photograph from the main garden axis so all four minarets visibly frame the mausoleum in a balanced composition.",
+        "best_time": "Morning",
+        "spot_name": "All Four Minarets",
+        "id": "taj-mahal-minarets_001_all_four_minarets"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_minaret_spot2.jpg?alt=media&token=d22ee169-b51d-443f-b452-1726cea0e760",
+        "traviz_tip": "From a permitted platform corner, shoot upward so a single minaret rises beside the main dome.",
+        "best_time": "Morning",
+        "spot_name": "Minaret and Dome",
+        "id": "taj-mahal-minarets_002_minaret_and_dome"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_minaret_spot3.jpg?alt=media&token=41e66221-c929-48c0-b012-b84f02685083",
+        "spot_name": "Twin Minaret Perspective",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move along the side of the mausoleum platform and align two minarets at different distances to create depth.",
+        "id": "taj-mahal-minarets_003_twin_minaret_perspective"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713300Z",
+    "docId": "taj-mahal-mosque",
+    "monument_id": "taj-mahal-mosque",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mosque_spot1.jpg?alt=media&token=55195a58-0118-45f0-9ad3-463a715778c7",
+        "spot_name": "Mosque Front Facade",
+        "best_time": "Morning",
+        "traviz_tip": "Stand centrally in front of the mosque and keep its three domes and main arches balanced within the frame.",
+        "id": "taj-mahal-mosque_001_mosque_front_facade"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mosque_spot2.jpg?alt=media&token=3b593206-79b0-458d-95c3-8ffa42bdf9d5",
+        "spot_name": "Taj Through Mosque Arch",
+        "best_time": "Morning",
+        "traviz_tip": "Use a permitted red-sandstone arch of the mosque to frame the white marble Taj Mahal in the distance.",
+        "id": "taj-mahal-mosque_002_taj_through_mosque_arch"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_mosque_spot3.jpg?alt=media&token=19498f99-f030-43d5-98d6-1e04529bb71f",
+        "spot_name": "Red and White Contrast",
+        "best_time": "Late Afternoon",
+        "traviz_tip": "Move toward the Taj-facing side of the mosque platform and compose the red sandstone mosque together with the white mausoleum.",
+        "id": "taj-mahal-mosque_003_red_and_white_contrast"
+      }
+    ]
+  },
+  {
+    "created_at": "2026-08-25T03:35:27.713455Z",
+    "docId": "taj-mahal-riverfront-terrace",
+    "monument_id": "taj-mahal-riverfront-terrace",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_reverfront_spot1.jpg?alt=media&token=f6e50bec-e267-4974-8987-7ef02db54485",
+        "traviz_tip": "From a permitted river-facing area, include the terrace edge and Yamuna to show how the Taj complex meets the river.",
+        "best_time": "Morning",
+        "spot_name": "Yamuna Edge Perspective",
+        "id": "taj-mahal-riverfront-terrace_001_yamuna_edge_perspective"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_reverfront_spot2.jpg?alt=media&token=299599d2-9c4b-4651-82ed-73b3c20bd59f",
+        "spot_name": "Mosque Side Diagonal",
+        "best_time": "Morning",
+        "traviz_tip": "From the mosque side of the terrace, photograph diagonally across the platform toward the mausoleum for a long architectural perspective.",
+        "id": "taj-mahal-riverfront-terrace_002_mosque_side_diagonal"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftajmahal_reverfront_spot3.jpg?alt=media&token=8a6d189d-c0b9-44d3-9b74-f7dc3ed31fcb",
+        "traviz_tip": "From the Mihman Khana side, shoot back across the terrace to capture the mausoleum and riverfront ensemble from the opposite direction.",
+        "best_time": "Late Afternoon",
+        "spot_name": "Mihman Khana Side Diagonal",
+        "id": "taj-mahal-riverfront-terrace_003_mihman_khana_side_diagonal"
+      }
+    ]
+  },
+  {
+    "monument_id": "taj_mahal_001",
+    "photography_spots": [
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftaj_spot1.jpg?alt=media&token=d4072e82-5d66-4b09-87e8-91fa5e29677b",
+        "spot_name": "Main Gate Frame",
+        "best_time": "Morning",
+        "traviz_tip": "Capture the Taj Mahal through the main gate arch for a dramatic framed view.",
+        "id": "taj_mahal_001_main_gate_frame"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftaj_spot2.jpg?alt=media&token=d4072e82-5d66-4b09-87e8-91fa5e29677b",
+        "traviz_tip": "Stand in the centre and align the water channel with the Taj Mahal dome.",
+        "best_time": "Sunrise",
+        "spot_name": "Reflection Pool",
+        "id": "taj_mahal_002_reflection_pool"
+      },
+      {
+        "image_url": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/photographicsSpot%2Ftaj_spot3.png?alt=media&token=8aa88178-4f54-4c13-941a-d489d738f827",
+        "traviz_tip": "Best for a peaceful Yamuna-side landscape shot of the Taj Mahal.",
+        "best_time": "Sunset",
+        "spot_name": "Mehtab Bagh View",
+        "id": "taj_mahal_003_mehtab_bagh_view"
+      }
+    ],
+    "docId": "taj_mahal_001"
+  }
+]
