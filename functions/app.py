@@ -51,6 +51,15 @@ class MultiSubPathMiddleware:
                 environ["PATH_INFO"] = path_info[len(prefix):] or "/"
                 environ["SCRIPT_NAME"] = prefix
                 break
+        else:
+            # The emulator can forward only the Flask route (e.g. "/" or
+            # "/login"), with the public function prefix already removed.
+            # Restore its mount point so redirects retain the emulator URL.
+            if os.environ.get("FUNCTIONS_EMULATOR") == "true" and not environ.get("SCRIPT_NAME"):
+                project_id = os.environ.get("GCLOUD_PROJECT")
+                region = os.environ.get("FUNCTION_REGION") or "us-central1"
+                if project_id:
+                    environ["SCRIPT_NAME"] = f"/{project_id}/{region}/customerService_app"
 
         return self.app(environ, start_response)
 

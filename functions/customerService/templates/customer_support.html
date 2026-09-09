@@ -443,12 +443,525 @@
         }
 
         .chat-messages-container {
-            max-height: 500px;
+            height: 590px;
             overflow-y: auto;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            padding: 1.5rem 1.15rem 2rem;
+            background: #fff;
+            scroll-behavior: smooth;
         }
 
+        .chat-messages-container::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        .chat-messages-container::-webkit-scrollbar-thumb {
+            background: #b8c4d1;
+            border-radius: 8px;
+        }
+
+        .chat-date-divider {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            margin: 1.35rem 0;
+            color: #a0a7b1;
+            font-size: .68rem;
+            font-weight: 600;
+        }
+
+        .chat-date-divider::before,
+        .chat-date-divider::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: #edf0f3;
+        }
+
+        .chat-row {
+            display: flex;
+            gap: .6rem;
+            margin-bottom: 1rem;
+            align-items: flex-end;
+        }
+
+        .chat-row.user {
+            justify-content: flex-end;
+        }
+
+        .chat-row.assistant {
+            justify-content: flex-start;
+        }
+
+        .chat-avatar {
+            width: 30px;
+            height: 30px;
+            flex: 0 0 30px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            font-size: .65rem;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 3px 8px rgba(30, 41, 59, .12);
+        }
+
+        .chat-avatar.user {
+            background: #98a2b3;
+        }
+
+        .chat-avatar.assistant {
+            background: linear-gradient(135deg, #635bff, #8b5cf6);
+        }
+
+        .chat-bubble-wrap {
+            max-width: min(78%, 560px);
+        }
+
+        .chat-sender {
+            margin: 0 .4rem .3rem;
+            color: #8b929c;
+            font-size: .69rem;
+            font-weight: 500;
+        }
+
+        .chat-row.assistant .chat-sender {
+            text-align: left;
+        }
+
+        .chat-bubble {
+            padding: .9rem 1.05rem;
+            border-radius: 1.25rem;
+            line-height: 1.52;
+            font-size: .93rem;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            box-shadow: none;
+        }
+
+        .chat-bubble.user {
+            background: linear-gradient(135deg, #eef0ff, #f3edff);
+            color: #25233b;
+            border: 1px solid #e6e4ff;
+            border-bottom-right-radius: .35rem;
+        }
+
+        .chat-bubble.assistant {
+            background: #f3f4f6;
+            color: #242a33;
+            border: 0;
+            border-bottom-left-radius: .35rem;
+        }
+
+        .chat-meta {
+            margin: .35rem .4rem 0;
+            color: #a0a7b1;
+            font-size: .68rem;
+        }
+
+        .chat-row.assistant .chat-meta {
+            text-align: right;
+        }
+
+        .chat-attachment {
+            display: block;
+            max-width: 260px;
+            max-height: 220px;
+            margin-top: .55rem;
+            border-radius: .65rem;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .35);
+        }
+
+        .chat-empty {
+            height: 100%;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            color: #8290a0;
+            text-align: center;
+        }
+
+        .chat-composer {
+            background: #fff;
+        }
+
+        .chat-composer textarea {
+            resize: vertical;
+            min-height: 88px;
+            border: 1px solid #e1e5ea;
+            border-radius: 16px;
+            padding: .85rem 1rem;
+        }
+
+        .chat-composer textarea:focus,
+        .chat-composer select:focus {
+            border-color: #8178f5;
+            box-shadow: 0 0 0 .2rem rgba(99, 91, 255, .12);
+        }
+
+        .chat-composer .btn {
+            min-height: 44px;
+            font-weight: 600;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #635bff, #8b5cf6);
+            border: 0;
+        }
+
+        .chat-input-shell {
+            border: 1.5px solid #20242b;
+            border-radius: 20px;
+            padding: .35rem .45rem .45rem .75rem;
+            background: #fff;
+            transition: box-shadow .2s, border-color .2s;
+        }
+
+        .chat-input-shell:focus-within {
+            border-color: #635bff;
+            box-shadow: 0 0 0 .22rem rgba(99, 91, 255, .12);
+        }
+
+        .chat-input-shell textarea {
+            border: 0 !important;
+            box-shadow: none !important;
+            min-height: 72px;
+            padding: .65rem .35rem;
+        }
+
+        .chat-input-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            padding: .15rem .1rem 0 .35rem;
+        }
+
+        .chat-input-hint {
+            color: #a0a7b1;
+            font-size: .68rem;
+        }
+
+        .chat-send-button {
+            width: 38px;
+            height: 38px;
+            border: 0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(135deg, #635bff, #8b5cf6);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform .2s, opacity .2s;
+        }
+
+        .chat-send-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .chat-send-button:disabled {
+            opacity: .5;
+            cursor: wait;
+            transform: none;
+        }
+
+        .chat-panel-header {
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            background: #fff !important;
+            color: #20242b !important;
+            border-bottom: 1px solid #edf0f3 !important;
+            padding: .9rem 1.1rem !important;
+        }
+
+        .chat-panel-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(135deg, #635bff, #8b5cf6);
+            font-size: 1.15rem;
+        }
+
+        .chat-panel-title {
+            font-size: .98rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .chat-panel-subtitle {
+            color: #8b929c;
+            font-size: .72rem;
+            font-weight: 400;
+            margin-top: .15rem;
+        }
+
+        .chat-panel-actions {
+            margin-left: auto;
+            color: #9aa1ab;
+            letter-spacing: .15rem;
+        }
+
+        .chat-window-card,
+        .chat-reply-card {
+            border: 0 !important;
+            box-shadow: 0 8px 28px rgba(35, 42, 53, .07) !important;
+            overflow: hidden;
+        }
+
+        .chat-window-card {
+            border-radius: 22px 22px 0 0 !important;
+        }
+
+        .chat-reply-card {
+            border-radius: 0 0 22px 22px !important;
+            margin-top: -1.5rem;
+        }
+
+        .chat-window-card .chat-panel-header {
+            min-height: 68px;
+        }
+
+        .chat-reply-card .chat-panel-header {
+            border-top: 1px solid #f0f1f3 !important;
+        }
+
+        .chat-window-card>.card-body>.p-3.border-bottom.bg-light {
+            display: none;
+        }
+
+        .chat-profile-back,
+        .chat-profile-close {
+            color: #68717d;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .chat-profile-back {
+            margin-right: .15rem;
+        }
+
+        .chat-profile-close {
+            margin-left: .3rem;
+            font-size: 1.35rem;
+        }
+
+        .chat-profile-name {
+            color: #20242b;
+            font-size: .98rem;
+            font-weight: 700;
+        }
+
+        .chat-profile-status {
+            color: #7d8794;
+            font-size: .74rem;
+        }
+
+        /* Minimal Fin-style conversation layout */
+        .chat-panel-icon {
+            background: transparent;
+            color: #202124;
+            box-shadow: none;
+            font-size: 1.7rem;
+        }
+
+        .chat-panel-title,
+        .chat-profile-name {
+            color: #111827;
+        }
+
+        .chat-panel-subtitle,
+        .chat-profile-status {
+            color: #697386;
+        }
+
+        .chat-messages-container {
+            border-top: 1px solid #f1f2f4;
+        }
+
+        .chat-avatar,
+        .chat-sender {
+            display: none;
+        }
+
+        .chat-row {
+            margin-bottom: 1.4rem;
+        }
+
+        .chat-row.assistant {
+            justify-content: flex-start;
+        }
+
+        .chat-row.user {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble-wrap {
+            max-width: min(82%, 560px);
+        }
+
+        .chat-bubble {
+            border-radius: 1.55rem;
+            padding: .95rem 1.15rem;
+            font-size: .94rem;
+            box-shadow: none;
+        }
+
+        .chat-bubble.assistant {
+            background: #f1f1f1;
+            border: 0;
+            border-bottom-left-radius: .35rem;
+            color: #111827;
+        }
+
+        .chat-bubble.user {
+            background: #f0edff;
+            border: 0;
+            border-bottom-right-radius: .35rem;
+            color: #111827;
+        }
+
+        .chat-meta {
+            margin: .35rem .15rem 0;
+            color: #7d8794;
+            font-size: .7rem;
+        }
+
+        .chat-row.assistant .chat-meta {
+            text-align: left;
+        }
+
+        .chat-row.user .chat-meta {
+            text-align: right;
+        }
+
+        .chat-reply-card {
+            background: #fff !important;
+            box-shadow: none !important;
+        }
+
+        .chat-reply-card .chat-panel-header {
+            display: none;
+        }
+
+        .chat-reply-card .chat-composer {
+            padding: 1.05rem 1rem 1.2rem;
+        }
+
+        .chat-input-shell {
+            border: 2px solid #17191c;
+            border-radius: 22px;
+            padding: .45rem .55rem .5rem 1rem;
+        }
+
+        .chat-input-shell textarea {
+            min-height: 72px;
+        }
+
+        .chat-input-hint {
+            display: none;
+        }
+
+        .chat-input-toolbar {
+            justify-content: flex-start;
+        }
+
+        .chat-tool-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.15rem;
+            color: #8a9098;
+            font-size: 1.1rem;
+        }
+
+        .chat-tool-icons span {
+            display: inline-grid;
+            place-items: center;
+            width: 20px;
+            height: 20px;
+        }
+
+        .chat-send-button {
+            margin-left: auto;
+            background: #e5e7eb;
+            color: #c3c7cc;
+            box-shadow: none;
+        }
+
+        .chat-send-button:hover {
+            transform: none;
+        }
+
+        .service-order-chat-composer {
+            margin: 1rem;
+            padding: .75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 16px;
+        }
+
+        .service-order-chat-composer .chat-input-toolbar {
+            align-items: flex-end;
+            gap: .75rem;
+            padding: 0;
+        }
+
+        .service-order-chat-composer textarea {
+            flex: 1;
+            min-width: 0;
+            min-height: 96px;
+            max-height: 240px;
+            padding: .5rem;
+            resize: vertical;
+            line-height: 1.6;
+            background: transparent;
+        }
+
+        .service-order-chat-composer textarea::placeholder {
+            color: #7b8794;
+        }
+
+        .service-order-chat-composer .chat-send-button {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        .service-order-chat-composer .chat-send-button:focus-visible {
+            outline: 2px solid #635bff;
+            outline-offset: 3px;
+        }
+
+        .service-order-chat-composer .chat-send-button:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            opacity: 1;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 576px) {
+            .chat-messages-container {
+                height: 460px;
+                padding-left: .75rem;
+                padding-right: .75rem;
+            }
+
+            .chat-bubble-wrap {
+                max-width: 84%;
+            }
+
+            .chat-bubble {
+                font-size: .88rem;
+                padding: .78rem .9rem;
+            }
+        }
+
+        /* Kept for older markup that may still use these classes. */
         .chat-message {
             padding: 0.8rem;
             margin-bottom: 0.8rem;
@@ -799,9 +1312,12 @@
 
                 <!-- RIGHT: Chat + Send Message -->
                 <div class="detail-column">
-                    <div class="detail-section card">
-                        <div class="card-header">
-                            <h5 class="mb-0">💬 Chat Messages (Last 10)</h5>
+                    <div class="detail-section card chat-window-card">
+                        <div class="card-header chat-panel-header">
+                            <a class="chat-profile-back" href="#" onclick="event.preventDefault(); showListView();"
+                                aria-label="Back">‹</a>
+                            <div class="chat-profile-name">Chat Pannel</div>
+
                         </div>
                         <div class="card-body" style="padding:0;">
                             <div id="detail-chatContext" class="chat-messages-container"></div>
@@ -809,58 +1325,27 @@
                                 style="margin:1rem;">No messages</div>
                         </div>
                     </div>
-                    <div class="detail-section card">
-                        <div class="card-header">
-                            <h5 class="mb-0">✉️ Send Message</h5>
+                    <div class="detail-section card chat-reply-card">
+                        <div class="card-header chat-panel-header">
+                            <div class="chat-panel-icon">↗</div>
+                            <div>
+                                <div class="chat-panel-title">Reply to customer</div>
+                                <div class="chat-panel-subtitle">Your message will appear in this conversation</div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label">Message Type</label>
-                                <select class="form-control" id="messageType" onchange="handleMessageTypeChange()">
-                                    <option value="">Select type...</option>
-                                    <option value="custom">Custom Message</option>
-                                    <option value="service_request">Service Confirmation</option>
-                                    <option value="booking_confirmation">Booking Confirmation</option>
-                                    <option value="general">General Update</option>
-                                    <option value="image">Image Message</option>
-                                </select>
-                            </div>
-                            <div class="mb-3" id="customMessageDiv" style="display:none;">
-                                <label class="form-label">Message</label>
-                                <textarea class="form-control" id="customMessage" rows="2"
-                                    placeholder="Type your message..."></textarea>
-                            </div>
-                            <div class="mb-3" id="serviceRequestPreviewDiv" style="display:none;">
-                                <label class="form-label">Preview</label>
-                                <div class="alert alert-info" id="serviceRequestPreview">✅ Your request has been
-                                    created. Our team will contact you shortly.</div>
-                            </div>
-                            <div class="mb-3" id="bookingPreviewDiv" style="display:none;">
-                                <label class="form-label">Preview</label>
-                                <div class="alert alert-success" id="bookingPreview">🎫 Your booking is confirmed! Thank
-                                    you for choosing us.</div>
-                            </div>
-                            <div class="mb-3" id="generalUpdateDiv" style="display:none;">
-                                <label class="form-label">Preview</label>
-                                <div class="alert alert-secondary" id="generalUpdatePreview">📢 We're here to help!
-                                    Contact us if you have questions.</div>
-                            </div>
-                            <div class="mb-3" id="imageMessageDiv" style="display:none;">
-                                <label class="form-label">Upload Image</label>
-                                <input type="file" class="form-control" id="imageFile" accept="image/*" />
-                                <div class="mt-3">
-                                    <label class="form-label">Caption (optional)</label>
-                                    <textarea class="form-control" id="imageCaption" rows="2"
-                                        placeholder="Write a message with the image..."></textarea>
-                                </div>
-                                <div class="mt-3 hidden" id="imagePreviewWrap">
-                                    <label class="form-label">Preview</label>
-                                    <img id="imagePreview" src=""
-                                        style="max-width:100%;border-radius:6px;border:1px solid #ddd;" />
+                        <div class="card-body chat-composer">
+                            <input type="hidden" id="messageType" value="custom" />
+                            <div class="chat-input-shell">
+                                <textarea class="form-control" id="customMessage" rows="3"
+                                    placeholder="Ask a question or write a reply..."
+                                    onkeydown="handleChatComposerKeydown(event)"></textarea>
+                                <div class="chat-input-toolbar">
+                                    <div class="chat-tool-icons" aria-hidden="true"><span>⌕</span><span>☺</span><span
+                                            style="font-size:.62rem;font-weight:700;">GIF</span><span>♩</span></div>
+                                    <button class="chat-send-button" onclick="sendMessageToUser()" id="sendMessageBtn"
+                                        aria-label="Send message">➤</button>
                                 </div>
                             </div>
-                            <button class="btn btn-primary w-100" onclick="sendMessageToUser()" id="sendMessageBtn">Send
-                                Message</button>
                         </div>
                     </div>
                 </div>
@@ -1252,21 +1737,28 @@
             if (!chatContainer) return;
             const wasAtBottom = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 50;
             chatContainer.innerHTML = "";
-            if (!messages || messages.length === 0) { chatContainer.innerHTML = emptyHtml; return; }
+            if (!messages || messages.length === 0) { chatContainer.innerHTML = `<div class="chat-empty"><div><div style="font-size:2rem;opacity:.55;">💬</div><div>${emptyHtml}</div></div></div>`; return; }
             let lastDate = "";
             messages.forEach(msg => {
                 const dateObj = new Date(msg.created_at);
                 const dateStr = isNaN(dateObj.getTime()) ? 'Unknown Date' : dateObj.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' });
-                if (dateStr !== lastDate) { const db = document.createElement("div"); db.className = "text-center my-3"; db.innerHTML = `<span class="badge bg-light text-dark shadow-sm px-3 py-2 rounded-pill fw-normal border">${dateStr}</span>`; chatContainer.appendChild(db); lastDate = dateStr; }
+                if (dateStr !== lastDate) { const db = document.createElement("div"); db.className = "chat-date-divider"; db.textContent = dateStr; chatContainer.appendChild(db); lastDate = dateStr; }
                 const wrapper = document.createElement("div");
                 const isUser = msg.role === "user";
-                wrapper.className = `d-flex mb-3 ${isUser ? "justify-content-start" : "justify-content-end"}`;
+                const side = isUser ? "user" : "assistant";
+                const sender = isUser ? "Customer" : (msg.user_id === "CustomerService" ? "Support team" : "Kabir assistant");
+                const initials = isUser ? "CU" : "CS";
+                wrapper.className = `chat-row ${side}`;
                 let contentHtml = "";
-                if (msg.content) contentHtml += `<div class="mb-1">${escapeHtml(msg.content)}</div>`;
-                if (msg.image_url) contentHtml += `<img src="${msg.image_url}" class="img-fluid rounded border mt-1" style="max-height:200px;max-width:100%;cursor:pointer;" onclick="window.open(this.src,'_blank')">`;
-                if (msg.audio_url) contentHtml += `<audio controls class="mt-1" style="max-width:200px;"><source src="${msg.audio_url}"></audio>`;
-                const timeStr = formatDateShort(msg.created_at).split(', ')[1] || '';
-                wrapper.innerHTML = `<div class="d-flex flex-column ${isUser ? "align-items-start" : "align-items-end"}" style="max-width:75%;"><div class="p-3 rounded-4 shadow-sm ${isUser ? "bg-white border text-dark" : "bg-primary text-white"}" style="border-bottom-left-radius:${isUser ? '4px' : '16px'};border-bottom-right-radius:${isUser ? '16px' : '4px'};">${contentHtml}</div><small class="text-muted mt-1 ms-1 me-1" style="font-size:0.75rem;">${timeStr}</small></div>`;
+                if (msg.content) contentHtml += `<div>${escapeHtml(msg.content)}</div>`;
+                if (msg.image_url) contentHtml += `<img src="${escapeHtml(msg.image_url)}" alt="Message attachment" class="chat-attachment" onclick="window.open(this.src,'_blank')">`;
+                if (msg.audio_url) contentHtml += `<audio controls class="mt-2" style="max-width:220px;"><source src="${escapeHtml(msg.audio_url)}"></audio>`;
+                const formattedTime = msg.created_at ? formatDateShort(msg.created_at) : '';
+                const timeStr = formattedTime ? (formattedTime.split(', ')[1] || formattedTime) : '';
+                const metaStr = isUser ? timeStr : ` ${timeStr || 'Just now'}`;
+                wrapper.innerHTML = isUser
+                    ? `<div class="chat-bubble-wrap"><div class="chat-sender">${sender}</div><div class="chat-bubble user">${contentHtml}</div><div class="chat-meta">${metaStr}</div></div><div class="chat-avatar user" aria-hidden="true">${initials}</div>`
+                    : `<div class="chat-avatar assistant" aria-hidden="true">${initials}</div><div class="chat-bubble-wrap"><div class="chat-sender">${sender}</div><div class="chat-bubble assistant">${contentHtml}</div><div class="chat-meta">${metaStr}</div></div>`;
                 chatContainer.appendChild(wrapper);
             });
             if (wasAtBottom) chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -1405,6 +1897,13 @@
             return data.imageUrl;
         }
 
+        function handleChatComposerKeydown(event) {
+            if (event.key === "Enter" && event.ctrlKey) {
+                event.preventDefault();
+                sendMessageToUser();
+            }
+        }
+
         async function sendMessageToUser() {
             const type = document.getElementById("messageType").value;
             if (!type) { alert("Select message type"); return; }
@@ -1426,10 +1925,10 @@
                 const btn = document.getElementById("sendMessageBtn"); btn.disabled = true; btn.textContent = "Sending...";
                 const response = await fetch(`${BASE}/api/magic-words/${currentMagicWordId}/send-message`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messageType: type, message: content || '', imageUrl: imageUrl || null, chatId }) });
                 const result = await response.json();
-                if (result.success) { alert("✅ Message sent!"); document.getElementById("messageType").value = ""; document.getElementById("customMessage").value = ""; const fi = document.getElementById("imageFile"); const cap = document.getElementById("imageCaption"); const wrap = document.getElementById("imagePreviewWrap"); const img = document.getElementById("imagePreview"); if (fi) fi.value = ""; if (cap) cap.value = ""; if (wrap) wrap.classList.add("hidden"); if (img) img.src = ""; handleMessageTypeChange(); }
+                if (result.success) { document.getElementById("customMessage").value = ""; await loadChatMessages(chatId); }
                 else { alert(`Error: ${result.error}`); }
             } catch (error) { alert("Error sending message"); }
-            finally { const btn = document.getElementById("sendMessageBtn"); btn.disabled = false; btn.textContent = "Send Message"; }
+            finally { const btn = document.getElementById("sendMessageBtn"); btn.disabled = false; btn.textContent = "➤"; }
         }
 
         function escapeHtml(text) { const div = document.createElement("div"); div.textContent = text; return div.innerHTML; }
@@ -1588,9 +2087,8 @@
                 const orderChatIdEl = document.getElementById("sod-chatId");
                 if (orderChatIdEl) orderChatIdEl.textContent = currentServiceOrderChatId || "—";
                 const orderChatInput = document.getElementById("sod-chatMessage");
-                const orderChatSendBtn = document.getElementById("sod-sendMessageBtn");
                 if (orderChatInput) orderChatInput.value = "";
-                if (orderChatSendBtn) orderChatSendBtn.disabled = !currentServiceOrderChatId;
+                updateServiceOrderSendButton();
                 if (currentServiceOrderChatId) {
                     await loadServiceOrderChatMessages(currentServiceOrderChatId);
                     startChatPolling(currentServiceOrderChatId, "serviceOrder");
@@ -1867,15 +2365,27 @@
             }
         }
 
+        let serviceOrderMessageSending = false;
+
+        function updateServiceOrderSendButton() {
+            const input = document.getElementById("sod-chatMessage");
+            const btn = document.getElementById("sod-sendMessageBtn");
+            if (btn) {
+                btn.disabled = serviceOrderMessageSending || !currentServiceOrderChatId || !input?.value.trim();
+            }
+        }
+
         async function sendServiceOrderMessage() {
+            if (serviceOrderMessageSending) return;
             if (!currentServiceOrderChatId) { alert("Chat not found for this order"); return; }
             const input = document.getElementById("sod-chatMessage");
             const btn = document.getElementById("sod-sendMessageBtn");
             const message = (input?.value || "").trim();
-            if (!message) { alert("Enter message"); return; }
+            if (!message) return;
             try {
-                btn.disabled = true;
-                btn.textContent = "Sending...";
+                serviceOrderMessageSending = true;
+                updateServiceOrderSendButton();
+                btn.setAttribute("aria-label", "Sending message");
                 const response = await fetch(`${BASE}/api/chats/${currentServiceOrderChatId}/send-message`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -1891,8 +2401,16 @@
             } catch (e) {
                 alert("Error sending message: " + e.message);
             } finally {
-                btn.disabled = false;
-                btn.textContent = "Send Message";
+                serviceOrderMessageSending = false;
+                updateServiceOrderSendButton();
+                btn.setAttribute("aria-label", "Send message");
+            }
+        }
+
+        function handleServiceOrderComposerKeydown(event) {
+            if (event.key === "Enter" && event.ctrlKey) {
+                event.preventDefault();
+                sendServiceOrderMessage();
             }
         }
 
@@ -2017,34 +2535,6 @@
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">User Details</div>
-                    <div class="card-body">
-                        <table class="table table-sm table-borderless mb-0">
-                            <tbody>
-                                <tr>
-                                    <th style="width:40%;color:#555;">User ID</th>
-                                    <td><code id="sod-userId" style="font-size:0.75rem;">—</code></td>
-                                </tr>
-                                <tr>
-                                    <th style="color:#555;">Name</th>
-                                    <td id="sod-userName">—</td>
-                                </tr>
-                                <tr>
-                                    <th style="color:#555;">Email</th>
-                                    <td id="sod-userEmail">—</td>
-                                </tr>
-                                <tr>
-                                    <th style="color:#555;">Phone</th>
-                                    <td id="sod-userPhone">—</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Vendor Assignment
                     </div>
@@ -2073,6 +2563,31 @@
                 </div>
 
                 <div class="card border-0 shadow-sm">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">User Details</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:40%;color:#555;">User ID</th>
+                                    <td><code id="sod-userId" style="font-size:0.75rem;">—</code></td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Name</th>
+                                    <td id="sod-userName">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Email</th>
+                                    <td id="sod-userEmail">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Phone</th>
+                                    <td id="sod-userPhone">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Timestamps</div>
                     <div class="card-body">
                         <table class="table table-sm table-borderless mb-0">
@@ -2089,33 +2604,38 @@
                         </table>
                     </div>
                 </div>
+            </div>
 
-                <div class="card border-0 shadow-sm mt-3">
-                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Chat Messages (Last
-                        10)</div>
+            <div class="col-lg-4">
+
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Chat Pannel</div>
+
                     <div class="card-body" style="padding:0;">
-                        <div class="p-3 border-bottom bg-light">
+                        <!-- <div class="p-3 border-bottom bg-light">
                             <strong style="color:#555;">Chat ID:</strong> <code id="sod-chatId">-</code>
-                        </div>
+                        </div> -->
                         <div id="sod-chatContext" class="chat-messages-container">
                             <div class="text-center py-4 text-muted">Select an order to load chat messages.</div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="card border-0 shadow-sm mt-3">
-                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Send Message</div>
-                    <div class="card-body">
-                        <textarea class="form-control mb-3" id="sod-chatMessage" rows="3"
-                            placeholder="Type your message to the user..."></textarea>
-                        <button id="sod-sendMessageBtn" class="btn btn-primary w-100"
-                            onclick="sendServiceOrderMessage()">Send Message</button>
+                        <div class="chat-input-shell service-order-chat-composer">
+                            <div class="chat-input-toolbar">
+                                <textarea class="form-control" id="sod-chatMessage" rows="3" aria-label="Chat message"
+                                    placeholder="Ask a question or write a reply..."
+                                    oninput="updateServiceOrderSendButton()"
+                                    onkeydown="handleServiceOrderComposerKeydown(event)"></textarea>
+                                <button id="sod-sendMessageBtn" class="chat-send-button" disabled
+                                    onclick="sendServiceOrderMessage()" aria-label="Send message">➤</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <button class="btn btn-outline-secondary mt-4" onclick="showListView()">← Back to Dashboard</button>
+        <!-- <button class="btn btn-outline-secondary mt-4" onclick="showListView()">← Back to Dashboard</button> -->
     </div>
 
 </body>
