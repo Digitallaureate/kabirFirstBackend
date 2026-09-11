@@ -33,11 +33,13 @@
                 document.getElementById("requestsList").innerHTML = displayItems.map(item => {
                     const date = formatDateShort(getRequestDateValue(item));
                     const travellerName = getTravellerName(item);
-                    const service = item.service_name || item.typeOfService || item.magicWord || "Travel Support";
-                    const message = item.userMessage || item.message || item.location || "Latest request update";
+                    const namedService = item.service_name || item.typeOfService || "";
+                    const service = namedService || "Magic Word";
+                    const message = item.userMessage || item.message || item.location
+                        || (item.magicWord && !namedService ? `Triggered by "${item.magicWord}"` : "Latest request update");
                     return `<button class="traviz-request-row" type="button" onclick="loadMagicWordDetail('${item.id}')">
                         <span class="traviz-person" style="background:${getAvatarColor(travellerName)};">${escapeHtml(getInitials(travellerName))}</span>
-                        <span><span class="traviz-primary">${escapeHtml(travellerName)}</span><span class="traviz-secondary">${escapeHtml(message)}</span></span>
+                        <span class="traviz-row-main"><span class="traviz-primary">${escapeHtml(travellerName)}</span><span class="traviz-secondary">${escapeHtml(message)}</span></span>
                         <span class="traviz-service">${escapeHtml(service)}</span>
                         <span class="traviz-time">${escapeHtml(date)}</span>
                         <span class="badge ${getStatusBadgeClass(item.status)}">${escapeHtml(item.status || "new")}</span>

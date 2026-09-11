@@ -1,7 +1,9 @@
 <script>
         loadMagicWordRequests();
         loadServiceOrderRequests();
+        loadCompletedTodayCount();
 
         setInterval(() => { loadMagicWordRequests(currentFilteredUserId, true); }, 5000);
         setInterval(() => { loadServiceOrderRequests(true); }, 5000);
+        setInterval(loadCompletedTodayCount, 5000);
 </script>

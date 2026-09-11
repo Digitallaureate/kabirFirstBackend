@@ -30,13 +30,12 @@
                         const title = item.service_name || "Order";
                         const monument = item.field_values?.monument_id?.label || item.monument_name || "Destination";
                         const bookingStatus = item.booking_status || "booked";
-                        const travellerName = item.user_name || item.traveller_name || item.customer_name || item.user?.name || "Traveller";
-                        const badgeClass = bookingStatus === "inProgress" ? "bg-primary" : bookingStatus === "completed" ? "bg-success" : "bg-success";
+                        const travellerName = getTravellerName(item);
                         return `<button class="traviz-order-row" type="button" onclick="loadServiceOrderDetail('${item.id}')">
-                            <span class="traviz-thumb">${escapeHtml(getOrderThumb(title))}</span>
-                            <span><span class="traviz-primary">${escapeHtml(title)}</span><span class="traviz-secondary">${escapeHtml(travellerName)}</span></span>
+                            <span class="traviz-thumb">${getOrderThumb(title)}</span>
+                            <span class="traviz-row-main"><span class="traviz-primary">${escapeHtml(title)}</span><span class="traviz-secondary">${escapeHtml(travellerName)}</span></span>
                             <span class="traviz-time">${escapeHtml(date || monument)}</span>
-                            <span class="badge ${badgeClass}">${escapeHtml(bookingStatus)}</span>
+                            <span class="badge ${getOrderStatusBadge(bookingStatus)}">${escapeHtml(bookingStatus)}</span>
                         </button>`;
                     }).join("");
                 }

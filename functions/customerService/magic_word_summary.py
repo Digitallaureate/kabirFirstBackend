@@ -9,6 +9,42 @@ def _get_db():
     return get_project_b_firestore()
 
 
+def _attach_traveller_info(db, items: list) -> None:
+    """
+    Batch-resolve display name/phone for a list of magicWordUser items via
+    their userId, so the frontend doesn't have to fall back to a generic
+    "Traveller" label when the request document itself has no name field.
+    Mutates `items` in place; safe no-op if there are no userIds or lookups fail.
+    """
+    user_ids = sorted({d.get("userId") for d in items if d.get("userId")})
+    if not user_ids:
+        return
+
+    try:
+        refs = [db.collection("users").document(uid) for uid in user_ids]
+        user_map = {}
+        for snap in db.get_all(refs):
+            if not snap.exists:
+                continue
+            u = snap.to_dict() or {}
+            full_name = f"{u.get('firstName', '')} {u.get('lastName', '')}".strip()
+            user_map[snap.id] = {
+                "name": full_name or u.get("name") or "",
+                "phone": u.get("phoneNumber") or u.get("phone") or u.get("phone_number") or "",
+            }
+
+        for d in items:
+            info = user_map.get(d.get("userId"))
+            if not info:
+                continue
+            if info["name"]:
+                d["traveller_name"] = info["name"]
+            if info["phone"]:
+                d["traveller_phone"] = info["phone"]
+    except Exception as e:
+        logging.warning("Could not resolve traveller info for magic word items: %s", e)
+
+
 def get_magicword_requests(limit: int = 1000) -> dict:
     """
     Fetch magic word triggers from magicWordUser where status is "requested" OR "inProgress".
@@ -54,6 +90,8 @@ def get_magicword_requests(limit: int = 1000) -> dict:
                 d["updated_at_readable"] = _iso_to_readable(iso2)
 
             items.append(d)
+
+        _attach_traveller_info(db, items)
 
         logging.info(
             "Fetched %s magic word requests with status in ['requested', 'inProgress']",

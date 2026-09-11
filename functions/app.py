@@ -284,6 +284,7 @@ def api_magic_words():
                 return jsonify({"found": False, "error": "Firestore client not initialized"}), 500
 
             from customerService.user_summary import _ts_to_iso, _iso_to_readable
+            from customerService.magic_word_summary import _attach_traveller_info
             from google.cloud.firestore import FieldFilter
 
             col = db.collection("magicWordUser")
@@ -310,6 +311,7 @@ def api_magic_words():
 
             items.sort(key=lambda x: x.get("matchedAt", ""), reverse=True)
             items = items[:limit]
+            _attach_traveller_info(db, items)
 
             return jsonify({"found": True, "count": len(items), "items": items})
         else:
@@ -641,9 +643,22 @@ def update_magic_word_status(magic_word_id):
 
         # Update status in Firestore
         db.collection("magicWordUser").document(magic_word_user_id).update(update_data)
-        
+
         logging.info(f"✅ Magic word {magic_word_user_id} status changed: {current_status} → {new_status}")
-        
+
+        # ✅ Track "completed today" for the dashboard stat. magicWordUser only ever
+        # holds requested/inProgress items in the list APIs, so that stat can't be
+        # derived by filtering the request list -- keep a small daily counter instead.
+        if new_status == "completed" and current_status != "completed":
+            try:
+                from datetime import timedelta
+                kolkata_today = (datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
+                db.collection("dashboardStats").document(kolkata_today).set(
+                    {"completedCount": gfirestore.Increment(1)}, merge=True
+                )
+            except Exception as e:
+                logging.error(f"❌ Failed to increment completed-today counter: {e}")
+
         # ✅ NEW: Disable human interaction if completed
         if new_status == "completed" and chat_id:
              try:
@@ -730,6 +745,30 @@ def update_magic_word_status(magic_word_id):
         
     except Exception as e:
         logging.exception("Error updating magic word status")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/dashboard/completed-today", methods=["GET"])
+@login_required
+def api_completed_today():
+    """Read today's (Asia/Kolkata) completed-request count, tracked by a
+    daily counter incremented in update_magic_word_status -- the request
+    list endpoints only return requested/inProgress items, so this stat
+    can't be derived from them."""
+    try:
+        from datetime import timedelta
+
+        db = get_project_b_firestore()
+        if db is None:
+            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
+
+        kolkata_today = (datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
+        doc = db.collection("dashboardStats").document(kolkata_today).get()
+        count = (doc.to_dict() or {}).get("completedCount", 0) if doc.exists else 0
+
+        return jsonify({"success": True, "count": count}), 200
+    except Exception as e:
+        logging.exception("Error fetching completed-today count")
         return jsonify({"success": False, "error": str(e)}), 500
 
 
