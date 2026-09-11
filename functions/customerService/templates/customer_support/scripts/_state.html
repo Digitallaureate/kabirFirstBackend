@@ -63,6 +63,16 @@
             return item.field_values?.travel_date || item.date_of_service || item.created_at || item.createdAt || item.updated_at || item.updatedAt;
         }
 
+        // Distinct from getOrderDateValue: that one prioritizes the scheduled
+        // travel date (correct for what a row *displays*), but the Overview's
+        // stats-range filter needs to ask "was this order booked recently?",
+        // not "is the trip happening soon?" -- an order created today for a
+        // trip two months out is still recent activity and must not be
+        // excluded from "Last 7 days" just because its travel date is far off.
+        function getOrderCreatedValue(item) {
+            return item.created_at || item.createdAt || item.updated_at || item.updatedAt || getOrderDateValue(item);
+        }
+
         // ✅ Overview stats reporting window, driven by the range dropdown in
         // the hero. On the Overview tab, both the stat cards and the Request
         // Queue / Recent Service Orders panels below scope to this range

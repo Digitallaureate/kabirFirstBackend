@@ -17,8 +17,10 @@
                 // On the Overview tab, both the stat count and the list below scope
                 // to the selected stats range together; the dedicated Orders tab
                 // always shows the full backlog. See getOverviewScopedItems in
-                // scripts/_state.html.
-                const displayItems = getOverviewScopedItems(allItems, getOrderDateValue);
+                // scripts/_state.html. Scoped by when the order was booked
+                // (getOrderCreatedValue), not its scheduled travel date --
+                // see that function's comment for why.
+                const displayItems = getOverviewScopedItems(allItems, getOrderCreatedValue);
                 if (countEl) countEl.textContent = displayItems.length;
 
                 // skip DOM update if list view is hidden (background poll)
