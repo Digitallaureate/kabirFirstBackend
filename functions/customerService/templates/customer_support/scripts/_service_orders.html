@@ -118,35 +118,45 @@
                 statusBadge.textContent = o.booking_status || "booked";
                 statusBadge.className = `badge ${getOrderStatusBadge(o.booking_status)}`;
 
-                // --- Order Info ---
-                document.getElementById("sod-travelerName").textContent = o.traveler_name || `${u.firstName || ''}`.trim() || "â€”";
-                document.getElementById("sod-travelerPhone").textContent = o.traveler_phone_number || u.phoneNumber || "â€”";
-                document.getElementById("sod-monument").textContent = o.monument_name || o.monument_to_visit || o.monument_id || "â€”";
-                document.getElementById("sod-serviceType").textContent = o.service_name || o.item_id || o.product_type || "â€”";
-                document.getElementById("sod-dateOfService").textContent = formatDateShort(o.date_of_service) || "â€”";
-                document.getElementById("sod-timeSlot").textContent = o.time_slot_display || "â€”";
-                document.getElementById("sod-travelers").textContent = o.number_of_travelers || "â€”";
-                document.getElementById("sod-languages").textContent = Array.isArray(o.language_preference) ? o.language_preference.join(", ") || "â€”" : (o.language_preference || "â€”");
+                // --- Traveler & Trip ---
+                document.getElementById("sod-travelerName").textContent = o.traveler_name || `${u.firstName || ''}`.trim() || "—";
+                document.getElementById("sod-travelerPhone").textContent = o.traveler_phone_number || u.phoneNumber || "—";
+                document.getElementById("sod-monument").textContent = o.monument_name || o.monument_to_visit || o.monument_id || "—";
+                document.getElementById("sod-serviceType").textContent = o.service_name || o.item_id || o.product_type || "—";
+                document.getElementById("sod-dateOfService").textContent = formatDateShort(o.date_of_service) || "—";
+                document.getElementById("sod-timeSlot").textContent = o.time_slot_display || "—";
+                document.getElementById("sod-travelers").textContent = o.number_of_travelers || "—";
+                document.getElementById("sod-languages").textContent = Array.isArray(o.language_preference) ? o.language_preference.join(", ") || "—" : (o.language_preference || "—");
                 renderDynamicOrderFields(o.field_values_display || []);
 
-                // --- Pricing ---
-                document.getElementById("sod-price").textContent = o.price != null ? `â‚¹${o.price}` : "â€”";
-                document.getElementById("sod-paymentStatus").textContent = o.payment_status || o.paymentStatus || "â€”";
-                document.getElementById("sod-commission").textContent = o.vendor_price != null ? `â‚¹${o.vendor_price}` : "â€”";
+                // Booked/updated shown as a compact subtitle in the panel head
+                // instead of a dedicated Timestamps card.
+                const createdDisplay = formatDateShort(o.created_at);
+                const updatedDisplay = formatDateShort(o.updated_at);
+                const bookedMetaEl = document.getElementById("sod-bookedMeta");
+                if (bookedMetaEl) {
+                    bookedMetaEl.textContent = !createdDisplay ? "—"
+                        : (updatedDisplay && updatedDisplay !== createdDisplay)
+                            ? `Booked ${createdDisplay} · Updated ${updatedDisplay}`
+                            : `Booked ${createdDisplay}`;
+                }
+
+                // --- Account (booked via) ---
+                document.getElementById("sod-userId").textContent = u.id || o.user_id || "—";
+                document.getElementById("sod-userName").textContent = `${u.firstName || ''} ${u.lastName || ''}`.trim() || "—";
+                document.getElementById("sod-userEmail").textContent = u.email || "—";
+                document.getElementById("sod-userPhone").textContent = u.phoneNumber || "—";
 
                 // --- OTPs ---
-                document.getElementById("sod-startOtp").textContent = o.start_otp || "â€”";
-                document.getElementById("sod-endOtp").textContent = o.end_otp || "â€”";
+                document.getElementById("sod-startOtp").textContent = o.start_otp || "—";
+                document.getElementById("sod-endOtp").textContent = o.end_otp || "—";
 
-                // --- User ---
-                document.getElementById("sod-userId").textContent = u.id || o.user_id || "â€”";
-                document.getElementById("sod-userName").textContent = `${u.firstName || ''} ${u.lastName || ''}`.trim() || "â€”";
-                document.getElementById("sod-userEmail").textContent = u.email || "â€”";
-                document.getElementById("sod-userPhone").textContent = u.phoneNumber || "â€”";
-
-                // --- Timestamps ---
-                document.getElementById("sod-createdAt").textContent = formatDateShort(o.created_at) || "â€”";
-                document.getElementById("sod-updatedAt").textContent = formatDateShort(o.updated_at) || "â€”";
+                // --- Pricing & Payment ---
+                document.getElementById("sod-price").textContent = o.price != null ? `₹${o.price}` : "—";
+                document.getElementById("sod-paymentStatus").textContent = o.payment_status || o.paymentStatus || "—";
+                // This is what the vendor is paid out, not a platform commission --
+                // serviceJsonOrder has no separate commission field.
+                document.getElementById("sod-vendorPayout").textContent = o.vendor_price != null ? `₹${o.vendor_price}` : "—";
 
                 // --- Status select ---
                 populateOrderStatusOptions(o.booking_status, !!o.vendor_id);
@@ -154,7 +164,7 @@
                 // --- Vendor section ---
                 const vendorSection = document.getElementById("sod-currentVendor");
                 if (v && v.id) {
-                    vendorSection.innerHTML = `<span class="badge bg-success me-2">âœ… Assigned</span><strong>${escapeHtml(v.name || v.id)}</strong>${v.phone ? ` &nbsp;ðŸ“ž ${escapeHtml(v.phone)}` : ''}`;
+                    vendorSection.innerHTML = `<span class="badge bg-success me-2">Assigned</span><strong>${escapeHtml(v.name || v.id)}</strong>${v.phone ? ` &nbsp;${escapeHtml(v.phone)}` : ''}`;
                 } else {
                     vendorSection.innerHTML = `<span class="badge bg-secondary">Not assigned</span>`;
                 }
@@ -162,10 +172,9 @@
                 // Load vendor dropdown
                 await loadVendors(o.vendor_id);
 
-                const orderChatIdEl = document.getElementById("sod-chatId");
-                if (orderChatIdEl) orderChatIdEl.textContent = currentServiceOrderChatId || "â€”";
                 const orderChatInput = document.getElementById("sod-chatMessage");
                 if (orderChatInput) orderChatInput.value = "";
+                clearServiceOrderImageSelection();
                 updateServiceOrderSendButton();
                 if (currentServiceOrderChatId) {
                     await loadServiceOrderChatMessages(currentServiceOrderChatId);
@@ -258,7 +267,7 @@
                 ${fields.map(field => `
                     <div class="d-flex justify-content-between gap-3 mb-1">
                         <strong style="color:#555;">${escapeHtml(field.label || field.key || "Field")}</strong>
-                        <span class="text-end">${escapeHtml(String(field.value ?? "â€”"))}</span>
+                        <span class="text-end">${escapeHtml(String(field.value ?? "—"))}</span>
                     </div>
                 `).join("")}
             `;
@@ -269,7 +278,7 @@
                 const res = await fetch(`${API_BASE}/vendors`);
                 const data = await res.json();
                 const sel = document.getElementById("sod-vendorSelect");
-                sel.innerHTML = '<option value="">â€” Select vendor â€”</option>';
+                sel.innerHTML = '<option value="">— Select vendor —</option>';
                 if (data.success && data.vendors) {
                     data.vendors.forEach(v => {
                         const opt = document.createElement("option");
@@ -388,9 +397,31 @@
         function updateServiceOrderSendButton() {
             const input = document.getElementById("sod-chatMessage");
             const btn = document.getElementById("sod-sendMessageBtn");
+            const hasImage = !!document.getElementById("sod-chatImageFile")?.files?.length;
             if (btn) {
-                btn.disabled = serviceOrderMessageSending || !currentServiceOrderChatId || !input?.value.trim();
+                btn.disabled = serviceOrderMessageSending || !currentServiceOrderChatId || !(input?.value.trim() || hasImage);
             }
+        }
+
+        function handleServiceOrderImageSelected() {
+            const file = document.getElementById("sod-chatImageFile").files?.[0];
+            const chip = document.getElementById("sod-chatImagePreview");
+            if (!file) {
+                chip.classList.add("hidden");
+                chip.innerHTML = "";
+            } else {
+                chip.classList.remove("hidden");
+                chip.innerHTML = `${escapeHtml(file.name)} <button type="button" onclick="clearServiceOrderImageSelection()" aria-label="Remove attachment">&times;</button>`;
+            }
+            updateServiceOrderSendButton();
+        }
+
+        function clearServiceOrderImageSelection() {
+            const input = document.getElementById("sod-chatImageFile");
+            if (input) input.value = "";
+            const chip = document.getElementById("sod-chatImagePreview");
+            if (chip) { chip.classList.add("hidden"); chip.innerHTML = ""; }
+            updateServiceOrderSendButton();
         }
 
         async function sendServiceOrderMessage() {
@@ -399,15 +430,20 @@
             const input = document.getElementById("sod-chatMessage");
             const btn = document.getElementById("sod-sendMessageBtn");
             const message = (input?.value || "").trim();
-            if (!message) return;
+            const file = document.getElementById("sod-chatImageFile")?.files?.[0] || null;
+            if (!message && !file) return;
+            let imageUrl = null;
             try {
                 serviceOrderMessageSending = true;
                 updateServiceOrderSendButton();
                 btn.setAttribute("aria-label", "Sending message");
+                if (file) {
+                    imageUrl = await uploadCustomerServiceImage(file, currentServiceOrderChatId);
+                }
                 const response = await fetch(`${BASE}/api/chats/${currentServiceOrderChatId}/send-message`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ messageType: "custom", message })
+                    body: JSON.stringify({ messageType: "custom", message, imageUrl: imageUrl || null })
                 });
                 const result = await response.json();
                 if (!result.success) {
@@ -415,6 +451,7 @@
                     return;
                 }
                 input.value = "";
+                clearServiceOrderImageSelection();
                 await loadServiceOrderChatMessages(currentServiceOrderChatId);
             } catch (e) {
                 alert("Error sending message: " + e.message);

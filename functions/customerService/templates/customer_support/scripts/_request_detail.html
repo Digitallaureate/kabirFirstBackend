@@ -87,7 +87,7 @@
             if (!chatContainer) return;
             const wasAtBottom = chatContainer.scrollHeight - chatContainer.scrollTop <= chatContainer.clientHeight + 50;
             chatContainer.innerHTML = "";
-            if (!messages || messages.length === 0) { chatContainer.innerHTML = `<div class="chat-empty"><div><div style="font-size:2rem;opacity:.55;">ðŸ’¬</div><div>${emptyHtml}</div></div></div>`; return; }
+            if (!messages || messages.length === 0) { chatContainer.innerHTML = `<div class="chat-empty"><div><div style="font-size:2rem;opacity:.55;">💬</div><div>${emptyHtml}</div></div></div>`; return; }
             let lastDate = "";
             messages.forEach(msg => {
                 const dateObj = new Date(msg.created_at);
