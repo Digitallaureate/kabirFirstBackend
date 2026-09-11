@@ -62,11 +62,12 @@
             return item.field_values?.travel_date || item.date_of_service || item.created_at || item.createdAt || item.updated_at || item.updatedAt;
         }
 
-        // ✅ Overview stats reporting window. This is used only for the "New
-        // Requests" / "Completed" stat cards -- the Request Queue / Recent
-        // Service Orders lists below always show the full current backlog
-        // regardless of this range, since an unresolved item doesn't stop
-        // needing attention just because it's older than the selected window.
+        // ✅ Overview stats reporting window, driven by the range dropdown in
+        // the hero. On the Overview tab, both the stat cards and the Request
+        // Queue / Recent Service Orders panels below scope to this range
+        // together. The dedicated Requests / Orders tabs (from the sidebar)
+        // are the actual working queues and always show the full backlog
+        // regardless of this range.
         let statsRangeMode = "7"; // "7" | "30" | "90" | "custom"
         let statsRangeCustom = { start: null, end: null };
 
@@ -94,6 +95,10 @@
                 const d = new Date(raw);
                 return !isNaN(d.getTime()) && d >= start && d <= end;
             });
+        }
+
+        function getOverviewScopedItems(items, dateGetter) {
+            return currentDashboardTab === "overview" ? filterByStatsRange(items, dateGetter) : items;
         }
 </script>
 
