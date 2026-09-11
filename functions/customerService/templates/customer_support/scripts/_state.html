@@ -1,0 +1,79 @@
+<script>
+        const BASE = getCustomerServiceBasePath();
+        const API_BASE = `${BASE}/api`;
+
+
+        async function logout() {
+            await logoutCustomerService({ stopPolling: true });
+        }
+
+        let currentMagicWordId = null, currentStatus = null, currentServiceRequestId = null, currentFilteredUserId = null, currentServiceOrderChatId = null;
+        let lastLatestRequestId = null, lastLatestRequestTime = 0;
+        let isSoundEnabled = localStorage.getItem('isSoundEnabled') === 'true';
+        let currentDashboardTab = "overview";
+
+        function updateSoundButtonUI() {
+            const btn = document.getElementById("soundToggleBtn");
+            if (!btn) return;
+            if (isSoundEnabled) { btn.textContent = "Sound On"; btn.classList.remove("btn-outline-secondary"); btn.classList.add("btn-success"); }
+            else { btn.textContent = "Sound Off"; btn.classList.remove("btn-success"); btn.classList.add("btn-outline-secondary"); }
+        }
+        document.addEventListener("DOMContentLoaded", () => { updateSoundButtonUI(); });
+
+        function playNotificationSound() {
+            const audio = document.getElementById("notificationSound");
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(e => { });
+                return;
+            }
+
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const context = new AudioContext();
+                const oscillator = context.createOscillator();
+                const gain = context.createGain();
+                oscillator.type = "sine";
+                oscillator.frequency.setValueAtTime(880, context.currentTime);
+                gain.gain.setValueAtTime(0.001, context.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.22, context.currentTime + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.32);
+                oscillator.connect(gain);
+                gain.connect(context.destination);
+                oscillator.start();
+                oscillator.stop(context.currentTime + 0.35);
+                oscillator.onended = () => context.close();
+            } catch (e) { }
+        }
+
+        function toggleSound() {
+            isSoundEnabled = !isSoundEnabled;
+            localStorage.setItem('isSoundEnabled', isSoundEnabled);
+            updateSoundButtonUI();
+            if (isSoundEnabled) playNotificationSound();
+        }
+
+        function isWithinLastDays(value, days = 7) {
+            if (!value) return false;
+            const date = new Date(value);
+            if (isNaN(date.getTime())) return false;
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - days);
+            return date >= cutoff;
+        }
+
+        function getRequestDateValue(item) {
+            return item.matchedAt || item.created_at || item.createdAt || item.updated_at || item.updatedAt;
+        }
+
+        function getOrderDateValue(item) {
+            return item.field_values?.travel_date || item.date_of_service || item.created_at || item.createdAt || item.updated_at || item.updatedAt;
+        }
+
+        function getOverviewItems(items, dateGetter) {
+            if (currentDashboardTab !== "overview") return items;
+            return items.filter(item => isWithinLastDays(dateGetter(item), 7));
+        }
+</script>
+

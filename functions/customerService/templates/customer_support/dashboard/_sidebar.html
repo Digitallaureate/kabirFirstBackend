@@ -1,0 +1,30 @@
+{% set admin_user = session.get("admin_user") or {} %}
+{% set admin_name = admin_user.get("userName") or admin_user.get("name") or "Support Agent" %}
+
+<aside class="traviz-sidebar">
+    <div class="traviz-brand">
+        <!-- <span class="traviz-logo">A</span> -->
+        <span>Traviz</span>
+    </div>
+    <nav class="traviz-nav" aria-label="Support navigation">
+        <button class="active" type="button" data-dashboard-tab="overview"
+            onclick="showDashboardTab('overview')"><span class="traviz-nav-icon">H</span>Dashboard</button>
+        <button type="button" data-dashboard-tab="requests" onclick="showDashboardTab('requests')"><span
+                class="traviz-nav-icon">R</span>Requests</button>
+        <button type="button" data-dashboard-tab="orders" onclick="showDashboardTab('orders')"><span
+                class="traviz-nav-icon">O</span>Service Orders</button>
+    </nav>
+    <div class="traviz-script">Travel<br>connects People</div>
+    <div class="traviz-sidebar-profile">
+        <div class="traviz-avatar">{{ admin_name[:2]|upper }}</div>
+        <div class="traviz-profile-text">
+            <strong>{{ admin_name }}</strong>
+            <span>Support Agent</span>
+        </div>
+    </div>
+    <div class="traviz-sidebar-actions">
+        <button id="soundToggleBtn" class="traviz-sidebar-action" type="button" onclick="toggleSound()">Sound
+            Off</button>
+        <button class="traviz-sidebar-action danger" type="button" onclick="logout()">Logout</button>
+    </div>
+</aside>

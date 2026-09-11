@@ -1,0 +1,219 @@
+    <div id="serviceOrderDetailView" class="hidden">
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">← Back to Dashboard</button>
+                <span id="sod-statusBadge" class="badge bg-success fs-6">booked</span>
+            </div>
+            <h1>Service Order Detail</h1>
+            <p class="text-muted mb-0">Order ID: <code id="sod-orderId">—</code></p>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Order Information
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Traveler</th>
+                                    <td id="sod-travelerName">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Phone</th>
+                                    <td id="sod-travelerPhone">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Monument</th>
+                                    <td id="sod-monument">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Service Type</th>
+                                    <td id="sod-serviceType">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Date of Service</th>
+                                    <td id="sod-dateOfService">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Time Slot</th>
+                                    <td id="sod-timeSlot">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Travelers</th>
+                                    <td id="sod-travelers">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Languages</th>
+                                    <td id="sod-languages">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="sod-dynamicFields" class="mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Pricing & Payment
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Total Price</th>
+                                    <td id="sod-price">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Payment Status</th>
+                                    <td><span id="sod-paymentStatus">—</span></td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Commission</th>
+                                    <td id="sod-commission">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">OTPs</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Start OTP</th>
+                                    <td><code id="sod-startOtp">—</code></td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">End OTP</th>
+                                    <td><code id="sod-endOtp">—</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Update Booking
+                        Status</div>
+                    <div class="card-body">
+                        <label class="form-label">Select New Status</label>
+                        <select class="form-select mb-3" id="sod-newStatus">
+                            <option value="booked">Booked</option>
+                            <option value="alloted">Alloted</option>
+                            <option value="ongoing">Ongoing</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <button id="sod-updateStatusBtn" class="btn btn-primary w-100"
+                            onclick="updateServiceOrderStatus()">Update Status</button>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Vendor Assignment
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight:600;font-size:0.85rem;">Current Vendor</label>
+                            <div id="sod-currentVendor" class="p-2 rounded"
+                                style="background:#f8f9fa;border:1px solid #e0e0e0;">
+                                <span class="badge bg-secondary">Not assigned</span>
+                            </div>
+                        </div>
+                        <hr />
+                        <label class="form-label" style="font-weight:600;font-size:0.85rem;">Assign / Change
+                            Vendor</label>
+                        <select class="form-select mb-2" id="sod-vendorSelect">
+                            <option value="">Loading vendors...</option>
+                        </select>
+                        <div class="mb-3">
+                            <label class="form-label" style="font-size:0.85rem;">Vendor Price (₹)</label>
+                            <input type="number" class="form-control" id="sod-vendorPrice" placeholder="e.g. 1500"
+                                min="0" step="1" />
+                        </div>
+                        <button id="sod-assignVendorBtn" class="btn btn-success w-100"
+                            onclick="assignVendorToOrder()">Assign Vendor</button>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">User Details</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:40%;color:#555;">User ID</th>
+                                    <td><code id="sod-userId" style="font-size:0.75rem;">—</code></td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Name</th>
+                                    <td id="sod-userName">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Email</th>
+                                    <td id="sod-userEmail">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Phone</th>
+                                    <td id="sod-userPhone">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Timestamps</div>
+                    <div class="card-body">
+                        <table class="table table-sm table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th style="width:45%;color:#555;">Created</th>
+                                    <td id="sod-createdAt">—</td>
+                                </tr>
+                                <tr>
+                                    <th style="color:#555;">Updated</th>
+                                    <td id="sod-updatedAt">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+
+
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Chat Pannel</div>
+
+                    <div class="card-body" style="padding:0;">
+                        <!-- <div class="p-3 border-bottom bg-light">
+                            <strong style="color:#555;">Chat ID:</strong> <code id="sod-chatId">-</code>
+                        </div> -->
+                        <div id="sod-chatContext" class="chat-messages-container">
+                            <div class="text-center py-4 text-muted">Select an order to load chat messages.</div>
+                        </div>
+
+                        <div class="chat-input-shell service-order-chat-composer">
+                            <div class="chat-input-toolbar">
+                                <textarea class="form-control" id="sod-chatMessage" rows="3" aria-label="Chat message"
+                                    placeholder="Ask a question or write a reply..."
+                                    oninput="updateServiceOrderSendButton()"
+                                    onkeydown="handleServiceOrderComposerKeydown(event)"></textarea>
+                                <button id="sod-sendMessageBtn" class="chat-send-button" disabled
+                                    onclick="sendServiceOrderMessage()" aria-label="Send message">➤</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <button class="btn btn-outline-secondary mt-4" onclick="showListView()">← Back to Dashboard</button> -->
+    </div>
+

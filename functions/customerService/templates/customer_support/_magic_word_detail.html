@@ -1,0 +1,188 @@
+            <!-- DETAIL VIEW -->
+            <div id="detailView" class="hidden">
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">â† Back to
+                            Dashboard</button>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="form-check form-switch"
+                                style="transform:scale(1.2);transform-origin:right center;">
+                                <input class="form-check-input" type="checkbox" id="humanInteractionToggle"
+                                    onchange="toggleHumanInteraction()">
+                                <label class="form-check-label" for="humanInteractionToggle"
+                                    id="toggleLabel">kabirAI</label>
+                            </div>
+                            <span id="toggleStatus" class="badge bg-secondary">Active</span>
+                        </div>
+                    </div>
+                    <h1>Magic Word Request Detail</h1>
+                </div>
+
+                <div class="detail-view-container">
+                    <!-- LEFT: User + Location -->
+                    <div class="detail-column">
+                        <div class="detail-section card">
+                            <div class="card-header">
+                                <h5 class="mb-0">ðŸ‘¤ User Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>User ID:</strong> <code id="detail-userId"></code></p>
+                                <p><strong>Name:</strong> <span id="detail-userName"></span></p>
+                                <p><strong>Email:</strong> <span id="detail-userEmail"></span></p>
+                                <p><strong>Phone:</strong> <span id="detail-userPhone"></span></p>
+                                <hr />
+                                <p><strong>Photo:</strong></p>
+                                <img id="detail-userPhoto" src="" alt="User Photo"
+                                    style="max-width:100px;max-height:100px;border-radius:5px;display:none;" />
+                            </div>
+                        </div>
+                        <div class="detail-section card">
+                            <div class="card-header">
+                                <h5 class="mb-0">ðŸ“ Location</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Place:</strong> <span id="detail-locName"></span></p>
+                                <p><strong>Latitude:</strong> <span id="detail-locLat"></span></p>
+                                <p><strong>Longitude:</strong> <span id="detail-locLon"></span></p>
+                                <p><strong>Recorded At:</strong> <span id="detail-locRecordedAt"></span></p>
+                                <p><a id="detail-mapLink" href="" target="_blank"
+                                        class="btn btn-sm btn-primary w-100">ðŸ—ºï¸
+                                        View on Map</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE: Request Info + History -->
+                    <div class="detail-column">
+                        <div class="detail-section card" style="flex-shrink:0;">
+                            <div class="card-header">
+                                <h5 class="mb-0">âœ¨ Request Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Magic Word:</strong> <span id="detail-magicWord"
+                                        class="badge bg-warning"></span>
+                                </p>
+                                <p><strong>Status:</strong> <span id="detail-status" class="badge"></span></p>
+                                <p><strong>Matched At:</strong> <span id="detail-matchedAt"></span></p>
+                                <hr />
+                                <p><strong>Chat ID:</strong> <code id="detail-chatId"></code></p>
+                                <p><strong>Message ID:</strong> <code id="detail-messageId"></code></p>
+                                <p><strong>Location:</strong> <span id="detail-location"></span></p>
+                                <hr />
+                                <button id="statusChangeBtn" class="btn btn-primary btn-sm w-100 mb-2"
+                                    onclick="changeStatus()">Next Status</button>
+                                <button class="btn btn-outline-danger btn-sm w-100 mb-2" onclick="closeRequest()">âŒ
+                                    Close
+                                    Request</button>
+                            </div>
+                        </div>
+                        <div class="detail-section card"
+                            style="flex:1;display:flex;flex-direction:column;min-height:0;">
+                            <div class="card-header">
+                                <h5 class="mb-0">ðŸ“‹ User History</h5>
+                            </div>
+                            <div class="card-body" style="padding:0;flex-grow:1;overflow-y:auto;">
+                                <div class="accordion accordion-flush" id="historyAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingRequests">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseRequests" aria-expanded="true"
+                                                aria-controls="collapseRequests"
+                                                style="font-weight:600;color:#2c3e50;">ðŸ“Š
+                                                Request History</button>
+                                        </h2>
+                                        <div id="collapseRequests" class="accordion-collapse collapse show"
+                                            aria-labelledby="headingRequests" data-bs-parent="#historyAccordion">
+                                            <div class="accordion-body" style="background-color:#f8f9fa;">
+                                                <div id="requestSummaryContainer">
+                                                    <div id="requestSummaryContent"></div>
+                                                    <div id="noRequestSummary"
+                                                        class="alert alert-secondary text-center hidden"
+                                                        style="margin:0.5rem;">No requests found</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOrders">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseOrders"
+                                                aria-expanded="false" aria-controls="collapseOrders"
+                                                onclick="loadOrderHistory()" style="font-weight:600;color:#2c3e50;">ðŸ›’
+                                                Order
+                                                History</button>
+                                        </h2>
+                                        <div id="collapseOrders" class="accordion-collapse collapse"
+                                            aria-labelledby="headingOrders" data-bs-parent="#historyAccordion">
+                                            <div class="accordion-body">
+                                                <div id="orderHistoryContent">
+                                                    <div class="text-center text-muted p-2">Loading orders...</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingPayments">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapsePayments"
+                                                aria-expanded="false" aria-controls="collapsePayments"
+                                                onclick="loadPaymentHistory()" style="font-weight:600;color:#2c3e50;">ðŸ’³
+                                                Payment History</button>
+                                        </h2>
+                                        <div id="collapsePayments" class="accordion-collapse collapse"
+                                            aria-labelledby="headingPayments" data-bs-parent="#historyAccordion">
+                                            <div class="accordion-body">
+                                                <div id="paymentHistoryContent">
+                                                    <div class="text-center text-muted p-2">Loading payments...</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Chat + Send Message -->
+                    <div class="detail-column">
+                        <div class="detail-section card chat-window-card">
+                            <div class="card-header chat-panel-header">
+                                <a class="chat-profile-back" href="#" onclick="event.preventDefault(); showListView();"
+                                    aria-label="Back">â€¹</a>
+                                <div class="chat-profile-name">Chat Pannel</div>
+
+                            </div>
+                            <div class="card-body" style="padding:0;">
+                                <div id="detail-chatContext" class="chat-messages-container"></div>
+                                <div id="noChatContextMessage" class="alert alert-secondary text-center hidden"
+                                    style="margin:1rem;">No messages</div>
+                            </div>
+                        </div>
+                        <div class="detail-section card chat-reply-card">
+                            <div class="card-header chat-panel-header">
+                                <div class="chat-panel-icon">â†—</div>
+                                <div>
+                                    <div class="chat-panel-title">Reply to customer</div>
+                                    <div class="chat-panel-subtitle">Your message will appear in this conversation</div>
+                                </div>
+                            </div>
+                            <div class="card-body chat-composer">
+                                <input type="hidden" id="messageType" value="custom" />
+                                <div class="chat-input-shell">
+                                    <textarea class="form-control" id="customMessage" rows="3"
+                                        placeholder="Ask a question or write a reply..."
+                                        onkeydown="handleChatComposerKeydown(event)"></textarea>
+                                    <div class="chat-input-toolbar">
+                                        <div class="chat-tool-icons" aria-hidden="true">
+                                            <span>âŒ•</span><span>â˜º</span><span
+                                                style="font-size:.62rem;font-weight:700;">GIF</span><span>â™©</span></div>
+                                        <button class="chat-send-button" onclick="sendMessageToUser()"
+                                            id="sendMessageBtn" aria-label="Send message">âž¤</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-outline-secondary mt-4" onclick="showListView()">â† Back to Dashboard</button>
+            </div>

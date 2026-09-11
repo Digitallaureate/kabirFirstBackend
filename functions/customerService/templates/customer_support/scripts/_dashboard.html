@@ -1,0 +1,135 @@
+<script>
+        function showDashboardTab(tab = "overview") {
+            currentDashboardTab = tab;
+            stopChatPolling();
+            document.querySelectorAll(".dashboard-only").forEach(el => el.classList.remove("hidden"));
+            document.getElementById("detailView").classList.add("hidden");
+            document.getElementById("serviceOrderDetailView").classList.add("hidden");
+            document.getElementById("listView").classList.remove("hidden");
+
+            document.body.classList.toggle("dashboard-tab-requests", tab === "requests");
+            document.body.classList.toggle("dashboard-tab-orders", tab === "orders");
+
+            const dashboard = document.getElementById("dashboardContent");
+            if (dashboard) {
+                dashboard.classList.remove("mode-overview", "mode-requests", "mode-orders");
+                dashboard.classList.add(`mode-${tab}`);
+            }
+
+            document.querySelectorAll("[data-dashboard-tab]").forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.dashboardTab === tab);
+            });
+
+            if (tab === "orders") loadServiceOrderRequests();
+            else if (tab === "requests") loadMagicWordRequests(currentFilteredUserId);
+            else {
+                loadMagicWordRequests(currentFilteredUserId);
+                loadServiceOrderRequests();
+            }
+        }
+
+        function showListView() {
+            showDashboardTab(currentDashboardTab || "overview");
+        }
+        function showDetailView() {
+            document.querySelectorAll(".dashboard-only").forEach(el => el.classList.add("hidden"));
+            document.getElementById("listView").classList.add("hidden");
+            document.getElementById("serviceOrderDetailView").classList.add("hidden");
+            document.getElementById("detailView").classList.remove("hidden");
+        }
+        function showServiceOrderDetailView() {
+            stopChatPolling();
+            document.querySelectorAll(".dashboard-only").forEach(el => el.classList.add("hidden"));
+            document.getElementById("listView").classList.add("hidden");
+            document.getElementById("detailView").classList.add("hidden");
+            document.getElementById("serviceOrderDetailView").classList.remove("hidden");
+        }
+
+        async function searchUser(event) {
+            event.preventDefault();
+            const identifier = document.getElementById("userIdentifier").value.trim();
+            if (!identifier) { alert("Please enter phone or email"); return; }
+            try {
+                document.getElementById("userErrorMessage").classList.add("hidden");
+                document.getElementById("userInitialMessage").classList.add("hidden");
+                document.getElementById("userSummaryContent").classList.add("hidden");
+                const response = await fetch(`${BASE}/user-summary`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ identifier }) });
+                const data = await response.json();
+                if (data.error) { document.getElementById("userErrorMessage").textContent = data.error; document.getElementById("userErrorMessage").classList.remove("hidden"); return; }
+                const summary = data.summary;
+                document.getElementById("summary-userId").textContent = summary.userId || "N/A";
+                document.getElementById("summary-userName").textContent = `${summary.user.firstName || ""} ${summary.user.lastName || ""}`.trim() || "N/A";
+                document.getElementById("summary-userPhone").textContent = summary.user.phoneNumber || "N/A";
+                document.getElementById("summary-userEmail").textContent = summary.user.email || "N/A";
+                if (summary.latest_location) { document.getElementById("summary-location").textContent = summary.latest_location.location || "N/A"; document.getElementById("summary-coords").textContent = `${summary.latest_location.latitude || "?"}, ${summary.latest_location.longitude || "?"}`; document.getElementById("summary-recordedAt").textContent = formatDateShort(summary.latest_location.created_at) || "N/A"; document.getElementById("locationCard").style.display = "block"; }
+                else { document.getElementById("locationCard").style.display = "none"; }
+                document.getElementById("summary-chatCount").textContent = summary.chat_count || 0;
+                document.getElementById("summary-latestChat").textContent = formatDateShort(summary.latest_chat_createdAt) || "N/A";
+                document.getElementById("userSummaryContent").classList.remove("hidden");
+                if (summary.userId) { await loadUserMagicWordRequests(summary.userId); loadOrderHistory(summary.userId); loadPaymentHistory(summary.userId); }
+            } catch (error) { document.getElementById("userErrorMessage").textContent = "Error: " + error.message; document.getElementById("userErrorMessage").classList.remove("hidden"); }
+        }
+
+        function getStatusBadgeClass(status) {
+            switch (status) { case "requested": return "bg-warning"; case "inProgress": return "bg-primary"; case "completed": return "bg-success"; default: return "bg-secondary"; }
+        }
+
+        function getTravellerName(item) {
+            const user = item.user || item.customer || item.traveller || {};
+            const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+            return item.userName || item.traveller_name || item.customer_name || item.name || fullName || "Traveller";
+        }
+
+        function getInitials(name) {
+            return String(name || "T").trim().split(/\s+/).slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("") || "T";
+        }
+
+        function getAvatarColor(seed) {
+            const colors = ["#8a4edb", "#27b463", "#278cf0", "#f23f69", "#9a45d9", "#21a957", "#f49b16"];
+            let total = 0;
+            String(seed || "").split("").forEach(ch => total += ch.charCodeAt(0));
+            return colors[total % colors.length];
+        }
+
+        function isTodayInKolkata(value) {
+            if (!value) return false;
+            const date = new Date(value);
+            if (isNaN(date.getTime())) return false;
+            const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+            const itemDay = date.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" });
+            return today === itemDay;
+        }
+
+        function updateDashboardStats(items = []) {
+            const inProgress = items.filter(item => item.status === "inProgress").length;
+            const completedToday = items.filter(item => item.status === "completed" && isTodayInKolkata(item.completedAt || item.updated_at || item.updatedAt || item.matchedAt)).length;
+            const inProgressEl = document.getElementById("inProgressCount");
+            const completedEl = document.getElementById("completedTodayCount");
+            if (inProgressEl) inProgressEl.textContent = inProgress;
+            if (completedEl) completedEl.textContent = completedToday;
+        }
+
+        function getOrderThumb(title) {
+            const text = String(title || "").toLowerCase();
+            if (text.includes("cab") || text.includes("auto") || text.includes("traveller") || text.includes("tempo")) return "CAR";
+            if (text.includes("guide") || text.includes("tour")) return "MON";
+            if (text.includes("airport") || text.includes("transfer")) return "AIR";
+            if (text.includes("hotel")) return "HOT";
+            if (text.includes("photo")) return "CAM";
+            return "ORD";
+        }
+
+        function filterRequestsByUser() {
+            const userId = document.getElementById("summary-userId")?.textContent.trim();
+            if (!userId || userId === "N/A") { alert("User ID not found. Please search for a user first."); return; }
+            currentFilteredUserId = userId;
+            loadMagicWordRequests(userId);
+        }
+
+        function clearUserFilter() {
+            currentFilteredUserId = null;
+            document.getElementById("filterBadgeContainer").innerHTML = "";
+            loadMagicWordRequests(null);
+        }
+</script>
+

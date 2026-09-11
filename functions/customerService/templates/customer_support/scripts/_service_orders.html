@@ -1,0 +1,445 @@
+<script>
+        async function loadServiceOrderRequests(isBackgroundPoll = false) {
+            try {
+                const url = `${API_BASE}/service-orders`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const countEl = document.getElementById("orderRequestCount");
+                const listEl = document.getElementById("orderRequestsList");
+                const emptyEl = document.getElementById("orderEmptyMessage");
+                const listView = document.getElementById("listView");
+                const allItems = data.items || [];
+                const displayItems = getOverviewItems(allItems, getOrderDateValue);
+
+                if (countEl) countEl.textContent = currentDashboardTab === "overview" ? displayItems.length : (data.count || allItems.length);
+
+                // skip DOM update if list view is hidden (background poll)
+                if (isBackgroundPoll && listView && listView.classList.contains("hidden")) return;
+
+                if (!data.found || allItems.length === 0 || displayItems.length === 0) {
+                    if (emptyEl) { emptyEl.classList.remove("hidden"); emptyEl.textContent = currentDashboardTab === "overview" ? "No service orders found in the last 7 days" : "No booked service orders found"; }
+                    if (listEl) listEl.innerHTML = "";
+                    return;
+                }
+
+                if (emptyEl) emptyEl.classList.add("hidden");
+                if (listEl) {
+                    listEl.innerHTML = displayItems.map(item => {
+                        const date = formatDateShort(getOrderDateValue(item));
+                        const title = item.service_name || "Order";
+                        const monument = item.field_values?.monument_id?.label || item.monument_name || "Destination";
+                        const bookingStatus = item.booking_status || "booked";
+                        const travellerName = item.user_name || item.traveller_name || item.customer_name || item.user?.name || "Traveller";
+                        const badgeClass = bookingStatus === "inProgress" ? "bg-primary" : bookingStatus === "completed" ? "bg-success" : "bg-success";
+                        return `<button class="traviz-order-row" type="button" onclick="loadServiceOrderDetail('${item.id}')">
+                            <span class="traviz-thumb">${escapeHtml(getOrderThumb(title))}</span>
+                            <span><span class="traviz-primary">${escapeHtml(title)}</span><span class="traviz-secondary">${escapeHtml(travellerName)}</span></span>
+                            <span class="traviz-time">${escapeHtml(date || monument)}</span>
+                            <span class="badge ${badgeClass}">${escapeHtml(bookingStatus)}</span>
+                        </button>`;
+                    }).join("");
+                }
+            } catch (error) {
+                console.error("Error loading service orders:", error);
+                const emptyEl = document.getElementById("orderEmptyMessage");
+                if (emptyEl) { emptyEl.classList.remove("hidden"); emptyEl.textContent = "Error loading service orders"; }
+            }
+        }
+
+        async function loadServiceOrderDetail(orderId) {
+            try {
+                const response = await fetch(`${API_BASE}/service-orders/${orderId}`);
+                const data = await response.json();
+                if (!data.found) { alert("Error loading order details"); return; }
+
+                const o = data.order || {};
+                const u = data.user || {};
+                const v = data.vendor || {};
+                const chat = data.chat || {};
+
+                // Store current order id globally
+                window._currentServiceOrderId = orderId;
+                currentServiceOrderChatId = chat.id || "";
+
+                // --- Populate header ---
+                document.getElementById("sod-orderId").textContent = orderId.slice(-8).toUpperCase();
+                const statusBadge = document.getElementById("sod-statusBadge");
+                statusBadge.textContent = o.booking_status || "booked";
+                statusBadge.className = `badge ${getOrderStatusBadge(o.booking_status)}`;
+
+                // --- Order Info ---
+                document.getElementById("sod-travelerName").textContent = o.traveler_name || `${u.firstName || ''}`.trim() || "â€”";
+                document.getElementById("sod-travelerPhone").textContent = o.traveler_phone_number || u.phoneNumber || "â€”";
+                document.getElementById("sod-monument").textContent = o.monument_name || o.monument_to_visit || o.monument_id || "â€”";
+                document.getElementById("sod-serviceType").textContent = o.service_name || o.item_id || o.product_type || "â€”";
+                document.getElementById("sod-dateOfService").textContent = formatDateShort(o.date_of_service) || "â€”";
+                document.getElementById("sod-timeSlot").textContent = o.time_slot_display || "â€”";
+                document.getElementById("sod-travelers").textContent = o.number_of_travelers || "â€”";
+                document.getElementById("sod-languages").textContent = Array.isArray(o.language_preference) ? o.language_preference.join(", ") || "â€”" : (o.language_preference || "â€”");
+                renderDynamicOrderFields(o.field_values_display || []);
+
+                // --- Pricing ---
+                document.getElementById("sod-price").textContent = o.price != null ? `â‚¹${o.price}` : "â€”";
+                document.getElementById("sod-paymentStatus").textContent = o.payment_status || o.paymentStatus || "â€”";
+                document.getElementById("sod-commission").textContent = o.vendor_price != null ? `â‚¹${o.vendor_price}` : "â€”";
+
+                // --- OTPs ---
+                document.getElementById("sod-startOtp").textContent = o.start_otp || "â€”";
+                document.getElementById("sod-endOtp").textContent = o.end_otp || "â€”";
+
+                // --- User ---
+                document.getElementById("sod-userId").textContent = u.id || o.user_id || "â€”";
+                document.getElementById("sod-userName").textContent = `${u.firstName || ''} ${u.lastName || ''}`.trim() || "â€”";
+                document.getElementById("sod-userEmail").textContent = u.email || "â€”";
+                document.getElementById("sod-userPhone").textContent = u.phoneNumber || "â€”";
+
+                // --- Timestamps ---
+                document.getElementById("sod-createdAt").textContent = formatDateShort(o.created_at) || "â€”";
+                document.getElementById("sod-updatedAt").textContent = formatDateShort(o.updated_at) || "â€”";
+
+                // --- Status select ---
+                populateOrderStatusOptions(o.booking_status, !!o.vendor_id);
+
+                // --- Vendor section ---
+                const vendorSection = document.getElementById("sod-currentVendor");
+                if (v && v.id) {
+                    vendorSection.innerHTML = `<span class="badge bg-success me-2">âœ… Assigned</span><strong>${escapeHtml(v.name || v.id)}</strong>${v.phone ? ` &nbsp;ðŸ“ž ${escapeHtml(v.phone)}` : ''}`;
+                } else {
+                    vendorSection.innerHTML = `<span class="badge bg-secondary">Not assigned</span>`;
+                }
+
+                // Load vendor dropdown
+                await loadVendors(o.vendor_id);
+
+                const orderChatIdEl = document.getElementById("sod-chatId");
+                if (orderChatIdEl) orderChatIdEl.textContent = currentServiceOrderChatId || "â€”";
+                const orderChatInput = document.getElementById("sod-chatMessage");
+                if (orderChatInput) orderChatInput.value = "";
+                updateServiceOrderSendButton();
+                if (currentServiceOrderChatId) {
+                    await loadServiceOrderChatMessages(currentServiceOrderChatId);
+                    startChatPolling(currentServiceOrderChatId, "serviceOrder");
+                } else {
+                    stopChatPolling();
+                    renderChatMessages([], "sod-chatContext", '<div class="text-center text-muted mt-3">No chat linked to this order.</div>');
+                }
+
+                showServiceOrderDetailView();
+            } catch (err) {
+                alert("Error loading order: " + err.message);
+            }
+        }
+
+        function getOrderStatusBadge(status) {
+            switch ((status || "").toLowerCase()) {
+                case "booked": return "bg-secondary";
+                case "alloted": return "bg-primary";
+                case "ongoing": return "bg-warning text-dark";
+                case "completed": return "bg-success";
+                case "cancelled": return "bg-danger";
+                default: return "bg-secondary";
+            }
+        }
+
+        function normalizeOrderStatusValue(status) {
+            switch ((status || "").toLowerCase()) {
+                case "confirmed":
+                    return "alloted";
+                case "in_progress":
+                    return "ongoing";
+                default:
+                    return (status || "").toLowerCase() || "booked";
+            }
+        }
+
+        function getAllowedOrderStatuses(currentStatus, hasVendor) {
+            const normalizedStatus = normalizeOrderStatusValue(currentStatus);
+            switch (normalizedStatus) {
+                case "booked":
+                    return hasVendor ? ["booked", "alloted", "cancelled"] : ["booked", "cancelled"];
+                case "alloted":
+                    return ["alloted", "ongoing", "cancelled"];
+                case "ongoing":
+                    return ["ongoing", "completed", "cancelled"];
+                case "completed":
+                    return ["completed"];
+                case "cancelled":
+                    return ["cancelled"];
+                default:
+                    return [normalizedStatus || "booked"];
+            }
+        }
+
+        function formatOrderStatusLabel(status) {
+            switch (normalizeOrderStatusValue(status)) {
+                case "booked": return "Booked";
+                case "alloted": return "Alloted";
+                case "ongoing": return "Ongoing";
+                case "completed": return "Completed";
+                case "cancelled": return "Cancelled";
+                default: return status || "Booked";
+            }
+        }
+
+        function populateOrderStatusOptions(currentStatus, hasVendor) {
+            const statusSelect = document.getElementById("sod-newStatus");
+            if (!statusSelect) return;
+
+            const normalizedStatus = normalizeOrderStatusValue(currentStatus);
+            const allowedStatuses = getAllowedOrderStatuses(normalizedStatus, hasVendor);
+            statusSelect.innerHTML = allowedStatuses.map(status =>
+                `<option value="${status}">${formatOrderStatusLabel(status)}</option>`
+            ).join("");
+            statusSelect.value = allowedStatuses.includes(normalizedStatus) ? normalizedStatus : allowedStatuses[0];
+        }
+
+        function renderDynamicOrderFields(fields) {
+            const container = document.getElementById("sod-dynamicFields");
+            if (!container) return;
+            if (!Array.isArray(fields) || fields.length === 0) {
+                container.innerHTML = "";
+                return;
+            }
+
+            container.innerHTML = `
+                <hr />
+                <div class="small text-muted mb-2">Additional booking details</div>
+                ${fields.map(field => `
+                    <div class="d-flex justify-content-between gap-3 mb-1">
+                        <strong style="color:#555;">${escapeHtml(field.label || field.key || "Field")}</strong>
+                        <span class="text-end">${escapeHtml(String(field.value ?? "â€”"))}</span>
+                    </div>
+                `).join("")}
+            `;
+        }
+
+        async function updateServiceOrderStatus() {
+            const orderId = window._currentServiceOrderId;
+            if (!orderId) return;
+            const newStatus = normalizeOrderStatusValue(document.getElementById("sod-newStatus").value);
+            if (!newStatus) { alert("Please select a status"); return; }
+            try {
+                const btn = document.getElementById("sod-updateStatusBtn");
+                btn.disabled = true; btn.textContent = "Updating...";
+                const res = await fetch(`${API_BASE}/service-orders/${orderId}/status`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    const badge = document.getElementById("sod-statusBadge");
+                    badge.textContent = result.new_status;
+                    badge.className = `badge ${getOrderStatusBadge(result.new_status)}`;
+                    alert(`âœ… Status updated to: ${result.new_status}`);
+                    if (result.new_status) {
+                        const normalizedStatus = normalizeOrderStatusValue(result.new_status);
+                        const badge = document.getElementById("sod-statusBadge");
+                        if (badge) {
+                            badge.textContent = normalizedStatus;
+                            badge.className = `badge ${getOrderStatusBadge(normalizedStatus)}`;
+                        }
+                        populateOrderStatusOptions(normalizedStatus, !!document.getElementById("sod-vendorSelect")?.value);
+                    }
+                    loadServiceOrderRequests();
+                } else { alert("Error: " + result.error); }
+            } catch (e) { alert("Error updating status: " + e.message); }
+            finally { const btn = document.getElementById("sod-updateStatusBtn"); btn.disabled = false; btn.textContent = "Update Status"; }
+        }
+
+        async function loadVendors(selectedVendorId = null) {
+            try {
+                const res = await fetch(`${API_BASE}/vendors`);
+                const data = await res.json();
+                const sel = document.getElementById("sod-vendorSelect");
+                sel.innerHTML = '<option value="">â€” Select vendor â€”</option>';
+                if (data.success && data.vendors) {
+                    data.vendors.forEach(v => {
+                        const opt = document.createElement("option");
+                        opt.value = v.userName || v.id;
+                        opt.textContent = `${v.name || v.userName}${v.phone ? ' | ' + v.phone : ''}`;
+                        if (opt.value === selectedVendorId || v.id === selectedVendorId) opt.selected = true;
+                        sel.appendChild(opt);
+                    });
+                }
+            } catch (e) { console.error("loadVendors error:", e); }
+        }
+
+        async function assignVendorToOrderLegacyUnused() {
+            const orderId = window._currentServiceOrderId;
+            if (!orderId) return;
+            const vendorId = document.getElementById("sod-vendorSelect").value;
+            if (!vendorId) { alert("Please select a vendor"); return; }
+            const vendorPrice = document.getElementById("sod-vendorPrice").value;
+            const vendorUserName = document.getElementById("sod-currentVendor").value;
+            try {
+                const btn = document.getElementById("sod-assignVendorBtn");
+                btn.disabled = true; btn.textContent = "Assigning...";
+                const res = await fetch(`${API_BASE}/service-orders/${orderId}/assign-vendor`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ vendor_id: vendorUserName, vendor_price: vendorPrice || null })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    document.getElementById("sod-currentVendor").innerHTML =
+                        `<span class="badge bg-success me-2">âœ… Assigned</span><strong>${escapeHtml(result.vendor_name || result.vendor_id)}</strong>`;
+                    alert(`âœ… Vendor assigned: ${result.vendor_name || result.vendor_id}`);
+                    loadServiceOrderRequests();
+                } else { alert("Error: " + result.error); }
+            } catch (e) { alert("Error assigning vendor: " + e.message); }
+            finally { const btn = document.getElementById("sod-assignVendorBtn"); btn.disabled = false; btn.textContent = "Assign Vendor"; }
+        }
+
+        async function assignVendorToOrder() {
+            const orderId = window._currentServiceOrderId;
+            if (!orderId) return;
+
+            const vendorId = document.getElementById("sod-vendorSelect").value;
+            if (!vendorId) {
+                alert("Please select a vendor");
+                return;
+            }
+
+            const vendorPrice = document.getElementById("sod-vendorPrice").value;
+            const btn = document.getElementById("sod-assignVendorBtn");
+
+            try {
+                btn.disabled = true;
+                btn.textContent = "Assigning...";
+
+                const res = await fetch(`${API_BASE}/service-orders/${orderId}/assign-vendor`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ vendor_id: vendorId, vendor_price: vendorPrice || null })
+                });
+                const result = await res.json();
+
+                if (!result.success) {
+                    alert("Error: " + result.error);
+                    return;
+                }
+
+                document.getElementById("sod-currentVendor").innerHTML =
+                    `<span class="badge bg-success me-2">Assigned</span><strong>${escapeHtml(result.vendor_name || result.vendor_id)}</strong>`;
+
+                if (result.new_status) {
+                    const normalizedStatus = normalizeOrderStatusValue(result.new_status);
+                    const badge = document.getElementById("sod-statusBadge");
+                    if (badge) {
+                        badge.textContent = normalizedStatus;
+                        badge.className = `badge ${getOrderStatusBadge(normalizedStatus)}`;
+                    }
+                    populateOrderStatusOptions(normalizedStatus, true);
+                }
+
+                alert(`Vendor assigned: ${result.vendor_name || result.vendor_id}`);
+                loadServiceOrderRequests();
+            } catch (e) {
+                alert("Error assigning vendor: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Assign Vendor";
+            }
+        }
+
+        async function updateServiceOrderStatus() {
+            const orderId = window._currentServiceOrderId;
+            if (!orderId) return;
+
+            const newStatus = normalizeOrderStatusValue(document.getElementById("sod-newStatus").value);
+            if (!newStatus) {
+                alert("Please select a status");
+                return;
+            }
+
+            const btn = document.getElementById("sod-updateStatusBtn");
+            try {
+                btn.disabled = true;
+                btn.textContent = "Updating...";
+
+                const res = await fetch(`${API_BASE}/service-orders/${orderId}/status`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                const result = await res.json();
+
+                if (!result.success) {
+                    alert("Error: " + result.error);
+                    return;
+                }
+
+                const normalizedStatus = normalizeOrderStatusValue(result.new_status);
+                const badge = document.getElementById("sod-statusBadge");
+                if (badge) {
+                    badge.textContent = normalizedStatus;
+                    badge.className = `badge ${getOrderStatusBadge(normalizedStatus)}`;
+                }
+
+                populateOrderStatusOptions(
+                    normalizedStatus,
+                    !!document.getElementById("sod-vendorSelect")?.value
+                );
+
+                alert(`Status updated to: ${normalizedStatus}`);
+                loadServiceOrderRequests();
+            } catch (e) {
+                alert("Error updating status: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Update Status";
+            }
+        }
+
+        let serviceOrderMessageSending = false;
+
+        function updateServiceOrderSendButton() {
+            const input = document.getElementById("sod-chatMessage");
+            const btn = document.getElementById("sod-sendMessageBtn");
+            if (btn) {
+                btn.disabled = serviceOrderMessageSending || !currentServiceOrderChatId || !input?.value.trim();
+            }
+        }
+
+        async function sendServiceOrderMessage() {
+            if (serviceOrderMessageSending) return;
+            if (!currentServiceOrderChatId) { alert("Chat not found for this order"); return; }
+            const input = document.getElementById("sod-chatMessage");
+            const btn = document.getElementById("sod-sendMessageBtn");
+            const message = (input?.value || "").trim();
+            if (!message) return;
+            try {
+                serviceOrderMessageSending = true;
+                updateServiceOrderSendButton();
+                btn.setAttribute("aria-label", "Sending message");
+                const response = await fetch(`${BASE}/api/chats/${currentServiceOrderChatId}/send-message`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ messageType: "custom", message })
+                });
+                const result = await response.json();
+                if (!result.success) {
+                    alert(`Error: ${result.error}`);
+                    return;
+                }
+                input.value = "";
+                await loadServiceOrderChatMessages(currentServiceOrderChatId);
+            } catch (e) {
+                alert("Error sending message: " + e.message);
+            } finally {
+                serviceOrderMessageSending = false;
+                updateServiceOrderSendButton();
+                btn.setAttribute("aria-label", "Send message");
+            }
+        }
+
+        function handleServiceOrderComposerKeydown(event) {
+            if (event.key === "Enter" && event.ctrlKey) {
+                event.preventDefault();
+                sendServiceOrderMessage();
+            }
+        }
+</script>
+

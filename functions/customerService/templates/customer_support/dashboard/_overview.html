@@ -1,0 +1,65 @@
+<div class="traviz-hero dashboard-only traviz-overview-only">
+    <div>
+        <h1>Customer Support</h1>
+        <p>Manage traveller requests and service orders</p>
+    </div>
+    <div class="traviz-mountains" aria-hidden="true"></div>
+    <div class="traviz-quote">People behind<br>every journey</div>
+</div>
+
+<div class="traviz-stats dashboard-only traviz-overview-only">
+    <div class="traviz-stat">
+        <span class="traviz-stat-icon" style="background:#ffe8f0;color:#f43770;">REQ</span>
+        <div><strong id="requestCount">0</strong><span>New Requests</span></div>
+    </div>
+    <div class="traviz-stat">
+        <span class="traviz-stat-icon" style="background:#e7f2ff;color:#147fed;">RUN</span>
+        <div><strong id="inProgressCount">0</strong><span>In Progress</span></div>
+    </div>
+    <div class="traviz-stat">
+        <span class="traviz-stat-icon" style="background:#fff0d8;color:#f09010;">ORD</span>
+        <div><strong id="orderRequestCount">0</strong><span>Open Orders</span></div>
+    </div>
+    <div class="traviz-stat">
+        <span class="traviz-stat-icon" style="background:#ddf8e9;color:#21aa61;">OK</span>
+        <div><strong id="completedTodayCount">0</strong><span>Completed Today</span></div>
+    </div>
+</div>
+
+<section class="traviz-user-panel dashboard-only traviz-overview-only">
+    <div class="panel-body">
+        <div id="userErrorMessage" class="alert alert-danger hidden mb-2"></div>
+        <div id="userSummaryContent" class="hidden">
+            <div class="row g-2">
+                <div class="col-lg-4">
+                    <div class="user-info-card mb-0">
+                        <h6>User Details</h6>
+                        <p><strong>ID:</strong> <code id="summary-userId"></code></p>
+                        <p><strong>Name:</strong> <span id="summary-userName"></span></p>
+                        <p><strong>Phone:</strong> <span id="summary-userPhone"></span></p>
+                        <p><strong>Email:</strong> <span id="summary-userEmail"></span></p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="user-info-card mb-0" id="locationCard" style="display:none;">
+                        <h6>Location</h6>
+                        <p><strong>Place:</strong> <span id="summary-location"></span></p>
+                        <p><strong>Coords:</strong> <span id="summary-coords"></span></p>
+                        <p><strong>Recorded:</strong> <span id="summary-recordedAt"></span></p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="user-info-card mb-0">
+                        <h6>Chats</h6>
+                        <p><strong>Total:</strong> <span id="summary-chatCount" class="badge bg-info">0</span></p>
+                        <p><strong>Latest:</strong> <span id="summary-latestChat"></span></p>
+                        <button class="btn btn-primary btn-sm mt-2" onclick="filterRequestsByUser()">View
+                            User Requests</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="userInitialMessage" class="alert alert-info mb-0 hidden">Search a phone number or email to
+            inspect a traveller profile.</div>
+    </div>
+</section>

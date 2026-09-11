@@ -1,0 +1,95 @@
+<script>
+        async function loadMagicWordRequests(filterUserId = null, isBackgroundPoll = false) {
+            try {
+                let url = `${API_BASE}/magic-words`;
+                if (filterUserId) url += `?userId=${encodeURIComponent(filterUserId)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const allItems = data.items || [];
+                const displayItems = getOverviewItems(allItems, getRequestDateValue);
+                document.getElementById("requestCount").textContent = currentDashboardTab === "overview" ? displayItems.length : (data.count || allItems.length);
+                updateDashboardStats(currentDashboardTab === "overview" ? displayItems : allItems);
+                const latestItem = allItems.length > 0 ? allItems[0] : null;
+                const latestTime = latestItem ? new Date(latestItem.matchedAt).getTime() : 0;
+                if (lastLatestRequestTime > 0 && latestTime > lastLatestRequestTime && !filterUserId) {
+                    if (isSoundEnabled) playNotificationSound();
+                    try { const toast = document.getElementById("newRequestToast"); if (toast && typeof bootstrap !== 'undefined') { bootstrap.Toast.getOrCreateInstance(toast).show(); } } catch (e) { }
+                }
+                if (latestItem) { lastLatestRequestId = latestItem.id; if (latestTime > lastLatestRequestTime || lastLatestRequestTime === 0) lastLatestRequestTime = latestTime; }
+                const listContainer = document.getElementById("listView");
+                if (isBackgroundPoll && listContainer.classList.contains("hidden")) return;
+                if (!data.found || allItems.length === 0 || displayItems.length === 0) {
+                    document.getElementById("emptyMessage").classList.remove("hidden");
+                    document.getElementById("requestsList").innerHTML = "";
+                    document.getElementById("emptyMessage").textContent = filterUserId ? `No requests found for user: ${filterUserId}` : (currentDashboardTab === "overview" ? "No requests found in the last 7 days" : "No magic word requests found");
+                    document.getElementById("filterBadgeContainer").innerHTML = "";
+                    return;
+                }
+                document.getElementById("emptyMessage").classList.add("hidden");
+                const filterContainer = document.getElementById("filterBadgeContainer");
+                if (filterUserId) {
+                    filterContainer.innerHTML = `<div class="alert alert-info mb-3" style="border-radius:5px;padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;"><span style="display:flex;align-items:center;gap:0.5rem;"><strong>Filtered Results</strong><code style="background:white;padding:0.3rem 0.6rem;border-radius:3px;color:#2c3e50;font-weight:600;">${escapeHtml(filterUserId)}</code></span><button class="btn btn-sm btn-outline-secondary" onclick="clearUserFilter()" style="font-size:0.8rem;padding:0.3rem 0.8rem;">Clear Filter</button></div>`;
+                } else { filterContainer.innerHTML = ""; }
+                document.getElementById("requestsList").innerHTML = displayItems.map(item => {
+                    const date = formatDateShort(getRequestDateValue(item));
+                    const travellerName = getTravellerName(item);
+                    const service = item.service_name || item.typeOfService || item.magicWord || "Travel Support";
+                    const message = item.userMessage || item.message || item.location || "Latest request update";
+                    return `<button class="traviz-request-row" type="button" onclick="loadMagicWordDetail('${item.id}')">
+                        <span class="traviz-person" style="background:${getAvatarColor(travellerName)};">${escapeHtml(getInitials(travellerName))}</span>
+                        <span><span class="traviz-primary">${escapeHtml(travellerName)}</span><span class="traviz-secondary">${escapeHtml(message)}</span></span>
+                        <span class="traviz-service">${escapeHtml(service)}</span>
+                        <span class="traviz-time">${escapeHtml(date)}</span>
+                        <span class="badge ${getStatusBadgeClass(item.status)}">${escapeHtml(item.status || "new")}</span>
+                    </button>`;
+                }).join("");
+            } catch (error) { document.getElementById("emptyMessage").textContent = "Error loading requests"; document.getElementById("emptyMessage").classList.remove("hidden"); document.getElementById("filterBadgeContainer").innerHTML = ""; }
+        }
+
+        function formatDateShort(isoString) {
+            if (!isoString) return "N/A";
+            try {
+                const date = new Date(isoString);
+                if (isNaN(date.getTime())) return isoString;
+                return date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true });
+            } catch (e) { return isoString; }
+        }
+
+        async function loadMagicWordDetail(id) {
+            try {
+                currentMagicWordId = id;
+                const response = await fetch(`${API_BASE}/magic-words/${id}`);
+                const data = await response.json();
+                if (!data.found) { alert("Error loading details"); return; }
+                const magic = data.magic_word_request || {}, user = data.user || {}, chat = data.chat || {}, location = data.user_location || {};
+                document.getElementById("detail-magicWord").textContent = magic.magicWord || "N/A";
+                document.getElementById("detail-status").textContent = magic.status || "N/A";
+                document.getElementById("detail-status").className = `badge ${getStatusBadgeClass(magic.status)}`;
+                document.getElementById("detail-matchedAt").textContent = formatDateShort(magic.matchedAt) || "N/A";
+                document.getElementById("detail-location").textContent = chat.location || "N/A";
+                document.getElementById("detail-chatId").textContent = chat.id || "N/A";
+                document.getElementById("detail-messageId").textContent = magic.messageId || "N/A";
+                document.getElementById("detail-userId").textContent = user.id || "N/A";
+                document.getElementById("detail-userName").textContent = `${user.firstName || ""} ${user.lastName || ""}`.trim() || "N/A";
+                document.getElementById("detail-userEmail").textContent = user.email || "N/A";
+                document.getElementById("detail-userPhone").textContent = user.phoneNumber || "N/A";
+                if (user.photoURL) { document.getElementById("detail-userPhoto").src = user.photoURL; document.getElementById("detail-userPhoto").style.display = "block"; }
+                else { document.getElementById("detail-userPhoto").style.display = "none"; }
+                document.getElementById("detail-locName").textContent = location.location || "N/A";
+                document.getElementById("detail-locLat").textContent = location.latitude || "N/A";
+                document.getElementById("detail-locLon").textContent = location.longitude || "N/A";
+                document.getElementById("detail-locRecordedAt").textContent = formatDateShort(location.created_at) || "N/A";
+                document.getElementById("detail-mapLink").href = (location.latitude && location.longitude) ? `https://maps.google.com/?q=${location.latitude},${location.longitude}` : "#";
+                currentStatus = magic.status || "requested";
+                currentServiceRequestId = magic.serviceRequestId || magic.orderId || null;
+                updateStatusButtonText(currentStatus);
+                if (currentStatus === "requested") { updateMagicWordStatus("inProgress", false); currentStatus = "inProgress"; document.getElementById("detail-status").textContent = "inProgress"; document.getElementById("detail-status").className = `badge ${getStatusBadgeClass("inProgress")}`; updateStatusButtonText("inProgress"); }
+                const chatId = chat.id;
+                if (chatId) { document.getElementById("noChatContextMessage").classList.add("hidden"); startChatPolling(chatId); loadChatMessages(chatId); }
+                else { stopChatPolling(); document.getElementById("detail-chatContext").innerHTML = ""; document.getElementById("noChatContextMessage").classList.remove("hidden"); }
+                if (user.id) { await loadUserMagicWordRequests(user.id); loadOrderHistory(user.id); loadPaymentHistory(user.id); }
+                showDetailView();
+            } catch (error) { alert("Error loading details"); }
+        }
+</script>
+

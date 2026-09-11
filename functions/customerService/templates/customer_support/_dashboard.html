@@ -1,0 +1,15 @@
+<div class="traviz-shell">
+    {% include "customer_support/dashboard/_sidebar.html" %}
+
+    <main class="traviz-main">
+        {% include "customer_support/dashboard/_topbar.html" %}
+        {% include "customer_support/dashboard/_overview.html" %}
+
+        <div class="traviz-dashboard dashboard-only mode-overview" id="dashboardContent">
+            <div id="listView">
+                <div class="traviz-content-grid">
+                    {% include "customer_support/dashboard/_requests_panel.html" %}
+                    {% include "customer_support/dashboard/_orders_panel.html" %}
+                </div>
+            </div>
+        </div>

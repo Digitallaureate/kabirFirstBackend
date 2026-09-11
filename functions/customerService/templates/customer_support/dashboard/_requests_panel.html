@@ -1,0 +1,18 @@
+<div class="traviz-panel traviz-request-panel">
+    <div class="traviz-panel-head">
+        <div class="traviz-panel-title">
+            <span class="traviz-panel-icon">RQ</span>
+            <div>
+                <b>Request Queue</b>
+                <small>Latest traveller requests requiring your attention</small>
+            </div>
+        </div>
+        <div class="traviz-actions">
+            <button class="traviz-mini-btn" type="button" onclick="loadMagicWordRequests()">Refresh</button>
+            <button class="traviz-link-btn" type="button" onclick="clearUserFilter()">View All</button>
+        </div>
+    </div>
+    <div id="filterBadgeContainer"></div>
+    <div id="requestsList" class="traviz-list"></div>
+    <div id="emptyMessage" class="alert alert-info text-center traviz-empty hidden">No magic word requests found</div>
+</div>

@@ -1,0 +1,117 @@
+    <!-- Service Request Modal -->
+    <div id="serviceRequestModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Service Request Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="serviceRequestForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3"><label class="form-label">Traveler Name *</label><input
+                                    type="text" class="form-control" id="travelerName" required></div>
+                            <div class="col-md-3 mb-3"><label class="form-label">Country Code</label><input type="text"
+                                    class="form-control" id="countryCode" value="+91" required></div>
+                            <div class="col-md-3 mb-3"><label class="form-label">Phone Number *</label><input type="tel"
+                                    class="form-control" id="travelerPhoneNumber" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">From (Location) *</label><input
+                                    type="text" class="form-control" id="travelerFrom" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Monument *</label><select
+                                    class="form-control" id="monumentToVisit" onchange="handleMonumentChange()"
+                                    required></select></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Service Type *</label><select
+                                    class="form-control" id="typeOfService" onchange="handleServiceChange()"
+                                    required></select></div>
+                            <div class="col-md-6 mb-3" id="customServiceDiv" style="display:none;"><label
+                                    class="form-label">Specify Service</label><input type="text" class="form-control"
+                                    id="customServiceInput"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Pickup Location *</label><input
+                                    type="text" class="form-control" id="pickupLocation" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Drop Location *</label><input
+                                    type="text" class="form-control" id="dropLocation" required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Date *</label><input type="date"
+                                    class="form-control" id="dateOfTravel" required></div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Time Slot *</label>
+                                <select class="form-control" id="timeSlotLabel" onchange="handleTimeSlotChange()"
+                                    required>
+                                    <option value="">Select...</option>
+                                    <option value="Morning">Morning (6 AM - 12 PM)</option>
+                                    <option value="Afternoon">Afternoon (12 PM - 6 PM)</option>
+                                    <option value="Evening">Evening (6 PM - 10 PM)</option>
+                                    <option value="Custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3" id="customStartTimeDiv" style="display:none;"><label
+                                    class="form-label">Start Time</label><input type="time" class="form-control"
+                                    id="customStartTime"></div>
+                            <div class="col-md-6 mb-3" id="customEndTimeDiv" style="display:none;"><label
+                                    class="form-label">End Time</label><input type="time" class="form-control"
+                                    id="customEndTime"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Number of Travelers *</label><input
+                                    type="number" class="form-control" id="numberOfTravelers" min="1" value="1"
+                                    required></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Language Preference *</label>
+                                <div id="languagePreferenceContainer"></div>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Price</label><input type="number"
+                                    class="form-control" id="price" step="0.01"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Commission</label><input type="number"
+                                    class="form-control" id="commission" step="0.01"></div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-control" id="serviceStatus">
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Payment Status</label>
+                                <select class="form-control" id="paymentStatus">
+                                    <option value="pending">Pending</option>
+                                    <option value="success">Success</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label">Start OTP</label><input type="text"
+                                    class="form-control" id="startOtp" placeholder="e.g. 1234"></div>
+                            <div class="col-md-6 mb-3"><label class="form-label">End OTP</label><input type="text"
+                                    class="form-control" id="endOtp" placeholder="e.g. 5678"></div>
+                            <div class="col-12 mb-3"><label class="form-label">Description</label><textarea
+                                    class="form-control" id="description" rows="2"></textarea></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitServiceRequest()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Reason Modal -->
+    <div class="modal fade" id="completionReasonModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Complete Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="completionReason" class="form-label">Reason / Notes</label>
+                        <textarea class="form-control" id="completionReason" rows="3"
+                            placeholder="Enter reason for completion..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitCompletionReason()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>

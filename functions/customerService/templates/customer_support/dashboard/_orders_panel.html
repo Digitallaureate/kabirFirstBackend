@@ -1,0 +1,18 @@
+<div class="traviz-panel traviz-order-panel">
+    <div class="traviz-panel-head">
+        <div class="traviz-panel-title">
+            <span class="traviz-panel-icon">SO</span>
+            <div>
+                <b>Recent Service Orders</b>
+                <small>Latest service orders and booking status</small>
+            </div>
+        </div>
+        <div class="traviz-actions">
+            <button class="traviz-mini-btn" type="button" onclick="loadServiceOrderRequests()">Refresh</button>
+            <button class="traviz-link-btn" type="button" onclick="loadServiceOrderRequests()">View All</button>
+        </div>
+    </div>
+    <div id="orderFilterBadgeContainer"></div>
+    <div id="orderRequestsList" class="traviz-list"></div>
+    <div id="orderEmptyMessage" class="alert alert-info text-center traviz-empty hidden">No booked service orders found</div>
+</div>
