@@ -1137,15 +1137,17 @@
             flex: 0 0 33px;
             display: grid;
             place-items: center;
+            overflow: hidden;
             border-radius: 8px;
             background: linear-gradient(135deg, #37b8ff, #0b64df);
             box-shadow: 0 9px 22px rgba(0, 118, 255, .35);
             color: #fff;
         }
 
-        .traviz-logo svg {
-            width: 19px;
-            height: 19px;
+        .traviz-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .traviz-nav {
