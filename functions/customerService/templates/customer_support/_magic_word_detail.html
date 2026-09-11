@@ -2,8 +2,14 @@
             <div id="detailView" class="hidden">
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">â† Back to
-                            Dashboard</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="showListView()">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                style="width:14px;height:14px;margin-right:4px;vertical-align:-2px;">
+                                <path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Back to Dashboard
+                        </button>
                         <div class="d-flex align-items-center gap-3">
                             <div class="form-check form-switch"
                                 style="transform:scale(1.2);transform-origin:right center;">
@@ -21,9 +27,19 @@
                 <div class="detail-view-container">
                     <!-- LEFT: User + Location -->
                     <div class="detail-column">
-                        <div class="detail-section card">
-                            <div class="card-header">
-                                <h5 class="mb-0">ðŸ‘¤ User Details</h5>
+                        <div class="detail-section traviz-panel traviz-detail-panel">
+                            <div class="traviz-panel-head">
+                                <div class="traviz-panel-title">
+                                    <span class="traviz-panel-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="12" cy="8.25" r="3.25" stroke="currentColor"
+                                                stroke-width="1.6" />
+                                            <path d="M5 19.5c0-3.45 3.13-6.25 7-6.25s7 2.8 7 6.25" stroke="currentColor"
+                                                stroke-width="1.6" stroke-linecap="round" />
+                                        </svg>
+                                    </span>
+                                    <div><b>User Details</b></div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <p><strong>User ID:</strong> <code id="detail-userId"></code></p>
@@ -36,17 +52,32 @@
                                     style="max-width:100px;max-height:100px;border-radius:5px;display:none;" />
                             </div>
                         </div>
-                        <div class="detail-section card">
-                            <div class="card-header">
-                                <h5 class="mb-0">ðŸ“ Location</h5>
+                        <div class="detail-section traviz-panel traviz-detail-panel">
+                            <div class="traviz-panel-head">
+                                <div class="traviz-panel-title">
+                                    <span class="traviz-panel-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z"
+                                                stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                            <circle cx="12" cy="9.5" r="2.4" stroke="currentColor"
+                                                stroke-width="1.6" />
+                                        </svg>
+                                    </span>
+                                    <div><b>Location</b></div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <p><strong>Place:</strong> <span id="detail-locName"></span></p>
                                 <p><strong>Latitude:</strong> <span id="detail-locLat"></span></p>
                                 <p><strong>Longitude:</strong> <span id="detail-locLon"></span></p>
                                 <p><strong>Recorded At:</strong> <span id="detail-locRecordedAt"></span></p>
-                                <p><a id="detail-mapLink" href="" target="_blank"
-                                        class="btn btn-sm btn-primary w-100">ðŸ—ºï¸
+                                <p><a id="detail-mapLink" href="" target="_blank" class="btn btn-sm btn-primary w-100">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                            style="width:14px;height:14px;margin-right:5px;vertical-align:-2px;">
+                                            <path d="M9 3 4 5v16l5-2 6 2 5-2V3l-5 2-6-2Z" stroke="currentColor"
+                                                stroke-width="1.5" stroke-linejoin="round" />
+                                            <path d="M9 3v16M15 5v16" stroke="currentColor" stroke-width="1.5" />
+                                        </svg>
                                         View on Map</a></p>
                             </div>
                         </div>
@@ -54,9 +85,20 @@
 
                     <!-- MIDDLE: Request Info + History -->
                     <div class="detail-column">
-                        <div class="detail-section card" style="flex-shrink:0;">
-                            <div class="card-header">
-                                <h5 class="mb-0">âœ¨ Request Information</h5>
+                        <div class="detail-section traviz-panel traviz-detail-panel" style="flex-shrink:0;">
+                            <div class="traviz-panel-head">
+                                <div class="traviz-panel-title">
+                                    <span class="traviz-panel-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M4 5.5h16v10a1 1 0 0 1-1 1H8l-4 4v-4H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"
+                                                stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                            <path d="M8 9.5h8M8 12.5h5" stroke="currentColor" stroke-width="1.6"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                    </span>
+                                    <div><b>Request Information</b></div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <p><strong>Magic Word:</strong> <span id="detail-magicWord"
@@ -71,15 +113,23 @@
                                 <hr />
                                 <button id="statusChangeBtn" class="btn btn-primary btn-sm w-100 mb-2"
                                     onclick="changeStatus()">Next Status</button>
-                                <button class="btn btn-outline-danger btn-sm w-100 mb-2" onclick="closeRequest()">âŒ
-                                    Close
-                                    Request</button>
+                                <button class="btn btn-outline-danger btn-sm w-100 mb-2"
+                                    onclick="closeRequest()">Close Request</button>
                             </div>
                         </div>
-                        <div class="detail-section card"
+                        <div class="detail-section traviz-panel traviz-detail-panel"
                             style="flex:1;display:flex;flex-direction:column;min-height:0;">
-                            <div class="card-header">
-                                <h5 class="mb-0">ðŸ“‹ User History</h5>
+                            <div class="traviz-panel-head">
+                                <div class="traviz-panel-title">
+                                    <span class="traviz-panel-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="12" cy="12.5" r="8" stroke="currentColor" stroke-width="1.6" />
+                                            <path d="M12 8v5l3.5 2" stroke="currentColor" stroke-width="1.6"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                    <div><b>User History</b></div>
+                                </div>
                             </div>
                             <div class="card-body" style="padding:0;flex-grow:1;overflow-y:auto;">
                                 <div class="accordion accordion-flush" id="historyAccordion">
@@ -88,7 +138,14 @@
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseRequests" aria-expanded="true"
                                                 aria-controls="collapseRequests"
-                                                style="font-weight:600;color:#2c3e50;">ðŸ“Š
+                                                style="font-weight:600;color:#2c3e50;">
+                                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                    style="width:15px;height:15px;margin-right:7px;flex-shrink:0;">
+                                                    <path
+                                                        d="M4 5.5h16v10a1 1 0 0 1-1 1H8l-4 4v-4H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"
+                                                        stroke="currentColor" stroke-width="1.6"
+                                                        stroke-linejoin="round" />
+                                                </svg>
                                                 Request History</button>
                                         </h2>
                                         <div id="collapseRequests" class="accordion-collapse collapse show"
@@ -108,9 +165,16 @@
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapseOrders"
                                                 aria-expanded="false" aria-controls="collapseOrders"
-                                                onclick="loadOrderHistory()" style="font-weight:600;color:#2c3e50;">ðŸ›’
-                                                Order
-                                                History</button>
+                                                onclick="loadOrderHistory()" style="font-weight:600;color:#2c3e50;">
+                                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                    style="width:15px;height:15px;margin-right:7px;flex-shrink:0;">
+                                                    <path d="M6 8h12l-1 12a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 8Z"
+                                                        stroke="currentColor" stroke-width="1.6"
+                                                        stroke-linejoin="round" />
+                                                    <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor"
+                                                        stroke-width="1.6" stroke-linecap="round" />
+                                                </svg>
+                                                Order History</button>
                                         </h2>
                                         <div id="collapseOrders" class="accordion-collapse collapse"
                                             aria-labelledby="headingOrders" data-bs-parent="#historyAccordion">
@@ -126,7 +190,13 @@
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapsePayments"
                                                 aria-expanded="false" aria-controls="collapsePayments"
-                                                onclick="loadPaymentHistory()" style="font-weight:600;color:#2c3e50;">ðŸ’³
+                                                onclick="loadPaymentHistory()" style="font-weight:600;color:#2c3e50;">
+                                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                    style="width:15px;height:15px;margin-right:7px;flex-shrink:0;">
+                                                    <rect x="3.5" y="6" width="17" height="12" rx="2"
+                                                        stroke="currentColor" stroke-width="1.6" />
+                                                    <path d="M3.5 10h17" stroke="currentColor" stroke-width="1.6" />
+                                                </svg>
                                                 Payment History</button>
                                         </h2>
                                         <div id="collapsePayments" class="accordion-collapse collapse"
@@ -148,9 +218,14 @@
                         <div class="detail-section card chat-window-card">
                             <div class="card-header chat-panel-header">
                                 <a class="chat-profile-back" href="#" onclick="event.preventDefault(); showListView();"
-                                    aria-label="Back">â€¹</a>
-                                <div class="chat-profile-name">Chat Pannel</div>
-
+                                    aria-label="Back">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                        style="width:18px;height:18px;">
+                                        <path d="m15 5-7 7 7 7" stroke="currentColor" stroke-width="1.8"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                                <div class="chat-profile-name">Chat Panel</div>
                             </div>
                             <div class="card-body" style="padding:0;">
                                 <div id="detail-chatContext" class="chat-messages-container"></div>
@@ -160,7 +235,12 @@
                         </div>
                         <div class="detail-section card chat-reply-card">
                             <div class="card-header chat-panel-header">
-                                <div class="chat-panel-icon">â†—</div>
+                                <div class="chat-panel-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="m3 11 18-7-7 18-2.5-7L3 11Z" stroke="currentColor" stroke-width="1.6"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </div>
                                 <div>
                                     <div class="chat-panel-title">Reply to customer</div>
                                     <div class="chat-panel-subtitle">Your message will appear in this conversation</div>
@@ -171,18 +251,38 @@
                                 <div class="chat-input-shell">
                                     <textarea class="form-control" id="customMessage" rows="3"
                                         placeholder="Ask a question or write a reply..."
-                                        onkeydown="handleChatComposerKeydown(event)"></textarea>
+                                        onkeydown="handleChatComposerKeydown(event)"
+                                        oninput="updateSendButtonState()"></textarea>
                                     <div class="chat-input-toolbar">
-                                        <div class="chat-tool-icons" aria-hidden="true">
-                                            <span>âŒ•</span><span>â˜º</span><span
-                                                style="font-size:.62rem;font-weight:700;">GIF</span><span>â™©</span></div>
+                                        <div class="chat-tool-icons">
+                                            <button type="button" class="chat-attach-btn"
+                                                onclick="document.getElementById('chatImageFile').click()"
+                                                aria-label="Attach image">
+                                                <svg viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M4 8.5A1.5 1.5 0 0 1 5.5 7H8l1-1.5h6L16 7h2.5A1.5 1.5 0 0 1 20 8.5v8A1.5 1.5 0 0 1 18.5 18h-13A1.5 1.5 0 0 1 4 16.5v-8Z"
+                                                        stroke="currentColor" stroke-width="1.6"
+                                                        stroke-linejoin="round" />
+                                                    <circle cx="12" cy="12.5" r="3" stroke="currentColor"
+                                                        stroke-width="1.6" />
+                                                </svg>
+                                            </button>
+                                            <input type="file" id="chatImageFile" accept="image/*" hidden
+                                                onchange="handleChatImageSelected()" />
+                                            <span id="chatImagePreview" class="chat-image-chip hidden"></span>
+                                        </div>
                                         <button class="chat-send-button" onclick="sendMessageToUser()"
-                                            id="sendMessageBtn" aria-label="Send message">âž¤</button>
+                                            id="sendMessageBtn" aria-label="Send message" disabled>
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="m3 11 18-7-7 18-2.5-7L3 11Z" stroke="currentColor"
+                                                    stroke-width="1.7" stroke-linejoin="round" />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-outline-secondary mt-4" onclick="showListView()">â† Back to Dashboard</button>
             </div>

@@ -228,16 +228,6 @@
             else { btn.textContent = "Completed"; btn.disabled = true; }
         }
 
-        function handleMessageTypeChange() {
-            const type = document.getElementById("messageType").value;
-            document.getElementById("customMessageDiv").style.display = type === "custom" ? "block" : "none";
-            document.getElementById("serviceRequestPreviewDiv").style.display = type === "service_request" ? "block" : "none";
-            document.getElementById("bookingPreviewDiv").style.display = type === "booking_confirmation" ? "block" : "none";
-            document.getElementById("generalUpdateDiv").style.display = type === "general" ? "block" : "none";
-            document.getElementById("imageMessageDiv").style.display = type === "image" ? "block" : "none";
-            if (type !== "image") { const fi = document.getElementById("imageFile"); const cap = document.getElementById("imageCaption"); const wrap = document.getElementById("imagePreviewWrap"); const img = document.getElementById("imagePreview"); if (fi) fi.value = ""; if (cap) cap.value = ""; if (wrap) wrap.classList.add("hidden"); if (img) img.src = ""; }
-        }
-
         async function uploadCustomerServiceImage(file, chatId) {
             const formData = new FormData();
             formData.append("file", file); formData.append("chatId", chatId); formData.append("magicWordId", currentMagicWordId || "");
@@ -254,42 +244,62 @@
             }
         }
 
+        function updateSendButtonState() {
+            const btn = document.getElementById("sendMessageBtn");
+            if (!btn) return;
+            const hasText = document.getElementById("customMessage").value.trim().length > 0;
+            const hasImage = !!document.getElementById("chatImageFile")?.files?.length;
+            btn.disabled = !(hasText || hasImage);
+        }
+
+        function handleChatImageSelected() {
+            const file = document.getElementById("chatImageFile").files?.[0];
+            const chip = document.getElementById("chatImagePreview");
+            if (!file) {
+                chip.classList.add("hidden");
+                chip.innerHTML = "";
+            } else {
+                chip.classList.remove("hidden");
+                chip.innerHTML = `${escapeHtml(file.name)} <button type="button" onclick="clearChatImageSelection()" aria-label="Remove attachment">&times;</button>`;
+            }
+            updateSendButtonState();
+        }
+
+        function clearChatImageSelection() {
+            const input = document.getElementById("chatImageFile");
+            if (input) input.value = "";
+            const chip = document.getElementById("chatImagePreview");
+            if (chip) { chip.classList.add("hidden"); chip.innerHTML = ""; }
+            updateSendButtonState();
+        }
+
         async function sendMessageToUser() {
-            const type = document.getElementById("messageType").value;
-            if (!type) { alert("Select message type"); return; }
             const chatId = document.getElementById("detail-chatId").textContent.trim();
             if (!chatId) { alert("Chat ID not found"); return; }
-            let content = "", imageUrl = null;
-            if (type === "custom") { content = document.getElementById("customMessage").value.trim(); if (!content) { alert("Enter message"); return; } }
-            else if (type === "service_request") content = "âœ… Your request has been created. Our team will contact you shortly.";
-            else if (type === "booking_confirmation") content = "ðŸŽ« Your booking is confirmed! Thank you for choosing us.";
-            else if (type === "general") content = "ðŸ“¢ We're here to help! Contact us if you have questions.";
-            else if (type === "image") {
-                const file = document.getElementById("imageFile").files?.[0];
-                content = document.getElementById("imageCaption").value.trim() || "";
-                if (!file) { alert("Please select an image"); return; }
-                try { const btn = document.getElementById("sendMessageBtn"); btn.disabled = true; btn.textContent = "Uploading image..."; imageUrl = await uploadCustomerServiceImage(file, chatId); btn.textContent = "Sending..."; }
-                catch (err) { alert("Upload failed: " + err.message); const btn = document.getElementById("sendMessageBtn"); btn.disabled = false; btn.textContent = "Send Message"; return; }
-            }
+
+            const content = document.getElementById("customMessage").value.trim();
+            const file = document.getElementById("chatImageFile")?.files?.[0] || null;
+            if (!content && !file) { alert("Enter a message or attach an image"); return; }
+
+            const btn = document.getElementById("sendMessageBtn");
+            let imageUrl = null;
+            btn.disabled = true;
             try {
-                const btn = document.getElementById("sendMessageBtn"); btn.disabled = true; btn.textContent = "Sending...";
-                const response = await fetch(`${BASE}/api/magic-words/${currentMagicWordId}/send-message`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messageType: type, message: content || '', imageUrl: imageUrl || null, chatId }) });
+                if (file) {
+                    imageUrl = await uploadCustomerServiceImage(file, chatId);
+                }
+                const response = await fetch(`${BASE}/api/magic-words/${currentMagicWordId}/send-message`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messageType: "custom", message: content, imageUrl: imageUrl || null, chatId }) });
                 const result = await response.json();
-                if (result.success) { document.getElementById("customMessage").value = ""; await loadChatMessages(chatId); }
-                else { alert(`Error: ${result.error}`); }
-            } catch (error) { alert("Error sending message"); }
-            finally { const btn = document.getElementById("sendMessageBtn"); btn.disabled = false; btn.textContent = "âž¤"; }
+                if (result.success) {
+                    document.getElementById("customMessage").value = "";
+                    clearChatImageSelection();
+                    await loadChatMessages(chatId);
+                } else { alert(`Error: ${result.error}`); }
+            } catch (error) { alert("Error sending message: " + (error.message || error)); }
+            finally { updateSendButtonState(); }
         }
 
         function escapeHtml(text) { const div = document.createElement("div"); div.textContent = text; return div.innerHTML; }
-
-        document.addEventListener("change", (e) => {
-            if (e.target && e.target.id === "imageFile") {
-                const file = e.target.files?.[0]; const wrap = document.getElementById("imagePreviewWrap"); const img = document.getElementById("imagePreview");
-                if (!file) { wrap.classList.add("hidden"); img.src = ""; return; }
-                img.src = URL.createObjectURL(file); wrap.classList.remove("hidden");
-            }
-        });
 
         async function toggleHumanInteraction() {
             const toggle = document.getElementById("humanInteractionToggle");

@@ -879,13 +879,72 @@
 
         .chat-send-button {
             margin-left: auto;
-            background: #e5e7eb;
-            color: #c3c7cc;
-            box-shadow: none;
         }
 
-        .chat-send-button:hover {
-            transform: none;
+        .chat-send-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .chat-attach-btn {
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: transparent;
+            color: #68717d;
+            cursor: pointer;
+            transition: background .15s ease, color .15s ease;
+        }
+
+        .chat-attach-btn:hover {
+            background: #f1f2f4;
+            color: #20242b;
+        }
+
+        .chat-attach-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .chat-image-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            max-width: 170px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #f1f2f4;
+            color: #3a4048;
+            font-size: .72rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .chat-image-chip.hidden {
+            display: none;
+        }
+
+        .chat-image-chip button {
+            border: 0;
+            background: transparent;
+            color: #68717d;
+            font-size: .95rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .chat-panel-icon svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .traviz-detail-panel {
+            min-height: auto;
         }
 
         .service-order-chat-composer {
