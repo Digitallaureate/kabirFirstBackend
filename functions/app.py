@@ -721,7 +721,6 @@ def update_magic_word_status(magic_word_id):
             else:
                 logging.warning(f"⚠️ Booking order creation failed: {order_result.get('error')}")
         
-        vendor_id = vendor_user_name
         return jsonify({
             "success": True,
             "new_status": new_status,

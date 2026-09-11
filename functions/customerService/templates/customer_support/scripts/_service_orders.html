@@ -214,40 +214,6 @@
             `;
         }
 
-        async function updateServiceOrderStatus() {
-            const orderId = window._currentServiceOrderId;
-            if (!orderId) return;
-            const newStatus = normalizeOrderStatusValue(document.getElementById("sod-newStatus").value);
-            if (!newStatus) { alert("Please select a status"); return; }
-            try {
-                const btn = document.getElementById("sod-updateStatusBtn");
-                btn.disabled = true; btn.textContent = "Updating...";
-                const res = await fetch(`${API_BASE}/service-orders/${orderId}/status`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                const result = await res.json();
-                if (result.success) {
-                    const badge = document.getElementById("sod-statusBadge");
-                    badge.textContent = result.new_status;
-                    badge.className = `badge ${getOrderStatusBadge(result.new_status)}`;
-                    alert(`âœ… Status updated to: ${result.new_status}`);
-                    if (result.new_status) {
-                        const normalizedStatus = normalizeOrderStatusValue(result.new_status);
-                        const badge = document.getElementById("sod-statusBadge");
-                        if (badge) {
-                            badge.textContent = normalizedStatus;
-                            badge.className = `badge ${getOrderStatusBadge(normalizedStatus)}`;
-                        }
-                        populateOrderStatusOptions(normalizedStatus, !!document.getElementById("sod-vendorSelect")?.value);
-                    }
-                    loadServiceOrderRequests();
-                } else { alert("Error: " + result.error); }
-            } catch (e) { alert("Error updating status: " + e.message); }
-            finally { const btn = document.getElementById("sod-updateStatusBtn"); btn.disabled = false; btn.textContent = "Update Status"; }
-        }
-
         async function loadVendors(selectedVendorId = null) {
             try {
                 const res = await fetch(`${API_BASE}/vendors`);
@@ -264,32 +230,6 @@
                     });
                 }
             } catch (e) { console.error("loadVendors error:", e); }
-        }
-
-        async function assignVendorToOrderLegacyUnused() {
-            const orderId = window._currentServiceOrderId;
-            if (!orderId) return;
-            const vendorId = document.getElementById("sod-vendorSelect").value;
-            if (!vendorId) { alert("Please select a vendor"); return; }
-            const vendorPrice = document.getElementById("sod-vendorPrice").value;
-            const vendorUserName = document.getElementById("sod-currentVendor").value;
-            try {
-                const btn = document.getElementById("sod-assignVendorBtn");
-                btn.disabled = true; btn.textContent = "Assigning...";
-                const res = await fetch(`${API_BASE}/service-orders/${orderId}/assign-vendor`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ vendor_id: vendorUserName, vendor_price: vendorPrice || null })
-                });
-                const result = await res.json();
-                if (result.success) {
-                    document.getElementById("sod-currentVendor").innerHTML =
-                        `<span class="badge bg-success me-2">âœ… Assigned</span><strong>${escapeHtml(result.vendor_name || result.vendor_id)}</strong>`;
-                    alert(`âœ… Vendor assigned: ${result.vendor_name || result.vendor_id}`);
-                    loadServiceOrderRequests();
-                } else { alert("Error: " + result.error); }
-            } catch (e) { alert("Error assigning vendor: " + e.message); }
-            finally { const btn = document.getElementById("sod-assignVendorBtn"); btn.disabled = false; btn.textContent = "Assign Vendor"; }
         }
 
         async function assignVendorToOrder() {
