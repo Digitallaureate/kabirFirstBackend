@@ -240,9 +240,9 @@ def get_user_summary_by_id(user_id: str) -> dict:
 
 def search_users(query: str, limit: int = 20) -> dict:
     """
-    Search the `users` collection by email (exact), phone (exact), or name
-    (starts-with). Returns lightweight candidates -- pick one and call
-    get_user_summary_by_id for the full enriched detail.
+    Search the `users` collection by user id (exact), email (exact), phone
+    (exact), or name (starts-with). Returns lightweight candidates -- pick
+    one and call get_user_summary_by_id for the full enriched detail.
 
     Name search limitation: Firestore range queries are case-sensitive/
     byte-ordered and there is no normalized lowercase name field on existing
@@ -275,6 +275,13 @@ def search_users(query: str, limit: int = 20) -> dict:
             }
 
     try:
+        # Always try an exact user-id lookup first -- cheap (a single get,
+        # not a query) and handles pasting a raw Firestore/Firebase uid,
+        # which won't match any of the email/phone/name patterns below.
+        direct_doc = db.collection("users").document(q).get()
+        if direct_doc.exists:
+            _add(direct_doc)
+
         if "@" in q:
             for field in ("email", "emailAddress", "userEmail"):
                 for doc in db.collection("users").where(field, "==", q).limit(limit).stream():
