@@ -189,7 +189,7 @@
 
 
                 <div class="card border-0 shadow-sm mb-3">
-                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Chat Pannel</div>
+                    <div class="card-header" style="background:#2c3e50;color:white;font-weight:600;">Chat Panel</div>
 
                     <div class="card-body" style="padding:0;">
                         <!-- <div class="p-3 border-bottom bg-light">
@@ -206,7 +206,12 @@
                                     oninput="updateServiceOrderSendButton()"
                                     onkeydown="handleServiceOrderComposerKeydown(event)"></textarea>
                                 <button id="sod-sendMessageBtn" class="chat-send-button" disabled
-                                    onclick="sendServiceOrderMessage()" aria-label="Send message">➤</button>
+                                    onclick="sendServiceOrderMessage()" aria-label="Send message">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="m3 11 18-7-7 18-2.5-7L3 11Z" stroke="currentColor" stroke-width="1.7"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
