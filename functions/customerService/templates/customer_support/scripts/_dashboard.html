@@ -9,10 +9,11 @@
 
             document.body.classList.toggle("dashboard-tab-requests", tab === "requests");
             document.body.classList.toggle("dashboard-tab-orders", tab === "orders");
+            document.body.classList.toggle("dashboard-tab-users", tab === "users");
 
             const dashboard = document.getElementById("dashboardContent");
             if (dashboard) {
-                dashboard.classList.remove("mode-overview", "mode-requests", "mode-orders");
+                dashboard.classList.remove("mode-overview", "mode-requests", "mode-orders", "mode-users");
                 dashboard.classList.add(`mode-${tab}`);
             }
 
@@ -20,11 +21,12 @@
                 btn.classList.toggle("active", btn.dataset.dashboardTab === tab);
             });
 
-            if (tab === "orders") loadServiceOrderRequests();
+            if (tab === "users") { /* search-driven, nothing to load up front */ }
+            else if (tab === "orders") loadServiceOrderRequests(currentFilteredOrderUserId);
             else if (tab === "requests") loadMagicWordRequests(currentFilteredUserId);
             else {
                 loadMagicWordRequests(currentFilteredUserId);
-                loadServiceOrderRequests();
+                loadServiceOrderRequests(currentFilteredOrderUserId);
             }
         }
 
@@ -45,29 +47,84 @@
             document.getElementById("serviceOrderDetailView").classList.remove("hidden");
         }
 
-        async function searchUser(event) {
+        async function searchUsers(event) {
             event.preventDefault();
-            const identifier = document.getElementById("userIdentifier").value.trim();
-            if (!identifier) { alert("Please enter phone or email"); return; }
+            const query = document.getElementById("userSearchQuery").value.trim();
+            if (!query) return;
+
+            const errorEl = document.getElementById("userSearchError");
+            const emptyEl = document.getElementById("userSearchEmpty");
+            const resultsEl = document.getElementById("userSearchResults");
+            errorEl.classList.add("hidden");
+            emptyEl.classList.add("hidden");
+            resultsEl.innerHTML = "";
+            document.getElementById("userInitialMessage").classList.add("hidden");
+            document.getElementById("userSummaryContent").classList.add("hidden");
+
             try {
-                document.getElementById("userErrorMessage").classList.add("hidden");
-                document.getElementById("userInitialMessage").classList.add("hidden");
-                document.getElementById("userSummaryContent").classList.add("hidden");
-                const response = await fetch(`${BASE}/user-summary`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ identifier }) });
+                const response = await fetch(`${API_BASE}/users/search?q=${encodeURIComponent(query)}`);
                 const data = await response.json();
-                if (data.error) { document.getElementById("userErrorMessage").textContent = data.error; document.getElementById("userErrorMessage").classList.remove("hidden"); return; }
-                const summary = data.summary;
-                document.getElementById("summary-userId").textContent = summary.userId || "N/A";
-                document.getElementById("summary-userName").textContent = `${summary.user.firstName || ""} ${summary.user.lastName || ""}`.trim() || "N/A";
-                document.getElementById("summary-userPhone").textContent = summary.user.phoneNumber || "N/A";
-                document.getElementById("summary-userEmail").textContent = summary.user.email || "N/A";
-                if (summary.latest_location) { document.getElementById("summary-location").textContent = summary.latest_location.location || "N/A"; document.getElementById("summary-coords").textContent = `${summary.latest_location.latitude || "?"}, ${summary.latest_location.longitude || "?"}`; document.getElementById("summary-recordedAt").textContent = formatDateShort(summary.latest_location.created_at) || "N/A"; document.getElementById("locationCard").style.display = "block"; }
-                else { document.getElementById("locationCard").style.display = "none"; }
-                document.getElementById("summary-chatCount").textContent = summary.chat_count || 0;
-                document.getElementById("summary-latestChat").textContent = formatDateShort(summary.latest_chat_createdAt) || "N/A";
+                if (!response.ok || data.error) {
+                    errorEl.textContent = data.error || "Search failed";
+                    errorEl.classList.remove("hidden");
+                    return;
+                }
+                const users = data.users || [];
+                if (users.length === 0) {
+                    emptyEl.classList.remove("hidden");
+                    return;
+                }
+                resultsEl.innerHTML = users.map(u => {
+                    const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Unnamed traveller";
+                    const contact = u.phoneNumber || u.email || "No contact on file";
+                    return `<button class="traviz-user-result-row" type="button" onclick="selectSearchedUser('${u.userId}')">
+                        <span class="traviz-person" style="background:${getAvatarColor(name)};">${escapeHtml(getInitials(name))}</span>
+                        <span class="traviz-row-main"><span class="traviz-primary">${escapeHtml(name)}</span><span class="traviz-secondary">${escapeHtml(contact)}</span></span>
+                        <span class="traviz-mini-btn">View</span>
+                    </button>`;
+                }).join("");
+
+                // If there's exactly one match, jump straight to their detail card.
+                if (users.length === 1) selectSearchedUser(users[0].userId);
+            } catch (error) {
+                errorEl.textContent = "Error: " + error.message;
+                errorEl.classList.remove("hidden");
+            }
+        }
+
+        async function selectSearchedUser(userId) {
+            const errorEl = document.getElementById("userSearchError");
+            errorEl.classList.add("hidden");
+            try {
+                const response = await fetch(`${API_BASE}/users/${userId}`);
+                const data = await response.json();
+                if (!data.found) {
+                    errorEl.textContent = data.message || data.error || "User not found";
+                    errorEl.classList.remove("hidden");
+                    return;
+                }
+                selectedSearchedUserId = data.userId;
+                document.getElementById("userInitialMessage").classList.add("hidden");
+                document.getElementById("summary-userId").textContent = data.userId || "N/A";
+                document.getElementById("summary-userName").textContent = `${data.user.firstName || ""} ${data.user.lastName || ""}`.trim() || "N/A";
+                document.getElementById("summary-userPhone").textContent = data.user.phoneNumber || "N/A";
+                document.getElementById("summary-userEmail").textContent = data.user.email || "N/A";
+                if (data.latest_location) {
+                    document.getElementById("summary-location").textContent = data.latest_location.location || "N/A";
+                    document.getElementById("summary-coords").textContent = `${data.latest_location.latitude || "?"}, ${data.latest_location.longitude || "?"}`;
+                    document.getElementById("summary-recordedAt").textContent = formatDateShort(data.latest_location.created_at) || "N/A";
+                    document.getElementById("locationCard").style.display = "block";
+                } else {
+                    document.getElementById("locationCard").style.display = "none";
+                }
+                document.getElementById("summary-chatCount").textContent = data.chat_count || 0;
+                document.getElementById("summary-latestChat").textContent = formatDateShort(data.latest_chat_createdAt) || "N/A";
                 document.getElementById("userSummaryContent").classList.remove("hidden");
-                if (summary.userId) { await loadUserMagicWordRequests(summary.userId); loadOrderHistory(summary.userId); loadPaymentHistory(summary.userId); }
-            } catch (error) { document.getElementById("userErrorMessage").textContent = "Error: " + error.message; document.getElementById("userErrorMessage").classList.remove("hidden"); }
+                document.getElementById("userDetailPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (error) {
+                errorEl.textContent = "Error: " + error.message;
+                errorEl.classList.remove("hidden");
+            }
         }
 
         function getStatusBadgeClass(status) {
@@ -129,7 +186,7 @@
                 customWrap.classList.add("hidden");
             }
             loadMagicWordRequests(currentFilteredUserId);
-            loadServiceOrderRequests();
+            loadServiceOrderRequests(currentFilteredOrderUserId);
             loadCompletedCount();
         }
 
@@ -156,13 +213,26 @@
             const userId = document.getElementById("summary-userId")?.textContent.trim();
             if (!userId || userId === "N/A") { alert("User ID not found. Please search for a user first."); return; }
             currentFilteredUserId = userId;
-            loadMagicWordRequests(userId);
+            showDashboardTab("requests");
         }
 
         function clearUserFilter() {
             currentFilteredUserId = null;
             document.getElementById("filterBadgeContainer").innerHTML = "";
             loadMagicWordRequests(null);
+        }
+
+        function filterOrdersByUser() {
+            const userId = document.getElementById("summary-userId")?.textContent.trim();
+            if (!userId || userId === "N/A") { alert("User ID not found. Please search for a user first."); return; }
+            currentFilteredOrderUserId = userId;
+            showDashboardTab("orders");
+        }
+
+        function clearOrderUserFilter() {
+            currentFilteredOrderUserId = null;
+            document.getElementById("orderFilterBadgeContainer").innerHTML = "";
+            loadServiceOrderRequests(null);
         }
 </script>
 

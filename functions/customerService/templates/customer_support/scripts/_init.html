@@ -4,6 +4,6 @@
         loadCompletedCount();
 
         setInterval(() => { loadMagicWordRequests(currentFilteredUserId, true); }, 5000);
-        setInterval(() => { loadServiceOrderRequests(true); }, 5000);
+        setInterval(() => { loadServiceOrderRequests(currentFilteredOrderUserId, true); }, 5000);
         setInterval(loadCompletedCount, 5000);
 </script>

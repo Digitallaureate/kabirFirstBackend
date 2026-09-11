@@ -1,7 +1,8 @@
 <script>
-        async function loadServiceOrderRequests(isBackgroundPoll = false) {
+        async function loadServiceOrderRequests(filterUserId = null, isBackgroundPoll = false) {
             try {
-                const url = `${API_BASE}/service-orders`;
+                let url = `${API_BASE}/service-orders`;
+                if (filterUserId) url += `?userId=${encodeURIComponent(filterUserId)}`;
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -21,10 +22,17 @@
                 // skip DOM update if list view is hidden (background poll)
                 if (isBackgroundPoll && listView && listView.classList.contains("hidden")) return;
 
+                const filterContainer = document.getElementById("orderFilterBadgeContainer");
+                if (filterContainer) {
+                    filterContainer.innerHTML = filterUserId
+                        ? `<div class="alert alert-info mb-3" style="border-radius:5px;padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;"><span style="display:flex;align-items:center;gap:0.5rem;"><strong>Filtered Results</strong><code style="background:white;padding:0.3rem 0.6rem;border-radius:3px;color:#2c3e50;font-weight:600;">${escapeHtml(filterUserId)}</code></span><button class="btn btn-sm btn-outline-secondary" onclick="clearOrderUserFilter()" style="font-size:0.8rem;padding:0.3rem 0.8rem;">Clear Filter</button></div>`
+                        : "";
+                }
+
                 if (!data.found || allItems.length === 0 || displayItems.length === 0) {
                     if (emptyEl) {
                         emptyEl.classList.remove("hidden");
-                        emptyEl.textContent = currentDashboardTab === "overview" ? "No service orders found in the selected range" : "No booked service orders found";
+                        emptyEl.textContent = filterUserId ? `No orders found for user: ${filterUserId}` : (currentDashboardTab === "overview" ? "No service orders found in the selected range" : "No booked service orders found");
                     }
                     if (listEl) listEl.innerHTML = "";
                     return;
@@ -281,7 +289,7 @@
                 }
 
                 alert(`Vendor assigned: ${result.vendor_name || result.vendor_id}`);
-                loadServiceOrderRequests();
+                loadServiceOrderRequests(currentFilteredOrderUserId);
             } catch (e) {
                 alert("Error assigning vendor: " + e.message);
             } finally {
@@ -330,7 +338,7 @@
                 );
 
                 alert(`Status updated to: ${normalizedStatus}`);
-                loadServiceOrderRequests();
+                loadServiceOrderRequests(currentFilteredOrderUserId);
             } catch (e) {
                 alert("Error updating status: " + e.message);
             } finally {

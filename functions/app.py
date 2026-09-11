@@ -8,7 +8,7 @@ from uuid import uuid4
 from urllib.parse import quote
 
 # ✅ Import from your package modules
-from customerService.user_summary import get_user_summary_by_phone
+from customerService.user_summary import get_user_summary_by_phone, get_user_summary_by_id, search_users
 from customerService.magic_word_summary import (
     get_magicword_requests,
     get_magicword_detail,
@@ -269,6 +269,40 @@ def user_summary():
         summary=summary,
         error=error
     )
+
+
+@app.route("/api/users/search", methods=["GET"])
+@login_required
+def api_users_search():
+    """Search the users collection by name (starts-with), email, or phone
+    (both exact) for the sidebar Users section. Returns lightweight
+    candidates -- fetch full detail per-candidate via /api/users/<user_id>."""
+    try:
+        query = (request.args.get("q") or "").strip()
+        if not query:
+            return jsonify({"found": False, "error": "Query parameter 'q' is required"}), 400
+
+        limit = int(request.args.get("limit", "20"))
+        result = search_users(query, limit=limit)
+        return jsonify(result), (500 if "error" in result else 200)
+    except Exception as e:
+        logging.exception("Error searching users")
+        return jsonify({"found": False, "error": str(e)}), 500
+
+
+@app.route("/api/users/<user_id>", methods=["GET"])
+@login_required
+def api_user_detail(user_id):
+    """Full enriched detail (location + chat activity) for one user, used
+    when a candidate is picked from /api/users/search results."""
+    try:
+        result = get_user_summary_by_id(user_id)
+        if not result.get("found"):
+            return jsonify(result), 404
+        return jsonify(result), 200
+    except Exception as e:
+        logging.exception("Error fetching user detail")
+        return jsonify({"found": False, "error": str(e)}), 500
 
 
 @app.route("/api/magic-words", methods=["GET"])
@@ -1169,8 +1203,12 @@ def _normalize_service_json_order(order: dict) -> dict:
 @login_required
 def api_service_orders():
     """
-    Fetch service orders from 'serviceJsonOrder' collection
-    where booking_status == 'booked'.
+    Fetch service orders from 'serviceJsonOrder' collection.
+
+    Default (no `userId`): where booking_status == 'booked' -- the open-orders
+    working queue. With `userId`: that user's full order history regardless of
+    status, for the sidebar Users section's "View User Orders" action.
+
     Returns a list sorted by created_at desc (newest first).
     """
     try:
@@ -1182,13 +1220,21 @@ def api_service_orders():
             return jsonify({"found": False, "error": "Firestore client not initialized"}), 500
 
         limit = int(request.args.get("limit", "1000"))
+        user_id = request.args.get("userId")
 
         col = db.collection("serviceJsonOrder")
-        q = (
-            col.where(filter=FieldFilter("booking_status", "==", "booked"))
-            .limit(limit)
-            .stream()
-        )
+        if user_id:
+            q = (
+                col.where(filter=FieldFilter("user_id", "==", user_id))
+                .limit(limit)
+                .stream()
+            )
+        else:
+            q = (
+                col.where(filter=FieldFilter("booking_status", "==", "booked"))
+                .limit(limit)
+                .stream()
+            )
 
         items = []
         for doc in q:
@@ -1208,7 +1254,7 @@ def api_service_orders():
         items.sort(key=lambda x: x.get("created_at") or "", reverse=True)
         items = items[:limit]
 
-        logging.info(f"✅ Fetched {len(items)} service orders with booking_status=booked")
+        logging.info(f"✅ Fetched {len(items)} service orders ({'userId=' + user_id if user_id else 'booking_status=booked'})")
         logging.info("Service orders sample count: %s", len(items))
         if items:
             logging.info("Service orders sample (first 3): %s", json.dumps(items[:3], default=str))

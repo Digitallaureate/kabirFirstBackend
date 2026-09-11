@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 import logging
 import json
 import argparse
+import re
 
 from firebase_functions import https_fn
 from firebase_functions.https_fn import Request, Response
@@ -102,108 +103,205 @@ def get_user_summary_by_phone(identifier: str) -> dict:
         if not user_doc:
             return {"found": False, "message": "User not found"}
 
-        user_data = user_doc.to_dict() or {}
-        user_id = user_data.get("uid") or user_doc.id
-
-        # --------------------------------------
-        # 2️⃣ FETCH LATEST LOCATION
-        # from top-level collection user_locations
-        # --------------------------------------
-        latest_location = None
-
-        loc_query = (
-            db.collection("user_locations")
-              .where("user_id", "==", user_id)
-              .order_by("created_at", direction=gfirestore.Query.DESCENDING)
-              .limit(1)
-              .get()
-        )
-
-        if loc_query:
-            loc_doc = loc_query[0]
-            loc_data = loc_doc.to_dict() or {}
-            loc_data["id"] = loc_doc.id
-
-            # normalize created_at → ISO and add readable variant
-            if "created_at" in loc_data:
-                iso = _ts_to_iso(loc_data["created_at"])
-                loc_data["created_at"] = iso
-                loc_data["created_at_readable"] = _iso_to_readable(iso)
-            if "createdAt" in loc_data:
-                iso2 = _ts_to_iso(loc_data["createdAt"])
-                loc_data["createdAt"] = iso2
-                loc_data["createdAt_readable"] = _iso_to_readable(iso2)
-
-            latest_location = loc_data
-
-        # --------------------------------------
-        # 3️⃣ CHATS FOR THIS USER
-        # participants[] contains userId
-        # --------------------------------------
-        # Count chats
-        chats = (
-            db.collection("chats")
-              .where("participants", "array_contains", user_id)
-              .get()
-        )
-        chat_count = len(chats)
-
-        # latest created_at
-        latest_chat_created_at = None
-        created_q = (
-            db.collection("chats")
-              .where("participants", "array_contains", user_id)
-              .order_by("created_at", direction=gfirestore.Query.DESCENDING)
-              .limit(1)
-              .get()
-        )
-        if created_q:
-            latest_chat_created_at = _ts_to_iso(
-                created_q[0].to_dict().get("created_at")
-            )
-
-        # latest updated_at
-        latest_chat_updated_at = None
-        updated_q = (
-            db.collection("chats")
-              .where("participants", "array_contains", user_id)
-              .order_by("updated_at", direction=gfirestore.Query.DESCENDING)
-              .limit(1)
-              .get()
-        )
-        if updated_q:
-            latest_chat_updated_at = _ts_to_iso(
-                updated_q[0].to_dict().get("updated_at")
-            )
-
-        # add readable variants (fix: derive from latest_location fields, not from whole dict)
-        latest_location_created_readable = None
-        if latest_location:
-            iso_loc = latest_location.get("created_at") or latest_location.get("createdAt")
-            latest_location_created_readable = _iso_to_readable(iso_loc) if iso_loc else None
-
-        # make readable versions for chat timestamps
-        readable_chat_created = _iso_to_readable(latest_chat_created_at) if latest_chat_created_at else None
-        readable_chat_updated = _iso_to_readable(latest_chat_updated_at) if latest_chat_updated_at else None
-
-        # --------------------------------------
-        # 4️⃣ FINAL JSON RESPONSE
-        # --------------------------------------
-        return {
-            "found": True,
-            "userId": user_id,
-            "user": user_data,
-            "latest_location": latest_location,
-            "chat_count": chat_count,
-            "latest_chat_createdAt": latest_chat_created_at,
-            "latest_chat_updatedAt": latest_chat_updated_at,
-            "latest_location_createdAt_readable": latest_location_created_readable,
-            "latest_chat_createdAt_readable": readable_chat_created,
-            "latest_chat_updatedAt_readable": readable_chat_updated,
-        }
+        return _build_user_summary(db, user_doc)
 
     except Exception as e:
         logging.exception("get_user_summary_by_phone error: %s", e)
+        return {"found": False, "error": str(e)}
+
+
+def _build_user_summary(db, user_doc) -> dict:
+    """
+    Given a fetched `users` document snapshot, enrich it with the user's
+    latest location and chat activity. Shared by the phone/email lookup
+    (get_user_summary_by_phone), the by-id lookup (get_user_summary_by_id),
+    and search result selection (search_users returns candidates only --
+    this is called once a specific candidate is picked).
+    """
+    user_data = user_doc.to_dict() or {}
+    user_id = user_data.get("uid") or user_doc.id
+
+    # --------------------------------------
+    # 2️⃣ FETCH LATEST LOCATION
+    # from top-level collection user_locations
+    # --------------------------------------
+    latest_location = None
+
+    loc_query = (
+        db.collection("user_locations")
+          .where("user_id", "==", user_id)
+          .order_by("created_at", direction=gfirestore.Query.DESCENDING)
+          .limit(1)
+          .get()
+    )
+
+    if loc_query:
+        loc_doc = loc_query[0]
+        loc_data = loc_doc.to_dict() or {}
+        loc_data["id"] = loc_doc.id
+
+        # normalize created_at → ISO and add readable variant
+        if "created_at" in loc_data:
+            iso = _ts_to_iso(loc_data["created_at"])
+            loc_data["created_at"] = iso
+            loc_data["created_at_readable"] = _iso_to_readable(iso)
+        if "createdAt" in loc_data:
+            iso2 = _ts_to_iso(loc_data["createdAt"])
+            loc_data["createdAt"] = iso2
+            loc_data["createdAt_readable"] = _iso_to_readable(iso2)
+
+        latest_location = loc_data
+
+    # --------------------------------------
+    # 3️⃣ CHATS FOR THIS USER
+    # participants[] contains userId
+    # --------------------------------------
+    # Count chats
+    chats = (
+        db.collection("chats")
+          .where("participants", "array_contains", user_id)
+          .get()
+    )
+    chat_count = len(chats)
+
+    # latest created_at
+    latest_chat_created_at = None
+    created_q = (
+        db.collection("chats")
+          .where("participants", "array_contains", user_id)
+          .order_by("created_at", direction=gfirestore.Query.DESCENDING)
+          .limit(1)
+          .get()
+    )
+    if created_q:
+        latest_chat_created_at = _ts_to_iso(
+            created_q[0].to_dict().get("created_at")
+        )
+
+    # latest updated_at
+    latest_chat_updated_at = None
+    updated_q = (
+        db.collection("chats")
+          .where("participants", "array_contains", user_id)
+          .order_by("updated_at", direction=gfirestore.Query.DESCENDING)
+          .limit(1)
+          .get()
+    )
+    if updated_q:
+        latest_chat_updated_at = _ts_to_iso(
+            updated_q[0].to_dict().get("updated_at")
+        )
+
+    # add readable variants (fix: derive from latest_location fields, not from whole dict)
+    latest_location_created_readable = None
+    if latest_location:
+        iso_loc = latest_location.get("created_at") or latest_location.get("createdAt")
+        latest_location_created_readable = _iso_to_readable(iso_loc) if iso_loc else None
+
+    # make readable versions for chat timestamps
+    readable_chat_created = _iso_to_readable(latest_chat_created_at) if latest_chat_created_at else None
+    readable_chat_updated = _iso_to_readable(latest_chat_updated_at) if latest_chat_updated_at else None
+
+    # --------------------------------------
+    # 4️⃣ FINAL JSON RESPONSE
+    # --------------------------------------
+    return {
+        "found": True,
+        "userId": user_id,
+        "user": user_data,
+        "latest_location": latest_location,
+        "chat_count": chat_count,
+        "latest_chat_createdAt": latest_chat_created_at,
+        "latest_chat_updatedAt": latest_chat_updated_at,
+        "latest_location_createdAt_readable": latest_location_created_readable,
+        "latest_chat_createdAt_readable": readable_chat_created,
+        "latest_chat_updatedAt_readable": readable_chat_updated,
+    }
+
+
+def get_user_summary_by_id(user_id: str) -> dict:
+    """Lookup + enrich a user by their `users` document id directly (used when
+    a specific candidate is picked from search_users results)."""
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
+        return {"found": False, "error": "Firestore client not initialized"}
+
+    try:
+        user_doc = db.collection("users").document(user_id).get()
+        if not user_doc.exists:
+            return {"found": False, "message": "User not found"}
+        return _build_user_summary(db, user_doc)
+    except Exception as e:
+        logging.exception("get_user_summary_by_id error: %s", e)
+        return {"found": False, "error": str(e)}
+
+
+def search_users(query: str, limit: int = 20) -> dict:
+    """
+    Search the `users` collection by email (exact), phone (exact), or name
+    (starts-with). Returns lightweight candidates -- pick one and call
+    get_user_summary_by_id for the full enriched detail.
+
+    Name search limitation: Firestore range queries are case-sensitive/
+    byte-ordered and there is no normalized lowercase name field on existing
+    documents, so this only reliably matches names stored in the same case
+    as typed. We additionally try the Title Case variant since that's the
+    common convention for stored names, but this is NOT a fuzzy or
+    case-insensitive search -- e.g. "RAJ" won't match a name stored "raj".
+    """
+    q = (query or "").strip()
+    if not q:
+        return {"found": False, "error": "Search query is required"}
+
+    try:
+        db = _get_db()
+    except Exception as e:
+        logging.exception("Failed to init Firestore client: %s", e)
+        return {"found": False, "error": "Firestore client not initialized"}
+
+    results = {}
+
+    def _add(doc):
+        if doc.id not in results:
+            d = doc.to_dict() or {}
+            results[doc.id] = {
+                "userId": doc.id,
+                "firstName": d.get("firstName", ""),
+                "lastName": d.get("lastName", ""),
+                "email": d.get("email") or d.get("emailAddress") or d.get("userEmail") or "",
+                "phoneNumber": d.get("phoneNumber") or d.get("phone") or d.get("phone_number") or "",
+            }
+
+    try:
+        if "@" in q:
+            for field in ("email", "emailAddress", "userEmail"):
+                for doc in db.collection("users").where(field, "==", q).limit(limit).stream():
+                    _add(doc)
+        elif re.match(r"^[+\d][\d\s\-()]{5,}$", q):
+            for field in ("phoneNumber", "phone", "phone_number"):
+                for doc in db.collection("users").where(field, "==", q).limit(limit).stream():
+                    _add(doc)
+        else:
+            variants = {q, q.title(), q.capitalize()}
+            for field in ("firstName", "lastName"):
+                for variant in variants:
+                    if not variant:
+                        continue
+                    for doc in (
+                        db.collection("users")
+                        .where(field, ">=", variant)
+                        .where(field, "<=", variant + "")
+                        .limit(limit)
+                        .stream()
+                    ):
+                        _add(doc)
+
+        items = list(results.values())[:limit]
+        return {"found": len(items) > 0, "count": len(items), "users": items}
+    except Exception as e:
+        logging.exception("search_users error: %s", e)
         return {"found": False, "error": str(e)}
 
 

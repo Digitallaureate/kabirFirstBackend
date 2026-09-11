@@ -1,0 +1,74 @@
+<div class="traviz-users-only dashboard-only">
+    <section class="traviz-panel traviz-users-search-panel">
+        <div class="traviz-panel-head">
+            <div class="traviz-panel-title">
+                <span class="traviz-panel-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8.25" r="3.25" stroke="currentColor" stroke-width="1.6" />
+                        <path d="M5 19.5c0-3.45 3.13-6.25 7-6.25s7 2.8 7 6.25" stroke="currentColor"
+                            stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                </span>
+                <div>
+                    <b>Find a Traveller</b>
+                    <small>Search by name, email, or mobile number</small>
+                </div>
+            </div>
+        </div>
+        <form class="traviz-search traviz-users-search-form" onsubmit="searchUsers(event)">
+            <span aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7" />
+                    <path d="m20 20-3.8-3.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                </svg>
+            </span>
+            <input type="text" id="userSearchQuery" placeholder="Search by name, email, or mobile number..."
+                required />
+        </form>
+        <div id="userSearchResults" class="traviz-list"></div>
+        <div id="userSearchEmpty" class="alert alert-info text-center traviz-empty hidden">No matching users found
+        </div>
+        <div id="userSearchError" class="alert alert-danger text-center traviz-empty hidden"></div>
+    </section>
+
+    <section class="traviz-user-panel" id="userDetailPanel">
+        <div class="panel-body">
+            <div id="userSummaryContent" class="hidden">
+                <div class="row g-2">
+                    <div class="col-lg-4">
+                        <div class="user-info-card mb-0">
+                            <h6>User Details</h6>
+                            <p><strong>ID:</strong> <code id="summary-userId"></code></p>
+                            <p><strong>Name:</strong> <span id="summary-userName"></span></p>
+                            <p><strong>Phone:</strong> <span id="summary-userPhone"></span></p>
+                            <p><strong>Email:</strong> <span id="summary-userEmail"></span></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="user-info-card mb-0" id="locationCard" style="display:none;">
+                            <h6>Location</h6>
+                            <p><strong>Place:</strong> <span id="summary-location"></span></p>
+                            <p><strong>Coords:</strong> <span id="summary-coords"></span></p>
+                            <p><strong>Recorded:</strong> <span id="summary-recordedAt"></span></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="user-info-card mb-0">
+                            <h6>Chats</h6>
+                            <p><strong>Total:</strong> <span id="summary-chatCount" class="badge bg-info">0</span></p>
+                            <p><strong>Latest:</strong> <span id="summary-latestChat"></span></p>
+                            <div class="d-flex gap-2 mt-2">
+                                <button class="btn btn-primary btn-sm" onclick="filterRequestsByUser()">View
+                                    User Requests</button>
+                                <button class="btn btn-outline-primary btn-sm" onclick="filterOrdersByUser()">View
+                                    User Orders</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="userInitialMessage" class="alert alert-info mb-0">Search a name, phone number, or email above
+                to inspect a traveller profile.</div>
+        </div>
+    </section>
+</div>

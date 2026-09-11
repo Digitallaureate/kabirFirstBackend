@@ -7,7 +7,8 @@
             await logoutCustomerService({ stopPolling: true });
         }
 
-        let currentMagicWordId = null, currentStatus = null, currentServiceRequestId = null, currentFilteredUserId = null, currentServiceOrderChatId = null;
+        let currentMagicWordId = null, currentStatus = null, currentServiceRequestId = null, currentFilteredUserId = null, currentFilteredOrderUserId = null, currentServiceOrderChatId = null;
+        let selectedSearchedUserId = null;
         let lastLatestRequestId = null, lastLatestRequestTime = 0;
         let isSoundEnabled = localStorage.getItem('isSoundEnabled') === 'true';
         let currentDashboardTab = "overview";

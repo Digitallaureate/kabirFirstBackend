@@ -1278,14 +1278,6 @@
             padding: 18px 26px 24px;
         }
 
-        .traviz-topbar {
-            display: grid;
-            grid-template-columns: minmax(280px, 1fr);
-            gap: 18px;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
         .traviz-search {
             position: relative;
             height: 50px;
@@ -1581,6 +1573,10 @@
             display: none;
         }
 
+        .traviz-dashboard.mode-users .traviz-content-grid {
+            display: none;
+        }
+
         .traviz-overview-only {
             display: block;
         }
@@ -1590,8 +1586,45 @@
         }
 
         body.dashboard-tab-requests .traviz-overview-only,
-        body.dashboard-tab-orders .traviz-overview-only {
+        body.dashboard-tab-orders .traviz-overview-only,
+        body.dashboard-tab-users .traviz-overview-only {
             display: none;
+        }
+
+        .traviz-users-only {
+            display: none;
+        }
+
+        body.dashboard-tab-users .traviz-users-only {
+            display: block;
+        }
+
+        .traviz-users-search-form {
+            margin: 4px 18px 14px;
+        }
+
+        .traviz-user-result-row {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 18px;
+            border: 0;
+            border-bottom: 1px solid #edf2f9;
+            background: #fff;
+            color: inherit;
+            text-align: left;
+            transition: background .18s ease;
+        }
+
+        .traviz-user-result-row:hover {
+            background: #f6fbff;
+        }
+
+        .traviz-users-search-panel {
+            min-height: auto;
+            margin-bottom: 16px;
         }
 
         .traviz-panel {
@@ -1820,7 +1853,7 @@
             }
 
             .traviz-nav {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-template-columns: repeat(4, minmax(0, 1fr));
             }
 
             .traviz-script,
@@ -1832,7 +1865,6 @@
                 padding: 16px;
             }
 
-            .traviz-topbar,
             .traviz-stats,
             .traviz-content-grid {
                 grid-template-columns: 1fr;
