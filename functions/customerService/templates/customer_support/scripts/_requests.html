@@ -129,8 +129,8 @@
                 updateStatusButtonText(currentStatus);
                 if (currentStatus === "requested") { updateMagicWordStatus("inProgress", false); currentStatus = "inProgress"; document.getElementById("detail-status").textContent = "inProgress"; document.getElementById("detail-status").className = `badge ${getStatusBadgeClass("inProgress")}`; updateStatusButtonText("inProgress"); }
                 const chatId = chat.id;
-                if (chatId) { document.getElementById("noChatContextMessage").classList.add("hidden"); startChatPolling(chatId); loadChatMessages(chatId); }
-                else { stopChatPolling(); document.getElementById("detail-chatContext").innerHTML = ""; document.getElementById("noChatContextMessage").classList.remove("hidden"); }
+                if (chatId) { startChatPolling(chatId); loadChatMessages(chatId); }
+                else { stopChatPolling(); renderChatMessages([], "detail-chatContext", '<div class="text-center text-muted mt-3">No chat linked to this request.</div>'); }
                 if (user.id) { await loadUserMagicWordRequests(user.id); loadOrderHistory(user.id); loadPaymentHistory(user.id); }
                 showDetailView();
             } catch (error) { alert("Error loading details"); }
