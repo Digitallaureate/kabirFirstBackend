@@ -58,7 +58,8 @@
                 item.service_name || "",
                 item.field_values?.monument_id?.label || item.monument_name || "",
                 item.booking_status || "",
-                item.id || ""
+                item.id || "",
+                item.user_id || ""
             ].join(" ").toLowerCase();
             return haystack.includes(q);
         }

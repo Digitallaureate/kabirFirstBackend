@@ -49,7 +49,8 @@
                 item.service_name || item.typeOfService || item.magicWord || "",
                 item.userMessage || item.message || item.location || "",
                 item.status || "",
-                item.id || ""
+                item.id || "",
+                item.userId || ""
             ].join(" ").toLowerCase();
             return haystack.includes(q);
         }
