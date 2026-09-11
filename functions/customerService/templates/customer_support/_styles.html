@@ -1472,49 +1472,96 @@
         .traviz-stats {
             display: grid;
             grid-template-columns: repeat(4, minmax(150px, 1fr));
-            gap: 14px;
+            gap: 16px;
             margin-bottom: 18px;
         }
 
         .traviz-stat {
-            min-height: 76px;
+            position: relative;
+            min-height: 118px;
             display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 18px;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            padding: 22px 22px 20px;
             border: 1px solid var(--traviz-line);
-            border-radius: 8px;
+            border-radius: 14px;
             background: var(--traviz-card);
-            box-shadow: 0 12px 30px rgba(36, 100, 166, .08);
+            box-shadow: 0 10px 26px rgba(36, 100, 166, .07);
             overflow: hidden;
+            transition: box-shadow .18s ease, transform .18s ease;
+        }
+
+        .traviz-stat::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 3px;
+            background: var(--stat-accent, #1687f4);
+        }
+
+        .traviz-stat:hover {
+            box-shadow: 0 18px 36px rgba(36, 100, 166, .13);
+            transform: translateY(-2px);
+        }
+
+        .traviz-stat--rose {
+            --stat-accent: linear-gradient(90deg, #fb7185, #f43770);
+            --stat-icon-bg: linear-gradient(135deg, #fca5b4, #f43770);
+            --stat-icon-shadow: rgba(244, 55, 112, .35);
+        }
+
+        .traviz-stat--blue {
+            --stat-accent: linear-gradient(90deg, #60a5fa, #147fed);
+            --stat-icon-bg: linear-gradient(135deg, #93c5fd, #147fed);
+            --stat-icon-shadow: rgba(20, 127, 237, .35);
+        }
+
+        .traviz-stat--amber {
+            --stat-accent: linear-gradient(90deg, #fbbf5e, #f09010);
+            --stat-icon-bg: linear-gradient(135deg, #fdd394, #f09010);
+            --stat-icon-shadow: rgba(240, 144, 16, .35);
+        }
+
+        .traviz-stat--green {
+            --stat-accent: linear-gradient(90deg, #4ade80, #21aa61);
+            --stat-icon-bg: linear-gradient(135deg, #86efac, #21aa61);
+            --stat-icon-shadow: rgba(33, 170, 97, .35);
         }
 
         .traviz-stat-icon {
-            width: 48px;
-            height: 48px;
-            flex: 0 0 48px;
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
             display: grid;
             place-items: center;
-            border-radius: 8px;
+            border-radius: 11px;
+            background: var(--stat-icon-bg, #1687f4);
+            color: #fff;
+            box-shadow: 0 10px 20px -6px var(--stat-icon-shadow, rgba(20, 127, 237, .35));
         }
 
         .traviz-stat-icon svg {
-            width: 23px;
-            height: 23px;
+            width: 21px;
+            height: 21px;
         }
 
         .traviz-stat strong {
             display: block;
             color: #0a2f5f;
-            font-size: 1.35rem;
+            font-size: 1.85rem;
+            font-weight: 800;
             line-height: 1;
         }
 
-        .traviz-stat span {
+        .traviz-stat-label {
             display: block;
             margin-top: 6px;
-            color: #40577a;
-            font-size: .84rem;
+            color: #7c8aa6;
+            font-size: .72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
             white-space: nowrap;
         }
 
