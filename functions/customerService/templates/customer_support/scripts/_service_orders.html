@@ -1,4 +1,6 @@
 <script>
+        let lastOrderDisplayItems = [];
+
         async function loadServiceOrderRequests(filterUserId = null, isBackgroundPoll = false) {
             try {
                 let url = `${API_BASE}/service-orders`;
@@ -22,6 +24,8 @@
                 // skip DOM update if list view is hidden (background poll)
                 if (isBackgroundPoll && listView && listView.classList.contains("hidden")) return;
 
+                lastOrderDisplayItems = displayItems;
+
                 const filterContainer = document.getElementById("orderFilterBadgeContainer");
                 if (filterContainer) {
                     filterContainer.innerHTML = filterUserId
@@ -29,7 +33,7 @@
                         : "";
                 }
 
-                if (!data.found || allItems.length === 0 || displayItems.length === 0) {
+                if (!data.found || allItems.length === 0) {
                     if (emptyEl) {
                         emptyEl.classList.remove("hidden");
                         emptyEl.textContent = filterUserId ? `No orders found for user: ${filterUserId}` : (currentDashboardTab === "overview" ? "No service orders found in the selected range" : "No booked service orders found");
@@ -38,27 +42,57 @@
                     return;
                 }
 
-                if (emptyEl) emptyEl.classList.add("hidden");
-                if (listEl) {
-                    listEl.innerHTML = displayItems.map(item => {
-                        const date = formatDateShort(getOrderDateValue(item));
-                        const title = item.service_name || "Order";
-                        const monument = item.field_values?.monument_id?.label || item.monument_name || "Destination";
-                        const bookingStatus = item.booking_status || "booked";
-                        const travellerName = getTravellerName(item);
-                        return `<button class="traviz-order-row" type="button" onclick="loadServiceOrderDetail('${item.id}')">
-                            <span class="traviz-thumb">${getOrderThumb(title)}</span>
-                            <span class="traviz-row-main"><span class="traviz-primary">${escapeHtml(title)}</span><span class="traviz-secondary">${escapeHtml(travellerName)}</span></span>
-                            <span class="traviz-time">${escapeHtml(date || monument)}</span>
-                            <span class="badge ${getOrderStatusBadge(bookingStatus)}">${escapeHtml(bookingStatus)}</span>
-                        </button>`;
-                    }).join("");
-                }
+                renderOrderRows(applyOrderSearch(displayItems));
             } catch (error) {
                 console.error("Error loading service orders:", error);
                 const emptyEl = document.getElementById("orderEmptyMessage");
                 if (emptyEl) { emptyEl.classList.remove("hidden"); emptyEl.textContent = "Error loading service orders"; }
             }
+        }
+
+        function orderMatchesQuery(item, q) {
+            const haystack = [
+                getTravellerName(item),
+                item.service_name || "",
+                item.field_values?.monument_id?.label || item.monument_name || "",
+                item.booking_status || "",
+                item.id || ""
+            ].join(" ").toLowerCase();
+            return haystack.includes(q);
+        }
+
+        function applyOrderSearch(items) {
+            const q = (document.getElementById("orderSearchQuery")?.value || "").trim().toLowerCase();
+            return q ? items.filter(item => orderMatchesQuery(item, q)) : items;
+        }
+
+        function filterOrderSearch() {
+            renderOrderRows(applyOrderSearch(lastOrderDisplayItems));
+        }
+
+        function renderOrderRows(items) {
+            const emptyEl = document.getElementById("orderEmptyMessage");
+            const listEl = document.getElementById("orderRequestsList");
+            if (items.length === 0) {
+                emptyEl.classList.remove("hidden");
+                emptyEl.textContent = "No orders match this search";
+                listEl.innerHTML = "";
+                return;
+            }
+            emptyEl.classList.add("hidden");
+            listEl.innerHTML = items.map(item => {
+                const date = formatDateShort(getOrderDateValue(item));
+                const title = item.service_name || "Order";
+                const monument = item.field_values?.monument_id?.label || item.monument_name || "Destination";
+                const bookingStatus = item.booking_status || "booked";
+                const travellerName = getTravellerName(item);
+                return `<button class="traviz-order-row" type="button" onclick="loadServiceOrderDetail('${item.id}')">
+                    <span class="traviz-thumb">${getOrderThumb(title)}</span>
+                    <span class="traviz-row-main"><span class="traviz-primary">${escapeHtml(title)}</span><span class="traviz-secondary">${escapeHtml(travellerName)}</span></span>
+                    <span class="traviz-time">${escapeHtml(date || monument)}</span>
+                    <span class="badge ${getOrderStatusBadge(bookingStatus)}">${escapeHtml(bookingStatus)}</span>
+                </button>`;
+            }).join("");
         }
 
         async function loadServiceOrderDetail(orderId) {

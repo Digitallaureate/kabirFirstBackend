@@ -20,6 +20,16 @@
             <button class="traviz-link-btn" type="button" onclick="clearOrderUserFilter()">View All</button>
         </div>
     </div>
+    <form class="traviz-search traviz-panel-search" onsubmit="event.preventDefault();" role="search">
+        <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7" />
+                <path d="m20 20-3.8-3.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            </svg>
+        </span>
+        <input type="text" id="orderSearchQuery" placeholder="Search this list by traveller, service, or status..."
+            oninput="filterOrderSearch()" />
+    </form>
     <div id="orderFilterBadgeContainer"></div>
     <div id="orderRequestsList" class="traviz-list"></div>
     <div id="orderEmptyMessage" class="alert alert-info text-center traviz-empty hidden">No booked service orders found</div>

@@ -1,4 +1,6 @@
 <script>
+        let lastRequestDisplayItems = [];
+
         async function loadMagicWordRequests(filterUserId = null, isBackgroundPoll = false) {
             try {
                 let url = `${API_BASE}/magic-words`;
@@ -22,34 +24,70 @@
                 if (latestItem) { lastLatestRequestId = latestItem.id; if (latestTime > lastLatestRequestTime || lastLatestRequestTime === 0) lastLatestRequestTime = latestTime; }
                 const listContainer = document.getElementById("listView");
                 if (isBackgroundPoll && listContainer.classList.contains("hidden")) return;
-                if (!data.found || allItems.length === 0 || displayItems.length === 0) {
-                    document.getElementById("emptyMessage").classList.remove("hidden");
-                    document.getElementById("requestsList").innerHTML = "";
-                    document.getElementById("emptyMessage").textContent = filterUserId ? `No requests found for user: ${filterUserId}` : (currentDashboardTab === "overview" ? "No requests found in the selected range" : "No magic word requests found");
-                    document.getElementById("filterBadgeContainer").innerHTML = "";
-                    return;
-                }
-                document.getElementById("emptyMessage").classList.add("hidden");
+
+                lastRequestDisplayItems = displayItems;
+
                 const filterContainer = document.getElementById("filterBadgeContainer");
                 if (filterUserId) {
                     filterContainer.innerHTML = `<div class="alert alert-info mb-3" style="border-radius:5px;padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;"><span style="display:flex;align-items:center;gap:0.5rem;"><strong>Filtered Results</strong><code style="background:white;padding:0.3rem 0.6rem;border-radius:3px;color:#2c3e50;font-weight:600;">${escapeHtml(filterUserId)}</code></span><button class="btn btn-sm btn-outline-secondary" onclick="clearUserFilter()" style="font-size:0.8rem;padding:0.3rem 0.8rem;">Clear Filter</button></div>`;
                 } else { filterContainer.innerHTML = ""; }
-                document.getElementById("requestsList").innerHTML = displayItems.map(item => {
-                    const date = formatDateShort(getRequestDateValue(item));
-                    const travellerName = getTravellerName(item);
-                    const namedService = item.service_name || item.typeOfService || "";
-                    const service = namedService || "Magic Word";
-                    const message = item.userMessage || item.message || item.location
-                        || (item.magicWord && !namedService ? `Triggered by "${item.magicWord}"` : "Latest request update");
-                    return `<button class="traviz-request-row" type="button" onclick="loadMagicWordDetail('${item.id}')">
-                        <span class="traviz-person" style="background:${getAvatarColor(travellerName)};">${escapeHtml(getInitials(travellerName))}</span>
-                        <span class="traviz-row-main"><span class="traviz-primary">${escapeHtml(travellerName)}</span><span class="traviz-secondary">${escapeHtml(message)}</span></span>
-                        <span class="traviz-service">${escapeHtml(service)}</span>
-                        <span class="traviz-time">${escapeHtml(date)}</span>
-                        <span class="badge ${getStatusBadgeClass(item.status)}">${escapeHtml(item.status || "new")}</span>
-                    </button>`;
-                }).join("");
+
+                if (!data.found || allItems.length === 0) {
+                    document.getElementById("emptyMessage").classList.remove("hidden");
+                    document.getElementById("requestsList").innerHTML = "";
+                    document.getElementById("emptyMessage").textContent = filterUserId ? `No requests found for user: ${filterUserId}` : (currentDashboardTab === "overview" ? "No requests found in the selected range" : "No magic word requests found");
+                    return;
+                }
+
+                renderRequestRows(applyRequestSearch(displayItems));
             } catch (error) { document.getElementById("emptyMessage").textContent = "Error loading requests"; document.getElementById("emptyMessage").classList.remove("hidden"); document.getElementById("filterBadgeContainer").innerHTML = ""; }
+        }
+
+        function requestMatchesQuery(item, q) {
+            const haystack = [
+                getTravellerName(item),
+                item.service_name || item.typeOfService || item.magicWord || "",
+                item.userMessage || item.message || item.location || "",
+                item.status || "",
+                item.id || ""
+            ].join(" ").toLowerCase();
+            return haystack.includes(q);
+        }
+
+        function applyRequestSearch(items) {
+            const q = (document.getElementById("requestSearchQuery")?.value || "").trim().toLowerCase();
+            return q ? items.filter(item => requestMatchesQuery(item, q)) : items;
+        }
+
+        function filterRequestSearch() {
+            renderRequestRows(applyRequestSearch(lastRequestDisplayItems));
+        }
+
+        function renderRequestRows(items) {
+            const emptyEl = document.getElementById("emptyMessage");
+            const listEl = document.getElementById("requestsList");
+            if (items.length === 0) {
+                emptyEl.classList.remove("hidden");
+                emptyEl.textContent = "No requests match this search";
+                listEl.innerHTML = "";
+                return;
+            }
+            emptyEl.classList.add("hidden");
+            listEl.innerHTML = items.map(item => {
+                const date = formatDateShort(getRequestDateValue(item));
+                const travellerName = getTravellerName(item);
+                const namedService = item.service_name || item.typeOfService || "";
+                const service = namedService || "Magic Word";
+                const message = item.userMessage || item.message || item.location
+                    || (item.magicWord && !namedService ? `Triggered by "${item.magicWord}"` : "Latest request update");
+                return `<button class="traviz-request-row" type="button" onclick="loadMagicWordDetail('${item.id}')">
+                    <span class="traviz-person" style="background:${getAvatarColor(travellerName)};">${escapeHtml(getInitials(travellerName))}</span>
+                    <span class="traviz-row-main"><span class="traviz-primary">${escapeHtml(travellerName)}</span><span class="traviz-secondary">${escapeHtml(message)}</span></span>
+                    <span class="traviz-service">${escapeHtml(service)}</span>
+                    <span class="traviz-time">${escapeHtml(date)}</span>
+                    <span class="badge ${getStatusBadgeClass(item.status)}">${escapeHtml(item.status || "new")}</span>
+                </button>`;
+            }).join("");
         }
 
         function formatDateShort(isoString) {
