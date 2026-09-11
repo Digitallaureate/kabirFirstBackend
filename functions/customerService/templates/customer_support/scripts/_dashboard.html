@@ -101,15 +101,36 @@
         }
 
         // The request-list APIs only ever return requested/inProgress items, so
-        // "Completed Today" can't be derived by filtering them -- it's tracked as
-        // a small daily counter on the backend instead. See /api/dashboard/completed-today.
-        async function loadCompletedTodayCount() {
+        // "Completed" can't be derived by filtering them -- it's tracked as a
+        // small daily counter on the backend, summed over the selected stats
+        // range. See /api/dashboard/completed-count.
+        async function loadCompletedCount() {
             try {
-                const res = await fetch(`${API_BASE}/dashboard/completed-today`);
+                const url = statsRangeMode === "custom" && statsRangeCustom.start && statsRangeCustom.end
+                    ? `${API_BASE}/dashboard/completed-count?start=${statsRangeCustom.start}&end=${statsRangeCustom.end}`
+                    : `${API_BASE}/dashboard/completed-count?days=${parseInt(statsRangeMode, 10) || 7}`;
+                const res = await fetch(url);
                 const data = await res.json();
-                const el = document.getElementById("completedTodayCount");
+                const el = document.getElementById("completedCount");
                 if (el && data.success) el.textContent = data.count;
             } catch (e) { /* keep last known value on a transient error */ }
+        }
+
+        function handleStatsRangeChange() {
+            const select = document.getElementById("statsRangeSelect");
+            statsRangeMode = select.value;
+            const customWrap = document.getElementById("statsRangeCustomInputs");
+            if (statsRangeMode === "custom") {
+                customWrap.classList.remove("hidden");
+                statsRangeCustom.start = document.getElementById("statsRangeStart").value;
+                statsRangeCustom.end = document.getElementById("statsRangeEnd").value;
+                if (!statsRangeCustom.start || !statsRangeCustom.end) return; // wait for both dates
+            } else {
+                customWrap.classList.add("hidden");
+            }
+            loadMagicWordRequests(currentFilteredUserId);
+            loadServiceOrderRequests();
+            loadCompletedCount();
         }
 
         const ORDER_THUMB_ICONS = {

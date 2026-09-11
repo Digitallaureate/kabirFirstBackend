@@ -54,15 +54,6 @@
             if (isSoundEnabled) playNotificationSound();
         }
 
-        function isWithinLastDays(value, days = 7) {
-            if (!value) return false;
-            const date = new Date(value);
-            if (isNaN(date.getTime())) return false;
-            const cutoff = new Date();
-            cutoff.setDate(cutoff.getDate() - days);
-            return date >= cutoff;
-        }
-
         function getRequestDateValue(item) {
             return item.matchedAt || item.created_at || item.createdAt || item.updated_at || item.updatedAt;
         }
@@ -71,9 +62,38 @@
             return item.field_values?.travel_date || item.date_of_service || item.created_at || item.createdAt || item.updated_at || item.updatedAt;
         }
 
-        function getOverviewItems(items, dateGetter) {
-            if (currentDashboardTab !== "overview") return items;
-            return items.filter(item => isWithinLastDays(dateGetter(item), 7));
+        // ✅ Overview stats reporting window. This is used only for the "New
+        // Requests" / "Completed" stat cards -- the Request Queue / Recent
+        // Service Orders lists below always show the full current backlog
+        // regardless of this range, since an unresolved item doesn't stop
+        // needing attention just because it's older than the selected window.
+        let statsRangeMode = "7"; // "7" | "30" | "90" | "custom"
+        let statsRangeCustom = { start: null, end: null };
+
+        function getStatsRangeBounds() {
+            const end = new Date();
+            end.setHours(23, 59, 59, 999);
+            if (statsRangeMode === "custom" && statsRangeCustom.start && statsRangeCustom.end) {
+                return {
+                    start: new Date(`${statsRangeCustom.start}T00:00:00`),
+                    end: new Date(`${statsRangeCustom.end}T23:59:59`)
+                };
+            }
+            const days = parseInt(statsRangeMode, 10) || 7;
+            const start = new Date();
+            start.setDate(start.getDate() - (days - 1));
+            start.setHours(0, 0, 0, 0);
+            return { start, end };
+        }
+
+        function filterByStatsRange(items, dateGetter) {
+            const { start, end } = getStatsRangeBounds();
+            return items.filter(item => {
+                const raw = dateGetter(item);
+                if (!raw) return false;
+                const d = new Date(raw);
+                return !isNaN(d.getTime()) && d >= start && d <= end;
+            });
         }
 </script>
 

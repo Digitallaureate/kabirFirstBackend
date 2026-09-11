@@ -6,9 +6,12 @@
                 const response = await fetch(url);
                 const data = await response.json();
                 const allItems = data.items || [];
-                const displayItems = getOverviewItems(allItems, getRequestDateValue);
-                document.getElementById("requestCount").textContent = currentDashboardTab === "overview" ? displayItems.length : (data.count || allItems.length);
-                updateDashboardStats(currentDashboardTab === "overview" ? displayItems : allItems);
+                // "New Requests" is a period metric scoped to the stats range; the
+                // queue itself always lists the full current backlog below (see
+                // getStatsRangeBounds / filterByStatsRange in scripts/_state.html).
+                const newInRange = filterByStatsRange(allItems, getRequestDateValue);
+                document.getElementById("requestCount").textContent = filterUserId ? (data.count || allItems.length) : newInRange.length;
+                updateDashboardStats(allItems);
                 const latestItem = allItems.length > 0 ? allItems[0] : null;
                 const latestTime = latestItem ? new Date(latestItem.matchedAt).getTime() : 0;
                 if (lastLatestRequestTime > 0 && latestTime > lastLatestRequestTime && !filterUserId) {
@@ -18,10 +21,10 @@
                 if (latestItem) { lastLatestRequestId = latestItem.id; if (latestTime > lastLatestRequestTime || lastLatestRequestTime === 0) lastLatestRequestTime = latestTime; }
                 const listContainer = document.getElementById("listView");
                 if (isBackgroundPoll && listContainer.classList.contains("hidden")) return;
-                if (!data.found || allItems.length === 0 || displayItems.length === 0) {
+                if (!data.found || allItems.length === 0) {
                     document.getElementById("emptyMessage").classList.remove("hidden");
                     document.getElementById("requestsList").innerHTML = "";
-                    document.getElementById("emptyMessage").textContent = filterUserId ? `No requests found for user: ${filterUserId}` : (currentDashboardTab === "overview" ? "No requests found in the last 7 days" : "No magic word requests found");
+                    document.getElementById("emptyMessage").textContent = filterUserId ? `No requests found for user: ${filterUserId}` : "No magic word requests found";
                     document.getElementById("filterBadgeContainer").innerHTML = "";
                     return;
                 }
@@ -30,7 +33,7 @@
                 if (filterUserId) {
                     filterContainer.innerHTML = `<div class="alert alert-info mb-3" style="border-radius:5px;padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;"><span style="display:flex;align-items:center;gap:0.5rem;"><strong>Filtered Results</strong><code style="background:white;padding:0.3rem 0.6rem;border-radius:3px;color:#2c3e50;font-weight:600;">${escapeHtml(filterUserId)}</code></span><button class="btn btn-sm btn-outline-secondary" onclick="clearUserFilter()" style="font-size:0.8rem;padding:0.3rem 0.8rem;">Clear Filter</button></div>`;
                 } else { filterContainer.innerHTML = ""; }
-                document.getElementById("requestsList").innerHTML = displayItems.map(item => {
+                document.getElementById("requestsList").innerHTML = allItems.map(item => {
                     const date = formatDateShort(getRequestDateValue(item));
                     const travellerName = getTravellerName(item);
                     const namedService = item.service_name || item.typeOfService || "";

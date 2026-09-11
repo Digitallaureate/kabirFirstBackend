@@ -748,13 +748,18 @@ def update_magic_word_status(magic_word_id):
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-@app.route("/api/dashboard/completed-today", methods=["GET"])
+@app.route("/api/dashboard/completed-count", methods=["GET"])
 @login_required
-def api_completed_today():
-    """Read today's (Asia/Kolkata) completed-request count, tracked by a
-    daily counter incremented in update_magic_word_status -- the request
-    list endpoints only return requested/inProgress items, so this stat
-    can't be derived from them."""
+def api_completed_count():
+    """
+    Sum the daily completed-request counters (Asia/Kolkata calendar days,
+    tracked by update_magic_word_status) over a window, for the dashboard's
+    "Completed" stat -- the request list endpoints only return requested/
+    inProgress items, so this can't be derived by filtering them.
+
+    Query params: either `days` (last N days including today, default 1),
+    or explicit `start`/`end` (YYYY-MM-DD, inclusive) for a custom range.
+    """
     try:
         from datetime import timedelta
 
@@ -762,13 +767,37 @@ def api_completed_today():
         if db is None:
             return jsonify({"success": False, "error": "Firestore not initialized"}), 500
 
-        kolkata_today = (datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
-        doc = db.collection("dashboardStats").document(kolkata_today).get()
-        count = (doc.to_dict() or {}).get("completedCount", 0) if doc.exists else 0
+        start_str = request.args.get("start")
+        end_str = request.args.get("end")
 
-        return jsonify({"success": True, "count": count}), 200
+        if start_str and end_str:
+            start_date = datetime.strptime(start_str, "%Y-%m-%d")
+            end_date = datetime.strptime(end_str, "%Y-%m-%d")
+        else:
+            days = max(1, min(int(request.args.get("days", "1")), 400))
+            kolkata_today = datetime.utcnow() + timedelta(hours=5, minutes=30)
+            end_date = kolkata_today
+            start_date = end_date - timedelta(days=days - 1)
+
+        if end_date.date() < start_date.date():
+            return jsonify({"success": False, "error": "end date must not be before start date"}), 400
+        if (end_date.date() - start_date.date()).days > 400:
+            return jsonify({"success": False, "error": "Range too large (max 400 days)"}), 400
+
+        day_keys = []
+        cursor = start_date
+        while cursor.date() <= end_date.date():
+            day_keys.append(cursor.strftime("%Y-%m-%d"))
+            cursor += timedelta(days=1)
+
+        refs = [db.collection("dashboardStats").document(k) for k in day_keys]
+        total = sum((snap.to_dict() or {}).get("completedCount", 0) for snap in db.get_all(refs) if snap.exists)
+
+        return jsonify({"success": True, "count": total, "days": len(day_keys)}), 200
+    except ValueError:
+        return jsonify({"success": False, "error": "Invalid date format, expected YYYY-MM-DD"}), 400
     except Exception as e:
-        logging.exception("Error fetching completed-today count")
+        logging.exception("Error computing completed count")
         return jsonify({"success": False, "error": str(e)}), 500
 
 

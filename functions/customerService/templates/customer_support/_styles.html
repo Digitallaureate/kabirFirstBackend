@@ -1402,22 +1402,54 @@
             font-size: 1rem;
         }
 
-        .traviz-hero-badge {
+        .traviz-range {
             display: inline-flex;
+            flex-wrap: wrap;
             align-items: center;
             gap: 8px;
             padding: 7px 14px;
             border-radius: 999px;
             background: rgba(20, 127, 237, .1);
             color: #0f5fb0;
-            font-size: .8rem;
-            font-weight: 700;
         }
 
-        .traviz-hero-badge svg {
+        .traviz-range svg {
             width: 15px;
             height: 15px;
             flex: 0 0 15px;
+        }
+
+        .traviz-range select {
+            border: 0;
+            background: transparent;
+            color: #0f5fb0;
+            font-size: .8rem;
+            font-weight: 700;
+            font-family: inherit;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .traviz-range-custom {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .74rem;
+            font-weight: 600;
+        }
+
+        .traviz-range-custom.hidden {
+            display: none;
+        }
+
+        .traviz-range-custom input[type="date"] {
+            border: 1px solid rgba(15, 95, 176, .25);
+            border-radius: 6px;
+            padding: 3px 6px;
+            font-size: .74rem;
+            font-family: inherit;
+            color: #0f5fb0;
+            background: #fff;
         }
 
         .traviz-hero-mark {

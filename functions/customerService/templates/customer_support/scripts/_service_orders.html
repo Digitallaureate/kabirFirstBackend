@@ -10,22 +10,23 @@
                 const emptyEl = document.getElementById("orderEmptyMessage");
                 const listView = document.getElementById("listView");
                 const allItems = data.items || [];
-                const displayItems = getOverviewItems(allItems, getOrderDateValue);
 
-                if (countEl) countEl.textContent = currentDashboardTab === "overview" ? displayItems.length : (data.count || allItems.length);
+                // "Open Orders" is a live backlog count, not scoped to the stats
+                // range -- see the note in loadMagicWordRequests.
+                if (countEl) countEl.textContent = data.count || allItems.length;
 
                 // skip DOM update if list view is hidden (background poll)
                 if (isBackgroundPoll && listView && listView.classList.contains("hidden")) return;
 
-                if (!data.found || allItems.length === 0 || displayItems.length === 0) {
-                    if (emptyEl) { emptyEl.classList.remove("hidden"); emptyEl.textContent = currentDashboardTab === "overview" ? "No service orders found in the last 7 days" : "No booked service orders found"; }
+                if (!data.found || allItems.length === 0) {
+                    if (emptyEl) { emptyEl.classList.remove("hidden"); emptyEl.textContent = "No booked service orders found"; }
                     if (listEl) listEl.innerHTML = "";
                     return;
                 }
 
                 if (emptyEl) emptyEl.classList.add("hidden");
                 if (listEl) {
-                    listEl.innerHTML = displayItems.map(item => {
+                    listEl.innerHTML = allItems.map(item => {
                         const date = formatDateShort(getOrderDateValue(item));
                         const title = item.service_name || "Order";
                         const monument = item.field_values?.monument_id?.label || item.monument_name || "Destination";
