@@ -3,16 +3,49 @@
 
 <aside class="traviz-sidebar">
     <div class="traviz-brand">
-        <!-- <span class="traviz-logo">A</span> -->
+        <span class="traviz-logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="9.25" stroke="currentColor" stroke-width="1.6" />
+                <path d="M15.25 8.75 13 13l-4.25 2.25L11 11l4.25-2.25Z" fill="currentColor" stroke="currentColor"
+                    stroke-width="1.1" stroke-linejoin="round" />
+            </svg>
+        </span>
         <span>Traviz</span>
     </div>
     <nav class="traviz-nav" aria-label="Support navigation">
-        <button class="active" type="button" data-dashboard-tab="overview"
-            onclick="showDashboardTab('overview')"><span class="traviz-nav-icon">H</span>Dashboard</button>
-        <button type="button" data-dashboard-tab="requests" onclick="showDashboardTab('requests')"><span
-                class="traviz-nav-icon">R</span>Requests</button>
-        <button type="button" data-dashboard-tab="orders" onclick="showDashboardTab('orders')"><span
-                class="traviz-nav-icon">O</span>Service Orders</button>
+        <button class="active" type="button" data-dashboard-tab="overview" onclick="showDashboardTab('overview')">
+            <span class="traviz-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 11.5 12 4l8 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M6 10v9a1 1 0 0 0 1 1h3.5v-5.5h3V20H17a1 1 0 0 0 1-1v-9" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </span>
+            Dashboard
+        </button>
+        <button type="button" data-dashboard-tab="requests" onclick="showDashboardTab('requests')">
+            <span class="traviz-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 5.5h16v10a1 1 0 0 1-1 1H8l-4 4v-4H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Z"
+                        stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                    <path d="M8 9.5h8M8 12.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+            </span>
+            Requests
+        </button>
+        <button type="button" data-dashboard-tab="orders" onclick="showDashboardTab('orders')">
+            <span class="traviz-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 4.5h8a1 1 0 0 1 1 1V19a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5.5a1 1 0 0 1 1-1Z"
+                        stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                    <path d="M9.5 3.5h5a.5.5 0 0 1 .5.5v1.5H9V4a.5.5 0 0 1 .5-.5Z" fill="currentColor" />
+                    <path d="M9 10h6M9 13h6M9 16h3.5" stroke="currentColor" stroke-width="1.6"
+                        stroke-linecap="round" />
+                </svg>
+            </span>
+            Service Orders
+        </button>
     </nav>
     <div class="traviz-script">Travel<br>connects People</div>
     <div class="traviz-sidebar-profile">

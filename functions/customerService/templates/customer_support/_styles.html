@@ -1134,12 +1134,18 @@
         .traviz-logo {
             width: 33px;
             height: 33px;
+            flex: 0 0 33px;
             display: grid;
             place-items: center;
             border-radius: 8px;
             background: linear-gradient(135deg, #37b8ff, #0b64df);
             box-shadow: 0 9px 22px rgba(0, 118, 255, .35);
-            transform: rotate(-10deg);
+            color: #fff;
+        }
+
+        .traviz-logo svg {
+            width: 19px;
+            height: 19px;
         }
 
         .traviz-nav {
@@ -1170,8 +1176,15 @@
 
         .traviz-nav-icon {
             width: 22px;
-            text-align: center;
-            font-size: 1.05rem;
+            flex: 0 0 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .traviz-nav-icon svg {
+            width: 19px;
+            height: 19px;
         }
 
         .traviz-script {
@@ -1295,7 +1308,12 @@
             top: 50%;
             transform: translateY(-50%);
             color: #335f9b;
-            font-size: 1.05rem;
+            display: inline-flex;
+        }
+
+        .traviz-search span svg {
+            width: 18px;
+            height: 18px;
         }
 
         .traviz-profile {
