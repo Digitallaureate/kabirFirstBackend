@@ -728,14 +728,38 @@ def update_magic_word_status(magic_word_id):
                         logging.info("Service order result: %s", order_result)
                         
                         if order_result.get("success"):
-                            # ✅ Update magic word status to reflect payment success
+                            # ✅ An order now exists for this request, so the
+                            # magic word's overall lifecycle is done too - no
+                            # separate "mark complete" step needed.
+                            new_status = "completed"
                             db.collection("magicWordUser").document(magic_word_user_id).update({
+                                "status": "completed",
                                 "paymentStatus": "success",
                                 "orderStatus": "booked",
                                 "serviceOrderId": order_result.get("service_order_id"),
                                 "updated_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
                             })
-                            
+
+                            # Same finalization the "completed" branch below does -
+                            # needed here too since we're completing retroactively,
+                            # after current_status/new_status were already "inProgress"
+                            # when those checks ran earlier.
+                            if current_status != "completed":
+                                try:
+                                    from datetime import timedelta
+                                    kolkata_today = (datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d")
+                                    db.collection("dashboardStats").document(kolkata_today).set(
+                                        {"completedCount": gfirestore.Increment(1)}, merge=True
+                                    )
+                                except Exception as e:
+                                    logging.error(f"❌ Failed to increment completed-today counter: {e}")
+                            if chat_id:
+                                try:
+                                    db.collection("chats").document(chat_id).update({"isHumanInteraction": False})
+                                    logging.info("Automation restored for chat %s", chat_id)
+                                except Exception as e:
+                                    logging.error(f"❌ Failed to disable human interaction for chat {chat_id}: {e}")
+
                             # Send confirmation message
                             # msg_result = send_booking_confirmation_message(chat_id, booking_details)
                             # print(f"📨 Confirmation message sent: {msg_result}")
@@ -986,6 +1010,128 @@ def get_services_by_monument(monument_id):
             "error": str(e),
             "services": []
         }), 500
+
+
+# ---------------------------
+# ✅ CONCIERGE SERVICE CATALOG (service.json + per-service form configs)
+# ---------------------------
+_SERVICE_CATALOG_DIR = os.path.join(app.root_path, "customerService", "templates", "customer_support", "data")
+_SERVICE_FORM_DIR = os.path.join(_SERVICE_CATALOG_DIR, "form")
+
+
+def _load_service_catalog():
+    catalog_path = os.path.join(_SERVICE_CATALOG_DIR, "service.json")
+    with open(catalog_path, "r", encoding="utf-8") as f:
+        return (json.load(f) or {}).get("services", [])
+
+
+@app.route("/api/service-catalog", methods=["GET"])
+@login_required
+def api_service_catalog():
+    """List concierge services (for the service dropdown), active ones only."""
+    try:
+        services = _load_service_catalog()
+        active_services = [
+            {
+                "serviceId": s.get("serviceId"),
+                "serviceName": s.get("serviceName"),
+                "serviceType": s.get("serviceType"),
+                "ranking": s.get("ranking", 0),
+            }
+            for s in services
+            if s.get("isActive", True)
+        ]
+        active_services.sort(key=lambda s: s.get("ranking") or 0)
+        return jsonify({"success": True, "services": active_services}), 200
+    except Exception as e:
+        logging.exception("Error loading service catalog")
+        return jsonify({"success": False, "error": str(e), "services": []}), 500
+
+
+@app.route("/api/service-catalog/<service_id>/form", methods=["GET"])
+@login_required
+def api_service_form_config(service_id):
+    """Return the per-service form config (formFields) used to render the dynamic form."""
+    try:
+        services = _load_service_catalog()
+        known_ids = {s.get("serviceId") for s in services}
+        if service_id not in known_ids:
+            return jsonify({"success": False, "error": "Unknown serviceId"}), 404
+
+        form_path = os.path.join(_SERVICE_FORM_DIR, f"{service_id}.json")
+        if not os.path.isfile(form_path):
+            return jsonify({"success": False, "error": "Form config not found for this service"}), 404
+
+        with open(form_path, "r", encoding="utf-8") as f:
+            form_config = json.load(f)
+
+        return jsonify({"success": True, "form": form_config}), 200
+    except Exception as e:
+        logging.exception("Error loading form config for service %s", service_id)
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+_DATASOURCE_OPERATORS = {
+    "isEqualTo": "==",
+    "isNotEqualTo": "!=",
+    "isGreaterThan": ">",
+    "isGreaterThanOrEqualTo": ">=",
+    "isLessThan": "<",
+    "isLessThanOrEqualTo": "<=",
+    "arrayContains": "array_contains",
+    "arrayContainsAny": "array_contains_any",
+    "whereIn": "in",
+    "whereNotIn": "not_in",
+}
+
+
+@app.route("/api/data-source/resolve", methods=["POST"])
+@login_required
+def api_resolve_data_source():
+    """
+    Generic resolver for a formFields entry's "dataSource" block: queries the
+    Firestore collection named by sourceKey, applies its filters, and returns
+    {label, value} options built from labelField/valueField. This lets every
+    service's form.json point "dataSource" at whatever collection it needs
+    without adding a dedicated endpoint per sourceKey.
+    """
+    try:
+        body = request.get_json() or {}
+        source_key = body.get("sourceKey")
+        label_field = body.get("labelField")
+        value_field = body.get("valueField") or "id"
+        filters = body.get("filters") or []
+
+        if not source_key or not label_field:
+            return jsonify({"success": False, "error": "sourceKey and labelField are required"}), 400
+
+        db = get_project_b_firestore()
+        if db is None:
+            return jsonify({"success": False, "error": "Firestore not initialized"}), 500
+
+        from google.cloud.firestore import FieldFilter
+
+        query = db.collection(source_key)
+        for f in filters:
+            field = f.get("field")
+            if not field:
+                continue
+            operator = _DATASOURCE_OPERATORS.get(f.get("operator"), "==")
+            query = query.where(filter=FieldFilter(field, operator, f.get("value")))
+
+        items = []
+        for doc in query.stream():
+            data = doc.to_dict() or {}
+            data.setdefault("id", doc.id)
+            items.append({
+                "label": data.get(label_field) or data.get("title") or data.get("name") or doc.id,
+                "value": data.get(value_field, doc.id),
+            })
+
+        return jsonify({"success": True, "items": items}), 200
+    except Exception as e:
+        logging.exception("Error resolving data source %s", (request.get_json(silent=True) or {}).get("sourceKey"))
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 # ---------------------------

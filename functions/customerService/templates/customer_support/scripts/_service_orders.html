@@ -113,6 +113,16 @@
                 window._currentServiceOrderId = orderId;
                 currentServiceOrderChatId = chat.id || "";
 
+                // --- AI / Team interaction toggle ---
+                const sodToggle = document.getElementById("sod-humanInteractionToggle");
+                const sodToggleLabel = document.getElementById("sod-toggleLabel");
+                const sodToggleStatus = document.getElementById("sod-toggleStatus");
+                const isHuman = !!chat.isHumanInteraction;
+                sodToggle.checked = isHuman;
+                sodToggleLabel.textContent = isHuman ? "kabirTeam" : "kabirAI";
+                sodToggleStatus.className = isHuman ? "badge bg-success" : "badge bg-secondary";
+                sodToggleStatus.textContent = "Active";
+
                 // --- Populate header ---
                 document.getElementById("sod-orderId").textContent = orderId.slice(-8).toUpperCase();
                 const statusBadge = document.getElementById("sod-statusBadge");
@@ -468,6 +478,22 @@
                 event.preventDefault();
                 sendServiceOrderMessage();
             }
+        }
+
+        async function toggleServiceOrderHumanInteraction() {
+            const toggle = document.getElementById("sod-humanInteractionToggle");
+            const statusLabel = document.getElementById("sod-toggleLabel");
+            const statusBadge = document.getElementById("sod-toggleStatus");
+            if (!currentServiceOrderChatId) { alert("Chat ID not found"); toggle.checked = !toggle.checked; return; }
+            try {
+                const isHuman = toggle.checked;
+                statusLabel.textContent = isHuman ? "kabirTeam" : "kabirAI";
+                statusBadge.className = isHuman ? "badge bg-success" : "badge bg-secondary";
+                statusBadge.textContent = "Active";
+                const response = await fetch(`${BASE}/api/chats/${currentServiceOrderChatId}/toggle-interaction`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isHumanInteraction: isHuman }) });
+                const result = await response.json();
+                if (!result.success) { alert(`Error: ${result.error}`); toggle.checked = !toggle.checked; statusLabel.textContent = toggle.checked ? "kabirTeam" : "kabirAI"; statusBadge.className = toggle.checked ? "badge bg-success" : "badge bg-secondary"; }
+            } catch (error) { alert("Error updating interaction mode"); toggle.checked = !toggle.checked; }
         }
 </script>
 

@@ -1,0 +1,24 @@
+{
+    "serviceId": "other_service",
+    "requiresManualReview": true,
+    "formFields": [
+        {
+            "key": "custom_service_request",
+            "label": "Tell us what service you need",
+            "type": "textarea",
+            "required": true,
+            "placeholder": "Example: I need a wheelchair near Taj Mahal, or a private birthday setup, or a guide who speaks German.",
+            "validation": {
+                "minLength": 5,
+                "maxLength": 500
+            },
+            "order": 1
+        }
+    ],
+    "uiConfig": {
+        "buttonText": "Submit Request",
+        "badge": "Need something else?"
+    },
+    "createdAt": "2026-03-31T10:00:00Z",
+    "updatedAt": "2026-03-31T10:00:00Z"
+}

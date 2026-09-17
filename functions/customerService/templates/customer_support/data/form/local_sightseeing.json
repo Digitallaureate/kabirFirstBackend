@@ -1,0 +1,145 @@
+{
+    "serviceId": "local_sightseeing",
+    "requiresManualReview": false,
+    "locations": [
+        "Agra"
+    ],
+    "formFields": [
+        {
+            "key": "traveler_type",
+            "label": "Who is this booking for?",
+            "type": "toggle",
+            "required": true,
+            "defaultValue": "self",
+            "options": [
+                {
+                    "label": "Self",
+                    "value": "self"
+                },
+                {
+                    "label": "Other",
+                    "value": "other"
+                }
+            ],
+            "order": 1
+        },
+        {
+            "key": "full_name",
+            "label": "Full Name",
+            "type": "text",
+            "required": true,
+            "order": 2
+        },
+        {
+            "type": "row",
+            "layoutGroup": "contact_info",
+            "order": 3,
+            "children": [
+                {
+                    "key": "country_code",
+                    "label": "Country Code",
+                    "type": "select",
+                    "required": true,
+                    "order": 3,
+                    "placeholder": "+91"
+                },
+                {
+                    "key": "phone_number",
+                    "label": "Phone Number",
+                    "type": "phone",
+                    "required": true,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "key": "travel_date",
+            "label": "Travel Date",
+            "type": "date",
+            "required": true,
+            "order": 5
+        },
+        {
+            "key": "number_of_travelers",
+            "label": "Number of Travelers",
+            "type": "number",
+            "required": true,
+            "validation": {
+                "min": 1,
+                "max": 20
+            },
+            "order": 6
+        },
+        {
+            "key": "sites_to_visit",
+            "label": "Sites to Visit",
+            "type": "multi_select",
+            "required": true,
+            "options": [
+                "Taj Mahal",
+                "Agra Fort",
+                "Mehtab Bagh",
+                "Itimad-ud-Daulah"
+            ],
+            "order": 7
+        },
+        {
+            "key": "duration",
+            "label": "Duration",
+            "type": "select",
+            "required": true,
+            "options": [
+                "Half Day",
+                "Full Day"
+            ],
+            "order": 8
+        },
+        {
+            "key": "additional_requests",
+            "label": "Additional Requests",
+            "type": "textarea",
+            "required": false,
+            "order": 9
+        }
+    ],
+    "pricingConfig": {
+        "currency": "INR",
+        "pricingType": "dynamic",
+        "basePrice": 1500,
+        "rules": [
+            {
+                "label": "Full Day Upgrade",
+                "field": "duration",
+                "operator": "equals",
+                "value": "Full Day",
+                "effect": {
+                    "type": "add_flat",
+                    "amount": 1000
+                }
+            },
+            {
+                "label": "Large Group",
+                "field": "number_of_travelers",
+                "operator": "greater_than",
+                "value": 4,
+                "effect": {
+                    "type": "add_flat",
+                    "amount": 300
+                }
+            }
+        ],
+        "tax": {
+            "type": "percentage",
+            "value": 5
+        },
+        "convenienceFee": {
+            "type": "flat",
+            "value": 20
+        }
+    },
+    "uiConfig": {
+        "buttonText": "Book Sightseeing"
+    },
+    "createdAt": "2026-03-31T10:00:00Z",
+    "updatedAt": "2026-03-31T10:00:00Z"
+}

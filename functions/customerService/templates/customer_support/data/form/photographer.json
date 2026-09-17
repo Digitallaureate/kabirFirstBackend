@@ -1,0 +1,148 @@
+{
+    "serviceId": "photographer",
+    "requiresManualReview": false,
+    "formFields": [
+        {
+            "key": "traveler_type",
+            "label": "Who is this booking for?",
+            "type": "toggle",
+            "required": true,
+            "defaultValue": "self",
+            "options": [
+                {
+                    "label": "Self",
+                    "value": "self"
+                },
+                {
+                    "label": "Other",
+                    "value": "other"
+                }
+            ],
+            "order": 1
+        },
+        {
+            "key": "full_name",
+            "label": "Full Name",
+            "type": "text",
+            "required": true,
+            "order": 2
+        },
+        {
+            "type": "row",
+            "layoutGroup": "contact_info",
+            "order": 3,
+            "children": [
+                {
+                    "key": "country_code",
+                    "label": "Country Code",
+                    "type": "select",
+                    "required": false,
+                    "order": 3,
+                    "placeholder": "+91"
+                },
+                {
+                    "key": "phone_number",
+                    "label": "Phone Number",
+                    "type": "phone",
+                    "required": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "key": "monument_id",
+            "label": "Select Monument",
+            "type": "select",
+            "required": true,
+            "placeholder": "",
+            "order": 5,
+            "dataSource": {
+                "mode": "dynamic",
+                "sourceKey": "historical_sites",
+                "labelField": "site_name",
+                "valueField": "id",
+                "filters": [
+                    {
+                        "field": "is_active",
+                        "operator": "isEqualTo",
+                        "value": true
+                    }
+                ]
+            },
+            "options": []
+        },
+        {
+            "type": "row",
+            "layoutGroup": "travel_schedule",
+            "order": 6,
+            "children": [
+                {
+                    "key": "travel_date",
+                    "label": "Travel Date",
+                    "type": "date",
+                    "required": true,
+                    "order": 6
+                },
+                {
+                    "key": "time_slot",
+                    "label": "Start Time",
+                    "type": "time_slot",
+                    "required": true,
+                    "order": 7
+                }
+            ]
+        },
+        {
+            "key": "number_of_photos",
+            "label": "Number Of Photos",
+            "type": "number",
+            "required": true,
+            "placeholder": "Enter photos required (Min 5 · Max 50)",
+            "helperText": "Pricing is calculated based on the number of photos selected.",
+            "validation": {
+                "min": 5,
+                "max": 50,
+                "message": "Please enter a number of photos between 5 and 50."
+            },
+            "order": 8
+        },
+        {
+            "key": "additional_requests",
+            "label": "Additional Requests",
+            "type": "textarea",
+            "required": false,
+            "order": 9
+        }
+    ],
+    "pricingConfig": {
+        "currency": "INR",
+        "pricingType": "dynamic",
+        "basePrice": 5,
+        "rules": [
+            {
+                "label": "Extra Photos",
+                "field": "number_of_photos",
+                "operator": "greater_than",
+                "value": 5,
+                "effect": {
+                    "type": "add_per_extra_unit",
+                    "baseIncluded": 5,
+                    "amount": 1
+                }
+            }
+        ],
+        "tax": {
+            "type": "percentage",
+            "value": 5
+        },
+        "convenienceFee": {
+            "type": "flat",
+            "value": 1
+        }
+    },
+    "uiConfig": {
+        "buttonText": "Book Photographer"
+    },
+    "createdAt": "2026-03-31T10:00:00Z",
+    "updatedAt": "2026-03-31T10:00:00Z"
+}

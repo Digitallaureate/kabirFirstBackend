@@ -1,5 +1,6 @@
 # magicwordService.py
 import logging
+import secrets
 from google.cloud import firestore as gfirestore
 from google.cloud.firestore import FieldFilter
 from firebase_setup import get_project_b_firestore
@@ -301,10 +302,13 @@ def get_user_completed_orders(user_id: str, limit: int = 50) -> dict:
                 d["timestamp"] = "N/A"
                 d["timestamp_iso"] = None
 
-            # Ensure fields exist for frontend
-            d["item_id"] = d.get("item_id", "N/A")
-            d["product_type"] = d.get("product_type", "N/A")
-            d["status"] = d.get("status", "N/A")
+            # Ensure fields exist for frontend - fall back to the
+            # serviceRequest/serviceJsonOrder field names (service_id,
+            # service_name, booking_status) for orders created via the
+            # dynamic per-service form.
+            d["item_id"] = d.get("item_id") or d.get("service_id") or "N/A"
+            d["product_type"] = d.get("product_type") or d.get("service_name") or "N/A"
+            d["status"] = d.get("status") or d.get("booking_status") or "N/A"
 
             items.append(d)
 
@@ -732,11 +736,41 @@ def _get_monument_title(monument_id: str) -> str:
         return ""
 
 
+def _generate_otp() -> str:
+    """4-digit OTP, randomly generated server-side so support agents never
+    set (or accidentally reuse) an OTP by hand."""
+    return f"{secrets.randbelow(10000):04d}"
+
+
+def _load_service_catalog_entry(service_id: str) -> dict:
+    """Look up a concierge service's display info (name/description/formTemplate)
+    from service.json, so it's always sourced from the catalog rather than
+    trusted from the request body."""
+    if not service_id:
+        return {}
+    try:
+        import json
+        import os
+
+        catalog_path = os.path.join(
+            os.path.dirname(__file__),
+            "templates", "customer_support", "data", "service.json",
+        )
+        with open(catalog_path, "r", encoding="utf-8") as f:
+            services = (json.load(f) or {}).get("services", [])
+        return next((s for s in services if s.get("serviceId") == service_id), {}) or {}
+    except Exception as e:
+        logging.warning("⚠️ Could not load service catalog entry for %s: %s", service_id, e)
+        return {}
+
+
 def create_service_request(magic_word_user_id: str, magic_word_data: dict, service_details: dict = None) -> dict:
     """
-    ✅ Creates service request - Status depends on payment
-    - If payment_status = "success" → status = "OrderSuccess"
-    - Otherwise → status = "draft"
+    ✅ Creates a serviceRequest document from the support panel's dynamic,
+    per-service form (service dropdown -> formFields from data/form/<id>.json).
+    The chat conversation already confirmed this request with the customer,
+    so booking_status is always "booked" - payment_status separately tracks
+    whether support has collected/confirmed payment yet.
     """
     try:
         db = _get_db()
@@ -754,263 +788,46 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
             return {"success": False, "error": "Missing required data for service request"}
 
         sd = service_details or {}
+        service_id = _pick(sd, "serviceId", "typeOfService", default="") or ""
         payment_status = sd.get("paymentStatus", "pending")
-        
-        # ✅ Set service request status based on payment
-        if payment_status == "success":
-            sr_status = "Ordered Success"  # ✅ Payment successful
-            logging.info("Payment successful - setting service request status to Ordered Success")
-        else:
-            sr_status = "draft"  # Default status
-            logging.info("Payment pending - setting service request status to draft")
-        
-        # -----------------------------
-        # ✅ Build cart (accept both old + new keys)
-        # -----------------------------
-        requested_service_id = _pick(sd, "typeOfService", "type_of_service", default="") or ""
-        requested_service_name = _pick(sd, "serviceName", "service_name", default="") or ""
-        raw_cart = _pick(sd, "cartItems", "cart_items", "cart", default=[]) or []
-        cart_items = []
+        field_values = sd.get("fieldValues") or {}
+        price_summary = sd.get("priceSummary") or {"items": [], "total": 0}
 
-        for item in raw_cart:
-            # support both key styles
-            item_id = _pick(item, "item_id", "itemId", default="")
-            unit_price = int(_pick(item, "unit_price", "unitPrice", default=0) or 0)
-            quantity = int(_pick(item, "quantity", default=1) or 1)
-            total_price = int(_pick(item, "total_price", "totalPrice", default=(unit_price * quantity)) or 0)
+        catalog_entry = _load_service_catalog_entry(service_id)
 
-            # name building (optional enrichment)
-            base_name = _pick(item, "name", default=None)
-            if not base_name:
-                base_name = _get_service_name(item_id)
+        now = _get_iso_timestamp()
+        request_data = {
+            "action": "Create Service Request",
+            "booking_status": "booked",
+            "created_at": now,
+            "updated_at": now,
 
-            # If old payload contains details, enrich the name
-            details = item.get("details", {}) or {}
-            if isinstance(details, dict):
-                if details.get("languages"):
-                    base_name += f" ({', '.join(details.get('languages', []))})"
-                elif details.get("photoCount"):
-                    base_name += f" ({int(details.get('photoCount', 0))} photos)"
-                elif details.get("souvenirs"):
-                    souvenir_names = [s.get("name", "Item") for s in (details.get("souvenirs") or []) if isinstance(s, dict)]
-                    if souvenir_names:
-                        base_name += f" ({', '.join(souvenir_names)})"
-
-            cart_items.append(
-                {
-                    "item_id": item_id,
-                    "name": base_name,
-                    "quantity": quantity,
-                    "unit_price": unit_price,
-                    "total_price": total_price,
-                }
-            )
-
-        if len(cart_items) > 1:
-            logging.warning(
-                "Received %s cart items for service request %s; keeping only the first item because the flow now supports one service.",
-                len(cart_items),
-                magic_word_user_id,
-            )
-            cart_items = cart_items[:1]
-
-        # fallback: if no cart provided, create single item from type_of_service
-        if not cart_items:
-            cart_total_guess = int(_pick(sd, "price", "cart_total", "cartTotal", default=0) or 0)
-            cart_items = [{
-                "item_id": requested_service_id,
-                "name": requested_service_name or _get_service_name(requested_service_id),
-                "details": requested_service_name,
-                # **({"other_specify": other_specify} if other_specify else {}),  # ✅ ONLY include if custom service
-
-                "quantity": 1,
-                "unit_price": cart_total_guess,
-                "total_price": cart_total_guess,
-            }]
-
-        primary_service = _get_primary_service(
-            cart_items,
-            fallback_service_id=requested_service_id,
-            fallback_service_name=requested_service_name,
-        )
-
-        # -----------------------------
-        # ✅ Pricing (prefer explicit pricing object if present)
-        # -----------------------------
-        pricing_in = _pick(sd, "pricing", default={}) or {}
-
-        # ✅ Get cart_total as int first
-        cart_total = int(_pick(pricing_in, "cart_total", "cartTotal", default=None) or
-                  _pick(sd, "cart_total", "cartTotal", "price", default=0) or 0)
-
-        # ✅ Convert float calculations to int immediately
-        convenience_fee = int(cart_total * 0.05)  # ← Direct calculation, then convert to int
-        tax_amount = int(cart_total * 0.18)       # ← Direct calculation, then convert to int
-
-        coupon_discount = int(_pick(pricing_in, "coupon_discount", "couponDiscount", default=0) or 0)
-        discount_amount = int(_pick(pricing_in, "discount_amount", "discountAmount", default=0) or 0)
-
-        coupon_code = _pick(pricing_in, "coupon_code", "couponCode", default=None)
-
-        # ✅ Calculate total_payable as int
-        total_payable = int(max(0, cart_total + convenience_fee + tax_amount - coupon_discount - discount_amount))
-
-        # -----------------------------
-        # ✅ Guide details / traveler
-        # -----------------------------
-        guide_details_in = _pick(sd, "guide_details", "guideDetails", default={}) or {}
-
-        # Get selected language preferences from frontend
-        language_preference = _pick(sd, "language_preference", "languagePreference", default=[]) or []
-        
-        # ✅ Calculate guide_count from language preferences (like Flutter)
-        # If user selected 3 languages, guide_count = 3
-        guide_count = len(language_preference) if language_preference else 1
-
-        # is_foreign_national comes from sd or guide_details or travelerFrom
-        is_foreign = _to_bool(
-            _pick(guide_details_in, "is_foreign_national", "isForeignNational", default=None)
-            or _pick(sd, "isForeignNational", "is_foreign_national", default=None)
-        )
-
-        # also support travelerFrom logic if used
-        traveler_from = _pick(sd, "travelerFrom", "from_location", "fromLocation", default="")
-        if traveler_from and isinstance(traveler_from, str):
-            # only override if is_foreign wasn't explicitly set
-            if _pick(guide_details_in, "is_foreign_national", "isForeignNational", default=None) is None and \
-               _pick(sd, "isForeignNational", "is_foreign_national", default=None) is None:
-                is_foreign = traveler_from.strip().lower() != "india"
-
-        number_of_travelers = int(_pick(sd, "number_of_travelers", "numberOfTravelers", default=1) or 1)
-
-        # -----------------------------
-        # ✅ time_slot
-        # -----------------------------
-        time_slot_in = _pick(sd, "time_slot", "timeSlot", default={}) or {}
-        time_slot = {
-            "label": _pick(time_slot_in, "label", default="Custom") or "Custom",
-            "start_time": _pick(time_slot_in, "start_time", "startTime", default="") or "",
-            "end_time": _pick(time_slot_in, "end_time", "endTime", default="") or "",
-        }
-
-        # -----------------------------
-        # ✅ Billing info
-        # -----------------------------
-        billing_in = _pick(sd, "billing_info", "billingInfo", default={}) or {}
-        billing_info = {
-            "billing_address": _pick(billing_in, "billing_address", "billingAddress", default="") or "",
-            "company_name": _pick(billing_in, "company_name", "companyName", default="") or "",
-            "contact_email": _pick(billing_in, "contact_email", "contactEmail", default="") or "",
-            "contact_person": _pick(billing_in, "contact_person", "contactPerson", default="") or "",
-            "gst_number": _pick(billing_in, "gst_number", "gstNumber", default="") or "",
-            "is_corporate_booking": _to_bool(_pick(billing_in, "is_corporate_booking", "isCorporateBooking", default=False)),
-        }
-
-        # ✅ Get monument ID and fetch its TITLE
-        monument_id = _pick(sd, "monument_to_visit", "monumentToVisit", default="") or ""
-        monument_title = _get_monument_title(monument_id) if monument_id else ""
-
-        # -----------------------------
-        # ✅ Build final MASTER schema (right-side)
-        # -----------------------------
-        service_request_data = {
-            "serviceId": "",  # will be set after Firestore add()
-
-            # identity / linkage
             "user_id": user_id,
-            "chat_id": chat_id,
-            "magic_word_user_id": magic_word_user_id,
-            "magic_word": magic_word,
+            "service_id": service_id,
+            "service_name": catalog_entry.get("serviceName", ""),
+            "service_description": catalog_entry.get("serviceDescription", ""),
+            "form_template": catalog_entry.get("formTemplate", ""),
 
-            # core
-            "status": sr_status,
-            # "order_status": _pick(sd, "order_status", "orderStatus", default="pending") or "pending",
+            "payment_status": payment_status,
+            "field_values": field_values,
+            "price_summary": price_summary,
 
-            # traveler
-            "traveler_name": _pick(sd, "traveler_name", "travelerName", default="") or "",
-            "traveler_phone_number": _pick(sd, "traveler_phone_number", "travelerPhoneNumber", default="") or "",
-            "from_location": traveler_from or "",
-
-            # trip
-            "date_of_travel": _pick(sd, "date_of_travel", "dateOfTravel", default="") or "",
-            "time_slot": time_slot,
-            "start_otp": _pick(sd, "startOtp", "start_otp", default="") or "",
-            "end_otp": _pick(sd, "endOtp", "end_otp", default="") or "",
-            "number_of_travelers": number_of_travelers,
-            "language_preference": language_preference,  # ✅ STORE LANGUAGES HERE
-            "monument_to_visit": monument_title,
-
-            # service
-            "service_id": primary_service["service_id"],
-            "service_name": primary_service["service_name"],
-            "service_type": primary_service["service_type"],
-            "service_details": {
-                "service_id": primary_service["service_id"],
-                "service_name": primary_service["service_name"],
-                "service_type": primary_service["service_type"],
-                "unit_price": cart_items[0].get("unit_price", 0) if cart_items else 0,
-                "total_price": cart_items[0].get("total_price", 0) if cart_items else 0,
-            },
-
-            # guide_details (ONLY guide_count + gender_preference)
-            "guide_details": {
-                "gender_preference": _pick(guide_details_in, "gender_preference", "genderPreference", default="Any") or "Any",
-                "guide_count": guide_count,  # ✅ AUTO-CALCULATED FROM LANGUAGES
-                
-            },
-
-
-            # pricing
-            "pricing": {
-                "cart_total": cart_total,
-                "convenience_fee": convenience_fee,
-                "coupon_code": coupon_code,
-                "coupon_discount": coupon_discount,
-                "discount_amount": discount_amount,
-                "tax_amount": tax_amount,
-                "total_payable": total_payable,
-            },
-
-            # payments
-            "payment_method": _pick(sd, "payment_method", "paymentMethod", default="") or "",
-            "payment_status": _pick(sd, "payment_status", "paymentStatus", default="pending") or "pending",
-            "payment_timestamp": _pick(sd, "payment_timestamp", "paymentTimestamp", default=None),
-            "razorpayOrderId": _pick(sd, "razorpayOrderId", default=None),
-            "transaction_id": _pick(sd, "transaction_id", "transactionId", default=None),
-
-            # billing
-            "billing_info": billing_info,
-
-            # misc
-            "additional_notes": _pick(sd, "additional_notes", "additionalNotes", "description", default=None),
-            "feedback": _pick(sd, "feedback", default=None),
-            "rating": int(_pick(sd, "rating", default=0) or 0),
-            "is_foreign_national": is_foreign,
-            # timestamps
-            "created_at": _get_iso_timestamp(),
-            "updated_at": _get_iso_timestamp(),
-            "submitted_at": None,
+            "start_otp": _generate_otp(),
+            "end_otp": _generate_otp(),
         }
 
-        # ✅ Save
-        service_ref = db.collection("service_requests").add(service_request_data)
-        service_request_id = service_ref[1].id
+        doc_ref = db.collection("serviceRequest").document()
+        doc_ref.set({**request_data, "request_id": doc_ref.id})
+        service_request_id = doc_ref.id
 
-        db.collection("service_requests").document(service_request_id).update({
-            "serviceId": service_request_id,
-            "updated_at": _get_iso_timestamp(),
-        })
-
-        # If you still want to link back:
         db.collection("magicWordUser").document(magic_word_user_id).update({
             "serviceRequestId": service_request_id,
-            "updated_at": _get_iso_timestamp(),
+            "updated_at": now,
         })
 
         return {
             "success": True,
             "service_request_id": service_request_id,
-            "status": sr_status,  # ✅ Return status
             "payment_status": payment_status,
         }
 
@@ -1019,11 +836,12 @@ def create_service_request(magic_word_user_id: str, magic_word_data: dict, servi
         return {"success": False, "error": str(e)}
 
 
-
-def create_service_order(magic_word_user_id: str, service_request_id: str, booking_details: dict) -> dict:
+def create_service_order(magic_word_user_id: str, service_request_id: str, booking_details: dict = None) -> dict:
     """
-    ✅ Create a service order - Save ONLY fields that exist in serviceOrder collection
-    Fetches data from service_requests and booking_details
+    ✅ Creates a serviceJsonOrder document, carrying the field_values,
+    price_summary and OTPs over from its serviceRequest as-is (the OTPs are
+    generated once, at request time, and stay the same on the order - never
+    regenerated or hand-entered here).
     """
     try:
         db = _get_db()
@@ -1032,102 +850,66 @@ def create_service_order(magic_word_user_id: str, service_request_id: str, booki
         return {"success": False, "error": "Firestore client not initialized"}
 
     try:
-        # ✅ Fetch the service request data
-        service_doc = db.collection("service_requests").document(service_request_id).get()
-        if not service_doc.exists:
+        request_doc = db.collection("serviceRequest").document(service_request_id).get()
+        if not request_doc.exists:
             return {"success": False, "error": f"Service request {service_request_id} not found"}
 
-        service_data = service_doc.to_dict() or {}
-        
-        # Extract pricing details
-        pricing = service_data.get("pricing", {})
-        legacy_service_types = service_data.get("service_types") or []
-        service_id = service_data.get("service_id") or (legacy_service_types[0] if legacy_service_types else "")
-        service_name = service_data.get("service_name") or _get_service_name(service_id)
-        service_type = service_data.get("service_type") or _get_service_type(service_id) or "service"
-        
-        # ✅ Build order document - ONLY WITH FIELDS FROM serviceOrder COLLECTION
+        request_data = request_doc.to_dict() or {}
+        price_summary = request_data.get("price_summary") or {"items": [], "total": 0}
+
+        now = _get_iso_timestamp()
         order_data = {
-            # Core IDs
-            "user_id": service_data.get("user_id"),
-            "chat_id": service_data.get("chat_id"),
-            "magic_word_user_id": magic_word_user_id,
-            "service_id": service_request_id,
-            "date_of_service": service_data.get("date_of_travel"),
-            
-            # ✅ Status = "booked"
-            "status": "booked",
-            
-            # ✅ OTP Fields (from booking_details)
-            "start_otp": booking_details.get("startOtp", "") if booking_details else "",
-            "end_otp": booking_details.get("endOtp", "") if booking_details else "",
-            "start_otp_verified": False,
-            "end_otp_verified": False,
-            
-            # ✅ Item/Service Info (from service_requests)
-            "item_id": service_id,
-            "monument_id": service_data.get("monument_to_visit", ""),
-            "product_type": service_type,
-            "service_name": service_name,
-            
-            # ✅ Pricing (from service_requests)
-            "price": int(pricing.get("total_payable", 0)),
-            "commission_amount": float(booking_details.get("commission", 0)) if booking_details else 0.0,
-            "commission_percent": 5,
-            
-            # ✅ Payment (from booking_details)
-            "payment_status": booking_details.get("paymentStatus", "pending") if booking_details else "pending",
-            "payment_detail": booking_details.get("paymentDetail", "") if booking_details else "",
-            
-            # ✅ Vendor (from booking_details)
-            "vendor_id": booking_details.get("vendor_id") if booking_details else None,
-            "vendor_price": float(booking_details.get("vendor_price", 0)) if booking_details else 0.0,
-            
-            # ✅ Timestamps
-            "created_at": _get_iso_timestamp(),
-            "updated_at": _get_iso_timestamp(),
+            "action": "Create Service Order",
+            "booking_status": "booked",
+            "created_at": now,
+            "updated_at": now,
+
+            "request_id": service_request_id,
+            "user_id": request_data.get("user_id"),
+            "service_id": request_data.get("service_id"),
+            "service_name": request_data.get("service_name"),
+            "service_description": request_data.get("service_description"),
+            "form_template": request_data.get("form_template"),
+
+            # An order is only ever created once payment has succeeded, so this
+            # is always "Success" here (matching payment_details.payment_status
+            # below).
+            "payment_status": "Success",
+
+            "field_values": request_data.get("field_values", {}),
+            "price_summary": price_summary,
+
+            "start_otp": request_data.get("start_otp", ""),
+            "end_otp": request_data.get("end_otp", ""),
+
+            # No real payment gateway call happens from the support panel -
+            # support just confirms payment was received, so this is a manual
+            # placeholder rather than a real Razorpay payment record.
+            "payment_details": {
+                "amount": price_summary.get("total", 0),
+                "order_id": None,
+                "payment_id": None,
+                "provider": "manual",
+                "signature": None,
+                "status": "Success",
+                "payment_status": "Success",
+            },
+            "vendor_id": None,
         }
 
-        # ✅ Save to serviceOrder collection
-        order_ref = db.collection("serviceOrder").add(order_data)
-        order_id = order_ref[1].id
+        doc_ref = db.collection("serviceJsonOrder").document()
+        doc_ref.set({**order_data, "order_id": doc_ref.id})
+        order_id = doc_ref.id
 
-        # ✅ Update document with order_id
-        db.collection("serviceOrder").document(order_id).update({
-            "order_id": order_id,
-            "uid": order_id,
-            "updated_at": _get_iso_timestamp(),
-        })
-
-        # ✅ Update magicWordUser with order_id
-        db.collection("magicWordUser").document(magic_word_user_id).update({
-            "order_id": order_id,
-            "service_order_id": order_id,
-            "order_status": "booked",
-            "updated_at": _get_iso_timestamp()
-        })
-
-        # ✅ Update service_request status
-        db.collection("service_requests").document(service_request_id).update({
-            "order_id": order_id,
-            "updated_at": _get_iso_timestamp(),
-        })
-
-        logging.info(f"✅ Service order created: {order_id}")
-        logging.info(f"✅ Status: booked, Price: ₹{order_data['price']}, Payment: {order_data['payment_status']}")
         logging.info(
-            "Service order created: order_id=%s status=booked price=%s start_otp=%s payment_status=%s",
-            order_id,
-            order_data["price"],
-            order_data["start_otp"],
-            order_data["payment_status"],
+            "Service order created: order_id=%s request_id=%s total=%s",
+            order_id, service_request_id, price_summary.get("total", 0),
         )
 
         return {
             "success": True,
             "service_order_id": order_id,
-            "status": "booked",
-            "price": order_data['price'],
+            "price": price_summary.get("total", 0),
         }
 
     except Exception as e:

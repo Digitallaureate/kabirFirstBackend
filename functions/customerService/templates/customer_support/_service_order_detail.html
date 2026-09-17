@@ -9,7 +9,16 @@
                     </svg>
                     Back to Dashboard
                 </button>
-                <span id="sod-statusBadge" class="badge bg-success fs-6">booked</span>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="form-check form-switch" style="transform:scale(1.2);transform-origin:right center;">
+                        <input class="form-check-input" type="checkbox" id="sod-humanInteractionToggle"
+                            onchange="toggleServiceOrderHumanInteraction()">
+                        <label class="form-check-label" for="sod-humanInteractionToggle"
+                            id="sod-toggleLabel">kabirAI</label>
+                    </div>
+                    <span id="sod-toggleStatus" class="badge bg-secondary">Active</span>
+                    <span id="sod-statusBadge" class="badge bg-success fs-6">booked</span>
+                </div>
             </div>
             <h1>Service Order Detail</h1>
             <p class="text-muted mb-0">Order ID: <code id="sod-orderId">—</code></p>

@@ -1,0 +1,153 @@
+{
+    "serviceId": "cab_auto",
+    "requiresManualReview": false,
+    "formFields": [
+        {
+            "key": "traveler_type",
+            "label": "Who is this booking for?",
+            "type": "toggle",
+            "required": true,
+            "defaultValue": "self",
+            "options": [
+                {
+                    "label": "Self",
+                    "value": "self"
+                },
+                {
+                    "label": "Other",
+                    "value": "other"
+                }
+            ],
+            "order": 1
+        },
+        {
+            "key": "full_name",
+            "label": "Full Name",
+            "type": "text",
+            "required": true,
+            "order": 2
+        },
+        {
+            "type": "row",
+            "layoutGroup": "contact_info",
+            "order": 3,
+            "children": [
+                {
+                    "key": "country_code",
+                    "label": "Country Code",
+                    "type": "select",
+                    "required": true,
+                    "order": 3,
+                    "placeholder": "+91"
+                },
+                {
+                    "key": "phone_number",
+                    "label": "Phone Number",
+                    "type": "phone",
+                    "required": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "key": "vehicle_type",
+            "label": "Vehicle Type",
+            "type": "select",
+            "required": true,
+            "options": [
+                "Auto (3 Seater)",
+                "Sedan (4 Seater)",
+                "SUV (6 Seater)"
+            ],
+            "order": 5
+        },
+        {
+            "key": "booking_mode",
+            "label": "Booking Mode",
+            "type": "select",
+            "required": true,
+            "options": [
+                "Full Day (4-5 monuments · 6-8 hours)"
+            ],
+            "order": 6
+        },
+        {
+            "key": "start_date",
+            "label": "Travel Date",
+            "type": "date",
+            "required": true,
+            "order": 7
+        },
+        {
+            "key": "pickup_location",
+            "label": "Pickup Location",
+            "type": "text",
+            "required": true,
+            "order": 8
+        },
+        {
+            "key": "drop_location",
+            "label": "Drop Location",
+            "type": "text",
+            "required": false,
+            "order": 9
+        },
+        {
+            "key": "additional_requests",
+            "label": "Additional Requests",
+            "type": "textarea",
+            "required": false,
+            "order": 10
+        }
+    ],
+    "pricingConfig": {
+        "currency": "INR",
+        "pricingType": "per_day",
+        "basePrice": 0,
+        "rules": [
+            {
+                "label": "Auto Daily Rate",
+                "field": "vehicle_type",
+                "operator": "equals",
+                "value": "Auto (3 Seater)",
+                "effect": {
+                    "type": "replace_price",
+                    "amount": 1
+                }
+            },
+            {
+                "label": "Sedan Daily Rate",
+                "field": "vehicle_type",
+                "operator": "equals",
+                "value": "Sedan (4 Seater)",
+                "effect": {
+                    "type": "replace_price",
+                    "amount": 1
+                }
+            },
+            {
+                "label": "SUV Daily Rate",
+                "field": "vehicle_type",
+                "operator": "equals",
+                "value": "SUV (6 Seater)",
+                "effect": {
+                    "type": "replace_price",
+                    "amount": 1
+                }
+            }
+        ],
+        "tax": {
+            "type": "percentage",
+            "value": 5
+        },
+        "convenienceFee": {
+            "type": "flat",
+            "value": 1
+        }
+    },
+    "uiConfig": {
+        "buttonText": "Book Ride"
+    },
+    "createdAt": "2026-03-31T10:00:00Z",
+    "updatedAt": "2026-03-31T10:00:00Z"
+}

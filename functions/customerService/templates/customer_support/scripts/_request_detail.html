@@ -60,8 +60,12 @@
             currentServiceRequestId = data.magic_word_request?.serviceRequestId || data.magic_word_request?.orderId || null;
             if (currentStatus === "requested" || (currentStatus === "inProgress" && !currentServiceRequestId)) {
                 document.getElementById("serviceRequestForm").reset();
-                await loadMonuments(); await loadLanguagePreferences();
-                if (data.user) { document.getElementById("travelerName").value = data.user.firstName || ""; document.getElementById("travelerPhoneNumber").value = data.user.phoneNumber || ""; }
+                document.getElementById("dynamicServiceFields").innerHTML = "";
+                document.getElementById("fixedServiceFields").style.display = "none";
+                currentServiceFormConfig = null;
+                currentPriceSummary = { items: [], total: 0 };
+                pendingUserPrefill = data.user ? { firstName: data.user.firstName || "", phoneNumber: data.user.phoneNumber || "" } : null;
+                await loadServiceCatalog();
                 new bootstrap.Modal(document.getElementById("serviceRequestModal")).show();
             } else if (currentStatus === "inProgress") { await updateMagicWordStatus(); }
         }
@@ -132,72 +136,320 @@
             } catch (e) { console.error("Service order chat poll error:", e); }
         }
 
-        async function loadMonuments() {
-            const response = await fetch(`${API_BASE}/monuments`);
-            const data = await response.json();
-            if (data.success && data.monuments) {
-                const select = document.getElementById("monumentToVisit");
-                select.innerHTML = '<option value="">Select...</option>';
-                data.monuments.forEach(m => { const opt = document.createElement("option"); opt.value = m.id; opt.textContent = m.title || m.name; select.appendChild(opt); });
+        // -----------------------------------------------------------------
+        // Dynamic, per-service booking form
+        // Renders formFields from /api/service-catalog/<serviceId>/form so
+        // each service (tour guide, cab, photographer, ...) shows only its
+        // own fields instead of one generic form for every service.
+        // -----------------------------------------------------------------
+        let currentServiceFormConfig = null;
+        let pendingUserPrefill = null;
+        let currentPriceSummary = { items: [], total: 0 };
+
+        async function loadServiceCatalog() {
+            const select = document.getElementById("serviceCatalogSelect");
+            select.innerHTML = '<option value="">Select a service...</option>';
+            try {
+                const response = await fetch(`${API_BASE}/service-catalog`);
+                const data = await response.json();
+                if (data.success && data.services) {
+                    data.services.forEach(s => { const opt = document.createElement("option"); opt.value = s.serviceId; opt.textContent = s.serviceName; select.appendChild(opt); });
+                }
+            } catch (e) { console.error("Failed to load service catalog", e); }
+        }
+
+        async function handleServiceCatalogChange() {
+            const serviceId = document.getElementById("serviceCatalogSelect").value;
+            const container = document.getElementById("dynamicServiceFields");
+            const fixedFields = document.getElementById("fixedServiceFields");
+            container.innerHTML = "";
+            currentServiceFormConfig = null;
+            if (!serviceId) { fixedFields.style.display = "none"; return; }
+            try {
+                const response = await fetch(`${API_BASE}/service-catalog/${serviceId}/form`);
+                const data = await response.json();
+                if (!data.success || !data.form) { container.innerHTML = '<div class="col-12 text-danger">Could not load the form for this service.</div>'; return; }
+                currentServiceFormConfig = data.form;
+                renderDynamicServiceFields(currentServiceFormConfig);
+                fixedFields.style.display = "block";
+            } catch (e) {
+                console.error("Failed to load service form config", e);
+                container.innerHTML = '<div class="col-12 text-danger">Could not load the form for this service.</div>';
             }
         }
 
-        async function loadServicesByMonument(monumentId) {
-            if (!monumentId) { document.getElementById("typeOfService").innerHTML = '<option value="">Select monument first...</option>'; return; }
-            const response = await fetch(`${API_BASE}/monuments/${monumentId}/services`);
-            const data = await response.json();
-            const select = document.getElementById("typeOfService");
-            select.innerHTML = '<option value="">Select...</option>';
-            if (data.success && data.services) data.services.forEach(s => { const opt = document.createElement("option"); opt.value = s.id; opt.textContent = s.title || s.name; select.appendChild(opt); });
-        }
-
-        function handleMonumentChange() { const id = document.getElementById("monumentToVisit").value; if (id) loadServicesByMonument(id); }
-        function handleServiceChange() { document.getElementById("customServiceDiv").style.display = document.getElementById("typeOfService").value === "other" ? "block" : "none"; }
-
-        async function loadLanguagePreferences() {
-            const response = await fetch(`${API_BASE}/service-languages`);
-            const data = await response.json();
-            const container = document.getElementById("languagePreferenceContainer");
+        function renderDynamicServiceFields(formConfig) {
+            const container = document.getElementById("dynamicServiceFields");
             container.innerHTML = "";
-            if (data.success && data.languages) data.languages.forEach(lang => { const div = document.createElement("div"); div.className = "form-check"; div.innerHTML = `<input class="form-check-input language-checkbox" type="checkbox" id="lang_${lang.id}" value="${lang.title || lang.name}"><label class="form-check-label" for="lang_${lang.id}">${lang.title || lang.name}</label>`; container.appendChild(div); });
+            const fields = [...(formConfig.formFields || [])].sort((a, b) => (a.order || 0) - (b.order || 0));
+            fields.forEach(field => {
+                if (field.type === "row") {
+                    const children = [...(field.children || [])].sort((a, b) => (a.order || 0) - (b.order || 0));
+                    children.forEach(child => container.insertAdjacentHTML("beforeend", buildDynamicFieldMarkup(child, "col-md-6")));
+                } else {
+                    container.insertAdjacentHTML("beforeend", buildDynamicFieldMarkup(field, "col-md-6"));
+                }
+            });
+            fields.forEach(field => {
+                if (field.type === "row") (field.children || []).forEach(wireDynamicField);
+                else wireDynamicField(field);
+            });
+            applyPendingUserPrefill();
+            computePricing();
         }
 
-        function handleTimeSlotChange() { const val = document.getElementById("timeSlotLabel").value; document.getElementById("customStartTimeDiv").style.display = val === "Custom" ? "block" : "none"; document.getElementById("customEndTimeDiv").style.display = val === "Custom" ? "block" : "none"; }
+        // Recompute the price breakdown whenever a dynamic field changes
+        // (attached once - #dynamicServiceFields itself is never replaced,
+        // only its contents are, so this delegated listener keeps working
+        // across service switches).
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("dynamicServiceFields");
+            if (container) { container.addEventListener("input", computePricing); container.addEventListener("change", computePricing); }
+        });
 
-        function getTimeSlotDetails() {
-            const label = document.getElementById("timeSlotLabel").value;
-            const slots = { "Morning": { startTime: "06:00", endTime: "12:00" }, "Afternoon": { startTime: "12:00", endTime: "18:00" }, "Evening": { startTime: "18:00", endTime: "22:00" } };
-            if (label === "Custom") return { label: "Custom", startTime: document.getElementById("customStartTime").value, endTime: document.getElementById("customEndTime").value };
-            return { label, ...slots[label] };
+        function round2(n) { return Math.round((Number(n) || 0) * 100) / 100; }
+
+        function updateManualPriceSummary() {
+            const input = document.getElementById("price");
+            const amount = round2(input ? input.value : 0);
+            currentPriceSummary = { items: [{ amount, label: "Manual Price" }], total: amount };
+        }
+
+        function computePricing() {
+            const section = document.getElementById("priceSection");
+            if (!section) return;
+            const pricingConfig = currentServiceFormConfig && currentServiceFormConfig.pricingConfig;
+
+            // Services under manual review (e.g. "Concierge Services") have no
+            // pricingConfig - price has to be entered by hand for those.
+            if (!pricingConfig) {
+                section.innerHTML = `<label class="form-label">Price</label><input type="number" class="form-control" id="price" step="0.01" placeholder="Manual - requires review" oninput="updateManualPriceSummary()">`;
+                updateManualPriceSummary();
+                return;
+            }
+
+            const values = collectDynamicFieldValues();
+            let amount = Number(pricingConfig.basePrice) || 0;
+            const items = [{ amount: round2(amount), label: "Base Price" }];
+
+            (pricingConfig.rules || []).forEach(rule => {
+                const fieldValue = values[rule.field];
+                let matches = false;
+                if (rule.operator === "greater_than") matches = Number(fieldValue) > Number(rule.value);
+                else if (rule.operator === "equals") matches = String(fieldValue) === String(rule.value);
+                if (!matches) return;
+
+                const effect = rule.effect || {};
+                let lineAmount = 0;
+                if (effect.type === "replace_price" || effect.type === "add_flat") {
+                    lineAmount = Number(effect.amount) || 0;
+                } else if (effect.type === "add_per_extra_unit") {
+                    const extraUnits = Number(fieldValue) - Number(effect.baseIncluded || 0);
+                    if (extraUnits > 0) lineAmount = extraUnits * (Number(effect.amount) || 0);
+                }
+                if (lineAmount) { amount += lineAmount; items.push({ amount: round2(lineAmount), label: rule.label }); }
+            });
+
+            const taxCfg = pricingConfig.tax || {};
+            const taxAmount = taxCfg.type === "percentage"
+                ? amount * (Number(taxCfg.value) || 0) / 100
+                : Number(taxCfg.value) || 0;
+            items.push({ amount: round2(taxAmount), label: taxCfg.type === "percentage" ? `Tax (${taxCfg.value}%)` : "Tax" });
+
+            const convenienceCfg = pricingConfig.convenienceFee || {};
+            const convenienceFee = convenienceCfg.type === "percentage"
+                ? amount * (Number(convenienceCfg.value) || 0) / 100
+                : Number(convenienceCfg.value) || 0;
+            items.push({ amount: round2(convenienceFee), label: "Convenience Fee" });
+
+            const total = round2(amount + convenienceFee + taxAmount);
+            currentPriceSummary = { items, total };
+
+            section.innerHTML = `
+                <label class="form-label">Price Details</label>
+                <div class="small border rounded p-2 bg-light">
+                    ${items.map(item => `<div class="d-flex justify-content-between${item.label === "Base Price" ? "" : " text-muted"}"><span>${item.label}</span><span>₹${item.amount.toFixed(2)}</span></div>`).join("")}
+                    <div class="d-flex justify-content-between fw-bold border-top mt-1 pt-1"><span>Total Payable</span><span>₹${total.toFixed(2)}</span></div>
+                </div>
+                <input type="hidden" id="price" value="${total}">
+            `;
+        }
+
+        function applyPendingUserPrefill() {
+            if (!pendingUserPrefill) return;
+            const nameInput = document.getElementById("dyn_full_name");
+            if (nameInput && !nameInput.value) nameInput.value = pendingUserPrefill.firstName || "";
+            const phoneInput = document.getElementById("dyn_phone_number");
+            if (phoneInput && !phoneInput.value) phoneInput.value = pendingUserPrefill.phoneNumber || "";
+        }
+
+        function fieldLabel(field) { return `${field.label || field.key}${field.required ? " *" : ""}`; }
+
+        function buildDynamicFieldMarkup(field, colClass) {
+            const id = `dyn_${field.key}`;
+            const required = field.required ? "required" : "";
+            let inputHtml = "";
+
+            switch (field.type) {
+                case "textarea":
+                    inputHtml = `<textarea class="form-control" id="${id}" rows="2" placeholder="${field.placeholder || ""}" ${required}></textarea>`;
+                    break;
+                case "number": {
+                    const v = field.validation || {};
+                    inputHtml = `<input type="number" class="form-control" id="${id}" placeholder="${field.placeholder || ""}" ${v.min !== undefined ? `min="${v.min}"` : ""} ${v.max !== undefined ? `max="${v.max}"` : ""} ${required}>`;
+                    break;
+                }
+                case "date":
+                    inputHtml = `<input type="date" class="form-control" id="${id}" ${required}>`;
+                    break;
+                case "phone":
+                    inputHtml = `<input type="tel" class="form-control" id="${id}" ${required}>`;
+                    break;
+                case "select":
+                case "toggle": {
+                    const opts = (field.options || []).map(o => {
+                        const label = typeof o === "string" ? o : o.label;
+                        const value = typeof o === "string" ? o : o.value;
+                        const selected = field.defaultValue === value ? "selected" : "";
+                        return `<option value="${value}" ${selected}>${label}</option>`;
+                    }).join("");
+                    inputHtml = `<select class="form-control" id="${id}" ${required}><option value="">Select...</option>${opts}</select>`;
+                    break;
+                }
+                case "multi_select": {
+                    const checks = (field.options || []).map((o, idx) => {
+                        const label = typeof o === "string" ? o : o.label;
+                        const value = typeof o === "string" ? o : o.value;
+                        return `<div class="form-check"><input class="form-check-input dyn-multi-checkbox" type="checkbox" data-key="${field.key}" id="${id}_${idx}" value="${value}"><label class="form-check-label" for="${id}_${idx}">${label}</label></div>`;
+                    }).join("");
+                    inputHtml = `<div id="${id}">${checks}</div>`;
+                    break;
+                }
+                case "time_slot":
+                    inputHtml = `
+                        <select class="form-control" id="${id}_label" onchange="handleDynamicTimeSlotChange('${field.key}')" ${required}>
+                            <option value="">Select...</option>
+                            <option value="Morning">Morning (6 AM - 12 PM)</option>
+                            <option value="Afternoon">Afternoon (12 PM - 6 PM)</option>
+                            <option value="Evening">Evening (6 PM - 10 PM)</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                        <div class="row mt-2" id="${id}_customRow" style="display:none;">
+                            <div class="col-6"><label class="form-label small">Start Time</label><input type="time" class="form-control" id="${id}_start"></div>
+                            <div class="col-6"><label class="form-label small">End Time</label><input type="time" class="form-control" id="${id}_end"></div>
+                        </div>`;
+                    break;
+                case "postcard_chat_selector":
+                    inputHtml = `<input type="text" class="form-control" id="${id}" placeholder="Enter chat ID" ${required}>`;
+                    break;
+                default:
+                    inputHtml = `<input type="text" class="form-control" id="${id}" placeholder="${field.placeholder || ""}" ${required}>`;
+            }
+
+            const helper = field.helperText ? `<div class="form-text">${field.helperText}</div>` : "";
+            return `<div class="${colClass} mb-3" data-field-key="${field.key}"><label class="form-label">${fieldLabel(field)}</label>${inputHtml}${helper}</div>`;
+        }
+
+        function wireDynamicField(field) {
+            const id = `dyn_${field.key}`;
+            if (field.dataSource && field.dataSource.mode === "dynamic") populateDynamicSelect(field);
+            if (field.type === "select" && field.defaultValue) { const el = document.getElementById(id); if (el) el.value = field.defaultValue; }
+        }
+
+        async function populateDynamicSelect(field) {
+            const select = document.getElementById(`dyn_${field.key}`);
+            if (!select) return;
+            try {
+                const response = await fetch(`${API_BASE}/data-source/resolve`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        sourceKey: field.dataSource.sourceKey,
+                        labelField: field.dataSource.labelField,
+                        valueField: field.dataSource.valueField,
+                        filters: field.dataSource.filters || []
+                    })
+                });
+                const data = await response.json();
+                select.innerHTML = '<option value="">Select...</option>';
+                (data.items || []).forEach(item => {
+                    const opt = document.createElement("option");
+                    opt.value = item.value;
+                    opt.textContent = item.label;
+                    select.appendChild(opt);
+                });
+            } catch (e) { console.error(`Failed to load options for ${field.key}`, e); }
+        }
+
+        function handleDynamicTimeSlotChange(key) {
+            const val = document.getElementById(`dyn_${key}_label`).value;
+            document.getElementById(`dyn_${key}_customRow`).style.display = val === "Custom" ? "flex" : "none";
+        }
+
+        function getDynamicTimeSlotDetails(key) {
+            const label = document.getElementById(`dyn_${key}_label`).value;
+            const slots = { Morning: { startTime: "06:00", endTime: "12:00" }, Afternoon: { startTime: "12:00", endTime: "18:00" }, Evening: { startTime: "18:00", endTime: "22:00" } };
+            if (label === "Custom") return { label: "Custom", startTime: document.getElementById(`dyn_${key}_start`).value, endTime: document.getElementById(`dyn_${key}_end`).value };
+            return { label, ...(slots[label] || {}) };
+        }
+
+        function collectDynamicFieldValues() {
+            if (!currentServiceFormConfig) return {};
+            const values = {};
+            const allFields = [];
+            (currentServiceFormConfig.formFields || []).forEach(f => f.type === "row" ? allFields.push(...(f.children || [])) : allFields.push(f));
+
+            allFields.forEach(field => {
+                const id = `dyn_${field.key}`;
+                if (field.type === "multi_select") {
+                    values[field.key] = Array.from(document.querySelectorAll(`.dyn-multi-checkbox[data-key="${field.key}"]:checked`)).map(cb => cb.value);
+                } else if (field.type === "time_slot") {
+                    values[field.key] = getDynamicTimeSlotDetails(field.key);
+                } else {
+                    const el = document.getElementById(id);
+                    if (el) values[field.key] = el.value;
+                }
+            });
+            return values;
+        }
+
+        // field_values, as sent to the backend: select/toggle fields keep both
+        // their label and value (so the request/order documents stay readable
+        // without needing to re-resolve option lists later); every other field
+        // keeps its raw value.
+        function buildFieldValuesForSubmit() {
+            if (!currentServiceFormConfig) return {};
+            const raw = collectDynamicFieldValues();
+            const allFields = [];
+            (currentServiceFormConfig.formFields || []).forEach(f => f.type === "row" ? allFields.push(...(f.children || [])) : allFields.push(f));
+
+            const fieldValues = {};
+            allFields.forEach(field => {
+                const value = raw[field.key];
+                if ((field.type === "select" || field.type === "toggle") && value) {
+                    const el = document.getElementById(`dyn_${field.key}`);
+                    const selectedOption = el ? el.options[el.selectedIndex] : null;
+                    fieldValues[field.key] = { label: selectedOption ? selectedOption.textContent : value, value };
+                } else {
+                    fieldValues[field.key] = value;
+                }
+            });
+            return fieldValues;
         }
 
         async function submitServiceRequest() {
-            const timeSlot = getTimeSlotDetails();
-            const languages = [];
-            document.querySelectorAll('input.language-checkbox:checked').forEach(cb => languages.push(cb.value));
+            const serviceId = document.getElementById("serviceCatalogSelect").value;
+            if (!serviceId) { alert("Please select a service"); return; }
+
             const details = {
-                travelerName: document.getElementById("travelerName").value.trim(),
-                countryCode: document.getElementById("countryCode").value.trim(),
-                travelerPhoneNumber: `${document.getElementById("countryCode").value} ${document.getElementById("travelerPhoneNumber").value}`.trim(),
-                travelerFrom: document.getElementById("travelerFrom").value.trim(),
-                monumentToVisit: document.getElementById("monumentToVisit").value,
-                typeOfService: document.getElementById("typeOfService").value,
-                dateOfTravel: document.getElementById("dateOfTravel").value,
-                timeSlot, numberOfTravelers: parseInt(document.getElementById("numberOfTravelers").value),
-                languagePreference: languages,
-                pickupLocation: document.getElementById("pickupLocation").value,
-                dropLocation: document.getElementById("dropLocation").value,
-                price: document.getElementById("price").value || "0",
-                commission: document.getElementById("commission").value || "0",
-                status: document.getElementById("serviceStatus").value,
+                serviceId,
                 paymentStatus: document.getElementById("paymentStatus").value,
-                startOtp: document.getElementById("startOtp").value.trim(),
-                endOtp: document.getElementById("endOtp").value.trim(),
-                description: document.getElementById("description").value
+                fieldValues: buildFieldValuesForSubmit(),
+                priceSummary: currentPriceSummary
             };
             try {
                 const btn = document.querySelector('[onclick="submitServiceRequest()"]'); btn.disabled = true; btn.innerHTML = 'Submitting...';
-                const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/status`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bookingType: details.typeOfService, details, status: "inProgress" }) });
+                const response = await fetch(`${API_BASE}/magic-words/${currentMagicWordId}/status`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bookingType: serviceId, details, status: "inProgress" }) });
                 const result = await response.json();
                 if (result.success) { bootstrap.Modal.getInstance(document.getElementById("serviceRequestModal")).hide(); document.getElementById("detail-status").textContent = result.new_status; document.getElementById("detail-status").className = `badge ${getStatusBadgeClass(result.new_status)}`; updateStatusButtonText(result.new_status); alert("âœ… Service request submitted!"); setTimeout(() => loadMagicWordRequests(), 1500); }
                 else { alert(`Error: ${result.error}`); }

@@ -1,0 +1,33 @@
+{
+    "serviceId": "postcard",
+    "requiresManualReview": false,
+    "formFields": [
+        {
+            "key": "postcard_chat",
+            "label": "Select a chat for confirmation",
+            "type": "postcard_chat_selector",
+            "required": true,
+            "order": 1
+        }
+    ],
+    "pricingConfig": {
+        "currency": "INR",
+        "pricingType": "fixed",
+        "basePrice": 1,
+        "rules": [],
+        "tax": {
+            "type": "percentage",
+            "value": 5
+        },
+        "convenienceFee": {
+            "type": "flat",
+            "value": 1
+        }
+    },
+    "uiConfig": {
+        "buttonText": "Create Postcard",
+        "badge": "Popular"
+    },
+    "createdAt": "2026-03-31T10:00:00Z",
+    "updatedAt": "2026-03-31T10:00:00Z"
+}

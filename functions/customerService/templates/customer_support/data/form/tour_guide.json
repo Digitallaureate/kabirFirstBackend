@@ -1,0 +1,187 @@
+{
+    "serviceId": "tour_guide",
+    "requiresManualReview": false,
+    "formFields": [
+        {
+            "key": "traveler_type",
+            "label": "Who is this booking for?",
+            "type": "toggle",
+            "required": true,
+            "defaultValue": "self",
+            "options": [
+                {
+                    "label": "Self",
+                    "value": "self"
+                },
+                {
+                    "label": "Other",
+                    "value": "other"
+                }
+            ],
+            "order": 1
+        },
+        {
+            "key": "full_name",
+            "label": "Full Name",
+            "type": "text",
+            "required": true,
+            "order": 2
+        },
+        {
+            "type": "row",
+            "layoutGroup": "contact_info",
+            "order": 3,
+            "children": [
+                {
+                    "key": "country_code",
+                    "label": "Country Code",
+                    "type": "select",
+                    "required": false,
+                    "order": 3,
+                    " lder": "+91"
+                },
+                {
+                    "key": "phone_number",
+                    "label": "Phone Number",
+                    "type": "phone",
+                    "required": false,
+                    "order": 4
+                }
+            ]
+        },
+        {
+            "key": "monument_id",
+            "label": "Select Monument",
+            "type": "select",
+            "required": true,
+            "placeholder": "",
+            "order": 5,
+            "dataSource": {
+                "mode": "dynamic",
+                "sourceKey": "historical_sites",
+                "labelField": "site_name",
+                "valueField": "id",
+                "filters": [
+                    {
+                        "field": "is_active",
+                        "operator": "isEqualTo",
+                        "value": true
+                    }
+                ]
+            },
+            "options": []
+        },
+        {
+            "type": "row",
+            "layoutGroup": "travel_schedule",
+            "order": 6,
+            "children": [
+                {
+                    "key": "travel_date",
+                    "label": "Travel Date",
+                    "type": "date",
+                    "required": true,
+                    "order": 6
+                },
+                {
+                    "key": "time_slot",
+                    "label": "Start Time",
+                    "type": "time_slot",
+                    "required": true,
+                    "order": 7
+                }
+            ]
+        },
+        {
+            "key": "language_preference",
+            "label": "Language Preference",
+            "type": "select",
+            "required": true,
+            "defaultValue": "English",
+            "dataSource": {
+                "mode": "dynamic",
+                "sourceKey": "serviceLanguage",
+                "labelField": "title",
+                "valueField": "title"
+            },
+            "options": [],
+            "order": 8
+        },
+        {
+            "key": "number_of_travelers",
+            "label": "Number of Travelers",
+            "type": "number",
+            "required": true,
+            "validation": {
+                "min": 1,
+                "max": 20
+            },
+            "order": 9
+        },
+        {
+            "key": "gender_preference",
+            "label": "Guide Gender Preference",
+            "type": "select",
+            "required": false,
+            "defaultValue": "No Preference",
+            "options": [
+                "Male",
+                "Female",
+                "No Preference"
+            ],
+            "order": 10
+        },
+        {
+            "key": "additional_requests",
+            "label": "Additional Requests",
+            "type": "textarea",
+            "required": false,
+            "order": 11
+        }
+    ],
+    "pricingConfig": {
+        "currency": "INR",
+        "pricingType": "dynamic",
+        "basePrice": 1,
+        "rules": [
+            {
+                "label": "Extra Traveler",
+                "field": "number_of_travelers",
+                "operator": "greater_than",
+                "value": 10,
+                "effect": {
+                    "type": "add_per_extra_unit",
+                    "baseIncluded": 10,
+                    "amount": 200
+                }
+            },
+            {
+                "label": "French Language",
+                "field": "language_preference",
+                "operator": "equals",
+                "value": "French",
+                "effect": {
+                    "type": "add_flat",
+                    "amount": 500
+                }
+            }
+        ],
+        "tax": {
+            "type": "percentage",
+            "value": 5
+        },
+        "convenienceFee": {
+            "type": "flat",
+            "value": 0
+        }
+    },
+    "uiConfig": {
+        "buttonText": "Book Guide",
+        "badge": "Popular",
+        "showCoupon": true,
+        "showGst": true,
+        "showBillingSummary": true
+    },
+    "createdAt": "2026-03-31T10:00:00Z",
+    "updatedAt": "2026-03-31T10:00:00Z"
+}

@@ -1,0 +1,178 @@
+{
+    "services": [
+        {
+            "serviceId": "tour_guide",
+            "serviceName": "Tour Guide",
+            "serviceType": "guided_service",
+            "version": 1,
+            "isActive": true,
+            "serviceTitle": "Explore with local experts",
+            "serviceDescription": "₹500 (5.2$) per visit",
+            "serviceImage": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/shoppingCenter%2FTourGuideService1_optimized_100.png?alt=media&token=a6251f85-4a9c-4c48-b6d1-655529b5e425",
+            "formTemplate": "assets/response/service/guide_config.json",
+            "ranking": 1,
+            "rating": 4.8,
+            "actions": [
+                {
+                    "type": "navigate",
+                    "target": "service_preview",
+                    "parameters": {
+                        "serviceId": "https://www.google.com/?zx=1775120971028"
+                    }
+                },
+                {
+                    "type": "navigate",
+                    "target": "service_form",
+                    "parameters": {
+                        "serviceId": "tour_guide"
+                    }
+                }
+            ]
+        },
+        {
+            "serviceId": "photographer",
+            "serviceName": "Photographer",
+            "serviceType": "media_service",
+            "version": 1,
+            "isActive": true,
+            "serviceTitle": "Capture your memories",
+            "serviceDescription": "₹50 (0.52$) per photo",
+            "serviceImage": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/shoppingCenter%2FPhotographerService1_optimized_100.png?alt=media&token=c5d58e68-932c-4234-a6bf-2295b924263b",
+            "formTemplate": "assets/response/service/photographer_config.json",
+            "ranking": 2,
+            "rating": 4.5,
+            "actions": [
+                {
+                    "type": "navigate",
+                    "target": "service_preview",
+                    "parameters": {
+                        "serviceId": "photographer"
+                    }
+                },
+                {
+                    "type": "navigate",
+                    "target": "service_form",
+                    "parameters": {
+                        "serviceId": "photographer"
+                    }
+                }
+            ]
+        },
+        {
+            "serviceId": "local_sightseeing",
+            "serviceName": "Local Sightseeing",
+            "serviceType": "experience_service",
+            "version": 1,
+            "isActive": true,
+            "serviceTitle": "Explore Local Attractions",
+            "serviceDescription": "₹500 (5.2$) per hour",
+            "serviceImage": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/shoppingCenter%2FLocal%20souvenir%20icon.png?alt=media&token=c994ac74-19cd-4626-bfd7-cc01d5a2e73c",
+            "formTemplate": "assets/response/service/sightseeing_config.json",
+            "ranking": 6,
+            "rating": 4.7,
+            "actions": [
+                {
+                    "type": "navigate",
+                    "target": "service_preview",
+                    "parameters": {
+                        "serviceId": "local_sightseeing"
+                    }
+                },
+                {
+                    "type": "navigate",
+                    "target": "service_form",
+                    "parameters": {
+                        "serviceId": "local_sightseeing"
+                    }
+                }
+            ]
+        },
+        {
+            "serviceId": "cab_auto",
+            "serviceName": "Cab / Auto",
+            "serviceType": "transport_service",
+            "version": 1,
+            "isActive": true,
+            "serviceTitle": "Agra's Local Mobility",
+            "serviceDescription": "₹15 (0.16$) per km",
+            "serviceImage": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/shoppingCenter%2FCabAutoService1_optimized_100.png?alt=media&token=508b2189-bcd3-431b-8854-ecc3681e95ac",
+            "formTemplate": "assets/response/service/cab_auto_config.json",
+            "ranking": 3,
+            "rating": 4.6,
+            "actions": [
+                {
+                    "type": "navigate",
+                    "target": "service_preview",
+                    "parameters": {
+                        "serviceId": "cab_auto"
+                    }
+                },
+                {
+                    "type": "navigate",
+                    "target": "service_form",
+                    "parameters": {
+                        "serviceId": "cab_auto"
+                    }
+                }
+            ]
+        },
+        {
+            "serviceId": "postcard",
+            "serviceName": "Postcard",
+            "serviceType": "content_service",
+            "version": 1,
+            "isActive": true,
+            "serviceTitle": "Turn trip into a memory",
+            "serviceDescription": "₹99 (1.03$) per postcard",
+            "serviceImage": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/shoppingCenter%2FPostcardService1_optimized_100.png?alt=media&token=4d8c89e4-3bb0-4b32-a79b-f3f3fafb3f25",
+            "formTemplate": "assets/response/service/postcard_config.json",
+            "ranking": 4,
+            "rating": 4.9,
+            "actions": [
+                {
+                    "type": "navigate",
+                    "target": "service_preview",
+                    "parameters": {
+                        "serviceId": "postcard"
+                    }
+                },
+                {
+                    "type": "navigate",
+                    "target": "service_form",
+                    "parameters": {
+                        "serviceId": "postcard"
+                    }
+                }
+            ]
+        },
+        {
+            "serviceId": "other_service",
+            "serviceName": "Concierge Services",
+            "serviceType": "custom_request",
+            "version": 1,
+            "isActive": true,
+            "serviceTitle": "Request a Custom Service",
+            "serviceDescription": "Let us know about any special requests you have for your Agra visit",
+            "serviceImage": "https://firebasestorage.googleapis.com/v0/b/ecostory-b31b6.firebasestorage.app/o/shoppingCenter%2FConciergeService1_optimized_700.png?alt=media&token=c60fbea6-f572-45eb-9e8e-5d4189648250",
+            "formTemplate": "assets/response/service/other_service_config.json",
+            "ranking": 5,
+            "rating": 4.4,
+            "actions": [
+                {
+                    "type": "navigate",
+                    "target": "service_preview",
+                    "parameters": {
+                        "serviceId": "other_service"
+                    }
+                },
+                {
+                    "type": "navigate",
+                    "target": "service_form",
+                    "parameters": {
+                        "serviceId": "other_service"
+                    }
+                }
+            ]
+        }
+    ]
+}
